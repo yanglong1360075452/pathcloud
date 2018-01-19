@@ -1,0 +1,353 @@
+<div id="edit">
+  <div class="modal-header blue-label">
+    <button type="button" class="close" data-dismiss="modal" ng-click="edit.cancel()">
+      <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title ok-color">{{'信息修改'|translate}}</h4>
+  </div>
+  <div class="modal-body clearfix">
+    <form class="form-horizontal row clearfix" name="edit_form" role="edit_form" >
+      <fieldset style=" margin-bottom: 50px;">
+        <div class="col-sm-4">
+          <h4>{{'基本信息'|translate}}</h4>
+
+          <!--名称-->
+          <div  class="form-group has-feedback">
+            <label class="col-sm-4">{{'试剂名称'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="name" id="name"
+                     ng-model="edit.data.reagentName" readonly
+                     onkeydown="if(event.keyCode==32) return false"
+                     maxlength="20"
+              >
+            </div>
+          </div>
+
+          <!--类别-->
+          <div  class="form-group has-feedback">
+            <label for="category" class="col-sm-4 control-label">{{'试剂类别'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="category"
+                     ng-model="edit.basic.typeDesc " readonly>
+            </div>
+          </div>
+
+
+          <!--克隆号-->
+          <div  class="form-group has-feedback">
+            <label for="name" class="col-sm-4 control-label">{{'克隆号'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control"
+                     ng-model="edit.basic.cloneNumber" readonly>
+            </div>
+          </div>
+
+          <!--预处理-->
+          <div  class="form-group has-feedback">
+
+            <label for="category" class="col-sm-4 control-label">{{'预处理'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="preProcess"
+                     ng-model="edit.basic.preProcessDesc" readonly>
+            </div>
+          </div>
+
+          <!--阳性部位-->
+          <div  class="form-group has-feedback">
+
+            <label for="name" class="col-sm-4 control-label">{{'阳性部位'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control"
+                     ng-model="edit.basic.positivePosition" readonly>
+            </div>
+          </div>
+
+          <!--鉴别诊断-->
+          <div  class="form-group has-feedback">
+
+            <label for="name" class="col-sm-12">{{'鉴别诊断'|translate}}：</label>
+            <div class="col-sm-12">
+              <textarea name="" class="form-control"   ng-model="edit.basic.diagnose" cols="10" rows="6" readonly></textarea>
+            </div>
+          </div>
+
+          <!--规格-->
+          <div  class="form-group has-feedback">
+            <label for="name" class="col-sm-3 control-label">{{'规格'|translate}}<span class="required">*</span>：</label>
+            <div class="col-sm-3" style="padding-right:5px">
+              <input  type="text" class="form-control" name="specification" id="specification"
+                      ng-model="edit.data.specification" style="padding-right:0"
+                      onkeydown="if(event.keyCode==32) return false" required
+                      maxlength="20"
+              >
+            </div>
+            <div class="col-sm-1  control-label" style="padding-left: 0;">ml</div>
+            <div class="col-sm-5">
+              <select class="form-control" name="category"
+                      ng-model="edit.data.liquidType" style="padding-left: 0;padding-right:0;"
+                      ng-options="item.code as item.name for item in edit.liquidType">
+                >
+                <option value="">{{'工作液'|translate}}</option>
+              </select>
+            </div>
+          </div>
+
+          <!--稀释比例-->
+
+          <div  ng-show="edit.data.liquidType==2" class="form-group has-feedback dilutionRate">
+            <label for="name" class="col-sm-3 control-label">{{'稀释比例'|translate}}：</label>
+            <div class="col-sm-1">
+              <input  type="text" class="form-control"  ng-model="edit.data.dilutionRateFront"
+                      onkeydown="if(event.keyCode==32) return false"
+                      maxlength="5">
+            </div>
+            <label for="name" class="col-sm-1 control-label">:</label>
+            <div class="col-sm-1">
+              <input  type="text" class="form-control"  ng-model="edit.data.dilutionRateRear"
+                      onkeydown="if(event.keyCode==32) return false"
+                      maxlength="5">
+            </div>
+            <label class="col-sm-2 control-label" for="name">{{'工作液'|translate}}:</label>
+            <div class="col-sm-2">
+              <input   class="form-control" type="text"  ng-model="edit.data.realCapacity"
+                       onkeydown="if(event.keyCode==32) return false"
+                       maxlength="5">
+            </div>
+            <div  class="col-sm-1  control-label">ml</div>
+          </div>
+
+          <!--数量-->
+          <div  class="form-group has-feedback" >
+            <label for="name" class="col-sm-3 control-label">{{'数量'|translate}}<span class="required">*</span>：</label>
+            <div class="col-sm-4">
+              <input  type="text" class="form-control" name="specification" ng-model="edit.data.count" required
+                      maxlength="20">
+            </div>
+            <div class="col-sm-5">
+              <select class="form-control" name="category"
+                      ng-model="edit.data.countUnit"
+                      ng-options="item.code as item.name for item in edit.countType">
+                <option value="">{{'瓶'|translate}}</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="col-sm-4">
+          <h4>{{'厂商信息'|translate}}</h4>
+
+          <!--订单号-->
+          <div  class="form-group has-feedback">
+
+            <label for="name" class="col-sm-4 control-label">{{'订单号'|translate}}<span class="required">*</span>：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="orderNumber" id="orderNumber" required
+                     ng-model="edit.data.orderNumber"
+                     onkeydown="if(event.keyCode==32) return false"
+                     maxlength="20"
+              >
+            </div>
+          </div>
+
+          <!--产品编号-->
+          <div  class="form-group has-feedback">
+
+            <label for="name" class="col-sm-4 control-label">{{'产品编号'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control"
+                     ng-model="edit.data.productNumber"
+                     onkeydown="if(event.keyCode==32) return false"
+                     maxlength="20"
+              >
+            </div>
+          </div>
+
+
+          <!--制造商-->
+          <div  class="form-group has-feedback">
+
+            <label for="name" class="col-sm-4 control-label">{{'制造商'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="manufacturer" id="manufacturer"
+                     ng-model="edit.data.manufacturer"
+                     onkeydown="if(event.keyCode==32) return false"
+                     maxlength="20"
+              >
+            </div>
+          </div>
+
+
+          <!--货号-->
+          <div  class="form-group has-feedback">
+            <label for="name" class="col-sm-4 control-label">{{'货号'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="articleNumber" id="articleNumber"
+                     ng-model="edit.data.articleNumber"
+                     onkeydown="if(event.keyCode==32) return false"
+                     maxlength="20"
+              >
+            </div>
+          </div>
+
+          <!--生产批号-->
+          <div  class="form-group has-feedback">
+            <label for="name" class="col-sm-4 control-label">{{'生产批号'|translate}}<span class="required">*</span>：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="batchNumber" id="batchNumber" required
+                     ng-model="edit.data.batchNumber"
+                     onkeydown="if(event.keyCode==32) return false"
+                     maxlength="20"
+              >
+            </div>
+          </div>
+
+          <!--生产日期-->
+          <div  class="form-group has-feedback">
+            <label for="productionDate" class="col-sm-4 control-label">{{'生产日期'|translate}}<span class="required">*</span>：</label>
+            <div class="col-sm-8" ng-init="productionDate = false">
+              <input type="text"  clear-text="清除" close-text="确定" current-text="今天" name="productionDate" class="form-control" id="productionDate"
+                     uib-datepicker-popup min="minStartDate" max="maxStartDate"  datepicker-options="dateOptions1"
+                     ng-click="productionDate=!productionDate" required
+                     ng-model="edit.data.produceTime" readonly style="background:none;"
+                     is-open="productionDate" />
+              <span class=" form-control-feedback" ng-click="productionDate=!productionDate"><i class="glyphicon glyphicon-calendar"></i></span>
+            </div>
+          </div>
+
+          <!--失效日期-->
+          <div  class="form-group has-feedback"  >
+
+            <label for="name" class="col-sm-4 control-label">{{'失效日期'|translate}}<span class="required">*</span>：</label>
+            <div class="col-sm-8" ng-init="openExpiryDate = false">
+              <input type="text"  clear-text="清除" close-text="确定" current-text="今天" name="expiryDate" class="form-control" id="expiryDate"
+                     uib-datepicker-popup datepicker-options="dateOptions2"
+                     ng-click="openExpiryDate=!openExpiryDate" required
+                     ng-model="edit.data.expiryTime" readonly style="background:none;"
+                     is-open="openExpiryDate" />
+              <span class=" form-control-feedback" ng-click="openExpiryDate=!openExpiryDate"><i class="glyphicon glyphicon-calendar"></i></span>
+            </div>
+          </div>
+
+          <!--产商电话-->
+          <div class="form-group has-feedback" ng-class="{'has-success':preparationPhoneOk = edit_form.preparationPhone.$dirty && edit_form.preparationPhone.$valid&&edit.data.manufacturerPhone!=='',
+                'has-error':preparationPhoneErr = edit_form.preparationPhone.$dirty && edit_form.preparationPhone.$invalid}">
+            <label for="preparationPhone" class="col-sm-4">{{'厂商电话'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="tel" class="form-control" id="preparationPhone" name="preparationPhone" maxlength="20"
+                     ng-model="edit.data.manufacturerPhone"
+                     ng-pattern="/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/"
+              >
+              <span ng-show="preparationPhoneOk&&edit.data.manufacturerPhone!==''" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+          </div>
+
+          <!--说明书-->
+          <div  class="form-group has-feedback">
+
+            <label for="name" class="col-sm-4 control-label">{{'说明书'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="spec" id="spec"
+                     ng-model="edit.data.spec"
+                     onkeydown="if(event.keyCode==32) return false"
+                     maxlength="20"
+              >
+            </div>
+          </div>
+
+        </div>
+        <div class="col-sm-4">
+          <h4>{{'其他信息'|translate}}</h4>
+
+          <!--接收状态-->
+          <div  class="form-group has-feedback">
+
+            <label for="category" class="col-sm-4 control-label">{{'接收状态'|translate}}：</label>
+            <div class="col-sm-8">
+              <select class="form-control" name="status" id="status"
+                      ng-model="edit.data.receiveStatus"
+                      ng-options="item.code as item.name for item in edit.statusList">
+                >
+              </select>
+            </div>
+          </div>
+
+          <!--制备人-->
+          <div  class="form-group has-feedback">
+
+            <label for="preparation" class="col-sm-4 control-label">{{'制备人'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="preparation" id="preparation"
+                     ng-model="edit.data.preparation"
+                     onkeydown="if(event.keyCode==32) return false"
+                     maxlength="20"
+              >
+              <span ng-show="preparationOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+          </div>
+
+          <!--制备日期-->
+          <div  class="form-group has-feedback">
+
+            <label for="preparationDate" class="col-sm-4 control-label">{{'制备日期'|translate}}：</label>
+            <div class="col-sm-8" ng-init="preparationDate = false">
+              <input type="text"  clear-text="清除" close-text="确定" current-text="今天" name="preparationDate" class="form-control" id="preparationDate"
+                     uib-datepicker-popup min="minStartDate" max="maxStartDate"  datepicker-options="dateOptions3"
+                     ng-click="preparationDate=!preparationDate" readonly
+                     ng-model="edit.data.preparationTime" style="background:none;"
+                     is-open="preparationDate" />
+              <span class=" form-control-feedback" ng-click="preparationDate=!preparationDate"><i class="glyphicon glyphicon-calendar"></i></span>
+            </div>
+          </div>
+
+          <!--预实验人-->
+          <div  class="form-group has-feedback">
+
+            <label for="preparation" class="col-sm-4 control-label">{{'预实验人'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="preparation"
+                     ng-model="edit.data.preExperiment"
+                     onkeydown="if(event.keyCode==32) return false"
+                     maxlength="20"
+              >
+            </div>
+          </div>
+
+
+          <!--实验日期-->
+          <div  class="form-group has-feedback" >
+
+            <label for="experimentDate" class="col-sm-4 control-label">{{'实验日期'|translate}}：</label>
+            <div class="col-sm-8" ng-init="experimentDate = false">
+              <input type="text"  clear-text="清除" close-text="确定" current-text="今天" name="experimentDate" class="form-control" id="experimentDate"
+                     uib-datepicker-popup datepicker-options="dateOptions4"
+                     ng-click="experimentDate=!experimentDate" readonly style="background:none;"
+                     ng-model="edit.data.preExperimentTime"
+                     is-open="experimentDate" />
+              <span class=" form-control-feedback" ng-click="experimentDate=!experimentDate"><i class="glyphicon glyphicon-calendar"></i></span>
+            </div>
+          </div>
+
+
+          <!--预实验结果记录-->
+          <div  class="form-group has-feedback"  >
+
+            <label for="name" class="col-sm-12">{{'预实验结果记录'|translate}}：</label>
+            <div class="col-sm-12">
+              <textarea name="" class="form-control"  cols="6" rows="6" ng-model="edit.data.preExperimentResult"></textarea>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning no-border" type="button" ng-click="edit.cancel()">{{'取消'|translate}}</button>
+    <button class="btn btn-default no-border" type="button" ng-click="edit.ok()"
+            ng-disabled="edit_form.orderNumber.$invalid||edit_form.batchNumber.$invalid||
+            edit_form.specification.$invalid||!edit.data.produceTime||edit_form.count.$invalid||!edit.data.expiryTime">{{'确定'|translate}}</button>
+  </div>
+</div>
+

@@ -1,0 +1,16 @@
+#systemSetting{
+  .time-item{
+    margin: 15px 0px;
+  }
+  .alarm-item{
+      margin: 15px 0px;
+    .alarm-label{
+      display: inline-block;
+      width:75px;
+    }
+    input{
+      width: 40px;
+    }
+  }
+
+}

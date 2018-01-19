@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       
+    <bean id="dehydratorTask" class="com.lifetech.dhap.pathcloud.quartz.DehydratorTask" init-method="init">
+    </bean>
+
+    <bean id="notificationTask" class="com.lifetech.dhap.pathcloud.quartz.NotificationTask">
+    </bean>
+
+    <bean id="checkDehydratorHeartbreakListener" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="dehydratorTask"/>
+        </property>
+        <property name="targetMethod">
+            <value>checkHeartBreak</value>
+        </property>
+    </bean>
+    <bean id="checkDehydratorHeartbreakTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="checkDehydratorHeartbreakListener"/>
+        </property>
+        <property name="cronExpression">
+            <value>0 0/2 * * * ?</value>
+        </property>
+    </bean>
+
+    <bean id="checkNotificationListener" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="notificationTask"/>
+        </property>
+        <property name="targetMethod">
+            <value>sampleNotificationCheck</value>
+        </property>
+    </bean>
+
+    <bean id="checkNotificationTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="checkNotificationListener"/>
+        </property>
+        <property name="cronExpression">
+            <value>0 0/30 * * * ?</value>
+        </property>
+    </bean>
+
+    <bean id="archiveNotificationListener" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="notificationTask"/>
+        </property>
+        <property name="targetMethod">
+            <value>archiveNotificationCheck</value>
+        </property>
+    </bean>
+
+    <bean id="archiveNotificationTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="archiveNotificationListener"/>
+        </property>
+        <property name="cronExpression">
+            <value>0 0/30 * * * ?</value>
+        </property>
+    </bean>
+
+    <!-- 启动触发器的配置开始 -->
+    <bean id="startQuartz" name="startQuartz" lazy-init="false" autowire="no"
+          class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="applicationContextSchedulerContextKey">
+            <value>applicationContext</value>
+        </property>
+        <property name="triggers">
+            <list>
+                <!--ref bean="checkDehydratorHeartbreakTrigger"/-->
+                <ref bean="checkNotificationTrigger"/>
+                <ref bean="archiveNotificationTrigger"/>
+            </list>
+        </property>
+    </bean>
+    <!-- 启动触发器的配置结束 -->
+
+</beans>

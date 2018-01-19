@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lifetech.dhap.pathcloud.tracking.domain.SpecialApplicationRepository">
+    <resultMap id="BaseResultMap" type="com.lifetech.dhap.pathcloud.tracking.domain.model.SpecialApplication">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="cause_id" property="causeId" jdbcType="BIGINT"/>
+        <result column="path_no" property="pathNo" jdbcType="CHAR"/>
+        <result column="number" property="number" jdbcType="CHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="note" property="note" jdbcType="VARCHAR"/>
+        <result column="bingdong_note" property="bingdongNote" jdbcType="LONGVARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="assign_diagnose" property="assignDiagnose" jdbcType="BIGINT"/>
+        <result column="assign_grossing" property="assignGrossing" jdbcType="BIGINT"/>
+        <result column="create_by" property="createBy" jdbcType="BIGINT"/>
+        <result column="update_by" property="updateBy" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="diagnose" property="diagnose" jdbcType="LONGVARCHAR"/>
+        <result column="result" property="result" jdbcType="LONGVARCHAR"/>
+        <result column="out_consult_result" property="outConsultResult" jdbcType="LONGVARCHAR"/>
+        <result column="report_pic" property="reportPic" jdbcType="LONGVARCHAR"/>
+        <result column="special_result" property="specialResult" jdbcType="LONGVARCHAR"/>
+        <result column="out_consult" property="outConsult" jdbcType="BIT"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from special_application
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.lifetech.dhap.pathcloud.tracking.domain.model.SpecialApplication">
+    insert into special_application (id,cause_id, path_no, number,
+      type, note, status, diagnose,out_consult_result,
+      create_by, update_by, create_time,assign_diagnose,assign_grossing,
+      update_time, result, special_result,out_consult,report_pic,bingdong_note
+      )
+    values (#{id,jdbcType=BIGINT},#{causeId,jdbcType=BIGINT}, #{pathNo,jdbcType=CHAR}, #{number,jdbcType=CHAR},
+      #{type,jdbcType=INTEGER}, #{note,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{diagnose,jdbcType=LONGVARCHAR},#{outConsultResult,jdbcType=LONGVARCHAR},
+      #{createBy,jdbcType=BIGINT}, #{createBy,jdbcType=BIGINT}, now(),#{assignDiagnose,jdbcType=BIGINT},#{assignGrossing,jdbcType=BIGINT},
+      now(), #{result,jdbcType=LONGVARCHAR}, #{specialResult,jdbcType=LONGVARCHAR},FALSE,#{reportPic,jdbcType=LONGVARCHAR},#{bingdongNote,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+    <update id="updateByPrimaryKey"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.domain.model.SpecialApplication">
+    update special_application
+    set
+      note = #{note,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      assign_diagnose = #{assignDiagnose,jdbcType=BIGINT},
+      assign_grossing = #{assignGrossing,jdbcType=BIGINT},
+      update_by = #{updateBy,jdbcType=BIGINT},
+      update_time = now(),
+      result = #{result,jdbcType=LONGVARCHAR},
+      diagnose = #{diagnose,jdbcType=LONGVARCHAR},
+      special_result = #{specialResult,jdbcType=LONGVARCHAR},
+      out_consult = #{outConsult,jdbcType=BIT},
+      out_consult_result = #{outConsultResult,jdbcType=LONGVARCHAR},
+      bingdong_note = #{bingdongNote,jdbcType=LONGVARCHAR},
+      report_pic = #{reportPic,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+  </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select id,cause_id, path_no, number, type, note, status, create_by, update_by, create_time,diagnose,assign_grossing,
+    update_time, result, special_result,out_consult,report_pic,out_consult,out_consult_result,assign_diagnose,bingdong_note
+    from special_application
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id,cause_id, path_no, number, type, note, status, create_by, update_by, create_time,diagnose,assign_grossing,
+    update_time, result, special_result,out_consult,report_pic,out_consult,out_consult_result,assign_diagnose,bingdong_note
+    from special_application
+  </select>
+
+    <select id="selectByNumber" parameterType="java.lang.String" resultMap="BaseResultMap">
+     select id, cause_id,path_no, number, type, note, status, create_by, update_by, create_time,diagnose,assign_grossing,
+    update_time, result, special_result,out_consult,report_pic,out_consult,out_consult_result,assign_diagnose,bingdong_note
+    from special_application
+    where number = #{number,jdbcType=CHAR}
+  </select>
+
+    <select id="selectByPathNoAndType" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select id, cause_id,path_no, number, type, note, status, create_by, update_by, create_time,diagnose,assign_grossing,
+    update_time, result, special_result,out_consult,report_pic,out_consult,out_consult_result,assign_diagnose,bingdong_note
+    from special_application
+    where path_no = #{pathNo,jdbcType=CHAR} AND type= #{type,jdbcType=INTEGER}
+    </select>
+
+
+    <select id="selectSlideMinStatusByTrackingId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        select min(status) FROM block WHERE parent_id is not NULL and apply_id = #{trackingId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectListByCondition"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.SpecialApplicationCondition"
+            resultMap="BaseResultMap">
+        select id,cause_id, path_no, number, type, note, status, create_by, update_by, create_time,diagnose,assign_grossing,
+        update_time, result, special_result,out_consult,report_pic,out_consult,out_consult_result,assign_diagnose,bingdong_note
+        from special_application
+        <where>
+            <if test="filter != null">(path_no = #{filter,jdbcType=CHAR} or number = #{filter,jdbcType=CHAR})</if>
+            <if test="pathNo != null">and path_no = #{pathNo,jdbcType=CHAR}</if>
+            <if test="types != null">
+                and type in
+                <foreach collection="types" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="ids != null">
+                and id in
+                <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="status != null">and status = #{status,jdbcType=INTEGER}</if>
+            <if test="assignGrossing != null">and assign_grossing = #{assignGrossing,jdbcType=BIGINT}</if>
+            <if test="createTimeStart != null">AND create_time >= #{createTimeStart,jdbcType=TIMESTAMP}</if>
+            <if test="createTimeEnd != null"><![CDATA[AND create_time < #{createTimeEnd,jdbcType=TIMESTAMP}]]></if>
+        </where>
+        limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </select>
+
+
+    <select id="countByCondition"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.SpecialApplicationCondition"
+            resultType="java.lang.Long">
+        select count(1) from special_application
+        <where>
+            <if test="filter != null">(path_no = #{filter,jdbcType=CHAR} or number = #{filter,jdbcType=CHAR})</if>
+            <if test="pathNo != null">and path_no = #{pathNo,jdbcType=CHAR}</if>
+            <if test="types != null">
+                and type in
+                <foreach collection="types" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="ids != null">
+                and id in
+                <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="status != null">and status = #{status,jdbcType=INTEGER}</if>
+            <if test="assignGrossing != null">and assign_grossing = #{assignGrossing,jdbcType=BIGINT}</if>
+            <if test="createTimeStart != null">AND create_time >= #{createTimeStart,jdbcType=TIMESTAMP}</if>
+            <if test="createTimeEnd != null"><![CDATA[AND create_time < #{createTimeEnd,jdbcType=TIMESTAMP}]]></if>
+        </where>
+    </select>
+
+    <select id="selectFrozenNumbersByPathNo" parameterType="java.lang.String" resultType="java.lang.String">
+        select number FROM special_application WHERE path_no= #{pathNo,jdbcType=CHAR}  and type=1/*冰冻*/
+    </select>
+
+    <select id="selectFrozenResultByPathNo" parameterType="java.lang.String" resultType="java.lang.String">
+        select result FROM special_application WHERE path_no= #{pathNo,jdbcType=CHAR} and status=25 /*已发报告*/ and type=1/*冰冻*/
+    </select>
+</mapper>

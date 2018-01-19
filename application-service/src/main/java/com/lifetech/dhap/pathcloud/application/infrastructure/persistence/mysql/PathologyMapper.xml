@@ -1,0 +1,1072 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lifetech.dhap.pathcloud.application.domain.PathologyRepository">
+    <resultMap id="BaseResultMap" type="com.lifetech.dhap.pathcloud.application.domain.model.Pathology">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="serial_number" property="serialNumber" jdbcType="CHAR"/>
+        <result column="create_by" property="createBy" jdbcType="BIGINT"/>
+        <result column="update_by" property="updateBy" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="result" property="result" jdbcType="LONGVARCHAR"/>
+        <result column="jujian_note" property="jujianNote" jdbcType="LONGVARCHAR"/>
+        <result column="bingdong_note" property="bingdongNote" jdbcType="LONGVARCHAR"/>
+        <result column="out_consult_result" property="outConsultResult" jdbcType="LONGVARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="re_grossing" property="reGrossing" jdbcType="BIT"/>
+        <result column="after_frozen" property="afterFrozen" jdbcType="BIT"/>
+        <result column="label" property="label" jdbcType="INTEGER"/>
+        <result column="out_consult" property="outConsult" jdbcType="BIT"/>
+        <result column="inspect_category" property="inspectCategory" jdbcType="INTEGER"/>
+        <result column="apply_type" property="applyType" jdbcType="INTEGER"/>
+        <result column="departments" property="departments" jdbcType="INTEGER"/>
+        <result column="patient_name" property="patientName" jdbcType="VARCHAR"/>
+        <result column="assign_grossing" property="assignGrossing" jdbcType="BIGINT"/>
+        <result column="assign_diagnose" property="assignDiagnose" jdbcType="BIGINT"/>
+        <result column="report_pic" property="reportPic" jdbcType="LONGVARCHAR"/>
+        <result column="note" property="note" jdbcType="VARCHAR"/>
+        <result column="coincidence" property="coincidence" jdbcType="INTEGER"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from pathology
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.lifetech.dhap.pathcloud.application.domain.model.Pathology">
+        insert into pathology (serial_number,create_by, update_by, create_time,update_time, result, jujian_note,
+        bingdong_note,status,inspect_category,apply_type,departments,patient_name,out_consult_result,assign_grossing,assign_diagnose,
+        report_pic,note,after_frozen,out_consult,coincidence,label)
+        values (#{serialNumber,jdbcType=CHAR},
+        #{createBy,jdbcType=BIGINT}, #{updateBy,jdbcType=BIGINT}, now(),now(), #{result,jdbcType=LONGVARCHAR}, #{jujianNote,jdbcType=LONGVARCHAR},
+        #{bingdongNote,jdbcType=LONGVARCHAR}, #{status,jdbcType=INTEGER},#{inspectCategory,jdbcType=INTEGER},
+        #{applyType,jdbcType=INTEGER},#{departments,jdbcType=INTEGER},#{patientName,jdbcType=VARCHAR},#{outConsultResult,jdbcType=LONGVARCHAR},
+        #{assignGrossing,jdbcType=BIGINT},#{assignDiagnose,jdbcType=BIGINT},#{reportPic,jdbcType=LONGVARCHAR},#{note,jdbcType=VARCHAR},
+        #{afterFrozen,jdbcType=BIT},FALSE,#{coincidence,jdbcType=INTEGER},#{label,jdbcType=INTEGER}
+        )
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.lifetech.dhap.pathcloud.application.domain.model.Pathology">
+        update pathology
+        <set>
+            <if test="serialNumber != null">serial_number = #{serialNumber,jdbcType=CHAR},</if>
+            <if test="result != null">result = #{result,jdbcType=LONGVARCHAR},</if>
+            <if test="diagnose != null">diagnose = #{diagnose,jdbcType=LONGVARCHAR},</if>
+            <if test="microDiagnose != null">micro_diagnose = #{microDiagnose,jdbcType=LONGVARCHAR},</if>
+            <if test="result != null">result = #{result,jdbcType=LONGVARCHAR},</if>
+            <if test="jujianNote != null">jujian_note = #{jujianNote,jdbcType=LONGVARCHAR},</if>
+            <if test="bingdongNote != null">bingdong_note = #{bingdongNote,jdbcType=LONGVARCHAR},</if>
+            <if test="status != null">status = #{status,jdbcType=INTEGER},</if>
+            <if test="reGrossing != null">re_grossing = #{reGrossing,jdbcType=BIT},</if>
+            <if test="outConsult != null">out_consult = #{outConsult,jdbcType=BIT},</if>
+            <if test="outConsultResult != null">out_consult_result = #{outConsultResult,jdbcType=LONGVARCHAR},</if>
+            assign_diagnose = #{assignDiagnose,jdbcType=BIGINT},
+            assign_grossing = #{assignGrossing,jdbcType=BIGINT},
+            <if test="reportPic != null">report_pic = #{reportPic,jdbcType=LONGVARCHAR},</if>
+            coincidence = #{coincidence,jdbcType=INTEGER},
+            note = #{note,jdbcType=VARCHAR},
+            after_frozen = #{afterFrozen,jdbcType=BIT},
+            label = #{label,jdbcType=INTEGER},
+            update_by = #{updateBy,jdbcType=BIGINT},
+            update_time = now(),
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select id, serial_number, create_by, update_by, create_time, update_time,result, jujian_note,bingdong_note,status,coincidence,label,
+        re_grossing,inspect_category,apply_type,departments,patient_name,assign_grossing,assign_diagnose,note,after_frozen,out_consult,out_consult_result
+        from pathology
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectByNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select id, serial_number, create_by, update_by, create_time, update_time,result, jujian_note,bingdong_note,status,coincidence,label,
+        re_grossing,inspect_category,apply_type,departments,patient_name,assign_grossing,assign_diagnose,note,after_frozen,out_consult,out_consult_result
+        from pathology
+        where serial_number = #{pathNo,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectLastRegisterPathology" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select id, serial_number, create_by, update_by, create_time, update_time,result,coincidence,
+        jujian_note,bingdong_note,status,out_consult,out_consult_result,label,
+        re_grossing,inspect_category,apply_type,departments,patient_name,assign_grossing,assign_diagnose,note,after_frozen
+        from pathology
+        where create_by = #{userId,jdbcType=BIGINT}
+        <if test="createTime != null">
+            and create_time &lt; #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        ORDER BY create_time DESC limit 1
+    </select>
+
+    <select id="selectByApplicationId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select p.id, p.serial_number, p.create_by, p.update_by, p.create_time, p.update_time,p.result, p.jujian_note,p.bingdong_note,p.status,
+        p.re_grossing,p.inspect_category,p.apply_type,p.departments,p.patient_name,p.assign_grossing,p.assign_diagnose,p.note,
+        p.after_frozen,p.out_consult,p.out_consult_result,p.coincidence,p.label
+        from pathology p
+        INNER JOIN application a on p.id = a.pathology_id
+        where a.id = #{applicationId,jdbcType=BIGINT}
+        limit 1
+    </select>
+
+    <select id="selectCurrentDayApplyByAdmissionNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+       select p.id, p.serial_number, p.create_by, p.update_by, p.create_time, p.update_time,p.result, p.jujian_note,p.bingdong_note,p.status,
+        p.re_grossing,p.inspect_category,p.apply_type,p.departments,p.patient_name,p.assign_grossing,p.assign_diagnose,p.note,
+        p.after_frozen,p.out_consult,p.out_consult_result,p.coincidence,p.label
+        from pathology p
+        INNER JOIN application a on p.id = a.pathology_id
+        where a.admission_no = #{admissionNo,jdbcType=VARCHAR}
+        and date_format(a.create_time, '%Y-%m-%d')=date_format(now(), '%Y-%m-%d')
+        and p.inspect_category=3/*冰冻*/
+        limit 1
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, serial_number, create_by, update_by, create_time, update_time,result, jujian_note,bingdong_note,status,coincidence,label,
+        re_grossing,inspect_category,apply_type,departments,patient_name,assign_grossing,assign_diagnose,note,after_frozen,out_consult,out_consult_result
+        from pathology
+    </select>
+
+    <select id="last" resultType="long" useCache="false">
+      SELECT LAST_INSERT_ID()
+    </select>
+
+    <resultMap id="ExpandMap" type="com.lifetech.dhap.pathcloud.application.domain.model.PathologyExpand">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="serial_number" property="serialNumber" jdbcType="CHAR"/>
+        <result column="number" property="number" jdbcType="CHAR"/>
+        <result column="create_by" property="createBy" jdbcType="BIGINT"/>
+        <result column="update_by" property="updateBy" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="result" property="result" jdbcType="LONGVARCHAR"/>
+        <result column="jujian_note" property="jujianNote" jdbcType="LONGVARCHAR"/>
+        <result column="bingdong_note" property="bingdongNote" jdbcType="LONGVARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="inspect_category" property="inspectCategory" jdbcType="INTEGER"/>
+        <result column="sex" property="sex" jdbcType="INTEGER"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+        <result column="re_grossing" property="reGrossing" jdbcType="BIT"/>
+        <result column="patient_name" property="patientName" jdbcType="VARCHAR"/>
+        <result column="departments" property="departments" jdbcType="INTEGER"/>
+        <result column="inspection_item" property="inspectionItem" jdbcType="INTEGER"/>
+        <result column="urgent_flag" property="urgentFlag" jdbcType="INTEGER"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="inspection_time" property="inspectionTime" jdbcType="TIMESTAMP"/>
+        <result column="inspection_doctor" property="inspectionDoctor" jdbcType="BIGINT"/>
+        <result column="first_diagnose_doctor" property="firstDiagnoseDoctor" jdbcType="BIGINT"/>
+        <result column="second_diagnose_doctor" property="secondDiagnoseDoctor" jdbcType="BIGINT"/>
+        <result column="third_diagnose_doctor" property="thirdDiagnoseDoctor" jdbcType="BIGINT"/>
+        <result column="report_doctor" property="reportDoctor" jdbcType="BIGINT"/>
+        <result column="report_time" property="reportTime" jdbcType="TIMESTAMP"/>
+        <result column="estimate_report_time" property="estimateReportTime" jdbcType="TIMESTAMP"/>
+        <result column="apply_type" property="applyType" jdbcType="INTEGER"/>
+        <result column="assign_grossing" property="assignGrossing" jdbcType="BIGINT"/>
+        <result column="assign_diagnose" property="assignDiagnose" jdbcType="BIGINT"/>
+        <result column="delay" property="delay" jdbcType="BIT"/>
+        <result column="note" property="note" jdbcType="VARCHAR"/>
+        <result column="after_frozen" property="afterFrozen" jdbcType="BIT"/>
+        <result column="label" property="label" jdbcType="INTEGER"/>
+        <result column="out_consult" property="outConsult" jdbcType="BIT"/>
+        <result column="out_consult_result" property="outConsultResult" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <select id="selectDiagnoseExpandByCondition" resultMap="ExpandMap"
+            parameterType="com.lifetech.dhap.pathcloud.application.application.condition.PathologyCondition">
+        select * from (
+        select p.id, p.serial_number, p.re_grossing,p.status,a.patient_name,a.departments,a.create_by as
+        inspection_doctor,p.after_frozen,p.label,
+        t1.operator_id as first_diagnose_doctor,t2.operator_id as second_diagnose_doctor,t3.operator_id as
+        third_diagnose_doctor,p.out_consult,p.out_consult_result,
+        t4.operator_id as report_doctor,t4.operation_time as
+        report_time, CONVERT(t5.note_type,SIGNED) as assign_diagnose,p.note,p.inspect_category,null as number,0 as
+        type,t5.operation_time as
+        create_time
+        <if test="status != null and status == 15">,bb.deep_section</if>
+        from pathology p
+        INNER JOIN application a on p.id = a.pathology_id
+        INNER JOIN block b on b.path_id = p.id and b.parent_id is not null
+        <if test="status != null and status == 15">/*深切*/
+            INNER JOIN block bb on bb.path_id = p.id and bb.parent_id is null
+        </if>
+        left JOIN path_tracking t1 on t1.path_id = p.id and t1.operation=10/*一级诊断*/
+        left JOIN path_tracking t2 on t2.path_id = p.id and t2.operation=11/*二级诊断*/
+        left JOIN path_tracking t3 on t3.path_id = p.id and t3.operation=12/*三级诊断*/
+        left JOIN path_tracking t4 on t4.path_id = p.id and t4.operation=13/*出报告*/
+        INNER JOIN tracking t5 on t5.block_id = b.id and t5.operation = 9 /*派片*/
+        ) as t1
+        <where>
+            1=1
+            <if test="pathNoStart != null and pathNoEnd != null">
+                and (serial_number BETWEEN #{pathNoStart,jdbcType=VARCHAR} AND #{pathNoEnd,jdbcType=VARCHAR})
+            </if>
+            <if test="filter != null">and (serial_number = #{filter,jdbcType=VARCHAR} or
+                patient_name like CONCAT(#{filter,jdbcType=VARCHAR},'%'))
+            </if>
+            <if test="status != null and status >= 20">and status = #{status,jdbcType=INTEGER}</if>/*诊断*/
+            <if test="status != null and status == 10">and re_grossing = 1</if>/*重补取*/
+            <if test="status != null and status == 15">and deep_section = 1</if>/*深切*/
+            <if test="departments != null">and departments = #{departments,jdbcType=INTEGER}</if>
+            <if test="createTimeStart != null">and create_time >= #{createTimeStart,jdbcType=TIMESTAMP}</if>
+            /*派片时间*/
+            <if test="createTimeEnd != null">
+                <![CDATA[and create_time < #{createTimeEnd,jdbcType=TIMESTAMP}]]></if>
+            <if test="diagnoseDoctor != null">and (first_diagnose_doctor=#{diagnoseDoctor,jdbcType=BIGINT} or
+                second_diagnose_doctor=#{diagnoseDoctor,jdbcType=BIGINT} OR
+                third_diagnose_doctor = #{diagnoseDoctor,jdbcType=BIGINT})
+            </if>
+            <if test="outConsult != null">and out_consult = #{outConsult,jdbcType=INTEGER}</if>
+            <if test="specialType != null">and type= #{specialType,jdbcType=INTEGER}</if>
+            <if test="reportDoctor != null">and report_doctor = #{reportDoctor,jdbcType=BIGINT}</if>
+        </where>
+        GROUP BY id, serial_number,re_grossing,status,patient_name,departments,first_diagnose_doctor,
+        second_diagnose_doctor,third_diagnose_doctor,report_doctor,report_time
+
+        UNION ALL
+        SELECT * from (
+        select sa.id, p.serial_number, p.re_grossing,sa.status,a.patient_name,a.departments,a.create_by
+        as inspection_doctor,p.after_frozen,p.label,
+        null as first_diagnose_doctor,null as second_diagnose_doctor,NULL as
+        third_diagnose_doctor,sa.out_consult,sa.out_consult_result,
+        if(sa.status = 25,sa.update_by,null) as report_doctor,if(sa.status = 25,sa.update_time,null) as report_time,
+        sa.create_by as assign_diagnose,p.note,p.inspect_category,sa.number,sa.type,sa.create_time
+        <if test="status != null and status == 15">,NULL as deep_section</if>
+        from pathology p
+        INNER JOIN application a on p.id = a.pathology_id
+        INNER JOIN special_application sa on sa.path_no = p.serial_number
+        ) as t
+        <where>
+            1=1
+            <if test="pathNoStart != null and pathNoEnd != null">
+                and (t.number BETWEEN #{pathNoStart,jdbcType=VARCHAR} AND #{pathNoEnd,jdbcType=VARCHAR})
+            </if>
+            <if test="filter != null">and (t.number = #{filter,jdbcType=VARCHAR} or
+                t.patient_name like CONCAT(#{filter,jdbcType=VARCHAR},'%'))
+            </if>
+            <if test="status != null and status >= 20">and t.status = #{status,jdbcType=INTEGER}</if>/*诊断*/
+            <if test="departments != null">and t.departments = #{departments,jdbcType=INTEGER}</if>
+            <if test="specialType != null">and t.type = #{specialType,jdbcType=INTEGER}</if>
+            <if test="createTimeStart != null">and t.create_time >= #{createTimeStart,jdbcType=TIMESTAMP}</if>
+            /*特殊申请时间*/
+            <if test="createTimeEnd != null">
+                <![CDATA[and t.create_time < #{createTimeEnd,jdbcType=TIMESTAMP}]]></if>
+            <if test="reportDoctor != null">and t.report_doctor = #{reportDoctor,jdbcType=BIGINT}</if>
+            <if test="outConsult != null">and out_consult = #{outConsult,jdbcType=INTEGER}</if>
+        </where>
+        GROUP BY t.id
+
+        <if test="order != null">ORDER BY ${order}</if>
+        limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </select>
+
+    <select id="countDiagnoseByCondition" resultType="java.lang.Long"
+            parameterType="com.lifetech.dhap.pathcloud.application.application.condition.PathologyCondition">
+        select count(1) from (
+        select * from (
+        select p.id, p.serial_number, p.re_grossing,p.status,a.patient_name,a.departments,a.create_by as
+        inspection_doctor,p.after_frozen,p.out_consult,p.out_consult_result,p.label,
+        t1.operator_id as first_diagnose_doctor,t2.operator_id as second_diagnose_doctor,t3.operator_id as
+        third_diagnose_doctor,
+        t4.operator_id as report_doctor,t4.operation_time as
+        report_time,p.assign_diagnose,p.note,p.inspect_category,null as number,0 as type,t5.operation_time as
+        create_time
+        <if test="status != null and status == 15">,bb.deep_section</if>
+        from pathology p
+        INNER JOIN application a on p.id = a.pathology_id
+        INNER JOIN block b on b.path_id = p.id and b.parent_id is not null
+        <if test="status != null and status == 15">/*深切*/
+            INNER JOIN block bb on bb.path_id = p.id and bb.parent_id is null
+        </if>
+        left JOIN path_tracking t1 on t1.path_id = p.id and t1.operation=10/*一级诊断*/
+        left JOIN path_tracking t2 on t2.path_id = p.id and t2.operation=11/*二级诊断*/
+        left JOIN path_tracking t3 on t3.path_id = p.id and t3.operation=12/*三级诊断*/
+        left JOIN path_tracking t4 on t4.path_id = p.id and t4.operation=13/*出报告*/
+        INNER JOIN tracking t5 on t5.block_id = b.id and t5.operation = 9 /*派片*/
+        ) as t1
+        <where>
+            1=1
+            <if test="pathNoStart != null and pathNoEnd != null">
+                and (serial_number BETWEEN #{pathNoStart,jdbcType=VARCHAR} AND #{pathNoEnd,jdbcType=VARCHAR})
+            </if>
+            <if test="filter != null">and (serial_number = #{filter,jdbcType=VARCHAR} or
+                patient_name like CONCAT(#{filter,jdbcType=VARCHAR},'%'))
+            </if>
+            <if test="status != null and status >= 20">and status = #{status,jdbcType=INTEGER}</if>/*诊断*/
+            <if test="status != null and status == 10">and re_grossing = 1</if>/*重补取*/
+            <if test="status != null and status == 15">and deep_section = 1</if>/*深切*/
+            <if test="departments != null">and departments = #{departments,jdbcType=INTEGER}</if>
+            <if test="createTimeStart != null">and create_time >= #{createTimeStart,jdbcType=TIMESTAMP}</if>
+            /*派片时间*/
+            <if test="createTimeEnd != null">
+                <![CDATA[and create_time < #{createTimeEnd,jdbcType=TIMESTAMP}]]></if>
+            <if test="diagnoseDoctor != null">and (first_diagnose_doctor=#{diagnoseDoctor,jdbcType=BIGINT} or
+                second_diagnose_doctor=#{diagnoseDoctor,jdbcType=BIGINT} OR
+                third_diagnose_doctor = #{diagnoseDoctor,jdbcType=BIGINT})
+            </if>
+            <if test="outConsult != null">and out_consult = #{outConsult,jdbcType=INTEGER}</if>
+            <if test="specialType != null">and type= #{specialType,jdbcType=INTEGER}</if>
+            <if test="reportDoctor != null">and report_doctor = #{reportDoctor,jdbcType=BIGINT}</if>
+        </where>
+        GROUP BY id, serial_number,re_grossing,status,patient_name,departments,first_diagnose_doctor,
+        second_diagnose_doctor,third_diagnose_doctor,report_doctor,report_time
+
+        UNION ALL
+        SELECT * from (
+        select sa.id, p.serial_number, p.re_grossing,sa.status,a.patient_name,a.departments,a.create_by as
+        inspection_doctor,p.after_frozen,sa.out_consult,sa.out_consult_result,
+        null as first_diagnose_doctor,null as second_diagnose_doctor,NULL as third_diagnose_doctor,p.label,
+        if(sa.status = 25,sa.update_by,null) as report_doctor,if(sa.status = 25,sa.update_time,null) as report_time,
+        p.assign_diagnose,p.note,p.inspect_category,sa.number,sa.type,sa.create_time
+        <if test="status != null and status == 15">,NULL as deep_section</if>
+        from pathology p
+        INNER JOIN application a on p.id = a.pathology_id
+        INNER JOIN special_application sa on sa.path_no = p.serial_number
+        ) as t
+        <where>
+            1=1
+            <if test="pathNoStart != null and pathNoEnd != null">
+                and (t.serial_number BETWEEN #{pathNoStart,jdbcType=VARCHAR} AND #{pathNoEnd,jdbcType=VARCHAR})
+            </if>
+            <if test="filter != null">and (t.serial_number = #{filter,jdbcType=VARCHAR} or
+                t.patient_name like CONCAT(#{filter,jdbcType=VARCHAR},'%'))
+            </if>
+            <if test="status != null and status >= 20">and t.status = #{status,jdbcType=INTEGER}</if>/*诊断*/
+            <if test="departments != null">and t.departments = #{departments,jdbcType=INTEGER}</if>
+            <if test="specialType != null">and t.type = #{specialType,jdbcType=INTEGER}</if>
+            <if test="createTimeStart != null">and t.create_time >= #{createTimeStart,jdbcType=TIMESTAMP}</if>
+            /*特殊申请时间*/
+            <if test="createTimeEnd != null">
+                <![CDATA[and t.create_time < #{createTimeEnd,jdbcType=TIMESTAMP}]]></if>
+            <if test="reportDoctor != null">and t.report_doctor = #{reportDoctor,jdbcType=BIGINT}</if>
+            <if test="outConsult != null">and out_consult = #{outConsult,jdbcType=INTEGER}</if>
+        </where>
+        GROUP BY t.id
+        ) as p
+    </select>
+
+    <select id="selectPrepareDiagnose" resultMap="ExpandMap"
+            parameterType="com.lifetech.dhap.pathcloud.application.application.condition.PathologyCondition">
+        select * from (select t2.*,IF(DATEDIFF(NOW(),create_time)>realDay,TRUE ,FALSE ) as delay,
+        DATE_ADD(date_format(create_time, '%Y-%m-%d'),interval realDay DAY ) as estimate_report_time
+        from (
+        select t.*,GREATEST(decalcify,difficult,typeDay) as realDay from (
+        select sa.id, sa.path_no as serial_number,sa.number,sa.status,p.patient_name,sa.create_time as
+        countTime,sa.create_time,b.biaoshi,
+        if((sa.type=2 || sa.type=3),sa.create_by,NULL ) as assign_diagnose,sa.type,p.departments,sa.create_by,
+        if(b.biaoshi is not null,#{decalcifyDeadline,jdbcType=INTEGER},0) as decalcify,
+        if(p.label = 1,#{difficultDeadline,jdbcType=INTEGER},0) as difficult,
+        if(sa.type=1,#{freezeReportDeadline,jdbcType=INTEGER},if(sa.type=2,#{ihcReportDeadline,jdbcType=INTEGER},
+        if(sa.type=3,#{specialDyeReportDeadline,jdbcType=INTEGER},#{consultReportDeadline,jdbcType=INTEGER}))) as
+        typeDay
+        from special_application sa
+        INNER JOIN pathology p on sa.path_no = p.serial_number
+        LEFT JOIN block b on b.path_id=p.id and b.biaoshi = 3/*脱钙*/) as t
+        ) as t2) as t3
+        <where>
+            <if test="filter != null">(number = #{filter,jdbcType=VARCHAR} or patient_name like
+                CONCAT(#{filter,jdbcType=VARCHAR},'%'))
+            </if>
+            <if test="delay != null">
+                and delay = #{delay,jdbcType=BIT}
+            </if>
+            <if test="statusList != null">
+                and status in
+                <foreach collection="statusList" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="assignDiagnose != null">and (assign_diagnose is NULL or
+                assign_diagnose=#{assignDiagnose,jdbcType=BIGINT})
+            </if>
+            <if test="status != null">and status = #{status,jdbcType=INTEGER}</if>
+            <if test="departments != null">and departments = #{departments,jdbcType=INTEGER}</if>
+            <if test="specialType != null">and type = #{specialType,jdbcType=INTEGER}</if>
+            <if test="estimateReportTime != null">and estimate_report_time =
+                date_format(#{estimateReportTime,jdbcType=TIMESTAMP}, '%Y-%m-%d')
+            </if>
+            <if test="createTimeStart != null">and countTime >= #{createTimeStart,jdbcType=TIMESTAMP}</if>
+            <if test="createTimeEnd != null"><![CDATA[and countTime < #{createTimeEnd,jdbcType=TIMESTAMP}]]></if>
+        </where>
+        GROUP BY number
+        UNION ALL
+        select * from (select pp.*,IF(DATEDIFF(NOW(),create_time)>realDay,TRUE ,FALSE) as delay,
+        DATE_ADD(date_format(create_time, '%Y-%m-%d'), INTERVAL realDay DAY ) as estimate_report_time from
+        (select p.*,GREATEST(decalcify,difficult,typeDay) as realDay from (
+        select p.id, p.serial_number,null as number,p.status,p.patient_name,t.operation_time as
+        countTime,p.create_time,b.biaoshi,p.assign_diagnose,
+        0 as type,p.departments,p.create_by,
+        if(b.biaoshi is not null,#{decalcifyDeadline,jdbcType=INTEGER},0) as decalcify,
+        if(p.label = 1,#{difficultDeadline,jdbcType=INTEGER},0) as difficult,
+        #{reportDeadline,jdbcType=INTEGER} as typeDay from pathology p
+        LEFT JOIN block b on b.path_id=p.id and b.biaoshi = 3/*脱钙*/
+        INNER join tracking t on t.operation=9 /*派片*/ and block_id in (select id from block where path_id=p.id)
+        ) as p) pp) as ppp
+        <where>
+            <if test="filter != null">(serial_number = #{filter,jdbcType=VARCHAR} or patient_name like
+                CONCAT(#{filter,jdbcType=VARCHAR},'%'))
+            </if>
+            <if test="delay != null">
+                and delay = #{delay,jdbcType=BIT}
+            </if>
+            <if test="statusList != null">
+                and status in
+                <foreach collection="statusList" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="assignDiagnose != null">AND (assign_diagnose = #{assignDiagnose,jdbcType=BIGINT} or
+                assign_diagnose is NULL )
+            </if>
+            <if test="status != null">and status = #{status,jdbcType=INTEGER}</if>
+            <if test="departments != null">and departments = #{departments,jdbcType=INTEGER}</if>
+            <if test="specialType != null">and type = #{specialType,jdbcType=INTEGER}</if>
+            <if test="estimateReportTime != null">and estimate_report_time =
+                date_format(#{estimateReportTime,jdbcType=TIMESTAMP}, '%Y-%m-%d')
+            </if>
+            <if test="createTimeStart != null">and countTime >= #{createTimeStart,jdbcType=TIMESTAMP}</if>
+            <if test="createTimeEnd != null"><![CDATA[and countTime < #{createTimeEnd,jdbcType=TIMESTAMP}]]></if>
+        </where>
+        GROUP BY serial_number
+        ORDER BY delay DESC,assign_diagnose DESC
+        limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </select>
+
+    <select id="countPrepareDiagnose" resultType="java.lang.Long"
+            parameterType="com.lifetech.dhap.pathcloud.application.application.condition.PathologyCondition">
+        select count(id) from (
+        select * from (
+        select * from (select t2.*,IF(DATEDIFF(NOW(),create_time)>realDay,TRUE ,FALSE ) as delay,
+        DATE_ADD(date_format(create_time, '%Y-%m-%d'),interval realDay DAY ) as estimate_report_time
+        from (
+        select t.*,GREATEST(decalcify,difficult,typeDay) as realDay from (
+        select sa.id, sa.path_no as serial_number,sa.number,sa.status,p.patient_name,sa.create_time as
+        countTime,sa.create_time,b.biaoshi,
+        if((sa.type=2 || sa.type=3),sa.create_by,NULL ) as assign_diagnose,sa.type,p.departments,sa.create_by,
+        if(b.biaoshi is not null,#{decalcifyDeadline,jdbcType=INTEGER},0) as decalcify,
+        if(p.label = 1,#{difficultDeadline,jdbcType=INTEGER},0) as difficult,
+        if(sa.type=1,#{freezeReportDeadline,jdbcType=INTEGER},if(sa.type=2,#{ihcReportDeadline,jdbcType=INTEGER},
+        if(sa.type=3,#{specialDyeReportDeadline,jdbcType=INTEGER},#{consultReportDeadline,jdbcType=INTEGER}))) as
+        typeDay
+        from special_application sa
+        INNER JOIN pathology p on sa.path_no = p.serial_number
+        LEFT JOIN block b on b.path_id=p.id and b.biaoshi = 3/*脱钙*/) as t
+        ) as t2) as t3
+        <where>
+            <if test="filter != null">(number = #{filter,jdbcType=VARCHAR} or patient_name like
+                CONCAT(#{filter,jdbcType=VARCHAR},'%'))
+            </if>
+            <if test="delay != null">
+                and delay = #{delay,jdbcType=BIT}
+            </if>
+            <if test="statusList != null">
+                and status in
+                <foreach collection="statusList" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="assignDiagnose != null">and (assign_diagnose is NULL or
+                assign_diagnose=#{assignDiagnose,jdbcType=BIGINT})
+            </if>
+            <if test="status != null">and status = #{status,jdbcType=INTEGER}</if>
+            <if test="departments != null">and departments = #{departments,jdbcType=INTEGER}</if>
+            <if test="specialType != null">and type = #{specialType,jdbcType=INTEGER}</if>
+            <if test="estimateReportTime != null">and estimate_report_time =
+                date_format(#{estimateReportTime,jdbcType=TIMESTAMP}, '%Y-%m-%d')
+            </if>
+            <if test="createTimeStart != null">and countTime >= #{createTimeStart,jdbcType=TIMESTAMP}</if>
+            <if test="createTimeEnd != null"><![CDATA[and countTime < #{createTimeEnd,jdbcType=TIMESTAMP}]]></if>
+        </where>
+        UNION ALL
+        select * from (select pp.*,IF(DATEDIFF(NOW(),create_time)>realDay,TRUE ,FALSE) as delay,
+        DATE_ADD(date_format(create_time, '%Y-%m-%d'), INTERVAL realDay DAY ) as estimate_report_time from
+        (select p.*,GREATEST(decalcify,difficult,typeDay) as realDay from (
+        select p.id, p.serial_number,null as number,p.status,p.patient_name,t.operation_time as
+        countTime,p.create_time,b.biaoshi,p.assign_diagnose,
+        0 as type,p.departments,p.create_by,
+        if(b.biaoshi is not null,#{decalcifyDeadline,jdbcType=INTEGER},0) as decalcify,
+        if(p.label = 1,#{difficultDeadline,jdbcType=INTEGER},0) as difficult,
+        #{reportDeadline,jdbcType=INTEGER} as typeDay from pathology p
+        LEFT JOIN block b on b.path_id=p.id and b.biaoshi = 3/*脱钙*/
+        INNER join tracking t on t.operation=9 /*派片*/ and block_id in (select id from block where path_id=p.id)
+        ) as p) pp) as ppp
+        <where>
+            <if test="filter != null">(serial_number = #{filter,jdbcType=VARCHAR} or patient_name like
+                CONCAT(#{filter,jdbcType=VARCHAR},'%'))
+            </if>
+            <if test="delay != null">
+                and delay = #{delay,jdbcType=BIT}
+            </if>
+            <if test="statusList != null">
+                and status in
+                <foreach collection="statusList" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="assignDiagnose != null">AND (assign_diagnose = #{assignDiagnose,jdbcType=BIGINT} or
+                assign_diagnose is NULL )
+            </if>
+            <if test="status != null">and status = #{status,jdbcType=INTEGER}</if>
+            <if test="departments != null">and departments = #{departments,jdbcType=INTEGER}</if>
+            <if test="specialType != null">and type = #{specialType,jdbcType=INTEGER}</if>
+            <if test="estimateReportTime != null">and estimate_report_time =
+                date_format(#{estimateReportTime,jdbcType=TIMESTAMP}, '%Y-%m-%d')
+            </if>
+            <if test="createTimeStart != null">and countTime >= #{createTimeStart,jdbcType=TIMESTAMP}</if>
+            <if test="createTimeEnd != null"><![CDATA[and countTime < #{createTimeEnd,jdbcType=TIMESTAMP}]]></if>
+        </where>
+        ) as t
+        GROUP BY serial_number,number
+        ) as tt
+    </select>
+
+    <select id="selectGrossingExpandByCondition" resultMap="ExpandMap"
+            parameterType="com.lifetech.dhap.pathcloud.application.application.condition.PathologyCondition">
+        select p.id, p.serial_number, p.create_by, p.update_by,
+        p.create_time,p.update_time,p.re_grossing,p.label,
+        p.result, p.jujian_note,p.assign_grossing,p.bingdong_note,p.status,a.patient_name,a.departments,
+        a.inspection_item,a.urgent_flag,a.create_time as
+        inspection_time,p.note,p.inspect_category,p.after_frozen,p.out_consult
+        from pathology p
+        INNER JOIN application a on p.id = a.pathology_id
+        <if test="filter != null">
+            INNER JOIN sample s on s.application_id = a.id
+        </if>
+        <where>
+            <if test="status != null">p.status = #{status,jdbcType=INTEGER}</if>
+            <if test="status == null">(p.status = 10 or p.status=11)</if>
+            <if test="reGrossing != null">and p.re_grossing = #{reGrossing,jdbcType=BIT}</if>
+            <if test="departments != null">and a.departments = #{departments,jdbcType=INTEGER}</if>
+            <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+            <if test="inspectCategory == null">and (p.inspect_category != 3/*冰冻*/ or (p.inspect_category = 3 and
+                p.after_frozen is TRUE ))
+            </if>
+            <if test="createTimeStart != null">and p.create_time >= #{createTimeStart,jdbcType=TIMESTAMP}</if>
+            <if test="createTimeEnd != null"><![CDATA[and p.create_time < #{createTimeEnd,jdbcType=TIMESTAMP}]]></if>
+            <if test="assignGrossing != null">and (p.assign_grossing = #{assignGrossing,jdbcType=BIGINT} or
+                p.assign_grossing is NULL )
+            </if>
+            <if test="pathNoStart != null and pathNoEnd != null">
+                and (p.serial_number BETWEEN #{pathNoStart,jdbcType=VARCHAR} AND #{pathNoEnd,jdbcType=VARCHAR})
+            </if>
+            <if test="filter != null">and (p.serial_number = #{filter,jdbcType=VARCHAR} or
+                a.patient_name like CONCAT(#{filter,jdbcType=VARCHAR},'%') or s.serial_number =
+                #{filter,jdbcType=VARCHAR})
+            </if>
+        </where>
+        GROUP BY p.id
+        <if test="order != null">ORDER BY ${order}</if>
+        limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </select>
+
+    <select id="countGrossingByCondition" resultType="java.lang.Long"
+            parameterType="com.lifetech.dhap.pathcloud.application.application.condition.PathologyCondition">
+        select count(DISTINCT p.id)
+        from pathology p
+        INNER JOIN application a on p.id = a.pathology_id
+        <if test="filter != null">
+            INNER JOIN sample s on s.application_id = a.id
+        </if>
+        <where>
+            <if test="status != null">p.status = #{status,jdbcType=INTEGER}</if>
+            <if test="status == null">(p.status = 10 or p.status=11)</if>
+            <if test="reGrossing != null">and p.re_grossing = #{reGrossing,jdbcType=BIT}</if>
+            <if test="departments != null">and p.departments = #{departments,jdbcType=INTEGER}</if>
+            <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+            <if test="inspectCategory == null">and (p.inspect_category != 3/*冰冻*/ or (p.inspect_category = 3 and
+                p.after_frozen is TRUE ))
+            </if>
+            <if test="createTimeStart != null">and p.create_time >= #{createTimeStart,jdbcType=TIMESTAMP}</if>
+            <if test="createTimeEnd != null"><![CDATA[and p.create_time < #{createTimeEnd,jdbcType=TIMESTAMP}]]></if>
+            <if test="pathNoStart != null and pathNoEnd != null">
+                and (p.serial_number BETWEEN #{pathNoStart,jdbcType=VARCHAR} AND #{pathNoEnd,jdbcType=VARCHAR})
+            </if>
+            <if test="filter != null and filter != ''">and (p.serial_number = #{filter,jdbcType=VARCHAR} or
+                p.patient_name like CONCAT(#{filter,jdbcType=VARCHAR},'%') or s.serial_number =
+                #{filter,jdbcType=VARCHAR})
+            </if>
+        </where>
+    </select>
+
+    <select id="selectExpandByPrimaryKey" resultMap="ExpandMap" parameterType="java.lang.Long">
+        select p.id, p.serial_number, p.create_by, p.update_by, p.create_time, p.update_time,p.re_grossing,p.label,
+        p.result, p.jujian_note,p.assign_grossing, p.bingdong_note,p.status,a.patient_name,a.departments,a.inspection_item,a.urgent_flag,
+        a.create_time as inspection_time,p.apply_type,p.assign_diagnose,p.note,p.inspect_category,p.after_frozen,p.out_consult,p.out_consult_result
+        from pathology p INNER JOIN application a on p.id = a.pathology_id
+        WHERE p.id = #{id,jdbcType=BIGINT}
+        limit 1
+    </select>
+
+    <select id="selectExpandBySerialNumber" resultMap="ExpandMap" parameterType="java.lang.String">
+        select p.id, p.serial_number, p.create_by, p.update_by, p.create_time, p.update_time,p.re_grossing,p.assign_diagnose,p.label,
+        p.result, p.jujian_note, p.bingdong_note,p.status,a.patient_name,a.departments,a.inspection_item,a.urgent_flag,a.create_time as inspection_time,
+        p.note,p.inspect_category,p.after_frozen,a.age,a.sex,p.out_consult,p.out_consult_result
+        from pathology p INNER JOIN application a on p.id = a.pathology_id
+        WHERE p.serial_number = #{serial_Nmber,jdbcType=VARCHAR}
+        ORDER BY id DESC
+        limit 1
+    </select>
+
+    <resultMap id="reportInfo" type="com.lifetech.dhap.pathcloud.application.domain.model.ReportInfo">
+        <id column="id" property="pathId" jdbcType="BIGINT"/>
+        <result column="his_id" property="hisId" jdbcType="VARCHAR"/>
+        <result column="admission_no" property="admissionNo" jdbcType="VARCHAR"/>
+        <result column="patient_no" property="patientNo" jdbcType="VARCHAR"/>
+        <result column="serial_number" property="pathNo" jdbcType="CHAR"/>
+        <result column="patient_name" property="patientName" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+        <result column="sex" property="sex" jdbcType="INTEGER"/>
+        <result column="hospital" property="hospital" jdbcType="INTEGER"/>
+        <result column="departments" property="departments" jdbcType="INTEGER"/>
+        <result column="receive_time" property="receiveTime" jdbcType="TIMESTAMP"/>
+        <result column="apply_doctor" property="applyDoctor" jdbcType="BIGINT"/>
+        <result column="jujian_note" property="jujianNote" jdbcType="LONGVARCHAR"/>
+        <result column="bingdong_note" property="bingdongNote" jdbcType="LONGVARCHAR"/>
+        <result column="diagnose_doctor" property="diagnoseDoctor" jdbcType="BIGINT"/>
+        <result column="diagnose_time" property="diagnoseTime" jdbcType="TIMESTAMP"/>
+        <result column="result" property="resultDom" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <select id="selectReportInfoByPathId" parameterType="java.lang.Long" resultMap="reportInfo">
+        select p.id,a.his_id,a.admission_no,a.patient_no, p.serial_number,a.patient_name,a.age,a.sex,a.departments,a.create_by as apply_doctor ,
+        p.create_time as receive_time, p.jujian_note, p.bingdong_note,p.result,p.after_frozen,a.hospital
+        from pathology p INNER JOIN application a on p.id = a.pathology_id
+        WHERE p.id = #{id,jdbcType=BIGINT}
+        limit 1
+    </select>
+
+    <select id="selectLastDiagnoseInfoByPathId" parameterType="java.lang.Long" resultMap="reportInfo">
+        select p.id,pt.operator_id as diagnose_doctor,pt.operation_time as diagnose_time from pathology p
+		INNER JOIN path_tracking pt on p.id = pt.path_id
+        WHERE p.id = #{id,jdbcType=BIGINT} and pt.operation in (10,11,12,21)/*一级/二级/三级诊断 会诊*/
+		order by pt.operation_time desc  LIMIT 1
+    </select>
+
+    <resultMap id="queryInfo" type="com.lifetech.dhap.pathcloud.application.domain.model.PathologyQuery">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="application_id" property="applicationId" jdbcType="BIGINT"/>
+        <result column="his_id" property="hisId" jdbcType="VARCHAR"/>
+        <result column="admission_no" property="admissionNo" jdbcType="VARCHAR"/>
+        <result column="serial_number" property="serialNumber" jdbcType="CHAR"/>
+        <result column="patient_name" property="patientName" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+        <result column="sex" property="sex" jdbcType="INTEGER"/>
+        <result column="departments" property="departments" jdbcType="INTEGER"/>
+        <result column="inspect_doctor" property="inspectDoctor" jdbcType="BIGINT"/>
+        <result column="inspect_hospital" property="inspectHospital" jdbcType="VARCHAR"/>
+        <result column="receive_time" property="receiveTime" jdbcType="TIMESTAMP"/>
+        <result column="report_time" property="reportTime" jdbcType="TIMESTAMP"/>
+        <result column="apply_time" property="applyTime" jdbcType="TIMESTAMP"/>
+        <result column="research" property="research" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <select id="selectQueryByCondition" resultMap="queryInfo"
+            parameterType="com.lifetech.dhap.pathcloud.application.application.condition.PathologyQueryCondition">
+        <if test="specialDye == null">
+            SELECT p.id, a.his_id, a.id as application_id, p.serial_number, a.patient_name, a.sex,
+            a.age,
+            a.admission_no, a.departments, a.create_by as inspect_doctor, a.hospital as inspect_hospital,
+            p.create_time as receive_time,
+            pt.operation_time as report_time, p.status,a.research,a.create_time as apply_time
+            FROM application a
+            LEFT JOIN pathology p on p.id = a.pathology_id
+            LEFT JOIN path_tracking pt on p.id = pt.path_id and pt.operation = 13
+        </if>
+        <if test="specialDye != null">
+            SELECT DISTINCT p.id, a.his_id, a.id as application_id, p.serial_number, a.patient_name,
+            a.sex, a.age,
+            a.admission_no, a.departments, a.create_by as inspect_doctor, a.hospital as inspect_hospital, p.create_time
+            as receive_time,
+            pt.operation_time as report_time, p.status,a.research,a.create_time as apply_time
+            FROM application a
+            INNER JOIN pathology p on p.id = a.pathology_id
+            LEFT JOIN path_tracking pt on p.id = pt.path_id and pt.operation = 13
+            INNER JOIN block b on b.path_id = p.id and b.parent_id is not NULL
+        </if>
+        <where>
+            a.id = (select id from application WHERE pathology_id=a.pathology_id order by create_time limit 1)
+            <if test="filter != null and filter != ''">
+                and
+                (
+                p.serial_number = #{filter,jdbcType=VARCHAR} or
+                a.patient_name like CONCAT(#{filter,jdbcType=VARCHAR},'%')
+                or a.applicant like CONCAT(#{filter,jdbcType=VARCHAR},'%')
+                or a.serial_number = #{filter,jdbcType=VARCHAR}
+                or a.his_id = #{filter,jdbcType=VARCHAR}
+                or a.admission_no = #{filter,jdbcType=VARCHAR}
+                )
+            </if>
+            <if test="applyType != null">and a.apply_type = #{applyType,jdbcType=INTEGER}</if>
+            <if test="inspectionCategory != null">AND p.inspect_category= #{inspectionCategory,jdbcType=INTEGER}</if>
+            <if test="specialDye != null">AND b.special_dye= #{specialDye,jdbcType=INTEGER}</if>
+            <if test="inspectionItem != null">AND a.inspection_item= #{inspectionItem,jdbcType=VARCHAR}</if>
+            <if test="pathStatus != null">AND p.status= #{pathStatus,jdbcType=INTEGER}</if>
+            <if test="noPathStatus != null">AND p.status != #{noPathStatus,jdbcType=INTEGER}</if>
+            <if test="departments != null">AND a.departments= #{departments,jdbcType=INTEGER}</if>
+            <if test="inspectionDoctor != null">AND a.create_by = #{inspectionDoctor,jdbcType=BIGINT}</if>
+            <if test="receiveTimeStart != null">AND p.create_time >= #{receiveTimeStart,jdbcType=TIMESTAMP}</if>
+            <if test="diagnoseDoctor != null">and pt.operator_id = #{diagnoseDoctor,jdbcType=BIGINT}</if>
+            <if test="receiveTimeEnd != null"> <![CDATA[AND p.create_time < #{receiveTimeEnd,jdbcType=TIMESTAMP}]]></if>
+            <if test="reportTimeStart != null">AND pt.operation_time >= #{reportTimeStart,jdbcType=TIMESTAMP}</if>
+            <if test="reportTimeEnd != null">
+                <![CDATA[AND pt.operation_time < #{reportTimeEnd,jdbcType=TIMESTAMP}]]></if>
+            <if test="fieldContain != null and fieldType != null and fieldType == 1 ">and p.serial_number =
+                #{fieldContain,jdbcType=VARCHAR}
+            </if>
+            <if test="fieldExclusive != null and fieldType != null and fieldType == 1">and p.serial_number !=
+                #{fieldExclusive,jdbcType=VARCHAR}
+            </if>
+            <if test="fieldContain != null and fieldType != null and fieldType == 2">and a.his_id =
+                #{fieldContain,jdbcType=VARCHAR}
+            </if>
+            <if test="fieldExclusive != null and fieldType != null and fieldType == 2">and a.his_id !=
+                #{fieldExclusive,jdbcType=VARCHAR}
+            </if>
+            <if test="fieldContain != null and fieldType != null and fieldType == 3">and a.admission_no =
+                #{fieldContain,jdbcType=VARCHAR}
+            </if>
+            <if test="fieldExclusive != null and fieldType != null and fieldType == 3">and a.admission_no !=
+                #{fieldExclusive,jdbcType=VARCHAR}
+            </if>
+            <if test="fieldExclusive != null and fieldType != null and fieldType == 6">and a.inspection_item !=
+                #{fieldExclusive,jdbcType=VARCHAR}
+            </if>
+            <if test="fieldContain != null and fieldType != null and fieldType == 4">and a.patient_name like
+                CONCAT(#{fieldContain,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="fieldExclusive != null and fieldType != null and fieldType == 4">and a.patient_name not like
+                CONCAT(#{fieldExclusive,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="fieldType == null and fieldContain != null">and (
+                p.serial_number = #{fieldContain,jdbcType=VARCHAR}
+                or a.patient_name like CONCAT(#{fieldContain,jdbcType=VARCHAR},'%')
+                or a.his_id = #{fieldContain,jdbcType=VARCHAR}
+                or a.admission_no = #{fieldContain,jdbcType=VARCHAR}
+                or a.inspection_item = #{inspectionItem,jdbcType=VARCHAR}
+                <if test="match != null and again != null">or match(${match}) against (#{again,jdbcType=VARCHAR} in
+                    boolean mode)
+                </if>
+                )
+            </if>
+            <if test="fieldType == null and fieldExclusive != null">and (
+                p.serial_number != #{fieldExclusive,jdbcType=VARCHAR}
+                and a.patient_name not like CONCAT(#{fieldExclusive,jdbcType=VARCHAR},'%')
+                and (a.his_id is null or a.his_id != #{fieldExclusive,jdbcType=VARCHAR})
+                and (a.admission_no is null or a.admission_no != #{fieldExclusive,jdbcType=VARCHAR})
+                and (a.inspection_item is null or a.inspection_item != #{inspectionItem,jdbcType=VARCHAR})
+                <if test="match != null and again != null">
+                    and(p.diagnose is null or match(p.diagnose) against (#{again,jdbcType=VARCHAR} in boolean mode))
+                    and(p.jujian_note is null or match(p.jujian_note ) against (#{again,jdbcType=VARCHAR} in boolean
+                    mode))
+                    and(p.micro_diagnose is null or match(p.micro_diagnose) against (#{again,jdbcType=VARCHAR} in
+                    boolean mode))
+                </if>
+                )
+            </if>
+            <if test="parserNgram != null and match != null and again != null">and match(${match}) against
+                (#{again,jdbcType=VARCHAR} in boolean mode)
+            </if>
+            <if test="applyTimeStart != null">AND a.create_time >= #{applyTimeStart,jdbcType=TIMESTAMP}</if>
+            <if test="applyTimeEnd != null"><![CDATA[AND a.create_time < #{applyTimeEnd,jdbcType=TIMESTAMP}]]></if>
+        </where>
+        <if test="order != null">ORDER BY ${order}</if>
+
+        limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </select>
+
+    <select id="countQueryByCondition"
+            parameterType="com.lifetech.dhap.pathcloud.application.application.condition.PathologyQueryCondition"
+            resultType="java.lang.Long">
+        <if test="specialDye == null">
+            SELECT count(a.id)
+            FROM application a
+            LEFT JOIN pathology p on p.id = a.pathology_id
+            LEFT JOIN path_tracking pt on p.id = pt.path_id and pt.operation = 13
+        </if>
+        <if test="specialDye != null">
+            SELECT COUNT(DISTINCT p.id)
+            FROM application a
+            INNER JOIN pathology p on p.id = a.pathology_id
+            LEFT JOIN path_tracking pt on p.id = pt.path_id and pt.operation = 13
+            INNER JOIN block b on b.path_id = p.id
+        </if>
+        <where>
+            a.id = (select id from application WHERE pathology_id=a.pathology_id order by create_time limit 1)
+            <if test="filter != null and filter != ''">
+                and
+                (
+                p.serial_number = #{filter,jdbcType=VARCHAR} or
+                a.patient_name like CONCAT(#{filter,jdbcType=VARCHAR},'%')
+                or a.applicant like CONCAT(#{filter,jdbcType=VARCHAR},'%')
+                or a.serial_number = #{filter,jdbcType=VARCHAR}
+                or a.his_id = #{filter,jdbcType=VARCHAR}
+                or a.admission_no = #{filter,jdbcType=VARCHAR}
+                )
+            </if>
+            <if test="applyType != null">and a.apply_type = #{applyType,jdbcType=INTEGER}</if>
+            <if test="inspectionCategory != null">AND p.inspect_category= #{inspectionCategory,jdbcType=INTEGER}</if>
+            <if test="specialDye != null">AND b.special_dye= #{specialDye,jdbcType=INTEGER}</if>
+            <if test="inspectionItem != null">AND a.inspection_item= #{inspectionItem,jdbcType=VARCHAR}</if>
+            <if test="pathStatus != null">AND p.status= #{pathStatus,jdbcType=INTEGER}</if>
+            <if test="noPathStatus != null">AND p.status != #{noPathStatus,jdbcType=INTEGER}</if>
+            <if test="departments != null">AND a.departments= #{departments,jdbcType=INTEGER}</if>
+            <if test="inspectionDoctor != null">AND a.create_by = #{inspectionDoctor,jdbcType=BIGINT}</if>
+            <if test="receiveTimeStart != null">AND p.create_time >= #{receiveTimeStart,jdbcType=TIMESTAMP}</if>
+            <if test="diagnoseDoctor != null">and pt.operator_id = #{diagnoseDoctor,jdbcType=BIGINT}</if>
+            <if test="receiveTimeEnd != null"> <![CDATA[AND p.create_time < #{receiveTimeEnd,jdbcType=TIMESTAMP}]]></if>
+            <if test="reportTimeStart != null">AND pt.operation_time >= #{reportTimeStart,jdbcType=TIMESTAMP}</if>
+            <if test="reportTimeEnd != null">
+                <![CDATA[AND pt.operation_time < #{reportTimeEnd,jdbcType=TIMESTAMP}]]></if>
+            <if test="fieldContain != null and fieldType != null and fieldType == 1 ">and p.serial_number =
+                #{fieldContain,jdbcType=VARCHAR}
+            </if>
+            <if test="fieldExclusive != null and fieldType != null and fieldType == 1">and p.serial_number !=
+                #{fieldExclusive,jdbcType=VARCHAR}
+            </if>
+            <if test="fieldContain != null and fieldType != null and fieldType == 2">and a.his_id =
+                #{fieldContain,jdbcType=VARCHAR}
+            </if>
+            <if test="fieldExclusive != null and fieldType != null and fieldType == 2">and a.his_id !=
+                #{fieldExclusive,jdbcType=VARCHAR}
+            </if>
+            <if test="fieldContain != null and fieldType != null and fieldType == 3">and a.admission_no =
+                #{fieldContain,jdbcType=VARCHAR}
+            </if>
+            <if test="fieldExclusive != null and fieldType != null and fieldType == 3">and a.admission_no !=
+                #{fieldExclusive,jdbcType=VARCHAR}
+            </if>
+            <if test="fieldExclusive != null and fieldType != null and fieldType == 6">and a.inspection_item !=
+                #{fieldExclusive,jdbcType=VARCHAR}
+            </if>
+            <if test="fieldContain != null and fieldType != null and fieldType == 4">and a.patient_name like
+                CONCAT(#{fieldContain,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="fieldExclusive != null and fieldType != null and fieldType == 4">and a.patient_name not like
+                CONCAT(#{fieldExclusive,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="fieldType == null and fieldContain != null">and (
+                p.serial_number = #{fieldContain,jdbcType=VARCHAR}
+                or a.patient_name like CONCAT(#{fieldContain,jdbcType=VARCHAR},'%')
+                or a.his_id = #{fieldContain,jdbcType=VARCHAR}
+                or a.admission_no = #{fieldContain,jdbcType=VARCHAR}
+                or a.inspection_item = #{inspectionItem,jdbcType=VARCHAR}
+                <if test="match != null and again != null">or match(${match}) against (#{again,jdbcType=VARCHAR} in
+                    boolean mode)
+                </if>
+                )
+            </if>
+            <if test="fieldType == null and fieldExclusive != null">and (
+                p.serial_number != #{fieldExclusive,jdbcType=VARCHAR}
+                and a.patient_name not like CONCAT(#{fieldExclusive,jdbcType=VARCHAR},'%')
+                and (a.his_id is null or a.his_id != #{fieldExclusive,jdbcType=VARCHAR})
+                and (a.admission_no is null or a.admission_no != #{fieldExclusive,jdbcType=VARCHAR})
+                and (a.inspection_item is null or a.inspection_item != #{inspectionItem,jdbcType=VARCHAR})
+                <if test="match != null and again != null">
+                    and(p.diagnose is null or match(p.diagnose) against (#{again,jdbcType=VARCHAR} in boolean mode))
+                    and(p.jujian_note is null or match(p.jujian_note ) against (#{again,jdbcType=VARCHAR} in boolean
+                    mode))
+                    and(p.micro_diagnose is null or match(p.micro_diagnose) against (#{again,jdbcType=VARCHAR} in
+                    boolean mode))
+                </if>
+                )
+            </if>
+            <if test="parserNgram != null and match != null and again != null">and match(${match}) against
+                (#{again,jdbcType=VARCHAR} in boolean mode)
+            </if>
+            <if test="applyTimeStart != null">AND a.create_time >= #{applyTimeStart,jdbcType=TIMESTAMP}</if>
+            <if test="applyTimeEnd != null"><![CDATA[AND a.create_time < #{applyTimeEnd,jdbcType=TIMESTAMP}]]></if>
+        </where>
+    </select>
+
+    <select id="countByInspectCategory" parameterType="java.lang.Integer" resultType="java.lang.Long">
+        select count(1) from pathology where inspect_category = #{code,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectReportPic" resultMap="BaseResultMap">
+        select id,report_pic from pathology
+        <where>
+            id in
+            <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </select>
+
+    <select id="getMyApplications"
+            parameterType="com.lifetech.dhap.pathcloud.application.application.condition.WechatCondition"
+            resultType="com.lifetech.dhap.pathcloud.application.application.dto.WechatInfoDto">
+
+        <if test="type != 3">
+            SELECT p.id as pid,a.id as aid,a.create_time as applicationTime,
+            a.serial_number as aserialNumber,p.serial_number as pserialNumber,
+            b.id as bookingId,b.instrument_id as instrumentId,b.start_time as bookingStartTime,
+            b.end_time as bookingEndTime,a.`status` as astatus,p.`status` as pstatus,
+            null as aiApplicationTime,null as aiId,NULL as specialDyeStatus
+
+            FROM application a
+            left JOIN pathology p ON p.id=a.pathology_id
+            LEFT JOIN booking b ON b.application_id=a.id
+            <where>
+                and a.apply_type=2
+                <if test="type == 1">and a.`status` != 30</if>
+                <if test="type == 2">AND a.status = 30</if>
+                <if test="createBy != null">and a.create_by = #{createBy,jdbcType=INTEGER}</if>
+                <if test="filter != null">and p.serial_number = #{filter,jdbcType=VARCHAR}</if>
+                <if test="createTimeStart != null">AND a.create_time >= #{createTimeStart,jdbcType=TIMESTAMP}</if>
+                <if test="createTimeEnd != null">
+                    <![CDATA[AND a.create_time < #{createTimeEnd,jdbcType=TIMESTAMP}]]></if>
+                <if test="status == 1">and p.status != 25</if>
+                <if test="status == 2">AND p.status = 25</if>
+            </where>
+
+            UNION ALL
+
+            SELECT NULL as pid,null as aid,a.create_time as applicationTime
+            ,NULL as aserialNumber,bi.serial_number as pserialNumber,
+            NULL as bookingId,NULL as instrumentId,NULL as bookingStartTime,null as bookingEndTime,
+            NULL as astatus,
+            p.`status` as pstatus, ai.create_time as aiApplicationTime ,ai.id as aiId,bi.status as specialDyeStatus
+
+            from application_ihc ai
+            INNER JOIN block_ihc bi ON bi.ihc_id=ai.id
+            INNER JOIN pathology p ON bi.path_id = p.id
+            INNER JOIN application a on p.id=a.pathology_id
+
+            <where>
+                and a.apply_type=2
+                <if test="type == 1">and ai.id IS NULL</if>
+                <if test="type == 2">AND a.status = 30</if>
+                <if test="createBy != null">and a.create_by = #{createBy,jdbcType=INTEGER}</if>
+                <if test="filter != null">and p.serial_number = #{filter,jdbcType=VARCHAR}</if>
+                <if test="createTimeStart != null">AND a.create_time >= #{createTimeStart,jdbcType=TIMESTAMP}</if>
+                <if test="createTimeEnd != null">
+                    <![CDATA[AND a.create_time < #{createTimeEnd,jdbcType=TIMESTAMP}]]></if>
+                <if test="status == 1">and p.status != 25</if>
+                <if test="status == 2">AND p.status = 25</if>
+            </where>
+            GROUP BY ai.id
+
+            <if test="order != null">ORDER BY ${order}</if>
+            limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+
+        </if>
+
+        <if test="type == 3">
+            SELECT bi.serial_number as pserialNumber,
+            p.`status` as pstatus, ai.create_time as aiApplicationTime ,ai.id as aiId,
+            a.create_time as applicationTime,bi.status as specialDyeStatus
+
+            from application_ihc ai
+            INNER JOIN block_ihc bi ON bi.ihc_id=ai.id
+            INNER JOIN pathology p ON bi.path_id = p.id
+            INNER JOIN application a on p.id=a.pathology_id
+
+            <where>
+                and a.apply_type=2
+                <if test="createBy != null">and a.create_by = #{createBy,jdbcType=INTEGER}</if>
+                <if test="filter != null">and p.serial_number = #{filter,jdbcType=VARCHAR}</if>
+                <if test="createTimeStart != null">AND a.create_time >= #{createTimeStart,jdbcType=TIMESTAMP}</if>
+                <if test="createTimeEnd != null">
+                    <![CDATA[AND a.create_time < #{createTimeEnd,jdbcType=TIMESTAMP}]]></if>
+                <if test="status == 1">and p.status != 25</if>
+                <if test="status == 2">AND p.status = 25</if>
+            </where>
+            GROUP BY ai.id
+
+            <if test="order != null">ORDER BY ${order}</if>
+            limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+        </if>
+
+    </select>
+
+    <select id="getMyApplicationsTotal"
+            parameterType="com.lifetech.dhap.pathcloud.application.application.condition.WechatCondition"
+            resultType="java.lang.Long">
+
+        <if test="type != 3">
+            SELECT count(1) FROM (SELECT p.id as pid,a.id as aid,a.create_time as applicationTime,
+            a.serial_number as aserialNumber,p.serial_number as pserialNumber,
+            b.id as bookingId,b.instrument_id as instrumentId,b.start_time as bookingStartTime,
+            b.end_time as bookingEndTime,a.`status` as astatus,p.`status` as pstatus,
+            null as aiApplicationTime,null as aiId,NULL as specialDyeStatus
+
+            FROM application a
+            left JOIN pathology p ON p.id=a.pathology_id
+            LEFT JOIN booking b ON b.application_id=a.id
+            <where>
+                and a.apply_type=2
+                <if test="type == 1">and a.`status` != 30</if>
+                <if test="type == 2">AND a.status = 30</if>
+                <if test="createBy != null">and a.create_by = #{createBy,jdbcType=INTEGER}</if>
+                <if test="filter != null">and p.serial_number = #{filter,jdbcType=VARCHAR}</if>
+                <if test="createTimeStart != null">AND a.create_time >= #{createTimeStart,jdbcType=TIMESTAMP}</if>
+                <if test="createTimeEnd != null">
+                    <![CDATA[AND a.create_time < #{createTimeEnd,jdbcType=TIMESTAMP}]]></if>
+                <if test="status == 1">and p.status != 25</if>
+                <if test="status == 2">AND p.status = 25</if>
+            </where>
+
+            UNION ALL
+
+            SELECT NULL,null,null,NULL,bi.serial_number as pserialNumber,NULL,NULL,NULL,null,NULL,
+            p.`status` as pstatus, ai.create_time as aiApplicationTime ,ai.id as aiId,bi.status as specialDyeStatus
+
+            from application_ihc ai
+            INNER JOIN block_ihc bi ON bi.ihc_id=ai.id
+            INNER JOIN pathology p ON bi.path_id = p.id
+            INNER JOIN application a on p.id=a.pathology_id
+
+            <where>
+                and a.apply_type=2
+                <if test="type == 1">and ai.id IS NULL</if>
+                <if test="type == 2">AND a.status = 30</if>
+                <if test="createBy != null">and a.create_by = #{createBy,jdbcType=INTEGER}</if>
+                <if test="filter != null">and p.serial_number = #{filter,jdbcType=VARCHAR}</if>
+                <if test="createTimeStart != null">AND a.create_time >= #{createTimeStart,jdbcType=TIMESTAMP}</if>
+                <if test="createTimeEnd != null">
+                    <![CDATA[AND a.create_time < #{createTimeEnd,jdbcType=TIMESTAMP}]]></if>
+                <if test="status == 1">and p.status != 25</if>
+                <if test="status == 2">AND p.status = 25</if>
+            </where>
+            GROUP BY ai.id) a
+
+
+        </if>
+
+        <if test="type == 3">
+            SELECT count(1) from (SELECT bi.serial_number as pserialNumber,
+            p.`status` as pstatus, ai.create_time as aiApplicationTime ,ai.id as aiId,bi.status as specialDyeStatus
+
+            from application_ihc ai
+            INNER JOIN block_ihc bi ON bi.ihc_id=ai.id
+            INNER JOIN pathology p ON bi.path_id = p.id
+            INNER JOIN application a on p.id=a.pathology_id
+
+            <where>
+                and a.apply_type=2
+                <if test="createBy != null">and a.create_by = #{createBy,jdbcType=INTEGER}</if>
+                <if test="filter != null">and p.serial_number = #{filter,jdbcType=VARCHAR}</if>
+                <if test="createTimeStart != null">AND a.create_time >= #{createTimeStart,jdbcType=TIMESTAMP}</if>
+                <if test="createTimeEnd != null">
+                    <![CDATA[AND a.create_time < #{createTimeEnd,jdbcType=TIMESTAMP}]]></if>
+                <if test="status == 1">and p.status != 25</if>
+                <if test="status == 2">AND p.status = 25</if>
+            </where>
+            GROUP BY ai.id ) a
+        </if>
+
+    </select>
+
+    <select id="getIhcs" parameterType="java.lang.Long"
+            resultType="com.lifetech.dhap.pathcloud.application.application.dto.WechatInfoDto">
+            SELECT bi.serial_number as pserialNumber
+            FROM application_ihc ai
+            INNER JOIN block_ihc bi on bi.ihc_id=ai.id
+            where ai.id=#{aiId,jdbcType=BIGINT}
+            GROUP BY bi.serial_number
+    </select>
+
+    <select id="getNextNumber" resultType="java.lang.Integer" parameterType="java.lang.String">
+        SELECT nextVal(#{seqName,jdbcType=VARCHAR});
+    </select>
+
+    <select id="decalcify" resultType="java.lang.Boolean" parameterType="java.lang.Long">
+        select if(count(*)>1,true,FALSE ) FROM block where path_id=#{createBy,jdbcType=BIGINT} and biaoshi=3
+    </select>
+</mapper>

@@ -1,0 +1,517 @@
+<toolbar class="clearfix" >
+    <div class="search row clearfix">
+        <search-input class="pull-left" style="width:330px" model="createDiagnosis.serialNumber" get-data="createDiagnosis.getDataByPathology()" clear="true" placeholder="{{'输入病理号或病理号-蜡块号-玻片号查询'|translate}}" auto-focus="{{autoFocus}}"></search-input>
+        <div class="pull-right">
+          <div class="form-control-static">
+            <div class="pull-left">{{'延期未发'|translate}}：</div>
+            <!--获取延期报告数量-->
+            <div class="pull-right cursor-pointer diagnosis-number-box" ng-click="createDiagnosis.getDelayPathologic()">
+              {{createDiagnosis.delayDiagnosisTotal}}
+            </div>
+          </div>
+
+        </div>
+        <div class="pull-right">
+          <div class="form-control-static">
+            <div class="pull-left">{{'即将延期'|translate}}：</div>
+
+            <div class="pull-right cursor-pointer diagnosis-number-box" ng-click="createDiagnosis.getWillDelayPathologic()">
+              {{createDiagnosis.willDelayDiagnosisTotal}}
+            </div>
+          </div>
+        </div>
+
+    </div>
+</toolbar>
+<div id="createDiagnosis" class="diagnosis-div" ng-click="createDiagnosis.closeTemplate()">
+    <div class="container no-padding">
+        <div class="row">
+            <!--左侧-->
+            <div class="col-sm-3">
+                <div class="row clearfix">
+                    <div class="col-xs-6" style="margin-bottom:10px;padding-right:0;width:48%;">
+                        <date-seletor dateset="createDiagnosis.defaultSelectTime" start-time="createDiagnosis.filterData.createTimeStart" end-time="createDiagnosis.filterData.createTimeEnd"></date-seletor>
+                    </div>
+                    <div class="col-xs-6 pull-right" style="margin-bottom:10px;padding-left:0;width:48%;">
+                        <select class="form-control input-sm" ng-model="createDiagnosis.filterData.specialType" ng-options="status.code as status.name for status in createDiagnosis.specialTypeList">
+                          <option value="">{{'检查类别'|translate}}</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-6" style="margin-bottom:10px;padding-right:0;width:48%;">
+                        <select class="form-control input-sm" ng-model="createDiagnosis.status" ng-change="createDiagnosis.changeStatus()" ng-options="item.code as item.name for item in createDiagnosis.sampleStatusList">
+                          <option value="">{{'样本状态'|translate}}</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-6 pull-right" style="margin-bottom:10px;padding-left:0;width:48%;">
+                        <button id="query" ng-click="createDiagnosis.query()" class="btn btn-block btn-sm btn-default"><span class="glyphicon glyphicon-filter"></span>{{'筛选'|translate}}</button>
+                    </div>
+                </div>
+                <div class="table">
+                    <table class="table-min table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>{{'编号'|translate}}</th>
+                                <th>{{'姓名'|translate}}</th>
+                                <th>{{'状态'|translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-class="{'active-bg':$index ===  createDiagnosis.index,'error':item.delay ,'warning': ( item.estimateReportTime - createDiagnosis.delayTime < 0 )}" ng-click="createDiagnosis.getDataByPathology(item, $index)" ng-repeat="item in createDiagnosis.diagnosisList track by $index">
+                                <td ng-bind="item.number||item.serialNumber"></td>
+                                <td>
+                                    <div style="width: 75px;overflow: hidden;text-overflow:ellipsis" ng-bind="item.patientName" ></div>
+                                </td>
+
+                                <td ng-bind="item.delay ? '报告延期' :
+                                 (item.estimateReportTime < createDiagnosis.delayTime) ? '即将延期' : item.statusName"
+                                >
+
+                                </td>
+                            </tr>
+                            <tr ng-repeat="n in [].constructor(17) track by $index" ng-show="!createDiagnosis.diagnosisList||createDiagnosis.diagnosisList.length<=$index">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                            <!--<tr><td class="text-center" colspan="11" ng-show="!createDiagnosis.pathologicDataList.length">暂无数据</td></tr>-->
+
+                        </tbody>
+                    </table>
+                    <div class="table-footer clearfix">
+                        <div class="pull-left form-control-static pagination">{{'共'|translate}}<span ng-bind="createDiagnosis.total"></span>{{'条结果'|translate}}</div>
+                        <uib-pagination class="pull-right" items-per-page="createDiagnosis.filterData.length" max-size="0" boundary-link-numbers="true" total-items="createDiagnosis.total" ng-model="createDiagnosis.filterData.page" ng-change="createDiagnosis.getDiagnosisList()"
+                            previous-text="{{'上一页'|translate}}" next-text="{{'下一页'|translate}}" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+                    </div>
+                </div>
+
+            </div>
+            <!--中间-->
+            <div class="col-sm-6">
+              <!--TAB 1-->
+              <div class="the-tab">
+                  <div class="tab-header clearfix" ng-init="tabIndex=0">
+                      <button class="btn btn-tab" ng-class="{'btn-primary':tabIndex===0,'btn-warning':tabIndex!==0}" ng-click="tabIndex=0">{{'肉眼所见'|translate}}</button>
+                      <button class="btn btn-tab" ng-class="{'btn-primary':tabIndex===1,'btn-warning':tabIndex!==1}" ng-click="tabIndex=1">{{'取材记录'|translate}}</button>
+                      <button class="btn btn-tab" ng-class="{'btn-primary':tabIndex===2,'btn-warning':tabIndex!==2}" ng-click="tabIndex=2">{{'诊断记录'|translate}}</button>
+                      <button class="btn btn-tab" ng-class="{'btn-primary':tabIndex===3,'btn-warning':tabIndex!==3}" ng-click="tabIndex=3">{{'会诊要求'|translate}}</button>
+
+
+                  </div>
+                  <div class="tab-body form-control">
+
+                      <!--肉眼所见-->
+                      <div class="tab-content" ng-show="tabIndex===0">
+                          <div ng-bind-html="createDiagnosis.userSeeContent"></div>
+                      </div>
+                      <!--取材记录-->
+                      <div class="tab-content" ng-show="tabIndex===1">
+                        <div class="table-min mini">
+                          <table class=" table-hover table-bordered">
+                            <thead>
+                            <tr>
+                              <th>{{'取材标识'|translate}}</th>
+                              <th>{{createDiagnosis.pathologicalData.type === 1 ? '玻片号': '蜡块号'|translate}}</th>
+                              <th>{{'取材部位'|translate}}</th>
+                              <th>{{'组织数'|translate}}</th>
+                              <th>{{'取材备注'|translate}}</th>
+                              <th>{{'取材医生'|translate}}</th>
+                              <th>{{'记录员'|translate}}</th>
+                              <th>{{'取材时间'|translate}}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in createDiagnosis.materialInfo.grossingInfo track by $index" ng-class="{'required':item.stop}">
+                              <td ng-bind="item.biaoshiDesc"></td>
+                              <td ng-bind="item.subId"></td>
+                              <td><div style="width: 60px;overflow: hidden;text-overflow:ellipsis" title="{{item.bodypart}}" ng-bind="item.bodypart"></div></td>
+                              <td ng-bind="item.count"></td>
+                              <td><div style="width: 60px;overflow: hidden;text-overflow:ellipsis" title="{{item.note}}" ng-bind="item.note"></div></td>
+                              <td ng-bind="item.operatorName"></td>
+                              <td ng-bind="item.secOperatorName"></td>
+                              <td ng-bind="item.grossingTime| date : 'yyyy-MM-dd HH:mm'"></td>
+                            </tr>
+                            <tr ng-repeat="n in [].constructor(4) track by $index" ng-show="!createDiagnosis.materialInfo.grossingInfo.length||createDiagnosis.materialInfo.grossingInfo.length<=$index"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <!--诊断记录-->
+                      <div class="tab-content" ng-show="tabIndex===2">
+                        <div  class="content" ng-include=" 'app/site/diagnosis/createDiagnosis/tab/diagnosisHistory.html' "></div>
+                      </div>
+                      <!--会诊要求-->
+                      <div class="tab-content" ng-show="tabIndex===3">
+                        <div ng-bind-html="createDiagnosis.pathologicalData.note"></div>
+                      </div>
+
+                  </div>
+              </div>
+
+              <br><!--TAB2 病理诊断 部分-->
+              <div class="the-tab">
+                <div class="tab-header clearfix" ng-init="tab2Index=0">
+                  <button class="btn btn-tab" ng-class="{'btn-primary':tab2Index===0,'btn-warning':tab2Index!==0}" ng-click="tab2Index=0">{{'病理诊断'|translate}}</button>
+                  <button class="btn btn-tab" ng-show="createDiagnosis.pathologicalData.type === 3 || createDiagnosis.pathologicalData.type === 2" ng-class="{'btn-primary':tab2Index===1,'btn-warning':tab2Index!==1}" ng-click="tab2Index=1">{{'特检结果'|translate}}</button>
+                  <button class="btn btn-tab" ng-show="createDiagnosis.pathologicalData.type === 4 || createDiagnosis.pathologicalData.outConsult" ng-class="{'btn-primary':tab2Index===2,'btn-warning':tab2Index!==2}" ng-click="tab2Index=2">{{'会诊意见'|translate}}</button>
+                  <!--模板选择-->
+                  <div class="pull-right">
+                    <button class="btn btn-info btn-block btn-sm" ng-click="createDiagnosis.openTemplate($event,createDiagnosis.openFlag)" ng-disabled="!createDiagnosis.pathologicalData.id">{{'模板选择'|translate}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': createDiagnosis.openFlag, 'glyphicon-chevron-right': !createDiagnosis.openFlag}"></i></button>
+                  </div>
+                  <!--模板选择 展开-->
+                  <div style="position: absolute;left: 0;right: 0;background: #fff; margin-top: 33px; z-index:99;">
+                    <div  class="template" ng-show="createDiagnosis.openFlag&&createDiagnosis.templateType==0" ng-click="createDiagnosis.stopPropagation($event)">
+                      <div class="pull-left template-left">
+                        <p>{{'科室类别'|translate}}</p>
+                      </div>
+                      <div class="pull-left template-main">
+                        <ul class="list-unstyled">
+                          <li class="cursor-pointer" ng-class="{'active':dItem.code===createDiagnosis.activeDepartment}" ng-repeat="dItem in departments" ng-click="createDiagnosis.getTemplatesList(dItem.code)">
+                            {{dItem.name}}
+                            <div class="pull-right i-container">
+                              <i class="glyphicon glyphicon-play" ng-show="createDiagnosis.activeDepartment===dItem.code"></i>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="pull-right template-right">
+                        <ul class="list-unstyled">
+                          <li class="cursor-pointer" ng-class="{'active':tItem.id===createDiagnosis.activeTemplate}" ng-repeat="tItem in createDiagnosis.templatesList" ng-click="createDiagnosis.getTemplatesData(tItem.id,tItem.templateContentVO)">
+                            {{tItem.name}}
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="template" ng-show="createDiagnosis.openFlag&&createDiagnosis.templateType==1">
+                      <custom-template content="createDiagnosis.pathologicalData.result.resultDom" position="5"></custom-template>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tab-body tab2-body form-control">
+
+                  <!--病理诊断-->
+                  <div id="test" class="textarea" ng-show="tab2Index===0" ng-model="createDiagnosis.pathologicalData.result.resultDom" contenteditable="true">
+                  </div>
+
+                  <!--特检结果-->
+                  <div class="tab-content" ng-show="tab2Index === 1">
+
+                    <p>申请日期：{{createDiagnosis.pathologicalData.specialApplyTime | date:'yyyy-MM-dd'}}</p>
+
+                    <div class=" clearfix" style="min-height: 80px;">
+                      <div ng-repeat="item in createDiagnosis.markers track by $index" class="pull-left" style="width:33.3%; margin-bottom: 10px">
+                        <span class="ng-binding">{{item.name}}</span>
+                        <select class="" ng-model="item.unit" ng-options="unit as unit for unit in createDiagnosis.specialUnitList">
+                          <option value="">{{'请选择'|translate}}</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div style="margin: 0 -12px 0 -12px; border-top: 1px solid #ccc; padding-top: 7px; padding-left: 7px;">
+                      <p>历史诊断结果：</p>
+                      <div ng-repeat="item in createDiagnosis.specialHistoryResult track by $index">
+                        <div>申请日期：{{item.createTime | date:'yyyy-MM-dd'}}</div>
+                        <p>特检结果：<span ng-bind-html="item.specialResult"></span></p>
+                      </div>
+                    </div>
+
+                  </div>
+                  <!--会诊意见-->
+                  <div ng-show="tab2Index===2" class="textarea " ng-model="createDiagnosis.pathologicalData.specialResult">
+                    <div class="textarea" ng-show="createDiagnosis.pathologicalData.type === 4" ng-model="createDiagnosis.pathologicalData.specialResult" contenteditable="true">
+
+                    </div>
+                    <div class="textarea" ng-show="createDiagnosis.pathologicalData.outConsult" ng-model="createDiagnosis.pathologicalData.outConsultResult" contenteditable="true">
+
+                    </div>
+                  </div>
+
+
+                  <!--外院会诊-->
+                  <!--outConsultResult-->
+
+                </div>
+              </div>
+              <!--图像采集-->
+              <div class="diagnose-photo clearfix">
+                <div class="category-container">
+                  <slider-container new="createDiagnosis.newSlider" scroll-width="432" per-item-num="3" total-num="totalPhoto.length">
+                    <div class="clearfix">
+                      <div class="category-item"  ng-repeat="item in totalPhoto track by $index">
+                        <img ng-click="insertPhoto(item)" width="140" height="100" ng-src="{{item.url}}"/>
+                        <div style="position: relative;">
+                          <div class="photo-tool space-between" style="position: absolute; top: -24px; right: 0; left: 0;padding: 0 20px;">
+                            <span ng-class="{'active-icon':item.check}" style=""><i ng-show="item.check" class="glyphicon glyphicon-ok"></i></span>
+                            <!--<i class="cursor-pointer fa-2x fa fa-check-square" ng-class="{'check-square':item.checked}" ng-click="insertPhoto(item)"></i>-->
+                            <i class="cursor-pointer fa-2x fa fa-trash-o fa-lg" ng-click="deletePhoto(item.id, $index)"></i>
+                            <i class="cursor-pointer fa-2x fa fa-search-plus " style="line-height: 16px;" ng-click="showBigImg(item.url)"></i>
+                          </div>
+                          <select ng-change="createDiagnosis.selectPhotoTag(item)" name="diagnosis-phototag" ng-model="item.tag" ng-options=" tag.code as tag.value for tag in createDiagnosis.photoTags" style="width: 100%; margin-top: 5px;">
+                            <!--默认的是 10x 40 HE -->
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </slider-container>
+                </div>
+
+                <div class="pull-right text-center operates">
+                  <a style="margin: 30px 0" class="btn btn-sm btn-info" href="openimgsw:">{{'图像采集'|translate}}</a>
+                  <p>
+                    选中的图片<br>将插入报告
+                  </p>
+                </div>
+
+              </div>
+              <!--最近模板-->
+              <div class="recent-template clearfix" ng-disabled="createDiagnosis.afterReport">
+                <div class="recent-left pull-left">
+                  <p style="margin: 0; padding-top: 5px;">{{'最近使用模板'|translate}}</p>
+                </div>
+                <div class="recent-right pull-left">
+                  <div class="pull-left cursor-pointer template-item" ng-click="createDiagnosis.getTemplatesData(rItem.id,rItem.templateContentVO)" ng-repeat="rItem in createDiagnosis.recentTemplate">
+                    <p class="template-p" title="{{rItem.name}}">{{rItem.name}}</p>
+                  </div>
+                </div>
+              </div>
+
+
+                <!--<div class="diagnosis-div">
+                    <div class="head">
+                        <h5 class="pull-left">{{'病理诊断'|translate}}</h5>
+                        <div class="pull-right">
+                            <button class="btn btn-info btn-block btn-sm" ng-click="createDiagnosis.openTemplate($event,createDiagnosis.openFlag)" ng-disabled="createDiagnosis.isButtonAble.template">{{'模板选择'|translate}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': createDiagnosis.openFlag, 'glyphicon-chevron-right': !createDiagnosis.openFlag}"></i></button>
+                        </div>
+                    </div>
+                    <div class="body clearfix" ng-show="!createDiagnosis.openFlag">
+                        <div class="body-content">
+                            <div id="test" class="form-control" ng-model="createDiagnosis.pathologicalData.result.resultDom" contenteditable="true"></div>
+                        </div>
+                        <div class="body-bar">
+                          <div class="col-xs-6">
+                            <img src="./assets/images/icon-diagnosis-insert.png" alt="">
+                            <a  ng-click="createDiagnosis.openInsertSampleNames()" href>{{'插入样本名称'|translate}}</a>
+                          </div>
+                          <div class="col-xs-6">
+                            <img src="./assets/images/photo-icon.png" alt="">
+                            <a ng-class="{disabled:createDiagnosis.isButtonAble.star}" ng-click="createDiagnosis.openInsertPhoto()" href>{{'插入显微图像'|translate}}</a>
+                          </div>
+
+                        </div>
+                    </div>
+                    &lt;!&ndash;模板列表&ndash;&gt;
+                    <div id="template" class="" ng-show="createDiagnosis.openFlag" ng-click="createDiagnosis.stopPropagation($event)">
+                        <div class="pull-left template-left">
+                            <p>{{'科室类别'|translate}}</p>
+                        </div>
+                        <div class="pull-left template-main">
+                            <ul class="list-unstyled">
+                                <li class="cursor-pointer" ng-class="{'active':dItem.code===createDiagnosis.activeDepartment}" ng-repeat="dItem in departments" ng-click="createDiagnosis.getTemplatesList(dItem.code)">
+                                    {{dItem.name}}
+                                    <div class="pull-right i-container">
+                                        <i class="glyphicon glyphicon-play" ng-show="createDiagnosis.activeDepartment===dItem.code"></i>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="pull-right template-right">
+                            <ul class="list-unstyled">
+                                <li class="cursor-pointer" ng-class="{'active':tItem.id===createDiagnosis.activeTemplate}" ng-repeat="tItem in createDiagnosis.templatesList" ng-click="createDiagnosis.getTemplatesData(tItem.id,tItem.templateContentVO)">
+                                    {{tItem.name}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    &lt;!&ndash;最近模板&ndash;&gt;
+                    <div class="recent-template clearfix" ng-disabled="createDiagnosis.afterReport">
+                        <div class="recent-left pull-left">
+                            <p>{{'最近使用模板'|translate}}</p>
+                        </div>
+                        <div class="recent-right pull-left">
+                            <div class="pull-left cursor-pointer template-item" ng-click="createDiagnosis.getTemplatesData(rItem.id,rItem.templateContentVO)" ng-repeat="rItem in createDiagnosis.recentTemplate">
+                                <p class="template-p" title="{{rItem.name}}">{{rItem.name}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+            <!--右侧-->
+            <div class="col-sm-3">
+                <!--样本信息模块-->
+                <div class="sample-info common-bottom-apart">
+                    <div class="head space-between ">
+                        <!--<h5>{{'样本信息'|translate}}</h5>-->
+                      <span>姓名：{{createDiagnosis.pathologicalData.patientName}}</span>
+                      <span>性别：{{createDiagnosis.pathologicalData.sex | sex}}</span>
+                      <span>年龄：{{createDiagnosis.pathologicalData.age}}</span>
+
+                    </div>
+                    <div class="body clearfix">
+                        <p>{{'病理号'|translate}}：<b ng-bind="createDiagnosis.pathologicalData.serialNumber"></b></p>
+
+                        <div class="row">
+                          <div class="col-sm-6"><p>{{'蜡块号'|translate}}：<span ng-bind="createDiagnosis.pathologicalData.blockSubId"></span></p></div>
+                          <div class="col-sm-6"><span>{{'玻片号'|translate}}：<span ng-bind="createDiagnosis.pathologicalData.slideSubId"></span></span></div>
+                        </div>
+
+                        <p>{{'已看玻片'|translate}}：<span ng-show="createDiagnosis.pathologicalData.countSlides">{{createDiagnosis.pathologicalData.countWatchedSlide}}/{{createDiagnosis.pathologicalData.countSlides}}</span></p>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" aria-valuenow="{{createDiagnosis.percentage}}" style="width:{{createDiagnosis.percentage}}%;" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <!--<p>{{'病人姓名'|translate}}：<span ng-bind="createDiagnosis.pathologicalData.patientName"></span></p>-->
+                        <p>{{'送检日期'|translate}}：<span ng-bind="createDiagnosis.pathologicalData.inspectionTime|date:'yyyy-MM-dd'"></span></p>
+                        <p>{{'预计报告日期'|translate}}：<span ng-bind="createDiagnosis.pathologicalData.estimateReportTime|date:'yyyy-MM-dd'"></span></p>
+                        <!--<p>报告状态：<span ng-bind="createDiagnosis.pathologicalData.delay ? '延期':'正常待发'" ng-class="{'error':createDiagnosis.pathologicalData.delay}"></span></p>-->
+                        <p>{{'报告状态'|translate}}：<span ng-bind="createDiagnosis.pathologicalData.delayDesc" ng-class="{'error':createDiagnosis.pathologicalData.delay}"></span></p>
+                        <p>{{'病例收藏'|translate}}：<span ng-bind="createDiagnosis.pathologicalData.collect ? '已收藏' : ''"></span></p>
+                        <p>{{'外院会诊'|translate}}：<span ng-bind="createDiagnosis.pathologicalData.outConsult ? '已申请' : ''"></span></p>
+                        <!--<p>送检科室：<span ng-bind="createDiagnosis.pathologicalData.departmentsDesc||'无'"></span></p>
+                        <p>是否加急：<span ng-bind="createDiagnosis.pathologicalData.urgentFlag===true?'是':'否'"></span></p>
+                        <p>取材标识：<span ng-bind="createDiagnosis.pathologicalData.biaoshiDesc||'无'"></span></p>
+                        <p>特染标记：<span ng-bind="createDiagnosis.pathologicalData.marker||createDiagnosis.pathologicalData.specialDyeDesc||'无'"></span></p>
+                        <p>样本状态：<span ng-bind="createDiagnosis.pathologicalData.slideStatusDesc||createDiagnosis.pathologicalData.statusName"></span></p>-->
+                        <div class="icon-div">
+                            <div class="pull-left">
+                                <img src="./assets/images/icon1.png" /><a href ng-click="createDiagnosis.openViewApply()">{{'病理申请单'|translate}}</a>
+                            </div>
+                            <!--<div class="pull-left">
+                              <img src="./assets/images/icon1.png"/><a href ng-click="createDiagnosis.openViewHistory()">历史诊断</a>
+                            </div>-->
+                        </div>
+                        <div>
+                          病例标注：
+                          <select class="input-sm" ng-model="createDiagnosis.casesType"
+                                        ng-options="item.code as item.name for item in createDiagnosis.casesList">
+                          <option value="">{{'选择病例类型'|translate}}</option>
+                        </select>
+                        </div>
+                    </div>
+
+                </div>
+                <!--操作模块-->
+                <div>
+
+                    <!--<div class="list-row-justified clearfix">
+                        <div class="list-cell text-left">
+                            <button class="btn btn-info btn-block" ng-click="createDiagnosis.openAgainMaterial()" ng-disabled="createDiagnosis.isButtonAble.material">{{'重补取'|translate}}</button>
+                        </div>
+                        <div class="list-cell text-center" style="margin-left: 15px;">
+                            <button class="btn btn-info btn-block" ng-click="createDiagnosis.openHeavySection()" ng-disabled="createDiagnosis.isButtonAble.section">{{'深切'|translate}}</button>
+                        </div>
+                        <div class="list-cell pull-right ">
+                            <a href="pathmicroscope://">
+                                <button class="btn btn-info btn-block">{{'图像采集'|translate}}</button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="list-row-justified clearfix">
+                        <div class="list-cell text-left">
+                            <button class="btn btn-info btn-block" ng-disabled="!createDiagnosis.pathologicalData.applicationId" ng-click="createDiagnosis.openApplySpecial()">{{'特检'|translate}}</button>
+                        </div>
+                        <div class="list-cell text-center" style="margin-left: 15px;">
+                            <button class="btn btn-info btn-block" ng-click="" ng-disabled="true">{{'申请会诊'|translate}}</button>
+                        </div>
+                        <div class="list-cell text-right pull-right">
+                            <button class="btn btn-info btn-block" ng-click="createDiagnosis.openQualityGrade()">{{'质控评分'|translate}}</button>
+                        </div>
+                    </div>-->
+
+                    <div class="box">
+                      <div class="box-item"><button id="reGrossing"  class="btn btn-info btn-block" ng-click="createDiagnosis.openAgainMaterial()" ng-disabled="createDiagnosis.isButtonAble.material">{{'重补取'|translate}}</button></div>
+                      <div class="box-item"><button id="reSection" class="btn btn-info btn-block" ng-click="createDiagnosis.openHeavySection()" ng-disabled="createDiagnosis.isButtonAble.section">{{'深切'|translate}}</button></div>
+                      <div class="box-item">
+                        <button id="collect" class="btn btn-info btn-block" ng-click="createDiagnosis.openCollcetModal()" ng-disabled="!createDiagnosis.pathologicalData.id">{{'收藏'|translate}}</button>
+                        <!--<a href="pathmicroscope://">
+                          <button class="btn btn-info btn-block" ng-click="createDiagnosis.useMicroscope()">{{'图像采集'|translate}}</button>
+                        </a>-->
+                      </div>
+                      <div class="box-item">
+                        <button id="special" class="btn btn-info btn-block" ng-disabled="createDiagnosis.pathologicalData.type == 1 || createDiagnosis.pathologicalData.type == 4 || !(createDiagnosis.pathologicalData.canApplyIhc || createDiagnosis.pathologicalData.canApplySpecialDye)"
+                                ng-click="createDiagnosis.openApplySpecial()">
+                          {{'特检'|translate}}
+                        </button>
+                      </div>
+                      <div class="box-item"><button id="outConsult" class="btn btn-info btn-block" ng-disabled="createDiagnosis.pathologicalData.outconsult" ng-click="createDiagnosis.openConsultModal()">{{'外院会诊'|translate}}</button></div>
+                      <div class="box-item"><button id="grade" class="btn btn-info btn-block" ng-disabled="createDiagnosis.pathologicalData.collect" ng-click="createDiagnosis.openQualityGrade()">{{'质控评分'|translate}}</button></div>
+                      <div class="box-item">
+                        <button id="upDiagnose" class="btn btn-info btn-block" ng-click="createDiagnosis.openDiagnosisType()" ng-disabled="createDiagnosis.isButtonAble.diagnosis">{{'上级复诊'|translate}}</button>
+                      </div>
+                      <div class="box-item">
+                        <button id="save" class="btn btn-default btn-block" ng-click="createDiagnosis.save()" >{{'保存'|translate}}</button>
+                      </div>
+                      <div class="box-item">
+                        <button id="report" class="btn btn-default btn-block" ng-click="createDiagnosis.openReportResult()" ng-show="createDiagnosis.isReportShow" ng-disabled="createDiagnosis.isButtonAble.report">{{'报告'|translate}}</button>
+                      </div>
+                    </div>
+
+                    <!--<div class="row">
+                        <div class="col-xs-6">
+                            <button class="btn btn-default btn-block" ng-click="createDiagnosis.openDiagnosisType()" ng-disabled="createDiagnosis.isButtonAble.diagnosis">{{'提交上级诊断'|translate}}</button>
+                        </div>
+                        <div class="col-xs-6">
+                            <button class="btn btn-default btn-block" ng-click="createDiagnosis.openReportResult()" ng-show="createDiagnosis.isReportShow" ng-disabled="createDiagnosis.isButtonAble.report">{{'报告'|translate}}</button>
+                        </div>
+                    </div>-->
+                </div>
+                <!--<div class="operate-div">
+          <button class="btn btn-default btn-pure" ng-click="createDiagnosis.openQualityGrade()"></button>
+
+          <p class="clearfix">重补取/深切备注：</p>
+          <textarea ng-model="createDiagnosis.operateNote" style="height: 61px;"></textarea>
+          <div class="row">
+            <div class="col-sm-6">
+              <button class="btn btn-block btn-info" ng-click="createDiagnosis.openAgainMaterial()" ng-disabled="createDiagnosis.isButtonAble.material">重补取</button>
+            </div>
+            <div class="col-sm-6">
+              <button class="btn btn-block btn-info" ng-click="createDiagnosis.openHeavySection()" ng-disabled="createDiagnosis.isButtonAble.section">深切</button>
+            </div>
+          </div>
+        </div>-->
+
+                <!--图像采集模块-->
+                <!--<div class="photo-collect common-bottom-apart">
+          <h5>图像采集</h5>
+          <div class="gumVideoContainer embed-responsive embed-responsive-4by3">
+            <video class="embed-responsive-item" id="gumVideo" autoplay muted></video>
+            <div class="video-toolbar">
+              <i class="fa fa-2x fa-expand" ng-click="createDiagnosis.showBigVideo()"></i>
+              <i class="fa fa-2x fa-camera" ng-click="createDiagnosis.photo()"></i>
+            </div>
+          </div>
+          <div id="img-container">
+            <slider-container new="createDiagnosis.newSlider" scroll-width="createDiagnosis.containerWidth" per-item-num="createDiagnosis.perItemNum" total-num="createDiagnosis.imageList.length">
+              <div class="clearfix">
+                <img ng-repeat="item in createDiagnosis.imageList track by $index" ng-style="createDiagnosis.imgStyle" ng-click="createDiagnosis.showBigImg(item,$index)" ng-src="{{(item.id?createDiagnosis.imgUrlHeader:'')+item.url}}">
+              </div>
+            </slider-container>
+          </div>
+        </div>-->
+
+                <!--特染模块-->
+                <!--<div class="special-stain">
+          <p>
+            需要特染：
+            <select name="">
+              <option>选择特染类型</option>
+              <option value="1">免疫组化</option>
+              <option value="2">Verhoeff铁苏木素染色</option>
+              <option value="3">EBER原位杂交</option>
+            </select>
+          </p>
+          <p>特染备注：</p>
+          <textarea name="" style="height: 138px;"></textarea>
+          <div class="row">
+            <div class="col-sm-6">
+              <button class="btn btn-second btn-block" ng-click="createDiagnosis.openApplySpecial()" ng-disabled="createDiagnosis.isButtonAble.special">提交特染申请</button>
+            </div>
+            <div class="col-sm-6">
+              <button class="btn btn-default btn-block" ng-click="createDiagnosis.openDiagnosisType()" ng-disabled="createDiagnosis.isButtonAble.diagnosis">提交上级诊断</button>
+            </div>
+          </div>
+        </div>-->
+
+            </div>
+        </div>
+    </div>
+</div>

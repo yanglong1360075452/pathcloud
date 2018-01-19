@@ -1,0 +1,22 @@
+<div id="textarea">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="textMod.cancel()"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+
+    <h4 class="modal-title" ng-bind="textMod.modalTitle"></h4>
+  </div>
+  <div class="modal-body" >
+    <h4 ng-bind="textMod.selectTitle"></h4>
+
+    <div class="required">
+      {{textMod.warning}}
+    </div>
+
+    <h4 ng-bind="textMod.textareaTtitle"></h4>
+    <textarea class="textLarge" ng-model="textMod.rejectReason"></textarea>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="textMod.cancel()">取消</button>
+    <button class="btn btn-default" type="button" ng-click="textMod.ok()">确定</button>
+  </div>
+
+</div>

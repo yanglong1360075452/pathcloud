@@ -1,0 +1,32 @@
+<toolbar class="clearfix">
+    <ul class="list-unstyled menu-list">
+        <li ng-class="{active:activeMenu==1}" ng-click="menuSwitch(1)" id="subRoute1">{{"临床"|translate}}</li>
+        <li ng-class="{active:activeMenu==0}" ng-click="menuSwitch(0)" id="subRoute2">{{"科研"|translate}}</li>
+    </ul>
+</toolbar>
+<div id="applyPathological">
+    <div class="main">
+        <div class="application-header">
+            <h3 class="text-left application-header">{{"病理申请表"|translate}}</h3>
+        </div>
+
+        <!--临床部分-->
+        <div class="bed" ng-hide="activeMenu==0">
+            <div class="" style="margin-bottom: 20px;">
+              {{"病人ID"|translate}}：<input class="scan-input" type="text" placeholder="{{'请输入病人ID'|translate}}" name="patientId" auto-focus="true" autofocus>
+            </div>
+            <!--科研 1 -->
+            <thf-pathological ng-if="activeMenu==1"></thf-pathological>
+        </div>
+        <!--科研部分-->
+        <div class="research" ng-if="activeMenu==0">
+            <application-research></application-research>
+        </div>
+    </div>
+
+
+
+  <!--用于测试显示病理申请号-->
+  <div id="applicationNo" style="height: 0;position:absolute; visibility: hidden;" ng-bind="test_serialNumber"></div>
+
+</div>

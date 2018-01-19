@@ -1,0 +1,20 @@
+#video-modal{
+  min-height: 70vh;
+  .close{
+    i.fa-times-circle {
+      color: #fff;
+    }
+  }
+
+  .photo-toolbar{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 30px;
+    i.fa{
+      cursor: pointer;
+    }
+  }
+}

@@ -1,0 +1,25 @@
+#test{
+  .part-top{
+    width: 100%;
+    height: 300px;
+
+    .part-top-1{
+      width: 15%;
+      float: left;
+      background-color: aliceblue;
+      height: 100%;
+    }
+
+    .part-top-2{
+      width: 85%;
+      float: left;
+      background-color: aliceblue;
+      height: 100%;
+      div{
+        height: 100%;
+      }
+    }
+
+  }
+
+}

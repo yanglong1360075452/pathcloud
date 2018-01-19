@@ -1,0 +1,110 @@
+#cutPic{
+  .popup-head{
+    height:56px;
+    padding: 15px !important;
+  }
+  .popup-body{
+    /*height:358px;*/
+    position: relative;
+    padding: 15px !important;
+  }
+  .pop-title{
+    font-size:21px;
+    line-height: 1.42857143;
+    margin-top: 0px;
+  }
+  .pop-close{
+    cursor: pointer;
+    color: #000;
+    margin-top: 5px;
+  }
+  .pop-content{
+    border-bottom: 1px solid #e5e5e5;
+    position: relative;
+    /*padding: 15px;*/
+    /*height:358px;*/
+  }
+  .pop-content .image-editor{
+    position:relative;
+    text-align:center;
+  }
+  .pop-content .image-editor .cropit-preview{
+    margin: 10px auto;
+    position: relative;
+    width: 358px;
+    height: 258px;
+    background-color: #f8f8f8;
+    background-size: cover;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  .pop-content .image-editor .cropit-preview .cropit-preview-image-container{
+    cursor: move;
+    position: absolute;
+    overflow: hidden;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+  }
+  .pop-content .image-editor .cropit-preview .cropit-preview-image-container .cropit-preview-image{
+    transform-origin: left top 0px;
+    will-change: transform;
+    max-width: none;
+  }
+  .pop-content .slider-wrapper{
+    position: relative;
+    padding-left: 40px;
+    width: 200px;
+    height: 40px;
+    line-height: 40px;
+    margin: 10px auto;
+  }
+  .pop-content .slider-wrapper .rotate-cw-btn{
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin: 0 20px 0 0;
+    line-height: 42px;
+    background: rgba(127,127,127,.1);
+    font-size: 24px;
+    color: #333;
+    border-radius: 4px;
+  }
+  .pop-content input[type="range"].cropit-image-zoom-input.custom {
+    height: 8px;
+    background: #e3e3e3;
+    border-radius: 3px;
+    outline: none;
+  }
+  .pop-content input[type="range"].cropit-image-zoom-input {
+    display: inline-block;
+    width: 130px;
+    line-height: 40px;
+    text-align: center;
+    margin: 0 20px;
+    margin-top: -1px;
+    vertical-align: middle;
+    color: #338af1;
+  }
+  .pop-content .slider-wrapper .rotate-cw-btn .icon-rotate{
+    position: relative;
+    width: 200px;
+    height: 40px;
+    line-height: 40px;
+    margin: 10px auto;
+  }
+  .btn-primary{
+    background-color: #338af1;
+    color: #fff;
+    border-color: transparent !important;
+    border-radius: 2px;
+    outline: none;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+  }
+}
+
+

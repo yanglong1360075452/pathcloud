@@ -1,0 +1,72 @@
+<toolbar class="clearfix">
+  <div class="form-inline">
+    <div class="table-header2 form-inline clearfix">
+      <!--搜索工具栏-->
+      <search-input class="pull-right" style="width: 250px" model="sampleSearch.searchStr" get-data="sampleSearch.search()"  placeholder="{{'姓名/申请号/病理号/样本号'|translate}}"></search-input>
+
+    </div>
+  </div>
+</toolbar>
+
+<div class="container clearfix">
+  <!--筛选部分-->
+  <div class="form-inline toolbar" style="background: none">
+    <date-seletor dateset="sampleSearch.defaultTime" start-time="sampleSearch.startTime" end-time="sampleSearch.endTime"></date-seletor>
+    <select class="form-control input-sm" ng-model="sampleSearch.searchData.specialType" ng-options="status.value as status.name for status in sampleSearch.typeList">
+      <option value="">{{"申请类别"|translate}}</option>
+    </select>
+    <select class="form-control input-sm" ng-model="sampleSearch.searchData.status" ng-options="status.value as status.name for status in sampleSearch.statusList">
+      <option value="">{{"选择状态"|translate}}</option>
+    </select>
+    <button ng-click="sampleSearch.filter()" id="query" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-filter"></span>{{"筛选"|translate}}</button>
+  </div>
+  <!--表格显示部分-->
+  <div class="table-min">
+    <table class=" table-hover table-bordered">
+      <thead>
+      <tr>
+        <th ng-repeat="item in sampleSearch.tableHeaders" ng-click="sampleSearch.getSortList(item)" class="{{item.class}} cursor-pointer" ng-style="item.style">{{::item.name|translate}}
+          <i class="cursor-pointer glyphicon glyphicon-chevron-down arrow"
+             ng-hide="!item.order"
+             ng-class="{'rotate-180':item.sort==='asc','rotate-0':item.sort==='desc'||!item.sort}" />
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in sampleSearch.data track by $index">
+          <td><a ng-bind="item.number || item.serialNumber" ng-click="sampleSearch.view(item.serialNumber,item.pathologyNumber)" href></a></td>
+          <td ng-bind="item.sampleNumber"></td>
+          <td ng-bind="item.pathologyNumber"></td>
+          <td ng-bind="item.name"></td>
+          <td ng-bind="item.sampleCreateTime| date : 'yyyy-MM-dd' "></td>
+          <td ng-bind="item.sampleCreateBy.firstName"></td>
+          <td ng-bind="item.delete ? (item.sampleUpdateTime| date : 'yyyy-MM-dd') :''"></td>
+          <td ng-bind="item.delete ? item.sampleUpdateBy.firstName :''"></td>
+          <!--<td ng-bind="item.patientName"></td>-->
+          <!--<td ng-bind="item.inspectionItem||'无'"></td>-->
+          <!--<td ng-bind="item.departments | department"></td>-->
+          <!--<td ng-bind="item.doctor"></td>-->
+          <!--<td ng-bind="item.doctorTel"></td>-->
+          <!--<td ng-bind="item.createTime| date : 'yyyy-MM-dd' "></td>-->
+          <td ng-bind="item.assignGrossing.firstName"></td>
+          <td>
+            <span  ng-hide="item.status === 3 || item.pathologyStatus === 41"  ng-bind="item.pathologyStatusName||item.statusName"></span>
+            <a ng-show="item.status === 3 || item.pathologyStatus === 41" href ng-click="sampleSearch.reasonModal(item)">{{item.pathologyStatusName||item.statusName}}</a>
+          </td>
+        </tr>
+        <tr ng-repeat="n in [].constructor(20) track by $index" ng-show="!sampleSearch.data||sampleSearch.data.length<=$index">
+          <td  ng-repeat="n in [].constructor(10) track by $index"></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+  <div class="table-footer">
+    <div class="pull-left form-control-static pagination">{{"共"|translate}}<span ng-bind="sampleSearch.totalItems"></span>{{"条结果"|translate}}</div>
+    <uib-pagination class="pull-right" boundary-links="true" items-per-page="sampleSearch.searchData.length" max-size="10"
+                    total-items="sampleSearch.totalItems"
+                    ng-model="sampleSearch.searchData.page"
+                    ng-change="sampleSearch.getDataList()"
+                    previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+  </div>
+</div>

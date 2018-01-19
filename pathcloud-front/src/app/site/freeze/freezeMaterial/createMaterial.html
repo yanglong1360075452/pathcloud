@@ -1,0 +1,250 @@
+<div id="createMaterial" ng-click="freeze.closeTemplate()">
+  <toolbar class="clearfix">
+    <div class="col-md-3">
+      <div class="input-group">
+        <search-input style="width: 255px" class="pull-right search-input-sm" model="freeze.searchStr" get-data="freeze.search()"  placeholder="{{'输入姓名/病理号 号段用 - 分开'|translate}}"></search-input>
+      </div>
+    </div>
+    <div class="col-md-9 clearfix">
+      <div class="col-md-10">
+        <div class="top-header" >
+          {{"病理号"|translate}}：<span class="pathology-span">{{freeze.pathologicData.serialNumber}}</span>
+          {{"姓名"|translate}}： <span class="pathology-span">{{freeze.pathologicData.patientName}}</span>
+          <br ng-if="lang === 'en'" />
+          {{"送检科室"|translate}}：<span class="pathology-span">{{freeze.pathologicData.departments | department}}</span>
+          {{"样本数"|translate}}：<span>{{freeze.pathologicData.samples.length}}</span>
+        </div>
+        <div>
+          <!--检查项目：<span class="pathology-span"></span>-->
+          <!--是否加急：<span>{{freeze.pathologicData.urgentFlag?"是":"否"}}</span>-->
+        </div>
+
+      </div>
+      <button class="pull-right btn btn-default" ng-click="freeze.view(freeze.pathologicData.serialNumber,freeze.pathologicData.pathologyNumber)">{{"查看申请单"|translate}}</button>
+
+
+    </div>
+  </toolbar>
+
+  <div class="container clearfix">
+    <div class="col-md-3">
+      <div class="table-header row clearfix">
+        <div class="col-xs-6" style="margin-bottom:10px;padding-right:0;width:48%;margin-right:2%;">
+          <date-seletor dateset="freeze.defaultTime" start-time="freeze.startTime" end-time="freeze.endTime"></date-seletor>
+        </div>
+        <div class="col-xs-6" style="margin-bottom:10px;padding-left:0;width:48%;">
+          <select class="form-control input-sm" ng-model="freeze.filterData.departments" ng-options="status.code as status.name for status in freeze.departmentList">
+            <option value="">{{"送检科室"|translate}}</option>
+          </select>
+        </div>
+        <div class="col-xs-6" style="margin-bottom:10px;padding-right:0;width:48%;margin-right:2%;">
+          <select class="form-control input-sm" ng-model="freeze.status" ng-options="date.value as date.name for date in freeze.sampleStatusList">
+            <option value="">{{"样本状态"|translate}}</option>
+          </select>
+        </div>
+        <div class="col-xs-6" style="margin-bottom:10px;padding-left:0;width:48%;">
+          <button ng-click="freeze.query()" class="btn btn-block btn-sm btn-default"><span class="glyphicon glyphicon-filter"></span>{{"筛选"|translate}}</button>
+        </div>
+      </div>
+      <div class="table">
+        <table class="table-min table-hover table-bordered">
+          <thead>
+          <tr>
+            <th ng-repeat="item in freeze.tableHeaders" ng-click="freeze.getSortList(item)" class="{{item.class}} cursor-pointer" ng-style="item.style">{{::item.name|translate}}
+              <i class="cursor-pointer glyphicon glyphicon-chevron-down arrow"
+                 ng-hide="!item.order"
+                 ng-class="{'rotate-180':item.sort==='asc','rotate-0':item.sort==='desc'||!item.sort}" />
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-class="{'active-bg':item.id==freeze.active}" ng-click="freeze.getOne(item,$index)" ng-repeat="item in freeze.pathologicDataList track by $index">
+            <td ng-bind="item.number"></td>
+            <td ><div style="width: 43px;overflow: hidden;text-overflow:ellipsis" ng-bind="item.patientName"></div></td>
+            <td ng-bind="item.statusDesc"></td>
+          </tr>
+          <tr ng-repeat="n in [].constructor(17) track by $index" ng-show="!freeze.pathologicDataList||freeze.pathologicDataList.length<=$index"><td></td><td></td><td></td></tr>
+
+          <!--<tr><td class="text-center" colspan="11" ng-show="!freeze.pathologicDataList.length">暂无数据</td></tr>-->
+
+        </tbody>
+      </table>
+      <div class="table-footer clearfix">
+        <div class="pull-left form-control-static pagination">{{"共"|translate}}<span ng-bind="freeze.totalItems || 0"></span>{{"条结果"|translate}}</div>
+        <uib-pagination class="pull-right"  items-per-page="freeze.searchData.length" max-size="0"
+                        boundary-link-numbers="true"
+                        total-items="freeze.totalItems"
+                        ng-model="freeze.searchData.page"
+                        ng-change="freeze.getDataList()"
+                        previous-text="{{'上一页'|translate}}" next-text="{{'下一页'|translate}}" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+      </div>
+    </div>
+    </div>
+    <div class="col-md-9">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="department-template">
+          <div class="department-content">
+            <uib-tabset type="pills">
+              <uib-tab heading="{{'冰冻巨检'|translate}}">
+                <textarea class="form-control" ng-model="freeze.pathologicData.bingdongNote"></textarea>
+              </uib-tab>
+            </uib-tabset>
+          </div>
+          <div class="department-footer" ng-blur="freeze.open=false">
+            <div class="temmplate-default primary-table-head">
+              <button type="button" id="template-btn" class="btn btn-default btn-sm" ng-click="freeze.changeTemplateStatus($event)">{{'模板选择'|translate}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': freeze.open, 'glyphicon-chevron-right': !freeze.open}"></i></button>
+              <a type="button"  class="btn btn-default btn-sm" href=" openimgsw:">{{'图像采集'|translate}}</a>
+            </div>
+            <div class="template"  ng-class=" {'template-active':freeze.open}" ng-show="freeze.open&&freeze.templateType==0" ng-click="freeze.stopPropagation($event)">
+              <div class="pull-left template-left "><p style="width: 20px;min-height:50px; margin:auto;margin-top: 100px;writing-mode: vertical-lr; writing-mode: tb-lr;word-wrap: break-word; white-space: pre-wrap;">{{'科室类别'|translate}}</p></div>
+              <div class="pull-left template-main">
+                <ul class="list-unstyled">
+                  <!--ng-show="freeze.pathologicData.departments===item.code||!freeze.pathologicData.departments"-->
+                  <li class="cursor-pointer" ng-class="{'active':item.code===freeze.activeDdepartment}" ng-repeat="item in freeze.departmentList" ng-click="freeze.choseDdepartment(item.code)">
+                    {{item.name}}
+                    <div class="pull-right i-container">
+                      <i class="glyphicon glyphicon-play" ng-show="freeze.activeDdepartment===item.code"></i>
+                      <!--<i class="fa fa-caret-right" aria-hidden="true" ng-show="freeze.activeDdepartment===item.code"></i>-->
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="pull-left template-right">
+                <ul class="list-unstyled">
+                  <li class="cursor-pointer" ng-class="{'active':item.id===freeze.activeTemplate}" ng-repeat="item in freeze.templateList" ng-click="freeze.choseTemplate(item)">{{item.name}}</li>
+                </ul>
+              </div>
+            </div>
+            <div class="template"  ng-class=" {'template-active':freeze.open}" ng-show="freeze.open&&freeze.templateType==1">
+              <custom-template content="freeze.pathologicData.bingdongNote" position="6"></custom-template>
+            </div>
+          </div>
+        </div>
+        <div class="recent-template clearfix">
+          <div class="recent-left pull-left ">
+            <p style="margin-top: 5px;"><span >{{'最近使用模板'|translate}}</span></p>
+          </div>
+          <div class="recent-right pull-left">
+            <div class=" pull-left cursor-pointer" style="overflow: hidden;text-overflow: ellipsis" ng-repeat="item in freeze.recentTemplate">
+              <p class=" btn-template" style="overflow: hidden;text-overflow: ellipsis;word-break: break-all;white-space: nowrap" title="{{item.name}}" ng-click="freeze.choseTemplate(item)">{{item.name}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <p>{{'图像采集'|translate}}</p>
+
+        <div class="gumVideoContainer embed-responsive embed-responsive-4by3" style="border:1px solid #eeeaec">
+          <!--<video class="embed-responsive-item" id="gumVideo" autoplay muted></video>-->
+          <img ng-src={{freeze.selectPhotoResult.url}} class="embed-responsive-item" alt="" ng-show="freeze.photoShow">
+          <div class="video-toolbar">
+            <i class="fa-2x fa fa-expand" ng-click="freeze.showBigImg(freeze.selectPhotoResult.url)"></i>
+            <!--<i class="fa-2x fa fa-video-camera"></i>-->
+            <i class="fa-2x fa fa-trash"  ng-click="freeze.deletePhoto(freeze.selectPhotoResult.index,freeze.selectPhotoResult.id)"></i>
+          </div>
+        </div>
+        <div class="img-group" id="img-container">
+
+          <slider-container new="freeze.newSlider" scroll-width="freeze.containerWidth" per-item-num="freeze.perItemNum" total-num="freeze.pathologicData.media.length">
+            <div class=" clearfix" >
+              <img style="height: 60px;"  ng-repeat="item in freeze.pathologicData.media track by $index" ng-style="freeze.imgStyle" class="pull-left" ng-click="freeze.selectPhoto(item.url,$index,item.id)" ng-src="{{item.url}}">
+              <!--<img style="height: 50px;margin-right: 10px;" class="pull-left" ng-click="freeze.showBigImg(item)" ng-src="http://114.115.210.44:8080/psts/{{item}}">-->
+            </div>
+            <!--<div class="pull-left" ng-repeat="item in freeze.pathologicData.media.images track by $index" index="$index">-->
+              <!--<img style="height: 50px;margin-right: 10px;" class="pull-left" ng-click="freeze.showBigImg(item)" ng-src="{{item}}">-->
+            <!--</div>-->
+          </slider-container>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="material-left col-md-10">
+        <h4>{{'取材记录'|translate}}</h4>
+
+        <div class=" table-container">
+          <form name="material_form" style=" max-height: 189px;margin-bottom: 10px;overflow: auto;">
+          <table class="table-min table-hover table-bordered">
+            <thead>
+            <tr class="text-center">
+              <th style="width: 40px;"><input style="width: 15px;" type="checkbox" ng-model="freeze.allChecked" ng-click="freeze.chkAll()"></th>
+              <th>{{'打印次数'|translate}}</th>
+              <!--<th>{{'取材标识'|translate}}</th>-->
+              <th>{{'蜡块号'|translate}}</th>
+              <th>{{'玻片号'|translate}}</th>
+              <th>{{'取材部位'|translate}}</th>
+              <th>{{'组织数'|translate}}</th>
+              <th>{{'取材备注'|translate}}</th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in freeze.pathologicData.slides track by $index" ng-class="{error:item.status&&item.status===40 }">
+                <ng-form name="inner_form">
+                  <td style="width: 40px;"><input style="width: 15px;" type="checkbox" ng-model="item.checked"></td>
+                  <!--打印次数-->
+                  <td>{{item.print || 0}}</td>
+                  <!--蜡块号-->
+                  <td>0</td>
+                  <!--玻片号-->
+                  <td>{{item.subId}}</td>
+                  <!--取材部位-->
+                  <td name="bodyPart"><input style="text-align: center"  auto-focus="true"  ng-model="item.bodyPart" ng-keyup="freeze.strLength(item,18)" maxlength="18" type="text"></td>
+                  <!--组织数-->
+                  <td name="unit" style="width: 80px;">
+                    <input style="width: 30px;text-align: center" class="pull-left " ng-model="item.count" type="text">
+                    <select style="width: 38px;height: 100%;" class="pull-left "  ng-model="item.unit" ng-options="unit.code as unit.name for unit in freeze.blockUnitList" >
+                    </select>
+                  </td>
+                  <!--取材备注-->
+                  <td class="input-select" id="note-select" name="note" ng-init="showNote = false">
+                    <input class="" type="text" name="note"  oninput="value=value.replace(/[\;\,]+/,'');" maxlength="10" ng-model="item.note" >
+                  </td>
+                  <!--<td><input ng-model="item.statusName" type="text" ng-disabled="item.status&&item.status!=11"></td>-->
+                </ng-form>
+              </tr>
+              <tr ng-repeat="n in [].constructor(6) track by $index" ng-show="!freeze.pathologicData||!freeze.pathologicData.slides||freeze.pathologicData.slides.length<=$index">
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+              </tr>
+            </tbody>
+          </table>
+          </form>
+            <fieldset class="operations clearfix"  ng-disabled="!freeze.pathologicData.id">
+              <div class="pull-left text-left">
+                <button class="btn btn-default" ng-click="freeze.add(1)">{{'添加'|translate}}</button>
+                <button class="btn btn-default" ng-click="freeze.add()">{{'批量添加'|translate}}</button>
+                <button class="btn btn-default" ng-click="freeze.delete()">{{'删除'|translate}}</button>
+                <button class="btn btn-default" ng-click="freeze.print()">{{'打印'|translate}}</button>
+              </div>
+              <div class="pull-right text-right">
+                <button class="btn btn-primary" ng-disabled="freeze.status>11" style="width: 100px;" ng-click="freeze.save()">{{'保存'|translate}}</button>
+              </div>
+
+            </fieldset>
+
+          </div>
+        </div>
+      <div class="material-right col-md-2">
+        <p>{{'记录人员'|translate}}：</p>
+        <p>{{user.firstName}}</p>
+        <p>{{'取材医生'|translate}}<span class="required">*</span>：</p>
+        <select class="form-control input-sm" ng-model="freeze.pathologicData.grossingDoctor.id" ng-options="date.id as date.firstName for date in freeze.grossingUserLIst" ng-required="true">
+          <option value="">{{'请选择'|translate}}--</option>
+        </select>
+        <p>{{'玻片打印'|translate}}：</p>
+        <select class="form-control input-sm" ng-model="freeze.autoPrint" ng-options="item.value as item.name for item in freeze.autoPrintList">
+        </select>
+        <p>{{'冰冻切片机'|translate}}：</p>
+        <select class="form-control input-sm" ng-model="freeze.basketNumber" ng-options="item.id as item.name for item in freeze.instruments">
+          <option value="">{{'请选择'|translate}}--</option>
+        </select>
+
+
+      </div>
+    </div>
+    </div>
+
+
+
+  </div>
+</div>
+

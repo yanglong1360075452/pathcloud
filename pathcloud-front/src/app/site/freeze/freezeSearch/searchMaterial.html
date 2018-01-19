@@ -1,0 +1,92 @@
+<div id="searchMaterial">
+
+  <toolbar class="clearfix">
+    <div class="form-inline">
+      <div class="input-group pull-right">
+        <search-input class="pull-right search-input-lg" model="freeze.searchStr" get-data="freeze.search()"  placeholder="{{'输入姓名/病理号查询 号段用“-”分开'|translate}}"></search-input>
+      </div>
+    </div>
+  </toolbar>
+
+  <div class="container clearfix">
+
+    <div class="table-header form-control-static form-inline clearfix">
+      <date-seletor dateset="freeze.defaultTime" start-time="freeze.startTime" end-time="freeze.endTime"></date-seletor>
+      <select class="form-control input-sm " ng-model="freeze.searchData.status"
+              ng-options="status.value as status.name for status in freeze.statusList">
+        <option value="">{{'样本状态'|translate}}</option>
+      </select>
+      <select class="form-control input-sm " ng-model="freeze.searchData.departments"
+              ng-options="departments.code as departments.name for departments in freeze.departmentsList" >
+        <option value="">{{'送检科室'|translate}}</option>
+      </select>
+      <select class="form-control input-sm " ng-model="freeze.searchData.operator"
+              ng-options="operator.id as operator.firstName for operator in freeze.grossingUserList">
+        <option value="">{{'取材医生'|translate}}</option>
+      </select>
+      <select class="form-control input-sm select" ng-model="freeze.searchData.secOperator"
+              ng-options="secOperator.id as secOperator.firstName for secOperator in freeze.secOperatorList">
+        <option value="">{{'取材记录员'|translate}}</option>
+      </select>
+      <button ng-click="freeze.query()" class="btn btn-sm btn-default">&nbsp;{{'筛选'|translate}}&nbsp;</button>
+    </div>
+
+    <div class="table-min">
+
+      <table class="table-hover table-bordered">
+        <thead class="primary-table-head">
+        <tr>
+          <th ng-repeat="item in freeze.tableHeaders" ng-click="freeze.getSortList(item)" class="cursor-pointer">
+            {{::item.name|translate}}
+            <i class="cursor-pointer glyphicon glyphicon-chevron-down arrow"
+               ng-show="item.order"
+               ng-class="{'rotate-180':item.sort==='asc','rotate-0':item.sort==='desc'||!item.sort}" />
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in freeze.grossingData track by $index">
+          <td ng-bind="item.number"></td>
+          <td ng-bind="item.pathologyNumber"></td>
+          <td ng-bind="item.name"></td>
+          <td ng-bind="item.departments|department"></td>
+          <td ng-bind="item.subId"></td>
+          <td ng-bind="item.bodyPart"></td>
+          <td ng-bind="item.count"></td>
+          <td ng-bind="item.biaoshiName"></td>
+          <td ng-bind="item.operatorName"></td>
+          <td ng-bind="item.secOperatorName"></td>
+          <td ng-bind="item.basketNumber"></td>
+          <td ng-bind="item.operationTime| date : 'yyyy-MM-dd'"></td>
+          <td>
+            <span  ng-hide="item.status === 41"  ng-bind="item.statusName"></span>
+            <a ng-show="item.status === 41" href ng-click="freeze.reasonModal(item)">{{item.statusName}}</a>
+          </td>
+        </tr>
+        </tr>
+        <tr ng-repeat="n in [].constructor(20) track by $index" ng-show="freeze.grossingData.length<=$index">
+          <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        </tr>
+
+        <!--<tr><td class="text-center" colspan="12" ng-show="!freeze.grossingData.length">暂无数据</td></tr>-->
+        </tbody>
+      </table>
+
+      <div class="table-footer">
+        <div class="pull-left form-control-static pagination">
+          {{'共'|translate}}<span ng-bind="freeze.totalItems"></span>{{'条结果'|translate}}
+        </div>
+        <uib-pagination class="pull-right" boundary-links="true"
+                        items-per-page="freeze.searchData.length" max-size="10"
+                        total-items="freeze.totalItems"
+                        ng-model="freeze.searchData.page"
+                        ng-change="freeze.getDataList()"
+                        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+        </uib-pagination>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

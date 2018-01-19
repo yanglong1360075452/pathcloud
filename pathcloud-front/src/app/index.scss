@@ -1,0 +1,674 @@
+/**
+ *  If you want to override some bootstrap variables, you have to change values here.
+ *  The list of variables are listed here bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
+ */
+
+$navbar-inverse-link-color: #5AADBB;
+$icon-font-path: '../../bower_components/bootstrap-sass/assets/fonts/bootstrap/' !default;
+$theme-color: #69bcd0;
+$btn-default-bg: #69bcd0;
+$btn-default-color: #fff;
+$container-width: 1130px;
+$btn-warning-color:#000;
+$btn-warning-bg:#d2ebf1;
+$btn-warning-border:#d2ebf1;
+$btn-primary-color:#fff;
+$btn-primary-bg:#69bcd0;
+$btn-primary-border:#69bcd0;
+$btn-info-color:#333;
+$btn-info-bg:transparent;
+$btn-info-border:#698a99;
+$bg-color:#ebf5fa;
+$border-color:#93aec6;
+
+
+.check-square{
+  color:#0099cc;
+}
+
+.btn-primary:hover,.btn-default:hover,.btn-primary:focus,.btn-default:focus{
+  color:#fff;
+}
+.btn-info:hover,.btn-info:focus{
+   color:#333;
+ }
+.btn-warning:hover,.btn-warning:focus{
+  color:#000;
+}
+.btn-pure,.btn-pure:hover{
+  color: #333333!important;
+  background: transparent;
+  border-color: #698a99;
+}
+.btn-second,.btn-second:hover{
+  color: #000!important;
+  background-color: #d2ebf1;
+}
+
+/**
+ *  Do not remove the comments below. It's the markers used by wiredep to inject
+ *  sass dependencies when defined in the bower.json of your dependencies
+ */
+
+// bower:scss
+// endbower
+html,
+body {
+    min-width:1130px;
+  .btn:hover,.btn:focus{
+    text-decoration: none;
+    outline:none;
+  }
+}
+
+ul,ol{
+  padding: 0;
+}
+
+* {
+    font-size: 12px;
+    font-family: '微软雅黑';
+}
+p{
+  word-wrap: break-word;
+}
+
+.container {
+    width: $container-width !important;
+}
+.long-note{
+  max-width:200px;
+  @extend .text-ellipsis;
+}
+//文本超出省略
+.text-ellipsis{
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+//关闭按钮
+.close{
+  i.fa-times-circle{
+    color: $btn-default-bg;
+  }
+}
+//科室设置底部 icon图标
+.icon{
+  img{
+    height:14px;
+  }
+  color: $btn-default-bg;
+  width: 24px;
+  display: inline-block;
+  height: 24px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.input-select{
+  position: relative;
+  padding-right: 12px;
+  select.subId{
+    position: absolute;
+    left:0 ;
+    width:100% !important;
+    height: 100%;
+    font-size: 0;
+  }
+  input.subId{
+    text-transform: uppercase;
+    position:relative;
+    margin-right: 12px;
+    width:36px;
+    border:0pt;
+
+  }
+  select.bodyPart{
+    position: absolute;
+    left:0 ;
+    width:100% !important;
+    height: 100%;
+    font-size:0;
+  }
+  input.bodyPart{
+    position:relative;
+    margin-right: 12px;
+    width:96px;
+    border:0pt;
+  }
+
+}
+select.input-select{
+  width:100% !important;;
+  margin:-2px;
+}
+input.input-select{
+  position:relative;
+  margin-left:-100%;
+  width:90%;
+  border:0pt;
+}
+
+// 搜索组件 搜索图标宽度样式问题
+.input-long{
+  width:340px !important;
+}
+.search-input-sm{
+   width:200px;
+}
+.search-input-lg{
+  width:340px;
+}
+#searchSpan{
+  width: 1%;
+}
+//科室搜索组件样式
+.select-search{
+  position: relative;
+  input{
+    font-size: inherit;
+    padding-left:4px!important;
+  }
+  .select-item{
+    position: absolute;
+    left: 5px;
+    right: 0;
+    z-index: 100;
+    input{
+      height: 24px!important;
+      border-color: #66afe9!important;
+      outline: 0;
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6)!important;
+    }
+  }
+}
+//表格头tr 里的th 居中
+.tr-center{
+  th{
+    text-align: center;
+  }
+}
+//表格里的select-search样式
+table{
+  .select-item{
+    top:23px;
+    select{
+      border: 1px solid #ccc !important;
+    }
+  }
+
+  .form-control{
+    box-shadow: none !important;
+  }
+}
+//诊断页自定义tab
+.the-tab{
+  .tab-header{
+    .btn-tab{
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      border: 1px solid #ccc;
+      border-bottom: none;
+      float: left;
+    }
+    clear: both;
+  }
+  .tab-body{
+    border-radius: 0;
+    height:170px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    .tab-content{
+        .content{
+            padding: 5px;
+        }
+    }
+  }
+}
+
+
+.uib-datepicker-popup {
+    .active {
+        background-color: #269abc !important;
+        border-color: #1b6d85 !important;
+        .text-info {
+            color: #fff;
+        }
+    }
+    .btn-default {
+        color: #333;
+        background-color: #fff;
+        border-color: #ccc;
+    }
+    .btn-default:focus,
+    .btn-default:hover {
+        color: #333 !important;
+        background-color: #e6e6e6;
+        border-color: #adadad;
+    }
+}
+
+.disabled {
+    pointer-events: none;
+}
+
+
+a{
+  cursor: pointer;
+}
+a:hover,
+a:focus {
+    color: #23527c;
+    text-decoration: underline;
+}
+
+.uib-daypicker {
+    outline: none;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+.cursor-disabled {
+    cursor: not-allowed;
+}
+
+.required {
+    color: red;
+}
+.warning {
+  color: #ff9900;
+}
+
+.rotate-180 {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+.rotate-0 {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+}
+.rotate-180,
+.rotate-0 {
+    transition: 1s;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.table-edit {
+    padding-left: 5px;
+    padding-right: 5px;
+    i {
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+}
+
+.browsehappy {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+.thumbnail {
+    height: 180px;
+    width: 180px;
+    border-radius: 100px;
+    img.pull-right {
+        width: 50px;
+    }
+}
+.page-container {
+    margin: 0 auto;
+    min-width: 950px;
+    max-width: 95%;
+}
+.page-content {
+    min-height:660px;
+    padding-bottom: 20px;
+}
+
+.modal-header {
+    background-color: $theme-color;
+    border-radius: 5px 5px 0 0;
+    color: white;
+    .close {
+        color: white;
+        opacity: 1;
+        .icon-remove-sign {
+            font-size: 25px;
+        }
+    }
+    .close{
+      line-height: inherit;
+      opacity: 1;
+      i.fa-times-circle {
+        color: #fff;
+      }
+    }
+}
+.modal-body {
+    overflow-y: auto;
+    max-height: 550px;
+    //word-break: break-all;
+    #pathologicalForm {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+    .important-span {
+        color: #f00;
+    }
+}
+.modal-large {
+    width: 85% !important;
+    height: 85%;
+}
+.modal-footer {
+    text-align: center;
+    button {
+        margin-left: 15px;
+        margin-right: 15px;
+        width: 80px;
+    }
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.no-padding {
+    padding: 0;
+}
+.table-header{
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 15px;
+  //筛选栏里的选项增加间隔
+  select,input{
+    margin-right:10px;
+  }
+
+}
+.toolbar-sm{
+  select{
+    margin-right:10px;
+  }
+}
+.toolbar {
+    background: #d2ebf1;
+    margin-bottom: 20px;
+    width: 100%;
+    min-width: 1100px;
+    select{
+      margin-right:10px;
+      max-width: 105px;
+    }
+    .container {
+        display: table;
+        height: 50px;
+    }
+    .page-container {
+        height: 34px;
+        line-height: 34px;
+        padding-top: 13px;
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+    .toolbar-info {
+        font-size: 16px;
+        color: #0099CC;
+    }
+    .toolbar-container {
+        display: table-cell;
+        vertical-align: middle;
+    }
+}
+
+form .alert {
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.flex-box {
+    display: flex;
+}
+
+textarea {
+    padding:0;
+    resize: none
+}
+
+//通用sub-title切换
+.menu-list {
+    li {
+        float: left;
+        height: 50px;
+        line-height: 50px;
+        vertical-align: middle;
+        padding: 0 25px;
+        font-size: 14px;
+        color: #999999;
+        cursor: pointer;
+    }
+    .active {
+        color: #379ecd;
+    }
+}
+
+//table style css
+.primary-table-head{
+  background:#cee9f1;
+}
+.secondary-table-head{
+  background:#a5c4d9;
+}
+.mini {
+    thead {
+        background-color: #eee !important;
+        line-height: 27px !important;
+    }
+    th {
+        font-weight: normal;
+    }
+}
+.table-min {
+    width: 100%;
+    table {
+        width: 100%;
+    }
+    thead {
+        background-color: #cee9f1;
+        text-align: center;
+        font-weight: normal;
+        th {
+            height: 36px;
+            text-align: center;
+            padding: 0 2px;
+        }
+    }
+    tbody {
+        td {
+            text-align: center;
+            line-height: 24px;
+            height: 25px;
+            padding: 0 5px;
+            word-break: keep-all;
+            /* 不换行 */
+            white-space: nowrap;
+            /* 不换行 */
+            overflow: hidden;
+            /* 内容超出宽度时隐藏超出部分的内容 */
+            text-overflow: ellipsis;
+            /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+        }
+    }
+}
+
+//多行居中中
+.middle-box {
+    display: table;
+    height: 100%;
+}
+.middle-inner {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+//多行垂直居中中
+@media (min-width: 992px) {
+    .flex-center {
+        display: flex;
+        align-items: center;
+    }
+}
+
+//脱水篮部分label颜色
+.red-label {
+    background-color: #cc6666;
+}
+.grey-label {
+    background-color: #a6a7aa;
+}
+.blue-label {
+    background-color: #69bcd0;
+}
+.sky-label {
+    background-color: #d2ebf1;
+}
+.purple-label {
+    background-color: #a6a0ff;
+}
+.green-label {
+  background-color: #64ddb2;
+}
+.yellow-label {
+    background-color: #fae3bd;
+}
+
+.ok-color {
+    color: #fff;
+}
+.cancel-color {
+    color: #000;
+}
+
+.no-border {
+    border: none;
+    outline: none;
+}
+
+// injector
+// endinjector
+//loading动画
+.loading-bg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    z-index: 9999;
+    top: 0;
+}
+.loading{
+    width: 50px;
+    height: 50px;
+    position: relative;
+    margin: 300px auto;
+}
+
+.double-bounce1,.double-bounce2{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #333;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-animation: bounce 2s infinite ease-in-out;
+    animation: bounce 2s infinite ease-in-out;
+}
+.double-bounce2 {
+    -webkit-animation-delay: -1s;
+    animation-delay: -1s;
+}
+
+@-webkit-keyframes bounce {
+    0%,
+    100% {
+        -webkit-transform: scale(0);
+    }
+    50% {
+        -webkit-transform: scale(1);
+    }
+}
+@keyframes bounce {
+    0%,
+    100% {
+        transform: scale(0);
+        -webkit-transform: scale(0);
+    }
+    50% {
+        transform: scale(1);
+        -webkit-transform: scale(1);
+    }
+}
+
+//pagination
+.pagination > li > a, .pagination > li > span{
+  color:#69bcd0;
+}
+.pagination > .active > a, .pagination > .active > a:hover,
+.pagination > .active > a:focus, .pagination > .active > span,
+.pagination > .active > span:hover, .pagination > .active > span:focus{
+  z-index:3;
+  color:#fff;
+  background-color:#69bcd0;
+  border-color:#69bcd0;
+  cursor:default;
+}
+
+.space-between{
+  display: flex;
+  .item{
+    justify-content: space-between;
+  }
+}
+.space-around{
+  display: flex;
+  .item{
+    justify-content: space-around;
+  }
+}
+
+.pad-30 {
+  padding: 30px;
+}
+.pad-right-30 {
+  padding-right: 30px;
+}
+.pad-l-r-30 {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.pad-t-b-7 {
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+.pad-top-7 {
+  padding: 7px;
+}
+.pad-13 {
+  padding: 13px;
+}
+.pad-b-13 {
+  padding-bottom: 13px;
+}
+.mar-30 {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}

@@ -1,0 +1,62 @@
+<div class="text-center main"  ng-controller="ConfigMaterialTemplateController as configMaterial">
+  <div class="col-sm-3">
+    <div class="title">
+      <h4>{{'科室类别'|translate}}</h4>
+    </div>
+    <div class="content">
+      <div class="list-container">
+        <ul class="list-unstyled">
+          <li ng-repeat="item in configMaterial.departmentList" ng-class="{active:configMaterial.chosedMaterial===item.code}" ng-click="configMaterial.choseMaterial(item.code)">
+            {{item.name|translate}}
+            <div class="pull-right i-container">
+              <i class="" ng-show="configMaterial.chosedMaterial===item.code"><img src="assets/images/icon-caret-right.png" alt=""></i>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="title">
+      <h4>{{'模板名称'|translate}}</h4>
+    </div>
+    <div class="content">
+      <div class="list-container">
+        <ul class="list-unstyled">
+          <li ng-repeat="item in configMaterial.templateList" ng-class="{active:configMaterial.chosedTemIndex===$index}" ng-click="configMaterial.choseTemplate($index)">
+            <!--<span ng-show="!item.focus">{{item.name}}</span>-->
+            <input ng-model="item.name" id="template_{{$index}}" auto-focus="{{item.focus}}" ng-disabled="!item.focus" ng-blur="item.focus=false;configMaterial.saveTemplate(item,$index)">
+            <div class="pull-right i-container">
+              <i class="" ng-show="configMaterial.chosedTemIndex===$index"><img src="assets/images/icon-caret-right.png" alt=""></i>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="list-toolbar">
+        <div class="flex-box">
+          <button ng-click="configMaterial.addTemplate()"><icon class="icon">+</icon>{{'添加'|translate}}</button>
+          <button ng-click="configMaterial.templateList[configMaterial.chosedTemIndex].focus=true"><icon  class="icon"><img  height="14" src="assets/images/edit.png" alt=""></icon>{{'重命名'|translate}}</button>
+          <button ng-click="configMaterial.deleteTemplate()"><icon  class="icon"><img height="14" src="assets/images/delete.png" alt=""></icon>{{'删除'|translate}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="title">
+      <h4>{{'模板内容'|translate}}</h4>
+    </div>
+    <div class="content">
+      <div class="list-container">
+            <textarea class="form-control" ng-model="configMaterial.templateList[configMaterial.chosedTemIndex].content"
+                      ng-disabled="!configMaterial.focusText"></textarea>
+        <!--readonly 在这里不管用-->
+      </div>
+      <div class="list-toolbar ">
+        <div class="flex-box">
+          <button class="btn-info" ng-click="configMaterial.changeText()">
+            <icon  class="icon"><img  height="14" src="assets/images/edit.png" alt=""></icon>{{configMaterial.focusText?"保存":"编辑"|translate}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

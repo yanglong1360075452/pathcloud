@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/application-api/application-api.iml" filepath="$PROJECT_DIR$/application-api/application-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/application-service/application-service.iml" filepath="$PROJECT_DIR$/application-service/application-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/application-service-api/application-service-api.iml" filepath="$PROJECT_DIR$/application-service-api/application-service-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/audit-service/audit-service.iml" filepath="$PROJECT_DIR$/audit-service/audit-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dehydrate-api/dehydrate-api.iml" filepath="$PROJECT_DIR$/dehydrate-api/dehydrate-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dehydrate-service/dehydrate-service.iml" filepath="$PROJECT_DIR$/dehydrate-service/dehydrate-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dehydrate-service-api/dehydrate-service-api.iml" filepath="$PROJECT_DIR$/dehydrate-service-api/dehydrate-service-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/file-service/file-service.iml" filepath="$PROJECT_DIR$/file-service/file-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/local-dehydrate-client/local-dehydrate-client.iml" filepath="$PROJECT_DIR$/local-dehydrate-client/local-dehydrate-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/local-dehydrate-service/local-dehydrate-service.iml" filepath="$PROJECT_DIR$/local-dehydrate-service/local-dehydrate-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/local-dehydrate-service-api/local-dehydrate-service-api.iml" filepath="$PROJECT_DIR$/local-dehydrate-service-api/local-dehydrate-service-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/notification-api/notification-api.iml" filepath="$PROJECT_DIR$/notification-api/notification-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/notification-service/notification-service.iml" filepath="$PROJECT_DIR$/notification-service/notification-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/notification-service-api/notification-service-api.iml" filepath="$PROJECT_DIR$/notification-service-api/notification-service-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pathcloud.iml" filepath="$PROJECT_DIR$/pathcloud.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pathcloud-common/pathcloud-common.iml" filepath="$PROJECT_DIR$/pathcloud-common/pathcloud-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pathcloud-server/pathcloud-server.iml" filepath="$PROJECT_DIR$/pathcloud-server/pathcloud-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/reagent-api/reagent-api.iml" filepath="$PROJECT_DIR$/reagent-api/reagent-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/reagent-service/reagent-service.iml" filepath="$PROJECT_DIR$/reagent-service/reagent-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/reagent-service-api/reagent-service-api.iml" filepath="$PROJECT_DIR$/reagent-service-api/reagent-service-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/setting-api/setting-api.iml" filepath="$PROJECT_DIR$/setting-api/setting-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/setting-service/setting-service.iml" filepath="$PROJECT_DIR$/setting-service/setting-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/setting-service-api/setting-service-api.iml" filepath="$PROJECT_DIR$/setting-service-api/setting-service-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/statistic-api/statistic-api.iml" filepath="$PROJECT_DIR$/statistic-api/statistic-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/statistic-service/statistic-service.iml" filepath="$PROJECT_DIR$/statistic-service/statistic-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tracking-api/tracking-api.iml" filepath="$PROJECT_DIR$/tracking-api/tracking-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tracking-service/tracking-service.iml" filepath="$PROJECT_DIR$/tracking-service/tracking-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tracking-service-api/tracking-service-api.iml" filepath="$PROJECT_DIR$/tracking-service-api/tracking-service-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user-api/user-api.iml" filepath="$PROJECT_DIR$/user-api/user-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user-service/user-service.iml" filepath="$PROJECT_DIR$/user-service/user-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user-service-api/user-service-api.iml" filepath="$PROJECT_DIR$/user-service-api/user-service-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wechat-api/wechat-api.iml" filepath="$PROJECT_DIR$/wechat-api/wechat-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wechat-service/wechat-service.iml" filepath="$PROJECT_DIR$/wechat-service/wechat-service.iml" />
+    </modules>
+  </component>
+</project>

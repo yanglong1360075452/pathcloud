@@ -1,0 +1,99 @@
+<toolbar class="clearfix">
+  <!--搜索部分-->
+  <div class="form-inline clearfix">
+    <search-input class="pull-right input-long" model="report.searchStr" get-data="report.getDataList(0)"
+                  placeholder="{{'输入病理号查询'|translate}}"></search-input>
+  </div>
+
+</toolbar>
+
+<div class="container clearfix">
+  <!--筛选部分-->
+  <div class="form-inline toolbar" style="background: none">
+    <date-seletor dateset="report.defaultTime" start-time="report.startTime" end-time="report.endTime"></date-seletor>
+
+    <select class="form-control input-sm" ng-model="report.departments"
+            ng-options="status.code as status.name for status in report.departmentList">
+      <option value="">{{'送检科室'|translate}}</option>
+    </select>
+    <select class="form-control input-sm" ng-model="report.printStatus"
+            ng-options="status.code as status.name for status in report.printStatusList">
+      <option value="">{{'全部'|translate}}</option>
+    </select>
+    <select class="form-control input-sm" ng-model="report.reportStatus"
+            ng-options="status.code as status.name for status in report.reportStatusList">
+      <option value="">{{'报告状态'|translate}}</option>
+    </select>
+
+    <button ng-click="report.getDataList(1)" class="btn btn-sm btn-primary"><span
+      class="glyphicon glyphicon-filter"></span>{{'筛选'|translate}}
+    </button>
+
+    <button ng-click="report.print()" class="btn btn-sm btn-primary pull-right">
+      {{'打印报告'|translate}}
+    </button>
+
+    <button ng-click="report.printSignQuery()" class="btn btn-sm btn-default pull-right" style="margin: 0 10px">
+      {{'打印签收单'|translate}}
+    </button>
+  </div>
+  <!--表格显示部分-->
+  <div class="table-min">
+    <table class=" table-hover table-bordered">
+      <thead class="primary-table-head">
+      <tr>
+        <th style="width: 40px;"><input style="width: 15px;" type="checkbox" ng-model="report.allChecked"
+                                        ng-click="report.checkAll()"></th>
+        <th>{{'病理号'|translate}}</th>
+        <th>{{'病人姓名'|translate}}</th>
+        <th>{{'诊断医生'|translate}}</th>
+        <th>{{'送检科室'|translate}}</th>
+        <th>{{'送检医生'|translate}}</th>
+        <th>{{'报告日期'|translate}}</th>
+        <th>{{'报告状态'|translate}}</th>
+        <!--<th>打印时间</th>-->
+        <th>{{'延迟原因'|translate}}</th>
+        <th>{{'打印状态'|translate}}</th>
+
+        <!--<th ng-repeat="item in report.tableHeaders" class="{{item.class}} cursor-pointer" ng-style="item.style">{{::item.name}}-->
+        <!--<i class="cursor-pointer glyphicon glyphicon-chevron-down arrow"-->
+        <!--ng-hide="!item.order"-->
+        <!--ng-class="{'rotate-180':item.sort==='asc','rotate-0':item.sort==='desc'||!item.sort}" />-->
+        <!--</th>-->
+      </tr>
+      </thead>
+      <!--item.ihcMarkers.join(';')-->
+      <tbody>
+      <tr ng-repeat="item in report.data track by $index">
+        <td><input style="width: 15px;" type="checkbox" ng-model="item.check"></td>
+        <td ng-bind="item.serialNumber"></td>
+        <td ng-bind="item.name"></td>
+        <td ng-bind="item.diagnoseDoctorDesc"></td>
+        <td ng-bind="item.departments|department"></td>
+        <td ng-bind="item.doctor"></td>
+        <td ng-bind="item.reportTime | date : 'yyyy-MM-dd HH:mm'"></td>
+        <td ng-bind="item.delay ? '延期':'正常待发'"></td>
+        <td ng-bind="item.reason"></td>
+        <td><a ng-class="{disabled:item.printStatus===false}" ng-disabled="item.printStatus===false" href=""
+               ng-click="report.viewPrintRecord(item)">{{item.printStatus? "已打印":"未打印"}}</a></td>
+        <!--report.viewPrintRecord-->
+        <!--<td style="width: 260px;"><div title="{{item.other}}" style="max-width: 260px;overflow: hidden;text-overflow:ellipsis">{{item.note}} &nbsp; {{item.other}}</div></td>-->
+
+      </tr>
+      <tr ng-repeat="n in [].constructor(20) track by $index" ng-show="report.data.length<=$index">
+        <td ng-repeat="n in [].constructor(10) track by $index"></td>
+      </tr>
+
+      </tbody>
+    </table>
+    <div class="table-footer">
+      <div class="pull-left form-control-static pagination">{{'共'|translate}}<span ng-bind="report.total"></span>{{'条结果'|translate}}</div>
+
+      <uib-pagination class="pull-right" boundary-links="true" items-per-page="report.length" max-size="10"
+                      total-items="report.total" ng-model="report.page" ng-change="report.getDataList()"
+                      previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+                      last-text="&raquo;"></uib-pagination>
+    </div>
+
+  </div>
+</div>

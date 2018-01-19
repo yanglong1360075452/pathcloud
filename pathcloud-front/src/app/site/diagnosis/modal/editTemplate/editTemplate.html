@@ -1,0 +1,77 @@
+<!--申请申请深切弹窗-->
+<div>
+  <div class="modal-header blue-label">
+    <button type="button" class="close" data-dismiss="modal" ng-click="EditDiagnosisTpl.cancel()">
+      <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title ok-color">{{'诊断模板'|translate}}</h4>
+  </div>
+  <div class="modal-body clearfix">
+
+    <div class="template-conent">
+      <div class="project-name col-sm-5">
+        <p class="title">{{'项目名称'|translate}}</p>
+        <div class="content list-container" >
+
+            <div class="name-list" ng-repeat="item in EditDiagnosisTpl.templateContent track by $index" ng-class="{active:EditDiagnosisTpl.activeProject.index===$index}" ng-click="EditDiagnosisTpl.choseTemplate(item,$index)">
+
+              <input type="checkbox" ng-model="item.projectNameCheck" value="">
+
+              <input type="text" class="input-sm form-control" ng-model="item.projectName" ng-disabled="!item.focus" ng-blur="EditDiagnosisTpl.saveName(item)" auto-focus="{{item.focus}}">
+              <div class="pull-right">
+                <a href="" class="icon" ng-click="item.focus=true"><i class="glyphicon glyphicon-edit"></i></a>
+                <a href="" class="icon" ng-click="EditDiagnosisTpl.deleteProjectName($index)"><i class="glyphicon glyphicon-trash"></i></a>
+              </div>
+
+
+            </div>
+            <button class="add-btn" ng-click="EditDiagnosisTpl.addProjectName()">+</button>
+
+        </div>
+        <div>{{'选中复选框表示该项目必填'|translate}}</div>
+        </div>
+      </div>
+
+      <div class="project-content col-sm-7">
+        <div class="clearfix">
+          <p class="title pull-left">{{'项目内容'|translate}}</p>
+          <div class="slideThree pull-right">
+            <input type="checkbox" value="None" id="slideThree" name="check" checked="" ng-model="EditDiagnosisTpl.projectContent.projectContentCheck">
+            <label for="slideThree"></label>
+          </div>
+        </div>
+
+        <!--<code>{{EditDiagnosisTpl.templateContent}}</code>-->
+
+        <div class="content list-container">
+
+
+              <div class="content-list " ng-repeat="item in EditDiagnosisTpl.projectContent.projectContentVO  track by $index" >
+
+                <input type="text" class="form-control" ng-model="item.name" ng-disabled="!item.check" ng-blur="EditDiagnosisTpl.saveContent(item)" auto-focus="{{item.check}}">
+                <div class="pull-right">
+                  <a href="" class="icon" ng-click="item.check=true"><i class="glyphicon glyphicon-edit"></i></a>
+                  <a href="" class="icon" ng-click="EditDiagnosisTpl.deleteProjectContent($index)"><i class="glyphicon glyphicon-trash"></i></a>
+                </div>
+
+              </div>
+              <button class="add-btn" ng-disabled="!EditDiagnosisTpl.templateContent||!EditDiagnosisTpl.templateContent.length" ng-click="EditDiagnosisTpl.addProjectContent()">+</button>
+
+
+
+
+
+          </div>
+
+
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="EditDiagnosisTpl.cancel()">{{'取消'|translate}}</button>
+    <button class="btn btn-default" type="button" ng-click="EditDiagnosisTpl.ok()">{{'确定'|translate}}</button>
+  </div>
+
+</div>

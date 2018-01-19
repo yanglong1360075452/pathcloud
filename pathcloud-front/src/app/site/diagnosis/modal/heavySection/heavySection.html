@@ -1,0 +1,34 @@
+<!--申请申请深切弹窗-->
+<div id="heavySection">
+  <div class="modal-header blue-label">
+    <button type="button" class="close" data-dismiss="modal" ng-click="heavySection.cancel()">
+      <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title ok-color">{{'申请深切'|translate}}</h4>
+  </div>
+  <div class="modal-body clearfix">
+    <div class="form-group clearfix">
+      <div class="col-sm-4">{{'病理号'|translate}}：<span ng-bind="heavySection.serialNumber"></span></div>
+      <div class="col-sm-4">
+        {{'蜡块号'|translate}}：
+        <select ng-model="heavySection.blockId"
+                ng-options="block.value as block.name for block in heavySection.blockData">
+          <option value="">{{'请选择'|translate}}</option>
+        </select>
+      </div>
+      <div class="col-sm-4">{{'病人姓名'|translate}}：<span ng-bind="heavySection.patientName"></span></div>
+    </div>
+    <div class="form-group clearfix">
+      <div class="col-sm-12"><p class="form-control-static">{{'深切备注'|translate}}：</p></div>
+    </div>
+    <div class="form-group clearfix">
+      <div class="col-sm-12"><textarea ng-model="heavySection.note" class="form-control" rows="10"></textarea></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="heavySection.cancel()">{{'取消'|translate}}</button>
+    <button class="btn btn-default" type="button" ng-click="heavySection.ok()">{{'确定'|translate}}</button>
+  </div>
+
+</div>

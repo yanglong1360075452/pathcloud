@@ -1,0 +1,23 @@
+#insertPhoto{
+  .editorBtn{
+      color: $theme-color;
+      cursor:pointer
+  }
+  .active-icon{
+    position: absolute;
+    right:5px;
+    top:0;
+    width:20px;
+    height:20px;
+    color: #ffffff;;
+    background-color: #00AA00;
+    border-radius: 5px;
+    text-align: center;
+  }
+  .img-item{
+    position: relative;
+    float: left;
+  }
+}
+
+

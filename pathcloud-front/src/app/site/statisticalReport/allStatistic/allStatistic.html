@@ -1,0 +1,44 @@
+<div id="allStatistic">
+  <div class="container no-padding">
+    <div class="row" style="margin-bottom:10px;">
+      <div class="col-sm-6">
+        <merge-chart chart-title="{{'制片质量'|translate}}" line-config="allStatistic.lineConfig" get-data-fun="allStatistic.getSlideData"></merge-chart>
+      </div>
+      <div class="col-sm-3">
+        <percent-chart chart-title="{{'异常样本'|translate}}" line-config="allStatistic.lineConfig" get-data-fun="allStatistic.getErrorData"></percent-chart>
+      </div>
+      <div class="col-sm-3">
+        <percent-chart chart-title="{{'重切率'|translate}}" line-config="allStatistic.lineConfig" get-data-fun="allStatistic.getSectionData"></percent-chart>
+      </div>
+    </div>
+    <div class="row" style="margin-bottom:10px;">
+      <div class="col-sm-6">
+        <div style="margin-bottom:10px;">
+          <pillar-chart line-style="allStatistic.waitStyle" chart-title="{{'平均等待时间'|translate}}" line-config="allStatistic.lineConfig" get-data-fun="allStatistic.getWaitTimeData()"></pillar-chart>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <percent-chart chart-title="{{'重补取率'|translate}}" line-config="allStatistic.lineConfig" get-data-fun="allStatistic.getGrossingData"></percent-chart>
+      </div>
+      <div class="col-sm-3">
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div style="margin-bottom:10px;">
+          <fold-chart chart-title="{{'病例数'|translate}}" line-config="allStatistic.lineConfig" get-data-fun="allStatistic.getSpecialDyeData()"></fold-chart>
+        </div>
+        <div>
+          <pillar-chart line-style="allStatistic.typeStyle" chart-title="{{'检查类别'|translate}}" line-config="allStatistic.lineConfig" get-data-fun="allStatistic.getInspectCategoryData()"></pillar-chart>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <table-chart get-data-fun="allStatistic.getWorkLoadData"></table-chart>
+      </div>
+      <div class="col-sm-3">
+        <score-table get-data-fun="allStatistic.getScoreData"></score-table>
+      </div>
+    </div>
+  </div>
+</div>

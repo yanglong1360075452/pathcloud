@@ -1,0 +1,39 @@
+<!--申请申请深切弹窗-->
+<div id="CoincidenceMod">
+  <div class="modal-header blue-label">
+    <button type="button" class="close" data-dismiss="modal" ng-click="CoincidenceMod.cancel()">
+      <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title ok-color">{{'诊断结果符合度'|translate}}</h4>
+  </div>
+  <div class="modal-body clearfix" style="max-height: none;">
+
+    <div class="form-group clearfix">
+      <div class="row">
+        <div class="col-sm-6">
+          <h3>当前诊断结果：</h3>
+          <div ng-bind-html="CoincidenceMod.diagnoseResult" class="form-control" style="min-height: 300px"></div>
+        </div>
+        <div class="col-sm-6">
+          <h3>冰冻诊断结果：</h3>
+          <div ng-bind-html="CoincidenceMod.frozenResult" class="form-control" style="min-height: 300px"></div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group clearfix">
+      <h3>{{'结果符合度：'|translate}}</h3>
+      <div>
+        <label class="radio-inline" ng-click="CoincidenceMod.rate = 1"><input type="radio" ng-model="CoincidenceMod.rate" ng-checked="CoincidenceMod.rate===1">符合</label>
+        <label class="radio-inline" ng-click="CoincidenceMod.rate = 2"><input type="radio" ng-model="CoincidenceMod.rate" ng-checked="CoincidenceMod.rate===2">不完全符合</label>
+        <label class="radio-inline" ng-click="CoincidenceMod.rate = 3"><input type="radio" ng-model="CoincidenceMod.rate" ng-checked="CoincidenceMod.rate===3">不符合</label>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <!--<button class="btn btn-warning" type="button" ng-click="CoincidenceMod.cancel()">{{'取消'|translate}}</button>-->
+    <button class="btn btn-default" type="button" ng-click="CoincidenceMod.ok()">{{'确定'|translate}}</button>
+  </div>
+
+</div>

@@ -1,0 +1,77 @@
+<div ng-controller="ReagentStateHistoryController as reagent">
+  <div class="container distributed-div">
+    <div class=" form-inline toolbar" style="background: none;padding-top: 10px">
+
+      <year-selector year="reagent.filter.year"></year-selector>
+      <select class="form-control input-sm" ng-model="reagent.filter.type"
+              ng-options="item.code as item.name for item in reagent.typeList">
+        <option value="">{{'类别'|translate}}</option>
+      </select>
+      <select class="form-control input-sm" ng-model="reagent.filter.status"
+              ng-options="status.code as status.name for status in reagent.statusList">
+        <option value="">{{'状态'|translate}}</option>
+      </select>
+      <button ng-click="reagent.query()" class="btn btn-sm btn-primary"><span
+        class="glyphicon glyphicon-filter"></span>{{'筛选'|translate}}
+      </button>
+
+      <search-input class="pull-right" style="width: 300px" model="reagent.searchStr" get-data="reagent.search()"  placeholder="{{'输入名称查询'|translate}}"></search-input>
+
+    </div>
+
+      <div class="">
+
+        <div class="table-min">
+          <table class="table-hover table-bordered">
+            <thead>
+            <tr class="text-center">
+              <th ng-repeat="item in reagent.tableHeaders" ng-click="reagent.getSortList(item)" class="{{item.class}} cursor-pointer">
+                {{item.name|translate}}
+              </th>
+              <th>{{'操作'|translate}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in reagent.distributedData track by $index">
+              <ng-form name="inner_form">
+                <td>{{item.reagentName}}</td>
+                <td>{{item.reagentTypeDesc}}</td>
+                <td>{{item.productNumber}}</td>
+                <td>{{item.manufacturer}}</td>
+                <td >{{item.articleNumber}}</td>
+                <td>{{item.specification}}</td>
+                <td>{{item.batchNumber}}</td>
+                <td>{{item.orderNumber}}</td>
+                <td>{{item.produceTime  | date:"yyyy-MM-dd HH:mm"}}</td>
+                <td>{{item.expiryTime  | date:"yyyy-MM-dd HH:mm"}}</td>
+                <td>{{item.updateTime  | date:"yyyy-MM-dd HH:mm"}}</td>
+                <td>{{item.totalCapacity-item.usedCapacity}}</td>
+                <td>{{item.statusDesc}}</td>
+                <td ng-click="reagent.edit(item)"><a href="">{{'编辑'|translate}}</a></td>
+              </ng-form>
+            </tr>
+            <tr ng-repeat="n in [].constructor(20) track by $index"
+                ng-show="!reagent.distributedData||reagent.distributedData.length<=$index">
+              <td  ng-repeat="n in [].constructor(14) track by $index"></td>
+            </tr>
+            </tbody>
+          </table>
+          <div class="table-footer">
+            <div class="pull-left form-control-static pagination">
+              {{'共'|translate}}<span ng-bind="reagent.total||0"></span>{{'条结果'|translate}}
+            </div>
+            <uib-pagination class="pull-right" boundary-links="true" max-size="10"
+                            items-per-page="reagent.filter.length"
+                            total-items="reagent.total"
+                            ng-model="reagent.filter.page"
+                            ng-change="reagent.getDistributed()"
+                            previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+            </uib-pagination>
+          </div>
+        </div>
+      </div>
+
+  </div>
+
+</div>
+

@@ -1,0 +1,27 @@
+<!--查看历史诊断-->
+<div id="viewHistory clearfix">
+
+  <!--<div class="clearfix">
+    <div class="form-group clearfix">-->
+      <!--诊断时间-->
+      <div class="col-sm-3" style="padding-left:0">
+        <div  ng-repeat="item in createDiagnosis.diagnosisHistoryData track by $index">
+          <button class="btn btn-block" style="margin-bottom: 5px;" ng-class="{'btn-warning':createDiagnosis.activeHistoryTab===$index}" ng-click="createDiagnosis.activeHistoryTab=$index;">{{item.operationTime|date:'yyyy-MM-dd'}}</button>
+        </div>
+      </div>
+      <!--诊断内容-->
+      <div class="col-sm-9 no-padding">
+
+        <div ng-show="createDiagnosis.activeHistoryTab===$index" ng-repeat="item in createDiagnosis.diagnosisHistoryData track by $index" class="form-control diagnosis-div"  style="height:160px;overflow:auto;">
+          <div class="col-xs-6 no-padding">{{'诊断医生'|translate}}：{{item.operator.firstName}}</div>
+          <div class="col-xs-6 no-padding">{{'诊断类别'|translate}}：{{item.operationDesc}}</div>
+          <div>{{'诊断内容'|translate}}：</div>
+          <div ng-bind-html="item.diagnoseResult"></div>     
+        </div>
+
+      </div>
+
+    <!--</div>
+  </div>-->
+
+</div>

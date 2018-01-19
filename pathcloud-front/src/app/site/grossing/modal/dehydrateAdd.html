@@ -1,0 +1,77 @@
+<div id="dehydrateAdd">
+  <div class="modal-header blue-label">
+    <button type="button" class="close" data-dismiss="modal" ng-click="dehydrateAdd.cancel()">
+      <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title ok-color">{{'添加脱水机'|translate}}</h4>
+  </div>
+  <div class="modal-body clearfix" >
+    <div class="form-container">
+      <form role="form" class="form-horizontal" name="dehydrateAdd_form" novalidate>
+        <div class="form-group">
+          <label for="name" class="control-label col-sm-4">{{'编号'|translate}}<span class="important-span">*</span>:</label>
+          <div class="col-sm-6 has-feedback" >
+            <input class="form-control" name="name" id="name" type="text"
+                   placeholder="{{'请输入编号'|translate}}"
+                   ng-model="dehydrateAdd.addData.name"
+                   ng-change="dehydrateAdd.checkName()"
+                   ng-pattern="/^[A-Za-z0-9]{1,2}$/"
+                   ng-maxlength="2"
+                   required/>
+            <uib-alert type="danger" ng-show="dehydrateAdd_form.name.$error.maxlength" >{{'编号不要超过2位'|translate}}</uib-alert>
+            <uib-alert type="danger" ng-show="dehydrateAdd.addData.name&&dehydrateAdd.nameErr">{{dehydrateAdd.nameErr}}</uib-alert>
+          </div>
+        </div>
+        <div class="form-group has-feedback">
+          <label for="sn" class="control-label col-sm-4">{{'序列号'|translate}}<span class="important-span">*</span>:</label>
+          <div class="col-sm-6 " >
+            <input class="form-control" name="sn" id="sn" type="text"
+                   placeholder="{{'请输入序列号'|translate}}"
+                   ng-model="dehydrateAdd.addData.sn"
+                   maxlength="32"
+                   ng-change="dehydrateAdd.checkSn(dehydrateAdd.addData.sn)"
+                   required/>
+            <uib-alert type="danger" ng-show="dehydrateAdd.addData.sn&&dehydrateAdd.snErr">{{dehydrateAdd.snErr}}</uib-alert>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="description" class="control-label col-sm-4">{{'备注'|translate}}&nbsp;:</label>
+          <div class="col-sm-6 has-feedback" >
+            <input class="form-control" name="description" id="description" type="text"
+                   placeholder="{{'请输入备注'|translate}}"
+                   ng-maxlength="20"
+                   ng-model="dehydrateAdd.addData.description"/>
+            <uib-alert type="danger" ng-show="dehydrateAdd_form.description.$error.maxlength" >{{'备注不要超过20位'|translate}}</uib-alert>
+          </div>
+        </div>
+        <div class="form-group has-feedback">
+          <label for="capacity" class="control-label col-sm-4">{{'容量'|translate}}<span class="important-span">*</span>:</label>
+          <div class="col-sm-6 " >
+            <input class="form-control" name="capacity" id="capacity" type="number"
+                   placeholder="{{'请输入容量'|translate}}"
+                   ng-model="dehydrateAdd.addData.capacity"
+                   ng-maxlength="3"
+                   max="999"
+                   min="1"
+                   required/>
+            <uib-alert type="danger" ng-show="dehydrateAdd_form.capacity.$error.maxlength" >{{'容量已超出范围'|translate}}</uib-alert>
+          </div>
+        </div>
+        <div class="form-group has-feedback">
+          <label for="capacity" class="control-label col-sm-4">{{'状态'|translate}}&nbsp;:</label>
+          <div class="col-sm-3">
+            <input type="radio" name="disabled" ng-click="dehydrateAdd.change(1)" checked/>{{'正常'|translate}}
+          </div>
+          <div class="col-sm-3">
+            <input type="radio" name="disabled" ng-click="dehydrateAdd.change()"/>{{'禁用'|translate}}
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning no-border" type="button" ng-click="dehydrateAdd.cancel()">{{'取消'|translate}}</button>
+    <button class="btn btn-default no-border" type="button" ng-click="dehydrateAdd.ok()" ng-disabled="dehydrateAdd_form.$invalid||dehydrateAdd.snErr||dehydrateAdd.nameErr">{{'确定'|translate}}</button>
+  </div>
+</div>

@@ -1,0 +1,385 @@
+<div id="pathologicalForm" class="center-block">
+
+  <!--<div class="pull-right" style="position: absolute;right: 90px;top:130px;">-->
+  <!--&lt;!&ndash;<p class="applyNo">病理申请号: <span>20160826134408</span></p>&ndash;&gt;-->
+  <!--</div>-->
+
+  <!--<div class="container">-->
+
+  <form id="pathological_form" ng-class="{'disabled':pathological.read}" name="pathological_form"
+        ng-disabled="pathological.read" novalidate>
+
+    <fieldset class="" ng-class="{'col-sm-8':consultForm.colspan === 2}"  ng-disabled="pathological.read">
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <tbody>
+          <tr>
+            <td>{{"病人姓名"|translate}}<span ng-show="pathological.required.patientName.required"
+                                          class="red-sign hideWhenPrint">*</span></td>
+            <td><input ng-model="pathological.data.patientName" ng-value="pathological.data.patientName" type="text"
+                       id="patient-name" name="patient-name" ng-disabled="pathological.read"
+                       ng-required="pathological.required.patientName.required"/></td>
+
+            <td>{{"门诊号"|translate}}</td>
+            <td ng-class="{'error':pathological_form.patientNo.$invalid} ">
+              <input ng-model="pathological.data.patientNo" name="patientNo" ng-value="pathological.data.patientNo"
+                     type="text" maxlength="11" ng-disabled="pathological.read" ng-pattern="/^[0-9]*$/"/>
+            </td>
+            <td>{{"住院号"|translate}}<span class="required hideWhenPrint">*</span></td>
+            <td ng-class="{'error':pathological_form.admissionNo.$invalid && pathological_form.admissionNo.$dirty} ">
+              <input ng-pattern="/^[0-9]*$/" ng-model="pathological.data.admissionNo" name="admissionNo"
+                     ng-value="pathological.data.admissionNo" type="text" maxlength="11"
+                     ng-disabled="pathological.read" required/>
+            </td>
+          </tr>
+
+          <tr>
+            <td>{{"年龄"|translate}}<span class="required hideWhenPrint">*</span></td>
+            <td ng-class="{'error':pathological_form.age.$invalid && pathological_form.age.$dirty} ">
+              <input ng-model="pathological.data.age" ng-pattern="/^[0-9]*$/" name="age" ng-value="pathological.data.age"
+                     type="text" maxlength="3" ng-disabled="pathological.read" required/></td>
+            <td>{{"性别"|translate}}<span class="red-sign hideWhenPrint">*</span></td>
+            <td>
+            <span
+              class="showWhenPrint">{{pathological.getSelectName(pathological.sexList,pathological.data.sex)}}</span>
+
+              <select class="hideWhenPrint" id="sex" name="sex" ng-model="pathological.data.sex"
+                      ng-value="pathological.data.sex" ng-options="sex.value as sex.name for sex in pathological.sexList"
+                      ng-disabled="pathological.read" required>
+              </select>
+
+            </td>
+            <td>{{"婚否"|translate}}</td>
+            <td>
+              <span class="showWhenPrint">{{pathological.getSelectName(pathological.maritalStatusList,pathological.data.maritalStatus)}}</span>
+
+              <select class="hideWhenPrint" name="maritalStatus" ng-model="pathological.data.maritalStatus"
+                      ng-hide="pathological.data.maritalStatus===90 && pathological.read"
+                      ng-value="pathological.data.maritalStatus"
+                      ng-options="maritalStatus.value as maritalStatus.name for maritalStatus in pathological.maritalStatusList"
+                      ng-disabled="pathological.read">
+              </select>
+              <!--<input type="text"/>-->
+            </td>
+          </tr>
+
+          <tr>
+            <td>{{"联系电话"|translate}}</td>
+            <td ng-class="{'required':pathological_form.tel.$invalid} ">
+              <input ng-model="pathological.data.patientTel" ng-value="pathological.data.patientTel" name="tel"
+                     type="text" ng-disabled="pathological.read" onkeydown="if(event.keyCode==32) return false"
+                     maxlength="18"
+                     ng-pattern="/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/"
+              />
+            </td>
+            <td>{{"籍贯"|translate}}</td>
+            <td ng-class="{'error':pathological_form.originPlace.$invalid} ">
+              <input name="originPlace"
+                     ng-model="pathological.data.originPlace"
+                     ng-value="pathological.data.originPlace"
+                     maxlength="20" type="text"
+                     ng-disabled="pathological.read"/>
+            </td>
+            <td>{{"职业"|translate}}</td>
+            <td ng-class="{'error':pathological_form.profession.$invalid} ">
+              <input name="profession"
+                     ng-model="pathological.data.profession"
+                     ng-value="pathological.data.profession"
+                     maxlength="20" type="text"
+                     ng-disabled="pathological.read"/>
+            </td>
+          </tr>
+
+          <tr>
+            <td>{{"联系地址"|translate}}</td>
+            <td ng-class="{'error':pathological_form.address.$invalid} " colspan="5">
+              <input name="address"
+                     ng-model="pathological.data.address"
+                     ng-value="pathological.data.address"
+                     maxlength="30" type="text"
+                     ng-disabled="pathological.read"/>
+            </td>
+          </tr>
+
+          <tr>
+            <td>{{"送检医院"|translate}}</td>
+            <td ng-class="{'error':pathological_form.hospital.$invalid} ">
+              <select class="hideWhenPrint" name="hospital" ng-value="pathological.data.hospital"
+                      ng-model="pathological.data.hospital"
+                      ng-options="item.code as item.name for item in pathological.inspectHospitalList"
+                      ng-disabled="pathological.read">
+                <option value="">请选择</option>
+              </select>
+              <span class="showWhenPrint">{{pathological.data.hospital | hospital}}</span>
+              <!--<input name="hospital" ng-model="pathological.data.hospital" ng-value="pathological.data.hospital" maxlength="30" type="text" ng-disabled="pathological.read" />-->
+            </td>
+            <td style="min-width: 90px;">{{"送检医生"|translate}}<span class="red-sign hideWhenPrint">*</span></td>
+            <td>
+              <input name="doctor" ng-model="pathological.data.doctor" ng-value="pathological.data.doctor" type="text"
+                     required ng-disabled="pathological.read" maxlength="10"/>
+            </td>
+            <td style="min-width: 100px;">{{"送检医生电话"|translate}}</td>
+            <td ng-class="{'error':pathological_form.doctorTel.$invalid&&pathological_form.doctorTel.$dirty} ">
+              <input name="doctorTel" ng-model="pathological.data.doctorTel" ng-value="pathological.data.doctorTel"
+                     type="text" ng-disabled="pathological.read"
+                     onkeydown="if(event.keyCode==32) return false" maxlength="18"
+                     ng-pattern="/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/"
+              />
+            </td>
+          </tr>
+
+          <tr>
+            <td>{{"送检科室"|translate}}<span class="red-sign hideWhenPrint">*</span></td>
+            <td style="position: relative;">
+
+              <department-select ng-if="pathological.data" class="department-selecter"
+                                 text="pathological.data.departments|department"
+                                 value="pathological.data.departments">
+
+              </department-select>
+
+            </td>
+            <!--<td ng-class="{'error':pathological_form.departments.$invalid} "><input name="departments" ng-model="pathological.data.departments" ng-value="pathological.data.departments" maxlength="20" type="text" ng-disabled="pathological.read" /></td>-->
+            <td>{{"检查项目"|translate}}</td>
+            <td ng-class="{'error':pathological_form.inspectionItem.$invalid} ">
+              <input name="inspectionItem"
+                     ng-model="pathological.data.inspectionItem"
+                     ng-value="pathological.data.inspectionItem"
+                     maxlength="20" type="text"
+                     ng-disabled="pathological.read"/>
+            </td>
+            <td>{{"就诊类别"|translate}}</td>
+            <td ng-class="{'error':pathological_form.visitCat.$invalid} ">
+              <input name="visitCat"
+                     ng-model="pathological.data.visitCat"
+                     ng-value="pathological.data.visitCat"
+                     maxlength="20" type="text"
+                     ng-disabled="pathological.read"/></td>
+          </tr>
+
+          <tr ng-if="pathological.data.sex == 2">
+            <td>{{"妇科类别"|translate}}</td>
+            <td>
+              <span class="showWhenPrint">{{pathological.getSelectName(pathological.gynaecologyList,pathological.data.gynaecology)}}</span>
+
+              <select class="hideWhenPrint" ng-model="pathological.data.gynaecology"
+                      ng-value="pathological.data.gynaecology"
+                      ng-options="gynaecology.value as gynaecology.name for gynaecology in pathological.gynaecologyList"
+                      ng-disabled="pathological.read">
+              </select>
+              <!--<input type="text"/>-->
+            </td>
+            <td>{{"是否绝经"|translate}}</td>
+            <td>
+              <span class="showWhenPrint">{{pathological.getSelectName(pathological.menopauseList,pathological.data.menopause)}}</span>
+
+              <select class="hideWhenPrint" ng-model="pathological.data.menopause" ng-value="pathological.data.menopause"
+                      ng-options="menopause.value as menopause.name for menopause in pathological.menopauseList"
+                      ng-disabled="pathological.read||pathological.data.gynaecology===false">
+              </select>
+              <!--<input type="text"/>-->
+            </td>
+            <td>{{"绝经日期"|translate}}</td>
+            <td>
+              <div ng-hide="pathological.read || !pathological.data.menopause" class="hideWhenPrint">
+                <input type="text" readonly clear-text="清除" close-text="确定" current-text="今天" name="menopauseEnd"
+                       class="form-control"
+                       style="text-align: left; cursor:pointer;"
+                       datepicker-options="menopauseDateOptions"
+                       uib-datepicker-popup ng-model="pathological.data.menopauseEnd"
+                       ng-value="pathological.data.menopauseEnd"
+                       is-open="pathological.openPop"
+                       ng-click="pathological.openPop=!pathological.openPop"
+                />
+                <!--<span ng-show="!readonly" class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-disabled="readonly||!pathological.data.menopause" ng-click="pathological.openPop=!pathological.openPop"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>-->
+              </div>
+              <span ng-show="pathological.read">{{pathological.data.menopauseEnd | date:"yyyy-MM-dd"}}</span>
+              <!--<input ng-model="pathological.data.menopauseEnd " ng-value="pathological.data.menopauseEnd" ng-readonly="readonly||pathological.data.gynaecology===false" type="date"/>-->
+            </td>
+          </tr>
+
+          <tr ng-if="pathological.data.sex == 2">
+            <td>{{"经期及持续时间"|translate}}</td>
+            <td><input ng-model="pathological.data.menopauseTime" ng-value="pathological.data.menopauseTime" type="text"
+                       ng-readonly="pathological.read||pathological.data.gynaecology===false"/></td>
+            <td>{{"绒毛膜促性腺激素值"|translate}}</td>
+            <td ng-class="{'error':pathological_form.hcg.$invalid} ">
+              <input ng-model="pathological.data.hcg" name="hcg"
+                     ng-value="pathological.data.hcg" type="text"
+                     ng-pattern="/^(\d*\.)?\d+$/"
+                     ng-readonly="pathological.read||pathological.data.gynaecology===false"/>
+            </td>
+            <td>{{"妇科备注"|translate}}</td>
+            <td><input type="text" ng-model="pathological.data.gynaecologyRemark" maxlength="10"
+                       ng-readonly="pathological.read||pathological.data.gynaecology===false"/></td>
+          </tr>
+
+          <tr class="hideWhenPrint">
+            <td style="min-width:110px;">{{"临床诊断"|translate}}</td>
+            <td colspan="5" style="text-align: left">
+            <textarea ng-hide="pathological.read"
+                      ng-model="pathological.data.clinicalDiagnosis"
+                      ng-value="pathological.data.clinicalDiagnosis"
+                      ng-disabled="pathological.read"></textarea>
+              <div ng-show="pathological.read" ng-bind="pathological.data.clinicalDiagnosis"></div>
+            </td>
+          </tr>
+
+          <tr class="hideWhenPrint">
+            <td>{{"病历摘要"|translate}}</td>
+            <td colspan="5" style="text-align: left">
+            <textarea ng-hide="pathological.read"
+                      ng-model="pathological.data.medicalSummary"
+                      ng-value="pathological.data.medicalSummary"
+                      ng-disabled="pathological.read"></textarea>
+              <div ng-show="pathological.read" ng-bind="pathological.data.medicalSummary"></div>
+            </td>
+          </tr>
+
+          <tr class="hideWhenPrint">
+            <td>{{"临床所见"|translate}}</td>
+            <td colspan="5" style="text-align: left">
+            <textarea ng-hide="pathological.read"
+                      ng-model="pathological.data.clinicalFindings"
+                      ng-value="pathological.data.clinicalFindings"
+                      ng-disabled="pathological.read"></textarea>
+              <div ng-show="pathological.read" ng-bind="pathological.data.clinicalFindings"></div>
+            </td>
+          </tr>
+
+          <tr class="hideWhenPrint">
+            <td>{{"影像所见"|translate}}</td>
+            <td colspan="5" style="text-align: left">
+            <textarea ng-hide="pathological.read"
+                      ng-model="pathological.data.imagingFindings"
+                      ng-value="pathological.data.imagingFindings"
+                      ng-disabled="pathological.read"></textarea>
+              <div ng-show="pathological.read" ng-bind="pathological.data.imagingFindings"></div>
+            </td>
+          </tr>
+
+          <tr class="hideWhenPrint">
+            <td>{{"手术名称及所见"|translate}}</td>
+            <td colspan="5" style="text-align: left">
+            <textarea ng-hide="readonly"
+                      ng-model="pathological.data.operationFindings"
+                      ng-value="pathological.data.operationFindings"
+                      ng-disabled="pathological.read"></textarea>
+              <div ng-show="readonly" ng-bind="pathological.data.operationFindings"></div>
+            </td>
+          </tr>
+
+          <tr class="hideWhenPrint">
+            <td>{{"过往病史"|translate}}</td>
+            <td colspan="5" style="text-align: left">
+            <textarea ng-hide="pathological.read"
+                      ng-model="pathological.data.medicalHistory"
+                      ng-value="pathological.data.medicalHistory"
+                      ng-disabled="pathological.read"></textarea>
+              <div ng-show="pathological.read" ng-bind="pathological.data.medicalHistory"></div>
+            </td>
+          </tr>
+
+          <tr class="hideWhenPrint">
+            <td>{{"曾用药品及剂量"|translate}}</td>
+            <td colspan="5" style="text-align: left">
+            <textarea ng-hide="readonly"
+                      ng-model="pathological.data.historyMedicine"
+                      ng-value="pathological.data.historyMedicine"
+                      ng-disabled="pathological.read"></textarea>
+              <div ng-show="readonly" ng-bind="pathological.data.historyMedicine"></div>
+            </td>
+          </tr>
+
+          <tr class="hideWhenPrint">
+            <td>{{"历史病理"|translate}}</td>
+            <td colspan="5" style="text-align: left">
+            <textarea ng-hide="pathological.read"
+                      ng-model="pathological.data.historyPathology"
+                      ng-value="pathological.data.historyPathology"
+                      ng-disabled="pathological.read"></textarea>
+              <div ng-show="pathological.read" ng-bind="pathological.data.historyPathology"></div>
+            </td>
+          </tr>
+
+          </tbody>
+        </table>
+      </div>
+      <br/>
+      <!--添加样本信息表格 在登记页面默认应该隐藏-->
+      <div class="table-responsive" ng-hide="hideSampleTable">
+        <table class="table table-bordered" id="sample-table">
+          <thead>
+          <tr>
+            <th>{{"序号"|translate}}</th>
+            <th ng-if="pathological.data.samples[0].serialNumber">{{"样本编号"|translate}}</th>
+            <th>{{"样本名称"|translate}}<span class="red-sign hideWhenPrint">*</span></th>
+            <th>{{"样本类别"|translate}}</th>
+            <th class="hideWhenPrint" ng-if="showOperation">{{"操作"|translate}}</th>
+          </tr>
+          </thead>
+          <tbody>
+
+          <tr ng-repeat="item in pathological.data.samples track by $index">
+            <td>{{$index + 1}}</td>
+            <td ng-if="item.serialNumber">{{item.serialNumber}}</td>
+            <td><input type="text" ng-model="item.name" ng-value="item.name" maxlength="20" required
+                       ng-disabled="pathological.read"/>
+            </td>
+            <td>
+              <span class="showWhenPrint">{{pathological.getSelectName(pathological.categoryList,item.category)}}</span>
+
+              <select class="hideWhenPrint" name="sample" ng-model="item.category" ng-value="item.category"
+                      ng-options="category.code as category.name for category in pathological.categoryList"
+                      ng-disabled="pathological.read" ng-disabled="pathological.read">
+                <!--<option value="1">大样本</option>-->
+                <!--<option value="2">小样本</option>-->
+              </select>
+            </td>
+            <td class="hideWhenPrint" ng-if="showOperation">
+              <a class="btn btn-input" ng-click="pathological.delSample($index)" ng-disabled="pathological.read"
+                 ng-disabled="pathological.read">
+                <i class="glyphicon glyphicon-trash"></i>{{"删除"|translate}}
+              </a>
+            </td>
+          </tr>
+
+          <tr ng-if="showOperation" class="hideWhenPrint">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+              <a class="btn btn-input" ng-click="pathological.addSample1()" ng-disabled="pathological.read">
+                <i class="glyphicon glyphicon-plus"></i>{{"添加"|translate}}
+              </a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </fieldset>
+
+
+
+    <div class="text-center hideWhenPrint" ng-if="showOperation">
+      <div class="checkbox">
+        <label><input type="checkbox" ng-model="pathological.data.urgentFlag" ng-disabled="pathological.read">{{"加急处理"|translate}}</label>
+      </div>
+      <button ng-hide="hideSubmit" name="apply" click-debounce
+              ng-disabled="pathological_form.$invalid || !pathological.data.samples.length ||!pathological.data.departments"
+              ng-click="pathological.submit()" type="submit" class="btn btn-default btn-lg" id="bed-submit">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{"提交"|translate}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </button>
+    </div>
+
+  </form>
+
+  <!--</div>-->
+
+</div>
+
+
+<!--//Can not deserialize instance of java.util.ArrayList out of START_OBJECT token-->

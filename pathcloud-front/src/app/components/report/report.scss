@@ -1,0 +1,79 @@
+.report-template{
+  overflow-y: auto;
+  height: auto;
+  position: relative;
+  width: 851px;
+  .img-container{
+    height: auto;
+  }
+  p{
+    margin-bottom:0;
+  }
+  .logo{
+    position: absolute;
+    top:5px;
+    left: 5px;
+    height: 100px;
+    height: 70px;
+  }
+  pre.hospital-info{
+    background-color: transparent;
+    border: none;
+    font-family: "微软雅黑";
+  }
+  .patient-id{
+    //表格上面Id 样式
+    border-bottom: 1px solid;
+    .div-table{
+      width: 25%;
+      border: none;
+      .name{
+        width: 40%;
+        float: left;
+        border: none;
+        padding: 3px 0;
+      }
+      .content{
+        padding: 3px 0;
+        float: right;
+        width: 55%;
+        border: none;
+      }
+    }
+  }
+  .patientInfo-container{
+    //border: 1px solid;
+    border-bottom: 1px solid;
+    border-right: none;
+    .div-table{
+      width: 25%;
+      float: left;
+      //border-bottom: 1px solid;
+      //border-right: 1px solid;
+      .name{
+        //width: 40%;
+        float: left;
+        border: none;
+        //border-right: 1px solid;
+        padding: 3px 0;
+      }
+      .content{
+        padding: 3px 0;
+        float: left;
+        //width: 55%;
+        border: none;
+      }
+    }
+  }
+  .jujianImg{
+    width: 100px;
+    height:70px;
+  }
+  .diagnosis{
+    img{
+      width: 100px;
+      height:70px;
+    }
+  }
+
+}

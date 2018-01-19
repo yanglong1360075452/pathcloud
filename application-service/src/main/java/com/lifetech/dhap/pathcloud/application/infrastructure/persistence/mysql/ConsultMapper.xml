@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lifetech.dhap.pathcloud.application.domain.ConsultRepository">
+  <resultMap id="BaseResultMap" type="com.lifetech.dhap.pathcloud.application.domain.model.Consult">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="number" jdbcType="CHAR" property="number" />
+    <result column="application_id" jdbcType="BIGINT" property="applicationId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="patient_name" jdbcType="VARCHAR" property="patientName" />
+    <result column="departments" jdbcType="INTEGER" property="departments" />
+    <result column="hospital" jdbcType="INTEGER" property="hospital" />
+    <result column="create_by" jdbcType="BIGINT" property="createBy" />
+    <result column="update_by" jdbcType="BIGINT" property="updateBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="result" jdbcType="LONGVARCHAR" property="result" />
+    <result column="diagnose" jdbcType="LONGVARCHAR" property="diagnose" />
+    <result column="requirement" jdbcType="LONGVARCHAR" property="requirement" />
+    <result column="note" jdbcType="LONGVARCHAR" property="note" />
+    <result column="consult_result" jdbcType="LONGVARCHAR" property="consultResult" />
+    <result column="report_pic" jdbcType="LONGVARCHAR" property="reportPic" />
+    <result column="out_consult_result" jdbcType="LONGVARCHAR" property="outConsultResult" />
+    <result column="assign_diagnose" jdbcType="BIGINT" property="assignDiagnose" />
+    <result column="out_consult" property="outConsult" jdbcType="BIT"/>
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from consult
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.lifetech.dhap.pathcloud.application.domain.model.Consult">
+    insert into consult (id, number, application_id, 
+      status, patient_name, departments, 
+      hospital, create_by, update_by, 
+      create_time, update_time, result, 
+      diagnose, requirement, note, 
+      consult_result, report_pic,
+      out_consult_result,assign_diagnose,out_consult)
+    values (#{id,jdbcType=BIGINT}, #{number,jdbcType=CHAR}, #{applicationId,jdbcType=BIGINT}, 
+      #{status,jdbcType=INTEGER}, #{patientName,jdbcType=VARCHAR}, #{departments,jdbcType=INTEGER}, 
+      #{hospital,jdbcType=INTEGER}, #{createBy,jdbcType=BIGINT}, #{createBy,jdbcType=BIGINT},
+     now(), now(), #{result,jdbcType=LONGVARCHAR},
+      #{diagnose,jdbcType=LONGVARCHAR}, #{requirement,jdbcType=LONGVARCHAR}, #{note,jdbcType=LONGVARCHAR}, 
+      #{consultResult,jdbcType=LONGVARCHAR}, #{reportPic,jdbcType=LONGVARCHAR},
+      #{outConsultResult,jdbcType=LONGVARCHAR},#{assignDiagnose,jdbcType=BIGINT},#{outConsult,jdbcType=BIT})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.lifetech.dhap.pathcloud.application.domain.model.Consult">
+    update consult
+    set
+      status = #{status,jdbcType=INTEGER},
+      update_by = #{updateBy,jdbcType=BIGINT},
+      assign_diagnose = #{assignDiagnose,jdbcType=BIGINT},
+      update_time = now(),
+      result = #{result,jdbcType=LONGVARCHAR},
+      diagnose = #{diagnose,jdbcType=LONGVARCHAR},
+      note = #{note,jdbcType=LONGVARCHAR},
+      consult_result = #{consultResult,jdbcType=LONGVARCHAR},
+      report_pic = #{reportPic,jdbcType=LONGVARCHAR},
+      out_consult_result = #{outConsultResult,jdbcType=LONGVARCHAR},
+      out_consult = #{outConsult,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, number, application_id, status, patient_name, departments, hospital, create_by, 
+    update_by, create_time, update_time, result, diagnose, requirement, note, consult_result, 
+    report_pic,out_consult_result,assign_diagnose,out_consult
+    from consult
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, number, application_id, status, patient_name, departments, hospital, create_by, 
+    update_by, create_time, update_time, result, diagnose, requirement, note, consult_result, 
+    report_pic,out_consult_result,assign_diagnose,out_consult
+    from consult
+  </select>
+</mapper>

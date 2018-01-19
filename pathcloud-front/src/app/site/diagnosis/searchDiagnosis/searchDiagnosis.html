@@ -1,0 +1,93 @@
+ <toolbar class="clearfix">
+  <div class="form-inline">
+    <search-input class="pull-right" style="width: 350px" model="searchDiagnosis.searchStr" get-data="searchDiagnosis.search()"  placeholder="{{'输入姓名/病理号查询 号段用“-”分开'|translate}}"></search-input>
+  </div>
+</toolbar>
+
+<div id="searchDiagnosis">
+  <div class="container clearfix">
+    <!--筛选条件-->
+    <div class="table-header form-control-static form-inline clearfix">
+      <date-seletor dateset="searchDiagnosis.defaultTime" start-time="searchDiagnosis.startTime" end-time="searchDiagnosis.endTime"></date-seletor>
+
+      <select class="form-control input-sm clam-select" ng-model="searchDiagnosis.searchData.status"
+              ng-options="status.value as status.name for status in searchDiagnosis.statusList">
+        <option value="">{{'样本状态'|translate}}</option>
+      </select>
+      <select class="form-control input-sm clam-select" ng-model="searchDiagnosis.searchData.specialType"
+              ng-options="status.code as status.name for status in searchDiagnosis.specialTypeList">
+        <option value="">{{'检查类别'|translate}}</option>
+      </select>
+      <select class="form-control input-sm clam-select" ng-model="searchDiagnosis.searchData.outConsult"
+              ng-options="status.code as status.name for status in searchDiagnosis.outConsultList">
+        <option value="">{{'外院会诊'|translate}}</option>
+      </select>
+
+
+     <!-- <select class="form-control input-sm clam-select" ng-model="searchDiagnosis.searchData.departments"
+              ng-options="departments.code as departments.name for departments in searchDiagnosis.departmentsList" >
+        <option value="">{{'送检科室'|translate}}</option>
+      </select>-->
+      <select class="form-control input-sm clam-select" ng-model="searchDiagnosis.searchData.diagnoseDoctor"
+              ng-options="operator.id as operator.firstName for operator in searchDiagnosis.grossingUserList">
+        <option value="">{{'诊断医生'|translate}}</option>
+      </select>
+      <select class="form-control input-sm clam-select" ng-model="searchDiagnosis.searchData.reportDoctor"
+              ng-options="report.id as report.firstName for report in searchDiagnosis.reportUserList">
+        <option value="">{{'审核医生'|translate}}</option>
+      </select>
+      <button id="query" ng-click="searchDiagnosis.query()" class="btn btn-sm btn-default">&nbsp;{{'筛选'|translate}}&nbsp;</button>
+    </div>
+    <!--筛选结果-->
+    <div class="table-min">
+
+      <table class=" table-hover table-bordered">
+        <thead>
+        <tr>
+          <th ng-repeat="item in searchDiagnosis.tableHeaders" class="cursor-pointer" ng-click="searchDiagnosis.getSortList(item)">
+            {{item.name|translate}}
+            <i class="cursor-pointer glyphicon glyphicon-chevron-down arrow"
+               ng-hide="!item.order"
+               ng-class="{'rotate-180':item.sort==='asc','rotate-0':item.sort==='desc'||!item.sort}" />
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in searchDiagnosis.grossingData track by $index">
+          <td ng-bind="item.number || item.serialNumber"></td>
+          <td ng-bind="item.patientName"></td>
+          <td ng-bind="item.typeDesc"></td>
+          <td ng-bind="item.departments | department"></td>
+          <td ng-bind="item.assignDiagnoseDoctor.firstName"></td>
+          <td ng-bind="item.firstDiagnoseDoctor.firstName"></td>
+          <td ng-bind="item.secondDiagnoseDoctor.firstName"></td>
+          <td ng-bind="item.thirdDiagnoseDoctor.firstName"></td>
+          <td ng-bind="item.reportDoctor.firstName"></td>
+          <td ng-bind="item.reportTime| date : 'yyyy-MM-dd HH:mm'"></td>
+          <td ng-bind="item.statusDesc"></td>
+        </tr>
+        </tr>
+        <tr ng-repeat="n in [].constructor(20) track by $index" ng-show="searchDiagnosis.grossingData.length<=$index||!searchDiagnosis.grossingData.length">
+          <td  ng-repeat="m in [].constructor(11) track by $index"></td>
+        </tr>
+        </tbody>
+      </table>
+
+      <div class="table-footer">
+        <div class="pull-left form-control-static pagination">
+          {{'共'|translate}}<span ng-bind="searchDiagnosis.totalItems||0"></span>{{'条结果'|translate}}
+        </div>
+        <uib-pagination class="pull-right" boundary-links="true" max-size="10"
+                        items-per-page="searchDiagnosis.searchData.length"
+                        total-items="searchDiagnosis.totalItems"
+                        ng-model="searchDiagnosis.searchData.page"
+                        ng-change="searchDiagnosis.getGrossingDataList()"
+                        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+        </uib-pagination>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+

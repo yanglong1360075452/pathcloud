@@ -1,0 +1,29 @@
+#home{
+  background: #f3f9fb;
+  height:100%;
+  min-height:660px;
+  margin-bottom: -20px;
+  .thumbnail{
+    height:256px!important;
+    width: 188px!important;
+    border-radius:0!important;
+    border-color: #fff;
+    padding:0!important;
+    .title-logo{
+      height:190px;
+      text-align: center;
+      img{
+        //width:80px;
+        height:80px;
+        margin:55px auto;
+      }
+    }
+    .title-name{
+      border-top: 1px solid #a4d7e3;
+      height:30px;
+      h3{
+        height:30px;
+      }
+    }
+  }
+}

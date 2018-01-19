@@ -1,0 +1,22 @@
+<div id="home" style="padding-top: 40px;" >
+  <div class="container">
+    <div class="text-center" ng-show="home.userAuth.length===0">
+      <h4>您暂无权限操作任何模块请联系管理员</h4>
+    </div>
+    <div ng-repeat="item in picData track by $index" >
+      <img ng-src="{{item}}" alt="">
+    </div>
+    <div class="row">
+      <div class="col-sm-6" style="width: 20%;"  ng-repeat="item in home.menuList track by $index" ng-hide="home.checkAuth(item)">
+        <div class="thumbnail cursor-pointer" ui-sref="{{item.href}}">
+          <div class="title-logo">
+            <img height="80" ng-src="{{item.imgSrc}}" alt="{{item.title}}">
+          </div>
+          <div class="title-name">
+            <h3 class="text-center" id="home{{$index}}">{{item.title|translate}}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

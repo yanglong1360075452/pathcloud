@@ -1,0 +1,39 @@
+<div id="embedSetting" ng-controller="InspectCategoryController as sampleSetting">
+
+  <!--检查类别-->
+  <div class="container clearfix">
+
+  <div class="remark-add form-horizontal form-inline">
+    <div class="header-group">
+      {{'检查类别'|translate}}：
+      <input type="text" class="form-control" id="" ng-model="sampleSetting.inspectCategory.typeDesc">
+
+
+      <span ng-show="sampleSetting.showLetter">
+          {{'字母标识'|translate}}：
+        <select class="form-control" ng-model="sampleSetting.inspectCategory.letter">
+          <option value="">{{'请选择'|translate}}</option>
+          <option ng-repeat="item in sampleSetting.letterList track by $index" ng-value="item">{{item}}</option>
+        </select>
+      </span>
+
+
+      <button class="btn btn-default" style="width: 78px;" ng-disabled="!sampleSetting.inspectCategory.typeDesc" ng-click="sampleSetting.addInspectCategory()">{{'添加'|translate}}</button>
+
+    </div>
+  </div>
+  <div class="remark-list row clearfix">
+    <div class="col-sm-6" ng-repeat="item in sampleSetting.inspectCategoryList">
+      <div class="remark-item">
+        <button type="button" class="close" ng-click="sampleSetting.deleteInspectCategory(item.code)">
+          <i class="fa fa-times-circle" aria-hidden="true"></i>
+          <span class="sr-only">Close</span>
+        </button>
+        <div>{{item.typeDesc}}&nbsp;{{item.letter}}</div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+</div>
+

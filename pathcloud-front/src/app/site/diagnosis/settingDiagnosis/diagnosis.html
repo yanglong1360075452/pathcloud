@@ -1,0 +1,106 @@
+<div class="diagnosisTemplate" ng-controller="DiagnosisTemplateController as DiagnosisTpl" >
+    <div class="container no-padding" >
+        <div class="template-container">
+          <div class="col-sm-3">
+            <div class="title">
+              <h4>{{'科室类别'|translate}}</h4>
+            </div>
+            <div class="content">
+              <div class="list-container">
+                <ul class="list-unstyled">
+                  <li id="departmentType{{$index}}" ng-repeat="item in DiagnosisTpl.departmentList" ng-class="{active:DiagnosisTpl.activeDdepartment===item.code}" ng-click="DiagnosisTpl.choseDdepartment(item.code)">
+                    {{item.name}}
+                    <div class="pull-right i-container">
+                      <i class=" " ng-show="DiagnosisTpl.activeDdepartment===item.code"><img src="assets/images/icon-caret-right.png" alt=""></i>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="title">
+              <h4>{{'模板名称'|translate}}</h4>
+            </div>
+            <div class="content">
+              <div class="list-container">
+                <ul class="list-unstyled">
+                  <li id="templateName{{$index}}" ng-repeat="item in DiagnosisTpl.templateList" ng-class="{active:DiagnosisTpl.activeTemplate===$index}" ng-click="DiagnosisTpl.choseTemplate(item,$index)">
+                    <!--<span ng-show="!item.focus">{{item.name}}</span>--> <!--{{DiagnosisTpl.activeTemplate}}=={{$index}}-->
+                   <input ng-model="item.name" id="template_{{$index}}" auto-focus="{{item.focus}}" ng-disabled="!item.focus" ng-blur="item.focus=false;DiagnosisTpl.saveTemplate(item,$index)">
+                    <div class="pull-right i-container">
+                      <i ng-show="DiagnosisTpl.activeTemplate===$index"><img src="assets/images/icon-caret-right.png" alt=""></i>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="list-toolbar">
+                <div class="flex-box">
+                  <button id="add" ng-click="DiagnosisTpl.addTemplate()"><icon class="icon">+</icon>{{'添加'|translate}}</button>
+                  <button id="reName" ng-click="DiagnosisTpl.templateList[DiagnosisTpl.activeTemplate].focus=true"><icon  class="icon"><img  height="14" src="assets/images/edit.png" alt=""></icon>{{'重命名'|translate}}</button>
+                  <button id="delete" ng-click="DiagnosisTpl.deleteTemplate()"><icon  class="icon"><img height="14" src="assets/images/delete.png" alt=""></icon>{{'删除'|translate}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="title">
+              <h4>{{'模板内容'|translate}}</h4>
+              <!--<code>{{DiagnosisTpl.templateContentVO}}</code>-->
+            </div>
+            <div class="content text-left">
+
+              <div class="list-container">
+                <div class="list" ng-repeat="list in DiagnosisTpl.templateContentVO track by $index">
+                  <!--单选-->
+                  <div class="select clearfix" ng-if="list.projectContentCheck">
+                    <div class="col-sm-3 form-control-static">
+                      <span class="">{{list.projectName}}</span>
+                      <span ng-show="list.projectNameCheck" class="required">*</span>
+                    </div>
+                    <div class="col-sm-4">
+                      <select ng-required="list.projectNameCheck" class="form-control input-sm" ng-model="list.selectContent"
+                              ng-options=" content.name for content in list.projectContentVO">
+                        <option value="">{{'请选择'|translate}}</option>
+                      </select>
+                    </div>
+                    <div class="col-sm-5">
+                      {{'其他'|translate}}：<input style=" width: 150px; display: inline;" type="text" class="form-control input-sm" ng-model="list.other">
+                    </div>
+
+                  </div>
+
+                  <!--多选-->
+                  <div class="check clearfix" ng-if="!list.projectContentCheck">
+                    <div class="col-sm-3 form-control-static">
+                      <span>{{list.projectName}}</span>
+                      <span ng-show="list.projectNameCheck" class="required">*</span>
+                    </div>
+                    <div class="col-sm-9" style="padding-top: 6px">
+                      <label class="checkbox-inline"  ng-repeat="item in list.projectContentVO track by $index">
+                        <input type="checkbox" ng-required="list.projectNameCheck" value="option1" ng-model="item.check" ng-change="item.check"> {{item.name}}
+                      </label>
+                    </div>
+
+
+
+                  </div>
+                </div>
+
+
+              </div>
+              <div class="list-toolbar ">
+                <div class="flex-box">
+                  <button ng-click="DiagnosisTpl.edit()" ng-disabled="!DiagnosisTpl.template.id">
+                    <icon  class="icon"><img  height="14" src="assets/images/edit.png" alt=""></icon>{{'编辑'|translate}}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div  ng-show=>
+
+</div>

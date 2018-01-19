@@ -1,0 +1,15 @@
+<div ng-controller="FormworkMaterial as FormworkMaterial">
+  <div class="col-sm-12">
+    <div class="pull-right">
+      {{'模板选择'|translate}}
+      <input type="radio" name="choose" value="0" ng-model="FormworkMaterial.choose">
+      {{'系统模板'|translate}}
+      <input type="radio" name="choose" value="1" ng-model="FormworkMaterial.choose">
+      {{'自定义模板'|translate}}
+    </div>
+  </div>
+  <div>
+    <div class="container" ng-show="FormworkMaterial.choose==0" ng-include="'app/site/drawMaterial/configMaterial/template.html'"></div>
+    <div class="container" ng-show="FormworkMaterial.choose==1" ng-include="'app/site/drawMaterial/configMaterial/custom.html'"></div>
+  </div>
+</div>

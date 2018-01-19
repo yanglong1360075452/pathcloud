@@ -1,0 +1,75 @@
+<div>
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="dehydratorErr.cancel()"><span aria-hidden="true" class="icon-remove-sign"></span><span class="sr-only">Close</span></button>
+
+    <h4 class="modal-title">{{'报警信息'|translate}}</h4>
+  </div>
+  <div class="modal-body" >
+    <div class="title">
+      <h5>{{'脱水机编号'|translate}}：{{dehydratorErr.errmsg.data[0].name}}</h5>
+
+      <div class="search-item clearfix">
+        <div class="name">
+          {{'日期范围选择'|translate}}：
+        </div>
+        <div class="content">
+          <div class="row">
+            <div style="padding-right: 10px;" class="col-sm-5 ">
+              <p class="input-group">
+                <!--开始：-->
+                <input type="text" class="form-control" readonly="readonly" clear-text="清除" close-text="确定" current-text="今天" ng-click="popup3.opened=true" uib-datepicker-popup="{{format}}" ng-model="dehydratorErr.receiveStartTime" is-open="popup3.opened" datepicker-options="dateOptions1" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="popup3.opened=true"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+            </div>
+            <!--<div style="position: absolute;left: 62%;">~</div>-->
+            <div style="padding-left: 10px;" class="col-sm-5 ">
+              <p class="input-group">
+                <!--结束：-->
+                <input type="text" class="form-control" readonly clear-text="清除" close-text="确定" current-text="今天" ng-click="popup4.opened=true"  uib-datepicker-popup ng-model="dehydratorErr.receiveEndTime" is-open="popup4.opened" datepicker-options="dateOptions2" ng-required="true" close-text="Close" />
+                <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="popup4.opened=true"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+            </div>
+            <div class="col-sm-2">
+              <button class="btn btn-default" ng-click="dehydratorErr.getErrmsg()">{{'筛选'|translate}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <table class="table">
+        <thead>
+          <th width="">{{'报警信息'|translate}}</th>
+          <th width="130">{{'时间'|translate}}</th>
+          <th width="55">{{'状态'|translate}}</th>
+        </thead>
+        <tbody>
+
+          <tr ng-class="{'error':item.status}" ng-repeat="item in dehydratorErr.errmsg.data ">
+            <td>{{item.errMsg}}</td>
+            <td>{{item.occurTime | date:"yyyy-MM-dd HH:mm"}}</td>
+            <td>{{item.status?"报警":"已解除"|translate}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="table-footer">
+        <div class="pull-left form-control-static pagination">{{'共'|translate}}<span ng-bind="dehydratorErr.errmsg.total"></span>{{'条结果'|translate}}</div>
+        <uib-pagination class="pull-right" boundary-links="true" items-per-page="dehydratorErr.filterData.length" max-size="8"
+                        total-items="dehydratorErr.errmsg.total"
+                        ng-model="dehydratorErr.filterData.page"
+                        ng-change="dehydratorErr.getErrmsg()"
+                        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="dehydratorErr.cancel()">{{'关闭'|translate}}</button>
+    <button class="btn btn-default" type="button" ng-click="dehydratorErr.ok()">{{'解除警报'|translate}}</button>
+  </div>
+
+</div>

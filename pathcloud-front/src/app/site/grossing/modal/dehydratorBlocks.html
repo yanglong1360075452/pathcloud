@@ -1,0 +1,52 @@
+<div>
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="dehydratorBlock.cancel()"><i aria-hidden="true" class="icon-remove-sign"></i><span class="sr-only">Close</span></button>
+
+    <h4 class="modal-title">{{'包埋盒信息'|translate}}</h4>
+  </div>
+  <div class="modal-body" >
+    <!--表格显示部分-->
+    <div class="table-min">
+      <table class=" table-hover table-bordered">
+        <thead class="primary-table-head">
+        <tr>
+          <th ng-repeat="item in dehydratorBlock.tableHeaders" class="{{item.class}} cursor-pointer" ng-style="item.style">{{::item.name|translate}}
+            <!--<i class="cursor-pointer glyphicon glyphicon-chevron-down arrow"-->
+            <!--ng-hide="!item.order"-->
+            <!--ng-class="{'rotate-180':item.sort==='asc','rotate-0':item.sort==='desc'||!item.sort}" />-->
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in dehydratorBlock.data.data track by $index">
+          <td ng-bind="item.pathNo"></td>
+          <td ng-bind="item.subId"></td>
+          <td ng-bind="item.patientName"></td>
+          <td ng-bind="item.count"></td>
+          <td ng-bind="item.biaoshiDesc"></td>
+          <td ng-bind="dehydratorBlock.pause ? '暂停脱水' : item.statusDesc"></td>
+          <td ng-bind="item.instrumentName"></td>
+        </tr>
+        <tr ng-repeat="n in [].constructor(10) track by $index" ng-show="!dehydratorBlock.data||dehydratorBlock.data.data.length<=$index">
+          <td  ng-repeat="n in [].constructor(7) track by $index"></td>
+        </tr>
+
+        </tbody>
+      </table>
+      <div class="table-footer">
+        <div class="pull-left form-control-static pagination">{{'共'|translate}}<span ng-bind="dehydratorBlock.data.total"></span>{{'条结果'|translate}}</div>
+        <uib-pagination ng-if="dehydratorBlock.data" class="pull-right" boundary-links="true" items-per-page="dehydratorBlock.filter.length" max-size="10"
+                        total-items="dehydratorBlock.data.total"
+                        ng-model="dehydratorBlock.filter.page"
+                        ng-change="dehydratorBlock.getBlocks()"
+                        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+      </div>
+
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="dehydratorBlock.cancel()">{{'关闭'|translate}}</button>
+    <!--<button class="btn btn-primary" type="button" ng-click="dehydratorBlock.ok()">解除警报</button>-->
+  </div>
+
+</div>

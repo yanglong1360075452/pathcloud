@@ -1,0 +1,26 @@
+#permission{
+  .checkbox{
+    display: inline-block;
+    background-color: #eee;
+    border-radius: 15px;
+    padding: 4px 10px;
+    margin-top: 10px;
+    height: 20px;
+    line-height: 20px;
+    float: left;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .checkbox:hover{
+    background-color: #337ab7;
+    color:white;
+  }
+  .checkbox:hover i{
+    color:white;
+  }
+  .active{
+    background-color: #337ab7;
+    color:white;
+  }
+}
+

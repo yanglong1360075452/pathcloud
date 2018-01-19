@@ -1,0 +1,14 @@
+<div id="commonModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="commonModal.cancel()"><span aria-hidden="true" class="icon-remove-sign"></span><span class="sr-only">Close</span></button>
+
+    <h4 class="modal-title text-center" id="modal-title" ng-bind="commonModal.Title"></h4>
+  </div>
+  <div class="modal-body">
+    <div ng-model="commonModal.Content">{{commonModal.Content}}</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="commonModal.cancel()">取消</button>
+    <button class="btn btn-default" type="submit" ng-click="commonModal.ok()">确定</button>
+  </div>
+</div>

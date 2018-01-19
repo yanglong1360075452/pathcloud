@@ -1,0 +1,12 @@
+This server will receive http request from UI, the request requires one parameter id, which contains
+ the block ids that need to be printed by labwriter, separated by comma.
+An example request from UI is : http://localhost:4000?id=P16123000010A,P16123000010B,P16123000010C
+
+Below are steps to install and run the server, the server will be running on the same machine that
+customers use to submit slide/cassette print request.
+1 Install nodejs
+2 Install log4js : npm install log4js
+3 Update server.js to change the variables that need to be customized
+4 Create logs directory under the current directory(where you start the server)
+5 Customize labwriter_gw_service.cmd to use the right directory
+6 Follow http://jingyan.baidu.com/article/59703552fee38f8fc107405c.html to install labwriter_gw_service.cmd as a windows service.

@@ -1,0 +1,34 @@
+<!--
+&lt;!&ndash;查看历史诊断弹窗&ndash;&gt;
+<div id="viewHistory">
+  <div class="modal-header blue-label">
+    <button type="button" class="close" data-dismiss="modal" ng-click="viewHistory.cancel()">
+      <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title ok-color">查看历史诊断</h4>
+  </div>
+  <div class="modal-body clearfix" >
+    <div class="form-group clearfix">
+      <div class="col-sm-3">
+        <div><button class="btn  btn-block" ng-class="{'btn-default':viewHistory.activeBtn===1,'btn-pure':viewHistory.activeBtn!==1}" ng-click="viewHistory.changeTab(1)">诊断记录</button></div>
+        <div><button class="btn  btn-block" ng-class="{'btn-default':viewHistory.activeBtn===2,'btn-pure':viewHistory.activeBtn!==2}"  ng-click="viewHistory.changeTab(2)">历史报告</button></div>
+      </div>
+      <div class="col-sm-9" ng-if="viewHistory.activeBtn===1">
+        <div class="form-control diagnosis-div" ng-bind-html="viewHistory.diagnosisData" style="height:300px;overflow:auto;">
+
+        </div>
+      </div>
+      <div class="col-sm-9" ng-if="viewHistory.activeBtn===2">
+        <div class="form-control history-div" ng-bind-html="viewHistory.historyData||'暂无'" style="height:300px;overflow:auto;">
+          222
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    &lt;!&ndash;<button class="btn btn-warning" type="button" ng-click="viewHistory.cancel()">取消</button>&ndash;&gt;
+    <button class="btn btn-default" type="button" ng-click="viewHistory.ok()">关闭</button>
+  </div>
+</div>
+-->

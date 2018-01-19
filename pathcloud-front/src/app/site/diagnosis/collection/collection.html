@@ -1,0 +1,81 @@
+<toolbar class="clearfix">
+  <!--搜索部分-->
+  <div class="form-inline clearfix">
+    <search-input class="pull-right input-long" model="diagnose.searchStr" get-data="diagnose.getDataList(0)"
+                  placeholder="{{'输入编号/姓名查询'|translate}}"></search-input>
+  </div>
+
+</toolbar>
+
+<div class="container clearfix">
+  <!--筛选部分-->
+  <div class="form-inline toolbar" style="background: none">
+    <date-seletor dateset="diagnose.defaultTime" start-time="diagnose.startTime" end-time="diagnose.endTime"></date-seletor>
+
+    <select class="form-control input-sm" ng-model="diagnose.label"
+            ng-options="status.code as status.name for status in diagnose.typeList">
+      <option value="">{{'收藏标签'|translate}}</option>
+    </select>
+    <select class="form-control input-sm" ng-model="diagnose.collect"
+            ng-options="status.code as status.name for status in diagnose.statusList">
+      <option value="">{{'病例收藏'|translate}}</option>
+    </select>
+
+    <button id="query" ng-click="diagnose.getDataList(1)" class="btn btn-sm btn-primary"><span
+      class="glyphicon glyphicon-filter"></span>{{'筛选'|translate}}
+    </button>
+
+    <button id="export" ng-click="diagnose.export()" class="btn btn-sm btn-default pull-right">
+      {{'导出'|translate}}
+    </button>
+
+    <button id="cancel" ng-click="diagnose.remove()" class="btn btn-sm btn-info  pull-right" style="margin: 0 10px">
+      {{'移除收藏'|translate}}
+    </button>
+  </div>
+  <!--表格显示部分-->
+  <div class="table-min">
+    <table class=" table-hover table-bordered">
+      <thead class="primary-table-head">
+      <tr>
+        <th style="width: 40px;"><input style="width: 15px;" type="checkbox" ng-model="diagnose.allChecked"
+                                        ng-click="diagnose.checkAll()"></th>
+
+        <th ng-repeat="item in diagnose.tableHeaders" class="{{item.class}} cursor-pointer" ng-style="item.style">{{::item.name | translate}}
+        <i class="cursor-pointer glyphicon glyphicon-chevron-down arrow"
+        ng-hide="!item.order"
+        ng-class="{'rotate-180':item.sort==='asc','rotate-0':item.sort==='desc'||!item.sort}" />
+        </th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr ng-repeat="item in diagnose.data track by $index">
+        <td><input style="width: 15px;" type="checkbox" ng-model="item.check" ng-click="diagnose.check(item)"></td> <!--选择-->
+        <td ng-bind="item.serialNumber"></td>
+        <td ng-bind="item.patientName"></td>
+        <td ng-bind="item.sex | sex"></td>
+        <td ng-bind="item.age"></td>
+        <td ng-bind="item.labelsDesc.join(' | ')"></td>
+        <td ng-bind="item.permissionDesc"></td>
+        <td ng-bind="item.collectDate | date : 'yyyy-MM-dd HH:mm'"></td>
+        <td style="max-width: 200px;" class="text-ellipsis" title="{{item.note}}" ng-bind="item.note"></td>
+
+      </tr>
+      <tr ng-repeat="n in [].constructor(20) track by $index" ng-show="!diagnose.data.length || diagnose.data.length<=$index">
+        <td ng-repeat="n in [].constructor(9) track by $index"></td>
+      </tr>
+
+      </tbody>
+    </table>
+    <div class="table-footer">
+      <div class="pull-left form-control-static pagination">{{'共'|translate}}<span ng-bind="diagnose.total || 0"></span>{{'条结果'|translate}}</div>
+
+      <uib-pagination class="pull-right" boundary-links="true" items-per-page="diagnose.length" max-size="10"
+                      total-items="diagnose.total" ng-model="diagnose.page" ng-change="diagnose.getDataList()"
+                      previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+                      last-text="&raquo;"></uib-pagination>
+    </div>
+
+  </div>
+</div>

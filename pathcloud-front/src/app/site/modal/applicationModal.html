@@ -1,0 +1,30 @@
+<div id="commonModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="applicationMod.cancel()"><span aria-hidden="true" class="glyphicon glyphicon-remove"></span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title text-center" id="modal-title" ng-bind="applicationMod.Title"></h4>
+    <!--<h3 class="modal-title text-center" id="modal-title" >病理申请表</h3>-->
+  </div>
+  <div class="modal-body" id="applyTable">
+
+    <div ng-hide="applicationMod.applyType===3" class="pad-l-r-30 pad-t-b-7">病理申请号：<span class="pad-right-30">{{applicationData.serialNumber||applicationMod.serialNumber}}</span>     <span class="pad-right-30" ng-show="applicationData.pathologyNumber">病理号：{{applicationData.pathologyNumber}} </span>是否加急：<span>{{applicationData.urgentFlag==true?'是':'否'}}</span></div>
+
+    <thf-pathological ng-show="applicationMod.applyType===1"></thf-pathological>
+
+    <application-research ng-show="applicationMod.applyType===2"></application-research>
+
+    <!--会诊申请表单-->
+    <consult-form ng-if="applicationMod.applyType===3"  read="true" data="applicationMod.data"></consult-form>
+
+    <!--<div ng-model="commonModal.Content">{{commonModal.Content}}</div>-->
+    <!--科研部分-->
+
+    <!--<div class="research" ng-if="applicationData.applyType===2">
+      <application-research></application-research>
+    </div>-->
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="applicationMod.cancel()">取消</button>
+    <button class="btn btn-default" type="submit" ng-click="applicationMod.ok()">打印</button>
+  </div>
+</div>

@@ -1,0 +1,202 @@
+<!--查看报告弹窗-->
+<div id="reportResult" style="width: 900px">
+
+    <div style="height: auto;min-height: 700px;" class="modal-body clearfix">
+      <style>
+        .report-logo{
+          position: absolute;top: 5px;left: 5px;height: 70px;
+        }
+        .reportBigName{
+          margin: 1px 0;font-size: 18px;
+        }
+        .report-subheading{
+          margin: 2px 0;font-size: 18px;
+        }
+        .reportSmallName{
+          font-size: 16px; font-weight: 700;
+        }
+        .report-line{
+          border-bottom: 1px solid;
+          margin-bottom: 5px;
+        }
+        .report-line-2{
+          border-top: 1px solid;
+          padding-top: 4px;
+          margin-top: 4px;
+          margin-bottom:10px;
+        }
+        .report-margin-bottom{
+          margin-bottom: 5px;
+        }
+        .diagnose-content{
+          min-height:600px;
+        }
+
+      </style>
+        <div class="report-template">
+
+          <fieldset id="logo-container">
+              <img class="report-logo"  alt="logo" ng-src="{{reportTemplate.reportTemplateVO.imageURL}}">
+              <div class="text-center reportBigName" ng-bind="reportTemplate.reportTemplateVO.reportBigName">{{'大标题'|translate}}</div>
+              <div class="text-center report-subheading" ng-bind="reportTemplate.reportTemplateVO.subheading">{{'小标题'|translate}}</div>
+              <p class="text-center reportSmallName" ng-bind="reportTemplate.reportTemplateVO.reportSmallName">{{'病理检查报告单'|translate}}</p>
+          </fieldset>
+
+          <div class="clearfix report-margin-bottom report-line">
+            <!--病理号-->
+            <div class="pull-right">
+              {{reportTemplate.reportTemplateVO.patientInformation[5].name|translate}}：{{reportResult.reportData.pathNo}}
+            </div>
+          </div>
+
+          <div class="template-content clearfix">
+            <!--姓名-->
+            <div class="info-item"  ng-if="reportTemplate.reportTemplateVO.patientInformation[0].check">
+              {{reportTemplate.reportTemplateVO.patientInformation[0].name|translate}}：
+              {{reportResult.reportData.patientName}}
+            </div>
+            <!--年龄-->
+            <div class="info-item"  ng-if="reportTemplate.reportTemplateVO.patientInformation[1].check">
+              {{reportTemplate.reportTemplateVO.patientInformation[1].name|translate}}：
+              {{reportResult.reportData.age}}
+            </div>
+            <!--性别-->
+            <div class="info-item"  ng-if="reportTemplate.reportTemplateVO.patientInformation[2].check">
+              {{reportTemplate.reportTemplateVO.patientInformation[2].name|translate}}：
+              {{reportResult.reportData.sex | sex}}
+            </div>
+            <!--病人ID-->
+            <div class="info-item"  ng-if="reportTemplate.reportTemplateVO.patientInformation[3].check">
+              {{reportTemplate.reportTemplateVO.patientInformation[3].name|translate}}：
+              {{reportResult.reportData.patientNo}}
+            </div>
+            <!--住院号-->
+            <div class="info-item"  ng-if="reportTemplate.reportTemplateVO.patientInformation[4].check">
+              {{reportTemplate.reportTemplateVO.patientInformation[4].name|translate}}：
+              {{reportResult.reportData.admissionNo}}
+            </div>
+            <!--病理号 5 -->
+
+            <!--门诊号-->
+            <div class="info-item"  ng-if="reportTemplate.reportTemplateVO.patientInformation[6].check">
+              {{reportTemplate.reportTemplateVO.patientInformation[6].name|translate}}：
+              {{reportResult.reportData.patientNo}}
+            </div>
+            <!--病区-->
+            <div class="info-item"  ng-if="reportTemplate.reportTemplateVO.patientInformation[7].check">
+              {{reportTemplate.reportTemplateVO.patientInformation[7].name|translate}}：
+              <!--{{reportResult.reportData.admissionNo}}-->
+            </div>
+            <!--床号-->
+            <div class="info-item"  ng-if="reportTemplate.reportTemplateVO.patientInformation[8].check">
+              {{reportTemplate.reportTemplateVO.patientInformation[8].name|translate}}：
+              {{reportResult.reportData.bedNo}}
+            </div>
+            <!--送检医院-->
+            <div class="info-item"  ng-if="reportTemplate.reportTemplateVO.patientInformation[9].check">
+              {{reportTemplate.reportTemplateVO.patientInformation[9].name|translate}}：
+              {{reportResult.reportData.hospital | hospital}}
+            </div>
+            <!--送检日期-->
+            <div class="info-item"  ng-if="reportTemplate.reportTemplateVO.patientInformation[10].check">
+              {{reportTemplate.reportTemplateVO.patientInformation[10].name|translate}}：
+              {{reportResult.reportData.receiveTime | date : 'yyyy-MM-dd HH:mm'}}
+            </div>
+            <!--送检科室-->
+            <div class="info-item"  ng-if="reportTemplate.reportTemplateVO.patientInformation[11].check">
+              {{reportTemplate.reportTemplateVO.patientInformation[11].name|translate}}：
+              {{reportResult.reportData.departments | department}}
+            </div>
+            <!--送检医生-->
+            <div class="info-item"  ng-if="reportTemplate.reportTemplateVO.patientInformation[12].check">
+              {{reportTemplate.reportTemplateVO.patientInformation[12].name|translate}}：
+              {{reportResult.reportData.doctor}}
+            </div>
+            <!--检查部位-->
+            <div class="info-item"  ng-if="reportTemplate.reportTemplateVO.patientInformation[13].check">
+              {{reportTemplate.reportTemplateVO.patientInformation[13].name|translate}}：
+              {{reportResult.reportData.inspectionItem}}
+            </div>
+
+          </div>
+
+          <!--临床诊断-->
+          <div class="report-margin-bottom" ng-if="reportTemplate.reportTemplateVO.patientInformation[14].check">
+            {{reportTemplate.reportTemplateVO.patientInformation[14].name|translate}}：
+            {{reportResult.reportData.clinicalDiagnosis}}
+          </div>
+
+          <div class="report-line" ></div>
+
+          <!--诊断内容-->
+            <div class="diagnose-content">
+              <!--巨检所见：-->
+              <div ng-if="reportTemplate.reportTemplateVO.diagnosticContent[0].check">
+                <div class="content-name">{{reportTemplate.reportTemplateVO.diagnosticContent[0].name|translate}}:</div>
+                <div class="userSeeHtml" ng-model="reportInfo.userSeeHtml" contenteditable="false"></div>
+              </div>
+              <!--镜下所见：-->
+              <div ng-if="reportTemplate.reportTemplateVO.diagnosticContent[1].check">
+                <div class="content-name">{{reportTemplate.reportTemplateVO.diagnosticContent[1].name|translate}}:</div>
+                <div class="micro-img">
+                  <img ng-repeat="item in reportInfo.checkPhotos track by $index" ng-src="{{item}}" width="300px;margin-right:10px" alt="">
+                </div>
+              </div>
+              <!--病理诊断：-->
+              <div ng-if="reportTemplate.reportTemplateVO.diagnosticContent[2].check&&reportInfo.diagnosis">
+                <div class="content-name">{{reportTemplate.reportTemplateVO.diagnosticContent[2].name|translate}}:</div>
+                <div class="diagnosis" ng-model="reportInfo.diagnosis.resultDom" contenteditable="false"></div>
+              </div>
+              <!--会诊内容：-->
+              <div ng-if="reportInfo.diagnosis.specialResult || reportInfo.diagnosis.outConsultResult">
+                <div class="content-name">会诊意见:</div>
+                <!--会诊内容-->
+                <div class="diagnosis" ng-model="reportInfo.diagnosis.specialResult" contenteditable="false"></div>
+                <!--外院会诊的内容-->
+                <div class="diagnosis" ng-bind-html="reportInfo.diagnosis.outConsultResult" ></div>
+              </div>
+            </div>
+
+
+            <div id="report-footer">
+                <fieldset class="clearfix report-line-2">
+                  <!--诊断医师-->
+                    <div class="col-sm-4 no-padding" ng-if="reportTemplate.reportTemplateVO.diagnosticInformation[0].check">
+                        {{reportTemplate.reportTemplateVO.diagnosticInformation[0].name|translate}} ：{{user.firstName}}
+                        <!--：{{reportResult.reportData.diagnoseDoctor.firstName}}-->
+                    </div>
+                  <!--诊断时间-->
+                    <div class="col-sm-4 no-padding" ng-if="reportTemplate.reportTemplateVO.diagnosticInformation[1].check">
+                        {{reportTemplate.reportTemplateVO.diagnosticInformation[1].name|translate}} ：{{reportResult.reportData.diagnoseTime | date : 'yyyy-MM-dd HH:mm'}}
+                    </div>
+                  <!--审核医师-->
+                    <div class="col-sm-4 no-padding" ng-if="reportTemplate.reportTemplateVO.diagnosticInformation[2].check">
+                        {{reportTemplate.reportTemplateVO.diagnosticInformation[2].name|translate}} ：{{user.firstName}}
+                    </div>
+                  <!--报告打印者-->
+                  <div class="col-sm-4 no-padding" ng-if="reportTemplate.reportTemplateVO.diagnosticInformation[3].check">
+                    {{reportTemplate.reportTemplateVO.diagnosticInformation[3].name|translate}} ：{{user.firstName}}
+                  </div>
+                  <!--报告时间-->
+                  <div class="col-sm-4 no-padding" ng-if="reportTemplate.reportTemplateVO.diagnosticInformation[4].check">
+                    {{reportTemplate.reportTemplateVO.diagnosticInformation[4].name|translate}} ：{{ reportResult.reportData.reportTime | date : 'yyyy-MM-dd HH:mm'}}
+                  </div>
+
+                </fieldset>
+
+                <fieldset class="clearfix">
+                    <pre class="hospital-info col-sm-7 no-padding">{{reportTemplate.reportTemplateVO.hospitalInformation}}</pre>
+                </fieldset>
+                <div class="text-right no-padding">{{reportTemplate.reportTemplateVO.specialTip}}</div>
+
+            </div>
+
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <!--<button class="btn btn-warning" type="button" ng-click="reportResult.demo()">{{'demo'|translate}}</button>-->
+        <button class="btn btn-warning" type="button" ng-click="reportResult.cancel()">{{'取消'|translate}}</button>
+        <button style="width:100px;" class="btn btn-default" type="button" ng-disabled="reportResult.disableBtn" ng-click="reportResult.ok()">{{'审核并派发'|translate}}</button>
+    </div>
+</div>

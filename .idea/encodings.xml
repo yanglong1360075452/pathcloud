@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/application-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/application-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/application-service-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/audit-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dehydrate-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dehydrate-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dehydrate-service-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/file-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/local-dehydrate-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/local-dehydrate-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/local-dehydrate-service-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/notification-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/notification-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/notification-service-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pathcloud-common" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pathcloud-server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/reagent-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/reagent-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/reagent-service-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/setting-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/setting-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/setting-service-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/statistic-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/statistic-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tracking-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tracking-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tracking-service-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/user-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/user-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/user-service-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/wechat-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/wechat-service" charset="UTF-8" />
+  </component>
+</project>

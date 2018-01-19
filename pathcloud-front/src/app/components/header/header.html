@@ -1,0 +1,72 @@
+<div class="header">
+   <div class="page-container">
+     <div class="col-xs-1">
+       <img class="cursor-pointer" ng-show="navbar.length" ui-sref="app.home" width="35px" src="assets/images/icon-home.png" alt="病理追踪系统主页">
+       <!--<i ng-show="navbar.length" ui-sref="app.home" class="fa fa-home fa-4x"></i>-->
+     </div>
+     <div class="col-xs-8">
+       <ul class="list-unstyled list-inline nav">
+         <!--<li ui-sref-active="active" ng-repeat="item in navbar" ui-sref="{{item.href}}" ng-click="header.choose(item.title,item.href)" ng-class="{'active':item.active}">{{::item.title}}</li>-->
+         <li id="route{{$index}}" ng-if="navbar.length" ng-class="{active: $state.includes(item.href)}" ng-repeat="item in navbar" ui-sref="{{item.href}}">{{item.title|translate}}</li>
+
+         <div style="font-weight: 700; font-size: 18px; color: #ffffff;" ng-if="!navbar.length">PathTraq</div>
+         <!--<li ng-show="$state.includes('application')" ui-sref-active="active" ng-repeat="item in navbar.application" ui-sref="{{item.href}}">{{::item.title}}</li>-->
+
+       </ul>
+
+     </div>
+     <div class="col-xs-1">
+       <select class="language-switching" ng-model="header.cur_lang"  ng-change="header.switching(header.cur_lang)">
+         <option value="en">English</option>
+         <option value="cn">简体中文</option>
+       </select>
+     </div>
+
+
+
+
+     <div class="col-sm-2">
+       <div class="col-sm-6 pull-left">
+
+         <a href ui-sref="app.notification" id="notification">
+           <img class="cursor-pointer" width="25" src="assets/images/icon-bell.png" alt="通知图标">
+           <!--<i class="fa fa-bell fa-2x"></i>-->
+           <span ng-bind="totalNotification" style="position: absolute;padding: 0 5px;color: #fff "></span></a>
+       </div>
+       <div class="item dropdown col-sm-6" uib-dropdown>
+         <a href="#" class="dropdown-toggle" uib-dropdown-toggle style="margin-left: 30px">
+           <img class="cursor-pointer" width="22" src="assets/images/icon-user.png" alt="用户图标">
+           <!--<i class="fa fa-user-circle fa-2x"></i>-->
+           <!--<qrcode ng-show="!header.user.isAdmin" version="5" error-correction-level="H" size="50" data="{{header.qrCode}}"></qrcode>-->
+         </a>
+         <ul class="dropdown-menu dropdown-menu-left ">
+
+           <li class="dropdown-header text-center list-unstyled">
+             <div>{{user.username}}</div>
+           </li>
+           <li class="divider"></li>
+           <li class="link">
+             <a ui-sref="app.profile" >
+               <!--ng-click="header.getProfile()"-->
+               {{"个人信息"|translate}}
+             </a>
+           </li>
+           <li class="link">
+             <a ng-click="header.open('')">
+               {{"修改密码"|translate}}
+             </a>
+           </li>
+           <li class="divider"></li>
+           <li class="link">
+             <a ng-click="header.checkOut()">
+               {{"退出"|translate}}
+             </a>
+           </li>
+
+         </ul>
+       </div>
+
+
+     </div>
+   </div>
+</div>

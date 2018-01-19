@@ -1,0 +1,187 @@
+<div id="consume">
+  <div class="modal-header blue-label">
+    <button type="button" class="close" data-dismiss="modal" ng-click="consume.cancel()">
+      <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title ok-color">{{'信息修改'|translate}}</h4>
+  </div>
+  <div class="modal-body clearfix" >
+    <form class="form-horizontal row clearfix" name="consume_form" role="consume_form" >
+      <fieldset style=" margin-bottom: 50px;" >
+        <div class="col-sm-4">
+          <h4>{{'基本信息'|translate}}</h4>
+          <!--名称-->
+          <div  class="form-group has-feedback">
+            <label for="name" class="col-sm-4 control-label">{{'耗材名称'|translate}}<span class="required">*</span>：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="name" id="name" required
+                     ng-model="consume.data.reagentName" readonly
+                     onkeydown="if(event.keyCode==32) return false"
+                     maxlength="20"
+              >
+            </div>
+          </div>
+
+          <!--类别-->
+          <div  class="form-group has-feedback">
+            <label for="category" class="col-sm-4 control-label">{{'耗材类别'|translate}}<span class="required">*</span>：</label>
+            <div class="col-sm-8">
+              <select class="form-control" name="category" id="category" required
+                                ng-model="consume.data.reagentType" ng-disabled="true"
+                                ng-options="item.code as item.name for item in consume.categoryList">
+              >
+            </select>
+            </div>
+          </div>
+
+          <!--数量-->
+          <div  class="form-group has-feedback" >
+            <label for="name" class="col-sm-3 control-label">{{'数量'|translate}}<span class="required">*</span>：</label>
+            <div class="col-sm-4" style="padding-left:0;">
+              <input  type="text" class="form-control" name="specification" ng-model="consume.data.count"
+                      onkeydown="if(event.keyCode==32) return false"
+                      maxlength="20">
+            </div>
+            <div class="col-sm-5">
+              <select class="form-control" name="category"  required
+                      ng-model="consume.data.countUnit"
+                      ng-options="item.code as item.name for item in consume.countType">
+              </select>
+            </div>
+          </div>
+
+          <!--规格-->
+          <div  class="form-group has-feedback">
+            <label for="name" class="col-sm-4 control-label">{{'规格'|translate}}<span class="required">*</span>：</label>
+            <div class="col-sm-4" style="padding-left:0">
+              <input  type="text" class="form-control" name="specification" id="specification"
+                      ng-model="consume.data.specification" style="padding-right:0"
+                      onkeydown="if(event.keyCode==32) return false" required
+                      maxlength="20"
+              >
+            </div>
+            <label  class="col-sm-2 control-label" style="padding-left:0">/盒</label>
+          </div>
+
+        </div>
+
+
+        <div class="col-sm-4">
+          <h4>{{'厂商信息'|translate}}</h4>
+
+          <!--订单号-->
+          <div  class="form-group has-feedback">
+
+            <label for="name" class="col-sm-4 control-label">{{'订单号'|translate}}<span class="required">*</span>：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="orderNumber" id="orderNumber"
+                     ng-model="consume.data.orderNumber" required
+                     onkeydown="if(event.keyCode==32) return false"
+                     maxlength="20"
+              >
+            </div>
+          </div>
+
+          <!--产品编号-->
+          <div  class="form-group has-feedback">
+
+            <label for="name" class="col-sm-4 control-label">{{'产品编号'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="productNumber" id="productNumber"
+                     ng-model="consume.data.productNumber"
+                     onkeydown="if(event.keyCode==32) return false"
+                     maxlength="20"
+              >
+            </div>
+          </div>
+
+
+          <!--制造商-->
+          <div  class="form-group has-feedback">
+
+            <label for="name" class="col-sm-4 control-label">{{'制造商'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="manufacturer" id="manufacturer"
+                     ng-model="consume.data.manufacturer"
+                     onkeydown="if(event.keyCode==32) return false"
+                     maxlength="20"
+              >
+            </div>
+          </div>
+
+
+          <!--货号-->
+          <div  class="form-group has-feedback">
+            <label for="name" class="col-sm-4 control-label">{{'货号'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="articleNumber" id="articleNumber"
+                     ng-model="consume.data.articleNumber"
+                     onkeydown="if(event.keyCode==32) return false"
+                     maxlength="20"
+              >
+            </div>
+          </div>
+
+          <!--生产批号-->
+          <div  class="form-group has-feedback">
+            <label for="name" class="col-sm-4 control-label">{{'生产批号'|translate}}<span class="required">*</span>：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="batchNumber" id="batchNumber" required
+                     ng-model="consume.data.batchNumber"
+                     onkeydown="if(event.keyCode==32) return false"
+                     maxlength="30"
+              >
+            </div>
+          </div>
+
+          <!--生产日期-->
+          <div  class="form-group has-feedback">
+            <label for="productionDate" class="col-sm-4 control-label">{{'生产日期'|translate}}<span class="required">*</span>：</label>
+            <div class="col-sm-8" ng-init="productionDate = false">
+              <input type="text"  clear-text="清除" close-text="确定" current-text="今天" name="productionDate" class="form-control" id="productionDate"
+                     uib-datepicker-popup min="minStartDate" max="maxStartDate"  datepicker-options="dateOptions1"
+                     ng-click="productionDate=!productionDate"
+                     ng-model="consume.data.produceTime"
+                     is-open="productionDate" />
+              <span class=" form-control-feedback" ng-click="productionDate=!productionDate"><i class="glyphicon glyphicon-calendar"></i></span>
+            </div>
+          </div>
+
+          <!--失效日期-->
+          <div  class="form-group has-feedback"  >
+            <label for="expiryDate" class="col-sm-4 control-label">{{'失效日期'|translate}}<span class="required">*</span>：</label>
+            <div class="col-sm-8" ng-init="openExpiryDate = false">
+              <input type="text"  clear-text="清除" close-text="确定" current-text="今天" name="expiryDate" class="form-control" id="expiryDate"
+                     uib-datepicker-popup
+                     ng-click="openExpiryDate=!openExpiryDate" datepicker-options="dateOptions2"
+                     ng-model="consume.data.expiryTime"
+                     is-open="openExpiryDate" />
+              <span class=" form-control-feedback" ng-click="openExpiryDate=!openExpiryDate"><i class="glyphicon glyphicon-calendar"></i></span>
+            </div>
+          </div>
+
+          <!--产商电话-->
+          <div class="form-group has-feedback" ng-class="{'has-success':preparationPhoneOk = consume_form.preparationPhone.$dirty && consume_form.preparationPhone.$valid&&consume.data.manufacturerPhone!=='',
+                'has-error':preparationPhoneErr = consume_form.preparationPhone.$dirty && consume_form.preparationPhone.$invalid}">
+            <label for="preparationPhone" class="col-sm-4">{{'厂商电话'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="tel" class="form-control" id="preparationPhone" name="preparationPhone" maxlength="20"
+                     ng-pattern="/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/"
+                     ng-model="consume.data.manufacturerPhone">
+              <span ng-show="preparationPhoneOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+          </div>
+
+        </div>
+      </fieldset>
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning no-border" type="button" ng-click="consume.cancel()">{{'取消'|translate}}</button>
+    <button class="btn btn-default no-border" type="button" ng-click="consume.ok()" ng-disabled="consume_form.$invalid||!consume.data.produceTime||!consume.data.expiryTime">{{'确定'|translate}}</button>
+  </div>
+</div>
+
+

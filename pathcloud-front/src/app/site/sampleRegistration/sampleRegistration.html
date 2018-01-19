@@ -1,0 +1,119 @@
+
+<toolbar class="clearfix">
+  <div class="search clearfix">
+    <div class="pull-left" style="padding-top: 8px">{{"病理查询"|translate}}：</div>
+    <!--<scan-input class="form-control" style="width: 224px" model="sampleRegistration.serialNumber" get-data="sampleRegistration.getOnePathological()" placeholder="病理申请号"></scan-input>-->
+    <search-input class="pull-left search-input-lg" model="sampleRegistration.serialNumber" get-data="sampleRegistration.getOnePathological()"  placeholder="{{'病理申请号/病理号/样本号'|translate}}" auto-focus="{{autoFocus}}" change-fn="sampleRegistration.hide()"></search-input>
+
+    <button name="apply" style="margin-left: 30px;" class="pull-right btn btn-default" ng-click="sampleRegistration.clear()" id="addSampleRegistration">{{"新建申请"|translate}}</button>
+  </div>
+</toolbar>
+<div id="sampleRegistration">
+  <!--<div style="border-top:1px solid rgba(153, 204, 255, 1);">-->
+    <!--<h4 class="text-center" style="margin: 40px auto 20px;">病理申请表</h4>-->
+  <!--</div>-->
+<div class="container no-padding">
+  <div class="col-lg-8">
+    <h4>{{"病理申请表"|translate}}</h4>
+
+    <div>
+      <thf-pathological ng-hide="sampleRegistration.applyType===2"></thf-pathological>
+      <application-research ng-show="sampleRegistration.applyType===2"></application-research>
+    </div>
+
+  </div>
+  <div class="col-lg-4">
+    <div class="table-responsive">
+      <div class="clearfix">
+        <a ng-hide="pathological.data.status!=1" style="font-size: 18px" href class="pull-right" ng-click="sampleRegistration.reject()" ng-disabled="pathological.data.status!=1">{{"拒收"|translate}}</a>
+        <h4>{{"样本信息"|translate}}</h4>
+      </div>
+      <table class="table table-bordered text-center" id="sample-table">
+        <thead>
+        <tr>
+          <th style="width: 45px;">{{"序号"|translate}}</th>
+          <!--<th ng-if="pathological.data.samples[0].serialNumber">样本编号</th>-->
+          <th>{{"样本名称"|translate}}<span class="required hideWhenPrint">*</span></th>
+          <th style="width: 120px;">{{"样本类别"|translate}}</th>
+          <th style="width: 50px;" class="hideWhenPrint">{{"操作"|translate}}</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr ng-repeat="item in pathological.data.samples track by $index">
+          <td>{{$index + 1}}</td>
+          <!--<td ng-if="item.serialNumber">{{item.serialNumber}}</td>-->
+          <td><input type="text" ng-model="item.name" ng-value="item.name" maxlength="20" required ng-readonly="(pathological.data.pathologyStatus && pathological.data.pathologyStatus > 9) && (pathological.data.status && pathological.data.status == 2)" /></td>
+          <td>
+            <select class="hideWhenPrint" name="sample" ng-model="item.category" ng-value="item.category" ng-options="category.code as category.name for category in pathological.categoryList"  ng-disabled="(pathological.data.pathologyStatus && pathological.data.pathologyStatus > 9) && (pathological.data.status && pathological.data.status == 2)">
+
+            </select>
+          </td>
+          <td class="hideWhenPrint" >
+            <!--病理状态9待登记，申请状态 2 已登记-->
+            <a ng-class="{disabled:(pathological.data.pathologyStatus && pathological.data.pathologyStatus > 9) && (pathological.data.status && pathological.data.status == 2)}" ng-click="pathological.delSample($index)">
+              <i class="glyphicon glyphicon-trash"></i>
+            </a>
+          </td>
+        </tr>
+
+        <tr class="hideWhenPrint">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>
+            <a  ng-class="{disabled:(pathological.data.pathologyStatus && pathological.data.pathologyStatus > 9) && (pathological.data.status && pathological.data.status == 2)}" ng-click="pathological.addSample1()">
+              <i class="glyphicon glyphicon-plus"></i>
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+    </div>
+    <div class="modal-footer no-padding clearfix">
+      <div class=" form-control-static form-inline clearfix text-center pull-left">
+        {{"检查类别"|translate}}：
+        <select style="max-width: 100px;" class="form-control input-sm" ng-model="sampleRegistration.inspectCategory" ng-options="status.code as status.typeDesc+'&nbsp;'+ sampleRegistration.showInspectTypeLetter || status.letter for status in sampleRegistration.inspectCategoryList">
+          &lt;!&ndash;<option value="">{{"选择状态"|translate}}</option>&ndash;&gt;
+        </select>
+      </div>
+
+      <div class=" form-control-static form-inline clearfix text-center pull-right" ng-class="{'pull-left':lang ==='en'}">
+        {{"指定取材"|translate}}：
+        <select style="width: 100px;" class="form-control input-sm" ng-model="sampleRegistration.assignGrossing" ng-options="item.id as item.firstName for item in sampleRegistration.assignGrossingList">
+          <option value="">{{"选择医生"|translate}}</option>
+        </select>
+      </div>
+
+    </div>
+
+      <div class="text-center mar-30">
+
+        <buton id="print" style="width: 100px" class="pull-left btn btn-info" ng-disabled="!pathological.data.pathNo" ng-click="sampleRegistration.printSerialNumber()" >{{"打印标签"|translate}}</buton>
+        <buton id="lastOne" style="width: 100px" class=" btn btn-info "   ng-click="sampleRegistration.getLastOne()">{{"上一条记录"|translate}}</buton>
+        <!--撤销登记 根据病理状态 是不是待取材判断  data.status === 2 已登记  data.pathologyStatus === 9 待登记 -->
+        <buton id="cancel" style="width: 100px" ng-if="(pathological.data.pathologyStatus && pathological.data.pathologyStatus == 10) && (pathological.data.status && pathological.data.status == 2)"  ng-click="sampleRegistration.cancel()" class="pull-right btn btn-default" >{{"撤销登记"|translate}}</buton>
+        <!--正常登记时表单验证-->
+        <button id="register" style="width: 100px" ng-hide="pathological.data.status===30||(pathological.data.pathologyStatus && pathological.data.pathologyStatus >= 10) && (pathological.data.status && pathological.data.status == 2)" name="normal" class=" btn btn-default pull-right" ng-click="sampleRegistration.register()" ng-disabled="!pathological.data.departments|| (sampleRegistration.applyType!=2&&pathological_form.$invalid)||!pathological.data.samples[0].name||pathological.data.status===30||pathological.data.status==3||pathological.data.status==4">{{"登记"|translate}}</button>
+
+      <!--pathological.data.status===30 防止冰冻预约的撤销-->
+      <!--为了科研登记的表单验证-->
+      <!--<button style="width: 100px" ng-show="sampleRegistration.applyType===2||pathological.data.pathologyStatus != 10" name="research" class=" btn btn-default pull-right" ng-click="sampleRegistration.register()" ng-disabled="!pathological.data.departments||pathological.data.status!=1">登记</button>-->
+
+      <!--{{pathological.data.samples[0].name}} AP17000016-->
+
+    </div>
+
+
+      <!--<buton if="pathological.data.status===2"  class=" btn btn-default btn-lg" >撤销登记</buton>-->
+
+
+  </div>
+</div>
+
+  <!--用于测试显示病理申请号 病理号-->
+  <div id="applicationNo" style="height: 0;position:absolute; visibility: hidden;" ng-bind="sampleRegistration.test_serialNumber"></div>
+  <div id="pathologicalNo" style="height: 0;position:absolute; visibility: hidden;" ng-bind="sampleRegistration.test_pathNo"></div>
+
+</div>

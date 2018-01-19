@@ -1,0 +1,18 @@
+1. 在官网下载最新ngix源代码包，当前stable版本是 nginx-1.10.2, 解压
+2. 下载sticky module模块，
+	下载页面：  https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng
+	下载完之后解压
+3. 下载pcre-8.35模块，目的是为了支持url rewrite ，这个主要是apache作backend用的比较多，我们项目也可以不用，但不用要记得在configure的时候去掉此模块.
+	下载地址： http://downloads.sourceforge.net/project/pcre/pcre/8.35/pcre-8.35.tar.gz
+	下载完之后解压
+4. 解压nginx之后cd到  nginx-1.10.2 文件夹，执行配置：
+	./configure --prefix=/usr/local/webserver/nginx --with-http_stub_status_module --with-http_ssl_module --with-pcre=/root/nginx-1.10.2/pcre-8.35 --add-module=/root/nginx-goodies-nginx-sticky-module-ng
+	
+	注意这里--prefix 就是要安装的绝对路径， --with-pcre就是刚才解压pcre的绝对路径， --add-module中加入sticky解压后的绝对路径, 此配置还配置了支持ssl
+	
+	随后在同一个目录中，执行   make && make install  编译安装
+5. 添加linux 用户和组，用于nginx启动配置
+6. cd到nginx安装目录，/usr/local/webserver/nginx  ,  配置 conf/nginx.conf文件
+7. 启动命令为  sbin/nginx
+   停止命令为  sbin/nginx -s stop
+   重启的话，不要用sbin/nginx -s reload 或者 sbin/nginx -s reopen, 这两个命令容易引起部分配置不生效的问题

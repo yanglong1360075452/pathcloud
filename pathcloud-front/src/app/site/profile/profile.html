@@ -1,0 +1,233 @@
+<div id="notification">
+  <toolbar class="clearfix">
+    <ul class="list-unstyled menu-list">
+      <li>{{'个人信息'|translate}}</li>
+    </ul>
+  </toolbar>
+<!--<code>{{notification.filter}}</code>-->
+  <div class="container">
+
+    <form class="form-horizontal row clearfix" name="profile_form" role="form" >
+      <fieldset style="margin-top: 50px; margin-bottom: 50px;" ng-disabled="profile.formDisabled" >
+        <div class="col-sm-4">
+          <div  class="form-group has-feedback" ng-class="{'has-success':userNameOk = profile_form.accountName.$dirty && profile_form.accountName.$valid && !profile.check.nameErr,
+                'has-error':userNameErr = profile_form.accountName.$dirty && profile_form.accountName.$invalid||profile.check.nameErr}" >
+
+            <label for="accountName" class="col-sm-4 control-label">{{'用户名'|translate}}<span class="text-error">*</span>：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="accountName" id="accountName" required disabled
+                     ng-model="profile.data.userName"
+                     ng-change="profile.checkFn(profile.data.userName)"
+                     onkeydown="if(event.keyCode==32) return false"
+                     ng-maxlength="30"
+              >
+              <span ng-show="userNameOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+              <!--<span ng-show="passwordErr" class="glyphicon glyphicon-remove form-control-feedback"></span>-->
+              <div uib-alert class="warning" ng-show="profile.check.nameErr" close="profile.check.nameErr='' ">{{profile.check.nameErr}}</div>
+              <div uib-alert class="warning" ng-show="profile_form.accountName.$error.maxlength" close="userNameErr='' ">{{'用户名最长30位'|translate}}</div>
+            </div>
+          </div>
+
+
+          <!--<div ng-if="profile.method!=='get'" class="form-group has-feedback" ng-class="{'has-success':passwordOk = profile_form.password.$dirty && profile_form.password.$valid,
+              'has-error':passwordErr = profile_form.password.$dirty && profile_form.password.$invalid}">
+            <label for="Password" class="col-sm-4 control-label">密码&nbsp;<span class="text-error">*</span></label>
+            <div class="col-sm-8">
+              <input type="password" style="position: absolute;top:-1000px;left: -1000px;z-index: -10000">&lt;!&ndash;防止表单自动填充&ndash;&gt;
+              <input type="password" class="form-control" name="password" id="Password"  required
+                     ng-model="profile.data.password" ng-minlength="4" ng-maxlength="18"
+                     ng-focus="this.type='password' "
+                     onkeydown="if(event.keyCode==32) return false"
+                     ng-disabled="profile.formDisabled"
+                     placeholder="{{profile.placeholder}}"
+
+              >
+              <span ng-show="passwordOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+              &lt;!&ndash;<span ng-show="passwordErr" class="glyphicon glyphicon-remove form-control-feedback"></span>&ndash;&gt;
+              <div uib-alert class="warning" ng-show="profile_form.password.$error.maxlength||profile_form.password.$error.minlength||passwordErr">密码长度4到18位</div>
+              &lt;!&ndash;<div uib-alert class="warning" ng-show="passwordErr">密码长度4到18位</div>&ndash;&gt;
+            </div>
+          </div>-->
+
+          <div class="form-group has-feedback"  ng-class="{'has-success':firstNameOk = profile_form.firstName.$dirty && profile_form.firstName.$valid,
+                'has-error':firstNameErr =profile_form.firstName.$dirty && profile_form.firstName.$invalid}">
+            <label for="firstName" class="col-sm-4 control-label">{{'真实姓名'|translate}}<span class="text-error">*</span>：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="firstName" id="firstName" ng-model="profile.data.firstName" ng-maxlength="20" required
+                     onkeydown="if(event.keyCode==32) return false"
+              >
+              <span ng-show="firstNameOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+              <div uib-alert class="warning" ng-show="profile_form.firstName.$error.maxlength" >{{'姓名长度过长'|translate}}</div>
+              <div uib-alert class="warning" ng-show="profile_form.firstName.$dirty&&profile_form.firstName.$error.required" >{{'姓名必填'|translate}}</div>
+              <!--<span ng-show="passwordErr" class="glyphicon glyphicon-remove form-control-feedback"></span>-->
+            </div>
+          </div>
+          <div class="form-group has-feedback"  ng-class="{'has-success':phoneOk = profile_form.phone.$dirty && profile_form.phone.$valid,
+                'has-error':phoneErr = profile_form.phone.$dirty && profile_form.phone.$invalid}">
+            <label for="phone" class="col-sm-4 control-label">{{'联系电话'|translate}}<span class="text-error">*</span>：</label>
+            <div class="col-sm-8">
+              <input type="tel" class="form-control" name="phone" id="phone" ng-model="profile.data.phone"
+                     onkeydown="if(event.keyCode==32) return false"
+                     ng-pattern="/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/"
+                     required
+              >
+              <span ng-show="phoneOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+              <!--<span ng-show="passwordErr" class="glyphicon glyphicon-remove form-control-feedback"></span>-->
+              <div uib-alert class="warning" ng-show="profile_form.phone.$error.pattern" >{{'电话格式错误'|translate}}</div>
+            </div>
+          </div>
+          <div class="form-group has-feedback"  ng-class="{'has-success':emailOk = profile_form.email.$dirty && profile_form.email.$valid,
+                'has-error':emailErr = profile_form.email.$dirty && profile_form.email.$invalid}">
+            <label for="email" class="col-sm-4 control-label">{{'电子邮箱'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="email" class="form-control" id="email" name="email"  ng-model="profile.data.email"
+                     onkeydown="if(event.keyCode==32) return false"
+                     ng-pattern="/[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/"
+              >
+              <span ng-show="emailOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+              <!--<span ng-show="passwordErr" class="glyphicon glyphicon-remove form-control-feedback"></span>-->
+              <div uib-alert class="warning" ng-show="profile_form.email.$error.pattern" >{{'邮箱格式错误'|translate}}</div>
+            </div>
+          </div>
+          <!--单位：-->
+          <div class="form-group has-feedback"  ng-class="{'has-success':unitOk = profile_form.unit.$dirty && profile_form.unit.$valid,
+                'has-error':unitErr = profile_form.unit.$dirty && profile_form.unit.$invalid}">
+            <label for="unit" class="col-sm-4 control-label">{{'单位'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="unit" name="unit"  ng-model="profile.data.unit"
+                     onkeydown="if(event.keyCode==32) return false"
+              >
+              <span ng-show="unitOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+          </div>
+
+          <!--科室：departments-->
+          <div class="form-group"  ng-class="{'has-success':departmentsOk = profile_form.departments.$dirty && profile_form.departments.$valid,
+                'has-error':departmentsErr = profile_form.departments.$invalid}">
+            <label class="col-sm-4 control-label">{{'科室'|translate}}<span class="required">*</span>：</label>
+            <div class="col-sm-8">
+              <select-search ng-if="profile.data.id" ng-hide="readonly" require="true" text="profile.data.departments | department" value="profile.data.departments" get-data="profile.getDepartments(filter)" datas="profile.departmentList"></select-search>
+            </div>
+          </div>
+
+          <!--职工号： wno-->
+          <div class="form-group has-feedback"  ng-class="{'has-success':wnoOk = profile_form.wno.$dirty && profile_form.wno.$valid,
+                'has-error':wnoErr = profile_form.wno.$dirty && profile_form.wno.$invalid}">
+            <label for="wno" class="col-sm-4 control-label">{{'职工号'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="wno" name="wno"  ng-model="profile.data.wno"
+                     onkeydown="if(event.keyCode==32) return false"
+              >
+              <span ng-show="wnoOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-sm-4">
+          <!--身份：identity-->
+          <div class="form-group has-feedback"  ng-class="{'has-success':identityOk = profile_form.identity.$dirty && profile_form.identity.$valid,
+                'has-error':identityErr = profile_form.identity.$dirty && profile_form.identity.$invalid}">
+            <label for="identity" class="col-sm-4 control-label">{{'身份'|translate}}：</label>
+            <div class="col-sm-8">
+              <select id="identity"  class="form-control"
+                      ng-model="profile.data.identity"
+                      ng-options="item.value as item.name for item in profile.identityList">
+                <option value="">{{'请选择'|translate}}</option>
+              </select>
+            </div>
+          </div>
+          <!--导师：tutor-->
+          <div class="form-group has-feedback"  ng-class="{'has-success':tutorOk = profile_form.tutor.$dirty && profile_form.tutor.$valid,
+                'has-error':tutorErr = profile_form.tutor.$dirty && profile_form.tutor.$invalid}">
+            <label for="tutor" class="col-sm-4 control-label">{{'导师'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="tutor" name="tutor"  ng-model="profile.data.tutor"
+                     onkeydown="if(event.keyCode==32) return false"
+              >
+              <span ng-show="tutorOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+          </div>
+          <!--院系：faculty-->
+          <div class="form-group has-feedback"  ng-class="{'has-success':facultyOk = profile_form.faculty.$dirty && profile_form.faculty.$valid,
+                'has-error':facultyErr = profile_form.faculty.$dirty && profile_form.faculty.$invalid}">
+            <label for="faculty" class="col-sm-4 control-label">{{'院系'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="faculty" name="faculty"  ng-model="profile.data.faculty"
+                     onkeydown="if(event.keyCode==32) return false"
+              >
+              <span ng-show="facultyOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+          </div>
+          <!--专业：specialty-->
+          <div class="form-group has-feedback"  ng-class="{'has-success':specialtyOk = profile_form.specialty.$dirty && profile_form.specialty.$valid,
+                'has-error':specialtyErr = profile_form.specialty.$dirty && profile_form.specialty.$invalid}">
+            <label for="specialty" class="col-sm-4 control-label">{{'专业'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="specialty" name="specialty"  ng-model="profile.data.specialty"
+                     onkeydown="if(event.keyCode==32) return false"
+              >
+              <span ng-show="specialtyOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+          </div>
+          <!--学号：studentNumber-->
+          <div class="form-group has-feedback"  ng-class="{'has-success':studentNumberOk = profile_form.studentNumber.$dirty && profile_form.studentNumber.$valid,
+                'has-error':studentNumberErr = profile_form.studentNumber.$dirty && profile_form.studentNumber.$invalid}">
+            <label for="studentNumber" class="col-sm-4 control-label">{{'学号'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="studentNumber" name="studentNumber"  ng-model="profile.data.studentNumber"
+                     onkeydown="if(event.keyCode==32) return false"
+              >
+              <span ng-show="studentNumberOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+          </div>
+          <!--课题名称：taskName-->
+          <div class="form-group has-feedback"  ng-class="{'has-success':taskNameOk = profile_form.taskName.$dirty && profile_form.taskName.$valid,
+                'has-error':taskNameErr = profile_form.taskName.$dirty && profile_form.taskName.$invalid}">
+            <label for="taskName" class="col-sm-4 control-label">{{'课题名称'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="taskName" name="taskName"  ng-model="profile.data.taskName"
+                     onkeydown="if(event.keyCode==32) return false"
+              >
+              <span ng-show="taskNameOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+          </div>
+          <!--课题类型：taskType-->
+          <div class="form-group has-feedback"  ng-class="{'has-success':taskTypeOk = profile_form.taskType.$dirty && profile_form.taskType.$valid,
+                'has-error':taskTypeErr = profile_form.taskType.$dirty && profile_form.taskType.$invalid}">
+            <label for="taskType" class="col-sm-4 control-label">{{'课题类型'|translate}}：</label>
+            <div class="col-sm-8">
+              <select id="taskType"  class="form-control"
+                      ng-model="profile.data.taskType"
+                      ng-options="item.value as item.name for item in profile.taskTypeList">
+                <option value="">请选择</option>
+              </select>
+            </div>
+          </div>
+          <!--项目代码：projectCode-->
+          <div class="form-group has-feedback"  ng-class="{'has-success':projectCodeOk = profile_form.projectCode.$dirty && profile_form.projectCode.$valid,
+                'has-error':projectCodeErr = profile_form.projectCode.$dirty && profile_form.projectCode.$invalid}">
+            <label for="projectCode" class="col-sm-4 control-label">{{'项目代码'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="projectCode" name="projectCode"  ng-model="profile.data.projectCode"
+                     onkeydown="if(event.keyCode==32) return false"
+              >
+              <span ng-show="projectCodeOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4 qr-code">
+          <h5>登录二维码：</h5>
+          <qrcode data="{{profile.data.qrCode}}" size="150" ></qrcode>
+        </div>
+
+      </fieldset>
+    </form>
+
+    <div class="modal-footer">
+      <button ng-show="profile.formDisabled" class="btn btn-primary pull-left" ng-click="profile.formDisabled=false;">{{'编辑'|translate}}</button>
+      <button ng-hide="profile.formDisabled "class="btn btn-default pull-left" type="button" ng-click="profile.ok()" ng-disabled="profile_form.$invalid">{{'保存'|translate}}</button>
+    </div>
+  </div>
+
+</div>
+

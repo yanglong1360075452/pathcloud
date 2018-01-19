@@ -1,0 +1,118 @@
+
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" ng-click="voucher.cancel()">
+    <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+    <span class="sr-only">Close</span>
+  </button>
+
+  <h4 class="modal-title text-left" id="modal-title">{{'打印借阅凭证'|translate}}</h4>
+</div>
+
+<div id="vouchers">
+  <div class="modal-body" id="voucher">
+    <style>
+      *{
+        box-sizing: border-box;
+      }
+      .clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+      .clearfix{*height:1%;}
+      .col-sm-4,.col-sm-8{
+        float: left;
+        position: relative;
+        min-height: 1px;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+      .col-sm-4{
+        width: 33.33333%;
+      }
+      .col-sm-8{
+        width: 66.66666%;
+        border-left: 1px dashed #000000;
+      }
+      .title{
+        text-align: center;
+      }
+
+      .patient-info{
+        display: flex;
+        justify-content: space-between;
+      }
+      .voucher-label{
+        display: flex;
+        flex: 1;
+        height: 18px;
+        margin-bottom: 10px;
+      }
+      .voucher-label .text-left{
+        flex: 0 0 84px;
+        order: -1;
+        /*width: 60px;*/
+      }
+      .voucher-label .text-empty{
+        flex: 1;
+      }
+      .border-bottom{
+        border-bottom: 1px solid;
+      }
+
+    </style>
+    <div class="clearfix">
+      <div class="col-sm-4">
+        <div class="title">
+          <h3>副联</h3>
+          <hr>
+        </div>
+        <div>
+
+          <p>借片人： {{voucher.borrower.borrowName}}</p>
+          <p>身份证号：{{voucher.borrower.idNumber}}</p>
+          <p>联系电话：{{voucher.borrower.borrowPhone}}</p>
+          <p>押金费：{{voucher.borrower.cashPledge}}</p>
+          <p>经手人：{{user.firstName}}</p>
+          <p>借片日期：{{voucher.borrower.time | date:'yyyy-MM-dd'}}</p>
+
+        </div>
+      </div>
+      <div class="col-sm-8">
+        <div class="title">
+          <h3>南京市口腔医院病理科借片单</h3>
+          <hr>
+        </div>
+        <div class="content">
+
+          <div class="patient-info" ng-repeat="item in voucher.slides track by $index">
+            <p class="item">病人姓名：{{item.patientName}}</p>                     <p class="item">病理号：{{item.serialNumber}}</p>                    <p class="item">玻片数：{{item.total}}</p>
+          </div>
+
+          <div class="voucher-label"><div class="text-left">会诊单位：</div><div class="text-empty border-bottom"></div></div>
+          <div class="voucher-label clearfix"><div class="text-left">会诊意见：</div><div class="text-empty border-bottom"></div></div>
+          <p class="voucher-label border-bottom"></p>
+          <p class="voucher-label border-bottom"></p>
+
+          <p>还片人签名： _________________________  （押金已退）</p>
+          <p>还片日期： ___________________________</p>
+
+          <br>
+          <br>
+          <br>
+          <br>
+
+          <p>备注：</p>
+          <p>1. 借片限于一个月之内归还，过期不退押金。</p>
+          <p>2. 片子不得损坏、污染，违者酌情赔偿。</p>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+ <!--modal-body-->
+</div>
+
+
+  <div class="modal-footer">
+    <!--<button  class="btn btn-warning" type="button" ng-click="voucher.cancel()">取消</button>-->
+    <button  class="btn btn-default" type="submit" ng-click="voucher.confirm()">打印</button>
+  </div>
+

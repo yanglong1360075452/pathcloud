@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://cxf.apache.org/jaxrs
+            http://cxf.apache.org/schemas/jaxrs.xsd">
+
+    <jaxrs:server id="pathCloudApiServer" address="/">
+        <jaxrs:serviceBeans>
+            <ref bean="userApi"/>
+            <ref bean="roleApi"/>
+            <ref bean="permissionApi"/>
+            <ref bean="applicationApi"/>
+            <ref bean="pathologyApi"/>
+            <ref bean="paramSettingApi"/>
+            <ref bean="grossingApi"/>
+            <ref bean="templateApi"/>
+            <ref bean="dehydrateBasketApi"/>
+            <ref bean="dehydrateApi"/>
+            <ref bean="dehydratorApi"/>
+            <ref bean="localDehydratorApi"/>
+            <ref bean="embedApi"/>
+            <ref bean="imageApi"/>
+            <ref bean="sectionApi"/>
+            <ref bean="systemSettingApi"/>
+            <ref bean="productionApi"/>
+            <ref bean="slideDistributeApi"/>
+            <ref bean="diagnoseApi"/>
+            <ref bean="notificationApi"/>
+            <ref bean="diagnoseTemplateApi"/>
+            <ref bean="reportTemplateApi"/>
+            <ref bean="reportApi"/>
+            <ref bean="statisticsApi"/>
+            <ref bean="queryApi"/>
+            <ref bean="workloadStatisticsApi"/>
+            <ref bean="qualityStatisticsApi"/>
+            <ref bean="dyeApi"/>
+            <ref bean="sealingApi"/>
+            <ref bean="freezeBookingApi"/>
+            <ref bean="specialDyeApi"/>
+            <ref bean="ihcApi"/>
+            <ref bean="wechatApi"/>
+            <ref bean="slideArchivingApi"/>
+            <ref bean="microscopeTrackingApi"/>
+            <ref bean="instrumentApi"/>
+            <ref bean="instrumentTrackingApi"/>
+            <ref bean="frozenApi"/>
+            <ref bean="reagentApi"/>
+            <ref bean="storeApi"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
+            <bean class="com.lifetech.dhap.pathcloud.exception.BuzExceptionResolver"/>
+        </jaxrs:providers>
+        <!--<jaxrs:properties>-->
+            <!--&lt;!&ndash; 200K&ndash;&gt;-->
+            <!--<entry key="attachment-memory-threshold" value="404800"/>-->
+            <!--<entry key="attachment-max-size" value="404800"/>-->
+        <!--</jaxrs:properties>-->
+    </jaxrs:server>
+
+</beans>

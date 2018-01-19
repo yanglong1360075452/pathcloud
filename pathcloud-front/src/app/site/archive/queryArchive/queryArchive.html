@@ -1,0 +1,8 @@
+<toolbar class="clearfix">
+  <ul class="list-unstyled menu-list">
+    <li ng-class="{active:queryArchive.activeMenu==0}" ng-click="queryArchive.choseMenu(0)">{{"玻片"|translate}}</li>
+    <!--<li ng-class="{active:queryArchive.activeMenu==1}" ng-click="queryArchive.choseMenu(1)">{{"蜡块"|translate}}</li>-->
+  </ul>
+</toolbar>
+
+<div class="container" ng-show="queryArchive.activeMenu==0" ng-include="'app/site/archive/queryArchive/querySlide/querySlide.html'"></div>

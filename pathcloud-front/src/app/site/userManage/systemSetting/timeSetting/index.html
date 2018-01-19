@@ -1,0 +1,29 @@
+<div class="timeTemplate" ng-controller="TimeTemplateController as TimeTpl">
+  <div>
+    <h4>{{'默认信息查询时间范围'|translate}}</h4>
+    <div class="time-item">
+
+      <label class="radio-inline" ng-repeat="item in TimeTpl.timeRangeList" ng-click="TimeTpl.putTimeRange(item.code)">
+        <input type="radio" id="{{item.code}}" value="{{item.code}}" ng-model="TimeTpl.checkedTime" ng-checked="TimeTpl.checkedTime===item.code"> {{item.name}}
+      </label>
+    </div>
+
+  </div>
+
+
+  <h4>{{'超过等待时间系统报警'|translate}}</h4>
+  <div class="alarm-item" ng-repeat="item in TimeTpl.operatioinList">
+    <div class="alarm-label">{{item.label|translate}}</div>
+    <input ng-init="item.init(item.url)" type="text" ng-model="item.model" ng-blur="item.put(item.url,item.model)">
+    {{'小时'|translate}}
+  </div>
+
+  <h4>{{'正常报告时间'|translate}}</h4>
+  <div class="alarm-item" ng-repeat="item in TimeTpl.reportOperatioinList">
+    <div class="alarm-label">{{item.label|translate}}</div>
+    <input ng-init="item.init(item.url)" type="text" ng-model="item.model" ng-blur="item.put(item.url,item.model)">
+    {{'天'|translate}}
+  </div>
+
+
+</div>

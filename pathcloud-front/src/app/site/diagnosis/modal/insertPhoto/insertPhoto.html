@@ -1,0 +1,50 @@
+<!--插入显微图像弹窗-->
+<div id="insertPhoto">
+  <div class="modal-header blue-label">
+    <button type="button" class="close" data-dismiss="modal" ng-click="insertPhoto.cancel()">
+      <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title ok-color">{{'插入显微图像'|translate}}</h4>
+  </div>
+  <div class="modal-body clearfix" >
+    <div class="form-group clearfix">
+      <div class="col-sm-6 text-left">{{'选择图像'|translate}}</div>
+      <div class="col-sm-6 text-right editorBtn" ng-click="insertPhoto.openDrawModal()">{{'编辑图像'|translate}}</div>
+    </div>
+    <div class="form-group clearfix">
+      <div class="col-sm-12">
+        <div id="img-container" class=" clearfix">
+          <slider-container scroll-width="insertPhoto.containerWidth" per-item-num="insertPhoto.perItemNum" total-num="insertPhoto.imgList.length">
+            <div class=" clearfix" >
+              <div class="img-item" ng-repeat="item in insertPhoto.imgList track by item.id" ng-click="item.checked = !item.checked">
+                <span ng-show="item.checked" class="active active-icon"><i class="glyphicon glyphicon-ok"></i></span>
+                <img crossOrigin = "anonymous" ng-style="insertPhoto.imgStyle" ng-src="{{insertPhoto.imgUrlHeader+item.url}}">
+              </div>
+           </div>
+          </slider-container>
+        </div>
+      </div>
+    </div>
+    <div class="form-group clearfix">
+      <div class="col-sm-3"><p class="form-control-static">{{'图像描述'|translate}}：</p></div>
+      <div class="col-sm-9"><textarea class="form-control form-control-static" ng-model="insertPhoto.data.imageDesc" rows="10"></textarea></div>
+    </div>
+    <!--<div class="form-group clearfix">
+      <div class="col-sm-3"><p class="form-control-static">插入位置：</p></div>
+      <div class="col-sm-9">
+        <select class="form-control form-control-static" name="" ng-model="insertPhoto.data.position">
+          <option value="1">诊断内容前</option>
+          <option value="2">诊断内容后</option>
+        </select>
+      </div>
+    </div>-->
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="insertPhoto.cancel()">{{'取消'|translate}}</button>
+    <button class="btn btn-default" type="button" ng-click="insertPhoto.ok()">{{'确定'|translate}}</button>
+  </div>
+
+</div>
+
+

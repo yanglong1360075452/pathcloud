@@ -1,0 +1,183 @@
+//诊断报告显示
+.report-template{
+  .template-content{
+    .info-item{
+      width:25%;
+      float: left;
+      margin-bottom: 5px;
+    }
+  }
+  .diagnose-content {
+    margin: 15px 0;
+    .content-name {
+      margin-bottom: 5px;
+    }
+  }
+}
+
+.template-conent,.project-content{
+  .icon{
+    img{
+      height:14px;
+    }
+    color: $btn-default-bg;
+    width: 18px;
+    display: inline-block;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .list-container{
+    height: 348px;
+    overflow-y: auto;
+    .active{
+      background-color: #e3e2ef !important;;
+    }
+    .name-list{
+      height: 30px;
+      line-height: 30px;
+      vertical-align: middle;
+      text-align: left;
+      padding-left: 10px;
+      background-color: #f2f7f9;
+      margin: 10px 0;
+      cursor: pointer;
+      .form-control{
+        display: inline-block;
+        box-shadow:none;
+      }
+      .input-sm{
+        height: 100%;
+        width: 160px;
+        border: 0;
+        background-color: transparent;
+        outline: none;
+      }
+      .i-container{
+        padding-right: 5px;
+        i:{
+          color:#ddeeaa;
+        }
+      }
+    }
+    .content-list{
+      height: 30px;
+      line-height: 30px;
+      vertical-align: middle;
+      text-align: left;
+
+      margin: 10px 0;
+      cursor: pointer;
+      border: 1px solid $theme-color;
+      input{
+        height: 100%;
+        width: 294px;
+        display: inline-block;
+        border: 0;
+        background-color: transparent;
+        box-shadow:none;
+        outline: none;
+      }
+    }
+    .icon{
+      padding-right: 5px;
+    }
+    .add-btn{
+      width: 100%;
+      height:28px;
+      background-color: transparent;
+      border: 2px dashed $theme-color;
+      color: $theme-color;
+    }
+  }
+}
+
+
+
+.reportResult{
+  //background-color: #eee;
+  p{
+    margin-bottom:0;
+  }
+  .logo{
+    position: absolute;
+    top:5px;
+    left: 5px;
+    height: 100px;
+    height: 70px;
+  }
+  pre.hospital-info{
+     background-color: transparent;
+     border: none;
+  }
+  .report-template{
+    overflow-y: auto;
+    height: auto;
+    position: relative;
+    width: 851px;
+
+    .patient-id{
+      //表格上面Id 样式
+      border-bottom: 1px solid;
+      .div-table{
+        width: 25%;
+        border: none;
+        .name{
+          width: 40%;
+          float: left;
+          border: none;
+          padding: 3px 0;
+        }
+        .content{
+          padding: 3px 0;
+          float: right;
+          width: 55%;
+          border: none;
+        }
+      }
+    }
+    .patientInfo-container{
+      //border: 1px solid;
+      border-bottom: 1px solid;
+      border-right: none;
+      .div-table{
+        width: 25%;
+        float: left;
+        //border-bottom: 1px solid;
+        //border-right: 1px solid;
+        .name{
+          //width: 40%;
+          float: left;
+          border: none;
+          //border-right: 1px solid;
+          padding: 3px 0;
+        }
+        .content{
+          padding: 3px 0;
+          float: left;
+          //width: 55%;
+          border: none;
+        }
+      }
+    }
+      .jujianImg{
+        width: 100px;
+        height:70px;
+      }
+    .xianwei{
+      width: 75px;
+      height: 50px;
+      padding-right: 10px;
+      float: left;
+    }
+      //.diagnosis{
+      //  img{
+      //    width: 100px;
+      //    height:70px;
+      //  }
+      //}
+
+  }
+
+}

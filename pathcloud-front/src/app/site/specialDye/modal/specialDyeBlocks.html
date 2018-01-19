@@ -1,0 +1,124 @@
+
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" ng-click="specialDyeBlocks.cancel()">
+    <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+    <span class="sr-only">Close</span>
+  </button>
+
+  <h4 class="modal-title text-left" id="modal-title">{{'批量添加'|translate}}</h4>
+</div>
+
+<div id="specialDyeBlocks" ng-show="specialDyeBlocks.firstStep">
+  <div class="modal-body">
+    <!--搜索部分-->
+    <div class="clearfix">
+      <h4 class="">1.{{'选择蜡块'|translate}}</h4>
+      <div class="form-inline clearfix from-group pull-right">
+        {{'申请日期'|translate}}：<date-seletor dateset="specialDyeBlocks.defaultTime" change="specialDyeBlocks.select()" start-time="specialDyeBlocks.startTime" end-time="specialDyeBlocks.endTime"></date-seletor>
+      </div>
+    </div>
+    <br />
+    <div class="clearfix">
+    <!--<form name="dye_form">-->
+      <table class="table-min table-hover table-bordered">
+        <thead>
+        <tr class="text-center">
+          <th style="width: 40px;">
+            <input style="width: 15px;" type="checkbox" ng-model="specialDyeBlocks.allChecked" ng-click="specialDyeBlocks.chkAll()">
+          </th>
+          <th>{{'病理号'|translate}}</th>
+          <th>{{'蜡块号'|translate}}</th>
+          <th>{{'取材部位'|translate}}</th>
+          <th>{{'取材标识'|translate}}</th>
+          <th>{{'组织数'|translate}}</th>
+          <th>{{'取材备注'|translate}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in specialDyeBlocks.BlockList track by $index">
+          <td><input style="width: 15px;" type="checkbox" ng-model="item.check" ng-click="specialDyeBlocks.check(item)"></td>
+          <td ng-bind="item.pathologySerialNumber"></td>
+          <td ng-bind="item.subId"></td>
+          <td ng-bind="item.bodyPart"></td>
+          <td ng-bind="item.biaoshiDesc"></td>
+          <td>{{item.count}}&nbsp;{{item.unitDesc}}</td>
+          <td ng-bind="item.grossingRemark"></td>
+
+        </tr>
+        <tr ng-repeat="n in [].constructor(10) track by $index" ng-show="!specialDyeBlocks.BlockList.length||specialDyeBlocks.BlockList.length<=$index">
+          <td ng-repeat="n in [].constructor(7) track by $index"></td>
+        </tr>
+
+        </tbody>
+      </table>
+
+      <div class="table-footer">
+        <div class="pull-left form-control-static pagination">{{'共'|translate}}<span ng-bind="specialDyeBlocks.total"></span>{{'条结果'|translate}}</div>
+        <uib-pagination class="pull-right" boundary-links="true" items-per-page="specialDyeBlocks.length" max-size="10"
+                        total-items="specialDyeBlocks.total"
+                        ng-model="specialDyeBlocks.page"
+                        ng-change="specialDyeBlocks.getBlocks()"
+                        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+      </div>
+
+    <!--</form>-->
+    </div>
+  </div>
+ <!--modal-body-->
+</div>
+
+<!--染色类别 下一步-->
+<div class="specialDyeType" ng-hide="specialDyeBlocks.firstStep">
+
+  <div class="modal-body" style="min-height: 480px;">
+
+    <div class="clearfix">
+      <h4 class="">2.{{'选择染色类别'|translate}}</h4>
+    </div>
+    <br />
+    <div class="clearfix">
+      <form name="dyeType_form">
+        <!--添加蜡块染色类别-->
+        <div class="specialDye-create-table table-min mini">
+          <table class="table-bordered">
+            <thead>
+            <tr>
+               <th>{{'染色类别'|translate}}</th>
+              <th style="width: 250px">{{'试剂/抗体名称'|translate}}<span class="required">*</span></th>
+              <th>{{'备注'|translate}}</th>
+              <th>{{'操作'|translate}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in specialDyeBlocks.specialDyeTypeArry">
+
+              <td><select ng-model="item.specialDye" ng-change="specialDyeBlocks.specialDyeSelect(item)" ng-options="item.code as item.name for item in specialDyeBlocks.specialDyeList" type="text"></select></td>
+              <td style="width: 150px;"><input style="background: none" ng-disabled="!(item.specialDye===1||item.specialDye===-1)" ng-model="item.ihcMarker" type="text" placeholder="{{'不同标记物请用；隔开'|translate}}" required></td>
+              <td><input ng-model="item.note" type="text"></td>
+              <td><a href="" ng-click="specialDyeBlocks.delete($index)"><i class="glyphicon glyphicon-trash"></i>&nbsp;{{'删除'|translate}}</a></td>
+
+            </tr>
+            <tr>
+              <td colspan="3"></td>
+              <!--<td></td>
+              <td></td>
+              <td></td>
+              <td></td>                -->
+              <td><a href="" ng-click="specialDyeBlocks.add()"><i class="glyphicon glyphicon-plus"></i>&nbsp;{{'添加'|translate}}</a></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+  <div class="modal-footer">
+    <button ng-show="specialDyeBlocks.firstStep" class="btn btn-warning" type="button" ng-click="specialDyeBlocks.cancel()">{{'取消'|translate}}</button>
+    <button ng-show="specialDyeBlocks.firstStep" class="btn btn-default" type="submit" ng-click="specialDyeBlocks.switch()">{{'下一步'|translate}}</button>
+    <button ng-hide="specialDyeBlocks.firstStep" class="btn btn-warning" type="submit" ng-click="specialDyeBlocks.switch()">{{'上一步'|translate}}</button>
+    <button ng-hide="specialDyeBlocks.firstStep" class="btn btn-default" type="submit" ng-click="specialDyeBlocks.addBlock()" ng-disabled="dyeType_form.$invalid">{{'确认'|translate}}</button>
+  </div>
+

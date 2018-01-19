@@ -1,0 +1,68 @@
+<div id="sectionSetting">
+  <toolbar class="clearfix">
+    <ul class="list-unstyled menu-list">
+      <li id="subRoute{{$index}}" ng-repeat="item in sSetting.toolbar track by $index" ng-class="{ active: sSetting.activeMenu === $index }" ng-click="sSetting.choseMenu($index)">{{item.name |translate}}</li>
+    </ul>
+  </toolbar>
+
+  <div ng-show="sSetting.activeMenu===0" class="container">
+    <div class="container clearfix">
+      <div class="remark-add row form-horizontal">
+        <div class="form-group">
+          <label for="addbtn" class="col-sm-1 control-label">{{'备注'|translate}}：</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control" id="addbtn" ng-model="sSetting.data.name">
+          </div>
+          <div class="col-sm-1">
+            <button id="add" class="btn  btn-default" style="width: 78px;" ng-disabled="!sSetting.data.name||sSetting.disabled" ng-click="sSetting.add()">{{'添加'|translate}}</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="remark-list row clearfix">
+        <div class="col-sm-6" ng-repeat="item in sSetting.sectionRemarkLIst">
+          <div class="remark-item">
+            <button id="delete" type="button" class="close" ng-click="sSetting.delete(item.code)"><i class="fa fa-times-circle" aria-hidden="true"></i><span class="sr-only">Close</span></button>
+            <div  title="{{item.name}}">{{item.name}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div ng-show="sSetting.activeMenu===1" class="container">
+    <div class="container clearfix">
+      <h4>
+        打印介质：
+      </h4>
+
+      <div class="row clearfix">
+        <div class="col-xs-2">
+          <label class="radio-inline"><input ng-checked="sSetting.sectionPrintMedium == 1" type="radio" ng-click="sSetting.selectPrintMedium(1)">玻片打印</label>
+        </div>
+        <div class="col-xs-2">
+          <label class="radio-inline"><input ng-checked="sSetting.sectionPrintMedium == 2" type="radio" ng-click="sSetting.selectPrintMedium(2)">标签打印</label>
+        </div>
+      </div>
+
+      <br>
+
+      <h4>
+        打印方式：
+      </h4>
+      <div class="row clearfix">
+
+        <div class="col-xs-2">
+          <label class="radio-inline"><input ng-checked="sSetting.sectionPrintWay == 1" type="radio" ng-click="sSetting.selectPrintWay(1)">扫描蜡块后自动打印</label>
+        </div>
+
+        <div class="col-xs-2">
+          <label class="radio-inline"><input ng-checked="sSetting.sectionPrintWay == 2" type="radio" ng-click="sSetting.selectPrintWay(2)">手动打印</label>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+

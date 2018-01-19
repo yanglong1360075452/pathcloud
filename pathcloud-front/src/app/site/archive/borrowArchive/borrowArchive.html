@@ -1,0 +1,196 @@
+<toolbar class="clearfix">
+  <ul class="list-unstyled menu-list">
+    <li ng-class="{active:borrowArchive.activeMenu==1}" ng-click="borrowArchive.choseMenu(1)">{{"玻片"|translate}}</li>
+    <!--<li ng-class="{active:borrowArchive.activeMenu==0}" ng-click="borrowArchive.choseMenu(0)">蜡块</li>-->
+  </ul>
+</toolbar>
+<div class="container">
+
+  <div class="col-xs-8">
+    <!--玻片信息-->
+    <div ng-show="borrowArchive.activeMenu==1">
+      <h4 style="margin: 20px 0">{{"借阅玻片信息"|translate}}</h4>
+      <div class="border-box">
+        <div class="space-between" ng-class="{'form-inline':lang==='cn'}">
+
+          <div class="item">
+            <div class="form-control-static">{{"玻片号"|translate}}<span class="required">*</span>：</div>
+            <input class="form-control input-sm" type="text" ng-model="borrowArchive.slideFilter.serialNumber" placeholder="{{'病理号-蜡块号-玻片号'|translate}}" required>
+          </div>
+          <div class="item">
+            <div class="form-control-static">{{"特染标记"|translate}}：</div>
+            <input class="form-control input-sm form-group" type="text" ng-model="borrowArchive.slideFilter.marker">
+          </div>
+          <div class="item">
+            <button ng-click="borrowArchive.getSlide()" ng-disabled="!borrowArchive.slideFilter.serialNumber" class="btn btn-sm btn-info pull-right">{{"添加"|translate}}</button>
+          </div>
+
+        </div>
+      </div>
+      <br>
+      <div  class="table-min">
+        <table class=" table-hover table-bordered">
+          <thead>
+          <th ng-repeat="item in borrowArchive.slideTableHeaders">
+            {{item.name|translate}}
+          </th>
+          </thead>
+
+          <tbody>
+          <tr ng-repeat="item in borrowArchive.productionList track by $index">
+            <td ng-bind="item.serialNumber"></td>
+            <td ng-bind="item.blockSubId"></td>
+            <td ng-bind="item.slideSubId"></td>
+            <td ng-bind="item.ihcMarker"></td>
+            <td ng-bind="item.patientName"></td>
+            <td ng-bind="item.status == 0 ? item.archiveBox : ''"></td>
+            <td ng-bind="item.status == 1 ? item.archiveBox : ''"></td>
+            <td ng-click="borrowArchive.productionList.splice($index,1)"><a href><i class="glyphicon glyphicon-trash"></i></a></td>
+          </tr>
+          <tr ng-repeat="n in [].constructor(1) track by $index" ng-show="borrowArchive.productionList.length<=$index">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+          </tbody>
+        </table>
+        <!--<div class="table-footer">
+          <div class="pull-left form-control-static pagination">
+            <button class="btn btn-sm btn-default" ng-click="borrowArchive.submit()">制片确认</button>
+
+            共<span ng-bind="borrowArchive.searchData.total||0"></span>个玻片
+          </div>
+          <uib-pagination class="pull-right" boundary-links="true"
+                          items-per-page="borrowArchive.searchData.length" max-size="10"
+                          total-items="borrowArchive.searchData.total"
+                          ng-model="borrowArchive.searchData.page"
+                          ng-change="borrowArchive.changePage(borrowArchive.searchData.page)"
+                          previous-text="&lsaquo;" next-text="&rsaquo;"
+                          first-text="&laquo;" last-text="&raquo;">
+          </uib-pagination>
+        </div>-->
+      </div>
+    </div>
+
+    <!--蜡块信息-->
+    <!--<div ng-show="borrowArchive.activeMenu==0">
+      <h4>{{"借阅蜡块信息"|translate}}</h4>
+      <div class="border-box">
+        <div class="form-inline clearfix" style="background: none">
+
+          <div class="form-control-static">{{"病理号"|translate}}*：</div>
+          <input class="form-control input-sm" type="text">
+
+          <div class="form-control-static">病理号*：</div>
+          <input class="form-control input-sm" type="text">
+
+          <button ng-click="borrowArchive.query()" class="btn btn-sm btn-info pull-right">{{"添加"|translate}}</button>
+        </div>
+      </div>
+    </div>-->
+
+  </div>
+
+  <!--借阅人信息-->
+  <div class="col-xs-4" id="ihcCreate">
+    <div class="ihc-info">
+      <div class="title">
+        <h4 class="ng-binding">{{"借阅人信息"|translate}}</h4>
+      </div>
+      <div class="content">
+        <form id="borrow-archive-form"  class="form-inline text-center" name="slideBorrow_form" novalidate>
+          <div class="form-group" ng-class="{'has-success':borrowNameOk = slideBorrow_form.borrowName.$dirty&&slideBorrow_form.borrowName.$valid,
+                'has-error':departmentsErr = slideBorrow_form.borrowName.$dirty&&slideBorrow_form.borrowName.$invalid}">
+            <label>{{"借片人"|translate}}<span class="required">*</span>：</label>
+            <input type="text" name="borrowName" ng-model="borrowArchive.saveData.borrowName" maxlength="20" class="form-control input-sm" required>
+          </div>
+          <div class="form-group" ng-class="{'has-success':borrowPhoneOk = slideBorrow_form.borrowPhone.$dirty&&slideBorrow_form.borrowPhone.$valid,
+                'has-error':borrowPhoneErr = slideBorrow_form.borrowPhone.$dirty&&slideBorrow_form.borrowPhone.$invalid}">
+            <label>{{"联系电话"|translate}}<span class="required">*</span>：</label>
+            <input type="text" ng-model="borrowArchive.saveData.borrowPhone" name="borrowPhone" class="form-control input-sm" required
+                   maxlength="18" ng-pattern="/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/"
+            >
+
+          </div>
+          <div class="form-group" ng-class="{'has-success':idNumberOk = slideBorrow_form.idNumber.$dirty&&slideBorrow_form.idNumber.$valid,
+                'has-error':idNumberErr = slideBorrow_form.idNumber.$dirty&&slideBorrow_form.idNumber.$invalid}">
+            <label>{{"身份证号"|translate}}<span class="required">*</span>：</label>
+            <input type="text" ng-model="borrowArchive.saveData.idNumber" name="idNumber" class="form-control input-sm" required
+                   maxlength="18"
+            >
+
+          </div>
+          <div class="form-group">
+            <label>{{"归还日期"|translate}}<span class="required">*</span>：</label>
+            <div class="input-group" ng-class="{'has-success':planBackOk = slideBorrow_form.planBack.$dirty&&slideBorrow_form.planBack.$valid,
+                'has-error':planBackErr = slideBorrow_form.planBack.$dirty&&slideBorrow_form.planBack.$invalid}">
+              <input class="form-control  input-sm"  ng-model="borrowArchive.saveData.planBack" name="planBack" type="text" style="width:162px;background-color: #fff" readonly clear-text="{{'清除'|translate}}" close-text="{{'确定'|translate}}" current-text="{{'今天'|translate}}" name="menopauseEnd"
+                     uib-datepicker-popup datepicker-options="borrowArchive.option"
+                     is-open="borrowArchive.openPop"  required/>
+              <span ng-show="!readonly" class="input-group-btn">
+                  <button type="button" class="btn btn-default input-sm" ng-click="borrowArchive.openPop=!borrowArchive.openPop"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+            </div>
+          </div>
+
+          <div class="form-group" ng-class="{'has-success':idNumberOk = slideBorrow_form.cashPledge.$dirty&&slideBorrow_form.cashPledge.$valid,
+                'has-error':idNumberErr = slideBorrow_form.cashPledge.$dirty&&slideBorrow_form.cashPledge.$invalid}">
+            <label>{{"押金"|translate}}：</label>
+            <input type="text" ng-model="borrowArchive.saveData.cashPledge" name="cashPledge" maxlength="10" class="form-control input-sm">
+
+          </div>
+
+          <div class="form-group" ng-class="{'has-success':borrowTypeOk = slideBorrow_form.borrowType.$dirty&&slideBorrow_form.borrowType.$valid,
+                'has-error':borrowTypeErr = slideBorrow_form.borrowType.$dirty&&slideBorrow_form.borrowType.$invalid}">
+            <label>{{"借阅人类别"|translate}}：</label>
+            <select class="form-control input-sm" ng-model="borrowArchive.saveData.borrowType" name="borrowType" ng-options="status.code as status.name for status in [{name:'病人',code:1},{name:'医生',code:2},{name:'学生',code:2}]">
+              <!--<option value=""></option>-->
+            </select>
+          </div>
+          <div class="form-group" ng-class="{'has-success':unitOk = slideBorrow_form.borrowType.$dirty&&slideBorrow_form.borrowType.$valid,
+                'has-error':borrowTypeErr = slideBorrow_form.borrowType.$dirty&&slideBorrow_form.borrowType.$invalid}">
+            <label>{{"单位"|translate}}：</label>
+            <input type="text" class="form-control input-sm" ng-model="borrowArchive.saveData.unit">
+          </div>
+          <div class="form-group" ng-class="{'has-success':departmentOk = slideBorrow_form.departments.$dirty&&slideBorrow_form.departments.$valid,
+                'has-error':departmentErr = slideBorrow_form.departments.$dirty&&slideBorrow_form.departments.$invalid}">
+            <label>{{"科室/组别"|translate}}：</label>
+            <!--<department-select></department-select>-->
+            <div style="display: inline-block">
+              <department-select ng-hide="readonly" class="department-selecter hideWhenPrint" name="departments" text="borrowArchive.departments | department" value="borrowArchive.saveData.departments" ></department-select>
+            </div>
+            <!--<input type="text" class="form-control input-sm" ng-model="borrowArchive.saveData.departments">-->
+          </div>
+          <div class="form-group" ng-class="{'has-success':tutorOk = slideBorrow_form.tutor.$dirty&&slideBorrow_form.tutor.$valid,
+                'has-error':tutorErr = slideBorrow_form.tutor.$dirty&&slideBorrow_form.tutor.$invalid}">
+            <label>{{"导师"|translate}}：</label>
+            <input type="text" class="form-control input-sm" name="tutor" ng-model="borrowArchive.saveData.tutor">
+          </div>
+          <div class="form-group" ng-class="{'has-success':noteOk = slideBorrow_form.note.$dirty&&slideBorrow_form.note.$valid,
+                'has-error':noteErr = slideBorrow_form.note.$dirty&&slideBorrow_form.note.$invalid}">
+            <label>{{"备注"|translate}}：</label>
+            <input type="text" class="form-control input-sm" name="note" ng-model="borrowArchive.saveData.note">
+          </div>
+
+          <div class="text-center">
+            <label class="checkbox-inline" for="print" style="margin-right: 20px"><input ng-model="borrowArchive.isPrint" type="checkbox" id="print" name="print">打印凭证</label>
+            <button class="btn btn-primary" ng-click="borrowArchive.save()" ng-disabled="slideBorrow_form.$invalid">{{"确认"|translate}}</button>
+          </div>
+
+
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+

@@ -1,0 +1,54 @@
+<div  id="configMaterial">
+  <toolbar class="clearfix">
+    <ul class="list-unstyled menu-list">
+      <li ng-class="{active:freeze.activeMenu[0]}" ng-click="freeze.choseMenu(0)">{{'取材模板'|translate}}</li>
+      <li ng-class="{active:freeze.activeMenu[1]}" ng-click="freeze.choseMenu(1)">{{'冰冻切片机设置'|translate}}</li>
+    </ul>
+
+  </toolbar>
+
+  <div id="material" ng-if="freeze.showPart===0" class="container" ng-include="'app/site/drawMaterial/configMaterial/formwork.html'">
+  </div>
+  <!-- note 跟染色封片 脱水机用的同一个样式-->
+  <div id="gSetting" ng-if="freeze.showPart===1" class="container">
+    <div class="container freeze-head" style="padding: 40px">
+      <div class="pull-left freeze-title">
+        <span>{{'添加/编辑冰冻切片机'|translate}}</span>
+      </div>
+      <div class="pull-right freeze-add">
+        <input class="form-control blue-label ok-color" type="button" value="{{'添加'|translate}}" ng-click="freeze.openAdd()"/>
+      </div>
+    </div>
+
+    <div class="container freeze-body">
+      <ul class="list-unstyled grossing-list">
+        <li ng-repeat="item in freeze.grossingList">
+          <div class="li-number" ng-class="{'grey-label':item.status,'blue-label':item.status === 0}">
+            {{item.name}}
+          </div>
+          <div class="li-text middle-box">
+            <div class="operate-div">
+              <div class="pull-left cursor-pointer" style="margin-right: 5px;" ng-click="freeze.openUpdate(item)">
+                <i class="fa fa-pencil-square-o fa-2x"></i>
+              </div>
+              <div class="pull-left cursor-pointer" style="" ng-click="freeze.deleteGrossing(item)">
+                <i class="fa fa-trash fa-2x"></i>
+              </div>
+            </div>
+            <!--<div class="middle-inner">-->
+            <p title="{{item.sn}}" class="sn text-ellipsis">{{'序列号'|translate}}：{{item.sn}}</p>
+            <p class="sn text-ellipsis" title="{{item.description}}">
+              <span>{{'备注'|translate}}：</span>
+              {{item.description}}
+            </p>
+            <p style="line-height: 60px;">{{'状态'|translate}}：{{item.status ? "不可用":"正常"|translate}}</p>
+          </div>
+          <!--</div>-->
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+
+</div>

@@ -1,0 +1,212 @@
+/*
+.diagnosisTemplate{
+   .template-container{
+    .title{
+      height: 30px;
+      text-align: left;
+    }
+
+    .content{
+      border: 1px #000000 solid;
+      position: relative;
+      height: 90%;
+      padding: 0;
+      height: 480px;
+
+      //.radio-inline + .radio-inline, .checkbox-inline + .checkbox-inline {
+      //  margin-top: 0;
+      //  padding-right: 10px;
+      //  margin-left: 0;
+      //}
+      .radio-inline, .checkbox-inline {
+         margin-top: 0;
+         padding-right: 10px;
+         margin-left: 0;
+       }
+      textarea{
+        height: 343px;
+        width: 100%;
+        outline: none;
+        border: 0;
+      }
+
+      .list-container{
+        margin-top: 5px;
+        height: 443px;
+        overflow-y: auto;
+        .active{
+          background-color: #ddeeff;
+        }
+        li{
+          height: 25px;
+          line-height: 25px;
+          vertical-align: middle;
+          text-align: left;
+          padding-left: 10px;
+          margin: 3px 0;
+          cursor: pointer;
+          input{
+            height: 100%;
+            border: 0;
+            background-color: transparent;
+            outline: none;
+          }
+          .i-container{
+            padding-right: 5px;
+            i:{
+              color:#ddeeaa;
+            }
+          }
+        }
+      }
+      .list-toolbar{
+        height: 30px;
+        width: 100%;
+        background-color: #cccccc;
+        position: absolute;
+        bottom:0;
+
+        .flex-box{
+          justify-content: center;
+          margin-top:3px;
+          button{
+            background-color: transparent;
+            border: 0px;
+            &:active,&:visited{
+              border: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
+
+.list-container{
+  height: 348px;
+  overflow-y: auto;
+  .active{
+    background-color: #eee !important;;
+  }
+  .name-list{
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+    text-align: left;
+    padding-left: 10px;
+    background-color: #ddeeff;
+    margin: 10px 0;
+    cursor: pointer;
+    .form-control{
+      display: inline-block;
+      box-shadow:none;
+    }
+    .input-sm{
+      height: 100%;
+      width: 170px;
+      border: 0;
+      background-color: transparent;
+      outline: none;
+    }
+    .i-container{
+      padding-right: 5px;
+      i:{
+        color:#ddeeaa;
+      }
+    }
+  }
+  .content-list{
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+    text-align: left;
+
+    margin: 10px 0;
+    cursor: pointer;
+    border: 1px solid #00b3ee;
+    input{
+      height: 100%;
+      width: 294px;
+      display: inline-block;
+      border: 0;
+      background-color: transparent;
+      box-shadow:none;
+      outline: none;
+    }
+  }
+  .icon{
+    padding-right: 5px;
+  }
+  .add-btn{
+    width: 100%;
+    background-color: transparent;
+    border: 1px dashed #69bcd0;
+    color: #69bcd0;
+  }
+}
+
+!*Toggle Specific styles*!
+.slideThree {
+  width: 80px;
+  height: 26px;
+  background: #f2f7f9;
+  //margin: 20px auto;
+  position: relative;
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 0;
+  -moz-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
+  -webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
+}
+.slideThree:before {
+  content: '单选';
+  //color: #00bf00;
+  position: absolute;
+  left: 10px;
+  z-index: 0;
+  font: 12px/26px Arial, sans-serif;
+  font-weight: bold;
+}
+.slideThree input[type=checkbox] {
+  visibility: hidden;
+}
+.slideThree input[type=checkbox]:checked + label {
+  left: 43px;
+}
+.slideThree label {
+  display: block;
+  width: 34px;
+  height: 20px;
+  cursor: pointer;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  z-index: 1;
+  background: #69bcd0;
+  //background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+  //background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+  //background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+
+  -moz-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+}
+.slideThree:after {
+  content: '多选';
+  color: #000;
+  position: absolute;
+  right: 10px;
+  z-index: 0;
+  font: 12px/26px Arial, sans-serif;
+  font-weight: bold;
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.15);
+}
+*/

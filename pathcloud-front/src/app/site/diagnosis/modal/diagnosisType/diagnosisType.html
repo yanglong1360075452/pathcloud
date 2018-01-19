@@ -1,0 +1,33 @@
+<div class="diagnosisType">
+  <div class="modal-header blue-label">
+    <button type="button" class="close" data-dismiss="modal" ng-click="diagnosisType.cancel()">
+      <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title ok-color">{{'提交上级诊断'|translate}}</h4>
+  </div>
+  <div class="modal-body clearfix" >
+    <div class="form-group clearfix">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-3 form-control-static">{{'诊断医生'|translate}}：</div>
+      <div class="col-sm-7">
+        <select class="form-control"  ng-model="diagnosisType.data.userId"
+                 ng-options="item.id as item.firstName for item in diagnosisType.superDiagnosisUserList"
+        >
+          <option value="">{{'选择诊断医生'|translate}}</option>
+        </select>
+      </div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="form-group clearfix">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-3 form-control-static">{{'备注'|translate}}：</div>
+      <div class="col-sm-7"><textarea ng-model="diagnosisType.data.note" style="width:100%;" rows="5"></textarea></div>
+      <div class="col-sm-1"></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="diagnosisType.cancel()">{{'取消'|translate}}</button>
+    <button class="btn btn-default" type="button" ng-click="diagnosisType.ok()">{{'确定'|translate}}</button>
+  </div>
+</div>

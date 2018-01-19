@@ -1,0 +1,29 @@
+<div id="embedSetting">
+  <toolbar class="clearfix">
+      <h5>{{'常用包埋备注管理'|translate}}</h5>
+  </toolbar>
+
+  <div class="container clearfix">
+    <div class="remark-add row form-horizontal">
+      <div class="form-group">
+        <label for="addbtn" class="col-sm-1 control-label">{{'备注'|translate}}：</label>
+        <div class="col-sm-3">
+          <input type="text" class="form-control" id="addbtn" ng-model="eSetting.data.name">
+        </div>
+        <div class="col-sm-1">
+          <button id="add" class="btn  btn-default" style="width: 78px;" ng-disabled="!eSetting.data.name||eSetting.disabled" ng-click="eSetting.add($event)">{{'添加'|translate}}</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="remark-list row clearfix">
+      <div class="col-sm-6" ng-repeat="item in eSetting.embedRemarkLIst">
+        <div class="remark-item">
+          <button id="delete" type="button" class="close" ng-click="eSetting.delete(item.code)"><i class="fa fa-times-circle" aria-hidden="true"></i><span class="sr-only">Close</span></button>
+          <div title="{{item.name}}">{{item.name}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

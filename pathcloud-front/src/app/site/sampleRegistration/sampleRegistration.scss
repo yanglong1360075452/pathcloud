@@ -1,0 +1,22 @@
+#sampleRegistration{
+  #registration-head{
+    line-height:34px;
+  }
+  .input-group #searchSpan{
+    display: none;
+  }
+  .main{
+    
+    .modal-body{
+      border:1px solid lightblue;
+    }
+  }
+  .small-sample-div .modal-header{
+    background: #fff;
+  }
+
+  .small-sample-table,.small-sample-table thead,.small-sample-table tbody,.small-sample-table td,.small-sample-table tr,.small-sample-table th{
+    border:none!important;
+  }
+
+}

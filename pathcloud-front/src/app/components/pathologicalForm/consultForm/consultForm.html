@@ -1,0 +1,189 @@
+<div id="pathologicalForm" class="center-block">
+
+
+    <form id="consultForm_form" ng-class="{'readonly':consultForm.read}" name="consultForm_form" novalidate>
+
+      <div class="row">
+        <fieldset class="" ng-class="{'col-sm-8':consultForm.colspan === 2}"  ng-disabled="consultForm.read">
+          <!--左-->
+          <div class="table-responsive" style="overflow: inherit;">
+            <table class="table table-bordered">
+              <tbody>
+              <tr>
+                <td>{{"病人姓名"|translate}}<span class="required hideWhenPrint">*</span></td>
+                <td><input name="patientName" ng-model="consultForm.data.patientName"  ng-value="consultForm.data.patientName" type="text" required/></td>
+                <td>{{"门诊号"|translate}}</td>
+                <td><input ng-model="consultForm.data.patientNo" ng-value="consultForm.data.patientNo" type="text"/></td>
+                <td>{{"住院号"|translate}}</td>
+                <td><input ng-model="consultForm.data.admissionNo" name="admissionNo" ng-value="consultForm.data.admissionNo" type="text" /></td>
+              </tr>
+
+              <tr>
+                <td>{{"年龄"|translate}}</td>
+                <td ng-class="{'error':consultForm_form.age.$invalid} "><input ng-model="consultForm.data.age" ng-pattern="/^[0-9]*$/" name="age" ng-value="consultForm.data.age" type="text" maxlength="3" /></td>
+                <td>{{"性别"|translate}}<span class="required hideWhenPrint">*</span></td>
+                <td>
+                  <!--<span class="showWhenPrint">{{consultForm.getSelectName(consultForm.sexList,consultForm.data.sex)}}</span>-->
+                  <select class="hideWhenPrint" id="sex" name="sex" ng-model="consultForm.data.sex" ng-value="consultForm.data.sex" ng-options="sex.value as sex.name for sex in consultForm.sexList" ng-disabled="readonly" required>
+                  </select>
+                </td>
+                <td>{{"婚否"|translate}}</td>
+                <td>
+                  <!--<span class="showWhenPrint">{{consultForm.getSelectName(consultForm.maritalStatusList,consultForm.data.maritalStatus)}}</span>-->
+                  <select class="hideWhenPrint" name="maritalStatus" ng-model="consultForm.data.maritalStatus" ng-hide="consultForm.data.maritalStatus===90 && readonly" ng-value="consultForm.data.maritalStatus" ng-options="maritalStatus.value as maritalStatus.name for maritalStatus in consultForm.maritalStatusList"
+                          ng-disabled="readonly">
+                  </select>
+                </td>
+              </tr>
+
+              <tr>
+                <td>{{"联系电话"|translate}}</td>
+                <td ng-class="{'required':consultForm_form.tel.$invalid} ">
+                  <input ng-model="consultForm.data.patientTel" ng-value="consultForm.data.patientTel" name="tel" type="text" ng-readonly="readonly"
+                         onkeydown="if(event.keyCode==32) return false" maxlength="18"
+                         ng-pattern="/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/"
+                  />
+                </td>
+                <td>{{"籍贯"|translate}}</td>
+                <td ng-class="{'error':consultForm_form.originPlace.$invalid} "><input name="originPlace" ng-model="consultForm.data.originPlace" ng-value="consultForm.data.originPlace" maxlength="20" type="text" /></td>
+                <td>{{"职业"|translate}}</td>
+                <td ng-class="{'error':consultForm_form.profession.$invalid} "><input name="profession" ng-model="consultForm.data.profession" ng-value="consultForm.data.profession" maxlength="20" type="text" /></td>
+              </tr>
+
+              <tr>
+                <td>{{"送检医院"|translate}}<span class="required hideWhenPrint">*</span></td>
+                <td>
+                  <!--<span class="showWhenPrint">{{consultForm.getSelectName(consultForm.inspectHospitalList,consultForm.data.hospital)}}</span>-->
+                  <select class="hideWhenPrint" name="hospital" ng-value="consultForm.data.hospital" required
+                          ng-model="consultForm.data.hospital"
+                          ng-options="item.code as item.name for item in consultForm.inspectHospitalList"
+                          ng-disabled="readonly">
+                    <option value="">请选择</option>
+                  </select>
+                </td>
+                <td style="min-width: 90px;">{{"送检医生"|translate}}</td>
+                <td><input name="doctor" ng-model="consultForm.data.doctor" ng-value="consultForm.data.doctor" type="text" maxlength="10" /></td>
+                <td style="min-width: 100px;">{{"送检医生电话"|translate}}</td>
+                <td ng-class="{'error':consultForm_form.doctorTel.$invalid&&consultForm_form.doctorTel.$dirty} ">
+                  <input name="doctorTel"  type="text" ng-readonly="readonly"
+                         ng-model="consultForm.data.doctorTel"
+                         ng-value="consultForm.data.doctorTel"
+                         onkeydown="if(event.keyCode==32) return false"
+                         maxlength="18"
+                         ng-pattern="/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/"
+                  />
+                </td>
+              </tr>
+
+              <tr>
+                <td>{{"送检科室"|translate}}</td>
+                <td style="position: relative;">
+                  <department-select ng-if="consultForm.data" class="department-selecter" text="consultForm.data.departments|department" value="consultForm.data.departments" require="false"></department-select>
+                </td>
+                <td>{{"检查项目"|translate}}</td>
+                <td ng-class="{'error':consultForm_form.inspectionItem.$invalid} "><input name="inspectionItem" ng-model="consultForm.data.inspectionItem" ng-value="consultForm.data.inspectionItem" maxlength="20" type="text" /></td>
+                <td>{{"就诊类别"|translate}}</td>
+                <td ng-class="{'error':consultForm_form.visitCat.$invalid} "><input name="visitCat" ng-model="consultForm.data.visitCat" ng-value="consultForm.data.visitCat" maxlength="20" type="text" /></td>
+              </tr>
+
+              <tr>
+                <td>临床诊断</td>
+                <td colspan="5">
+                  <textarea class="form-control" ng-model="consultForm.data.clinicalDiagnosis" cols="30" rows="4"></textarea>
+                </td>
+              </tr>
+              <tr>
+                <td>病历摘要</td>
+                <td colspan="5">
+                  <textarea class="form-control"  ng-model="consultForm.data.medicalSummary" cols="30" rows="4"></textarea>
+                </td>
+              </tr>
+              <tr>
+                <td style="width: 100px;">会诊目的和要求</td>
+                <td colspan="5">
+                  <textarea class="form-control"  name="consultForm_form.note" ng-model="consultForm.note" cols="30" rows="4" ></textarea>
+                </td>
+              </tr>
+
+
+              </tbody>
+            </table>
+          </div>
+        </fieldset>
+        <div class="" ng-class="{'col-sm-4':consultForm.colspan === 2}"  ng-disabled="consultForm.read">
+          <!--右-->
+          <div class="table-responsive" ng-hide="hideSampleTable">
+            <table class="table table-bordered" id="sample-table">
+              <thead>
+              <tr>
+                <th>{{"序号"|translate}}</th>
+                <th ng-class="{'min-width':consultForm.colspan === 2}">{{"病理号"|translate}}<span class="required hideWhenPrint">*</span></th>
+                <th ng-class="{'min-width':consultForm.colspan === 2}">{{"蜡块号"|translate}}<span class="required hideWhenPrint">*</span></th>
+                <th ng-class="{'min-width':consultForm.colspan === 2}">{{"类别"|translate}}<span class="required hideWhenPrint">*</span></th>
+                <th class="hideWhenPrint" ng-if="consultForm.showOperation">{{"操作"|translate}}</th>
+              </tr>
+              </thead>
+              <tbody>
+
+              <tr ng-repeat="item in consultForm.data.origins track by $index">
+                <td>{{$index + 1}}</td>
+                <td><input type="text" ng-model="item.pathNo" ng-value="item.pathNo" maxlength="20" ng-disabled="consultForm.read" required /></td>
+                <td><input type="text" ng-model="item.blockSubId" ng-value="item.blockSubId" maxlength="20" ng-disabled="consultForm.read" required /></td>
+                <td>
+                  <!--<span class="showWhenPrint">{{consultForm.getSelectName(consultForm.categoryList,item.category)}}</span>-->
+                  <select class="hideWhenPrint" name="sample" ng-model="item.type" ng-value="item.type" required
+                          ng-options="type.code as type.name for type in consultForm.typeList" ng-disabled="consultForm.read" ></select>
+                </td>
+                <td class="hideWhenPrint" ng-if="consultForm.showOperation">
+                  <a class="cursor-pointer btn-input" ng-click="consultForm.delSample($index)" ng-disabled="consultForm.read">
+                    <i class="glyphicon glyphicon-trash"></i>{{"删除"|translate}}
+                  </a>
+                </td>
+              </tr>
+
+              <tr ng-if="consultForm.showOperation" class="hideWhenPrint">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                  <a class="cursor-pointer btn-input" ng-click="consultForm.addSample()" ng-disabled="consultForm.read">
+                    <i class="glyphicon glyphicon-plus"></i>{{"添加"|translate}}
+                  </a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+
+          </div>
+
+          <div class="text-center">
+            <button  ng-if="consultForm.showOperation" class="btn btn-default"
+                     ng-disabled="consultForm_form.$invalid"
+                     ng-click="consultForm.submit()"
+                     id="submit"
+            >
+              登记
+            </button>
+          </div>
+
+
+        </div>
+
+      </div>
+
+        <br/>
+
+    </form>
+
+
+
+    <!--</div>-->
+  <!--&lt;!&ndash;用于测试显示病理申请号 病理号&ndash;&gt;
+  <div id="applicationNo" style="height: 0;position:absolute; visibility: hidden;" ng-bind="consultForm.test_serialNumber"></div>-->
+
+</div>
+
+
+
+<!--//Can not deserialize instance of java.util.ArrayList out of START_OBJECT token-->

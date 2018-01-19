@@ -1,0 +1,115 @@
+<div id="notification">
+  <toolbar class="clearfix">
+    <ul class="list-unstyled menu-list">
+
+      <li>{{'系统通知'|translate}}</li>
+
+      <search-input class="pull-right form-control-static" model="notification.filter.filter" get-data="notification.getDataList()" placeholder="{{'输入消息主题'|translate}}"></search-input>
+    </ul>
+  </toolbar>
+<!--<code>{{notification.filter}}</code>-->
+  <div class="container">
+    <div class="notification-list col-sm-5">
+      <div class="title">
+        {{'消息列表'|translate}}
+        <select class="pull-right" ng-model="notification.filter.handle" ng-options="item.code as item.name for item in [{name:'未处理',code:false},{name:'已处理',code:true}]" ng-change="notification.getDataList()">
+          <option value="">{{'全部'|translate}}</option>
+          <!--<option value="false">未读</option>-->
+          <!--<option value="true">已读</option>-->
+        </select>
+      </div>
+      <div class="main">
+
+        <div class="table-container">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>{{'主题'|translate}}</th>
+              <th>{{'时间'|translate}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="cursor-pointer" ng-repeat="item in notification.notificationList.data" ng-class="{'active':notification.activeItem.id==item.id,'readabled':!item.readFlag}" ng-click="notification.viewDetail(item)">
+              <td>{{item.subject}}</td>
+              <td>{{item.createTime | date:'yyyy-MM-dd HH:mm'}}</td>
+            </tr>
+            </tbody>
+          </table>
+          <div class="table-footer clearfix">
+            <!--<div class="pull-left form-control-static pagination">共<span ng-bind="sampleSearch.totalItems"></span>条结果</div>-->
+            <uib-pagination class="pull-right" boundary-links="true" items-per-page="notification.filter.length" max-size="7"
+                            total-items="notification.notificationList.total"
+                            ng-model="notification.filter.page"
+                            ng-change="notification.getDataList()"
+                            previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+          </div>
+        </div>
+
+      </div>
+
+
+      </div>
+
+    <div class="notification-detail col-sm-7">
+      <!--<code>{{notification.activeItem.data}}</code>-->
+      <div class="main">
+        <div class="detail-header">
+          <h4 class="text-center">{{notification.activeItem.data.subject}}</h4>
+          <div class="text-center">
+            {{'消息来源'|translate}}：{{notification.activeItem.data.sourceName}}  {{'发送人'|translate}}：{{notification.activeItem.data.sender}}      {{'发送时间'|translate}}：{{notification.activeItem.data.createTime| date:'yyyy-MM-dd HH:mm'}}
+          </div>
+        </div>
+        <div class="detail-body">
+          <p>{{'样本信息'|translate}}</p>
+          <div>{{'病理号'|translate}}：<span class="block-span">{{notification.activeItem.data.pathologyNumber}}</span>  {{'蜡块号'|translate}}：<span class="block-span" style="min-width: 40px;">{{notification.activeItem.data.blockNumber}}</span>       {{'病人姓名'|translate}}：<span class="block-span">{{notification.activeItem.data.patientName}}</span></div>
+          <br>
+          <p>{{'消息内容'|translate}}</p>
+          <div class="table-container" ng-show="notification.activeItem.data.detail">
+            <table class="table table-bordered">
+              <thead>
+              <tr>
+                <th>{{'病理号'|translate}}</th>
+                <th>{{'蜡块号'|translate}}</th>
+                <th ng-show="notification.activeItem.data.detail.slideId">{{'玻片号'|translate}}</th>
+                <th>{{'当前状态'|translate}}</th>
+                <th>{{'等待时间'|translate}}</th>
+                <th>{{'最后操作人'|translate}}</th>
+                <th>{{'最后操作时间'|translate}}</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>{{notification.activeItem.data.detail.pathologyNumber}}</td>
+                <td>{{notification.activeItem.data.detail.subId}}</td>
+                <td ng-show="notification.activeItem.data.detail.slideId">{{notification.activeItem.data.detail.slideId}}</td>
+                <td>{{notification.activeItem.data.detail.statusName}}</td>
+                <!--<td>{{(notification.activeItem.data.detail.nextOperationTime-notification.activeItem.data.detail.operationTime)|formatMsec}}</td>-->
+                <td>{{notification.waitingTime(notification.activeItem.data.detail.waitTime)}}</td>
+                <td>{{notification.activeItem.data.detail.operatorName}}</td>
+                <td>{{notification.activeItem.data.detail.operationTime | date:'yyyy-MM-dd HH:mm'}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>{{'备注信息'|translate}}</p>
+          <div>
+            {{notification.activeItem.data.note}}
+          </div>
+
+          <!--status===11-->
+          <div class="deal-fn text-center" ng-hide="notification.activeItem.data.type===2||notification.activeItem.data.status===10||notification.activeItem.data.status===11">
+
+            <a href="" ng-click="notification.deal(notification.activeItem.data.blockId,notification.activeItem.data.pathId,1)">{{'处理异常'|translate}}</a>
+
+          </div>
+        </div>
+
+
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+

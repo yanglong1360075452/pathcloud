@@ -1,0 +1,45 @@
+<div id="changPwd">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="changePassword.cancel()">
+      <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+      <span class="sr-only">Close</span>
+    </button>
+
+    <h4 class="modal-title text-center" id="modal-title" ng-bind="changePassword.Title"></h4>
+  </div>
+  <div class="modal-body">
+    <div class="form-container">
+      <form role="form" class="form-horizontal" name="changePwd_form" novalidate ng-submit="changePassword.ok()">
+        <div class="form-group">
+          <label for="oldPassword" class="control-label col-sm-4">{{'旧密码'|translate}}:</label>
+          <div class="col-sm-6">
+            <input ng-model="changePassword.data.oldPassword" class="form-control" name="oldPassword" id="oldPassword" type="password" placeholder="请输入旧密码" required/>
+            <uib-alert type="warning" ng-show="changePassword.Err" close="changePassword.Err=''">{{changePassword.Err}}</uib-alert>
+          </div>
+        </div>
+        <div class="form-group has-feedback" ng-class="{'has-error':changePassword.checkpasswordErr || changePwd_form.newPassword.$dirty && changePwd_form.newPassword.$invalid}">
+          <label for="newPassword" class="control-label col-sm-4">{{'新密码'|translate}}:</label>
+          <div class="col-sm-6">
+            <input ng-model="changePassword.data.newPassword" class="form-control" name="newPassword" id="newPassword" type="password" placeholder="密码长度4-18位" required
+                   ng-minlength="4" ng-maxlength="18"
+                   onkeydown="if(event.keyCode==32) return false"
+                   ng-change="changePassword.checkPassword()"/>
+
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password2" class="control-label col-sm-4">{{'确认密码'|translate}}:</label>
+          <div class="col-sm-6">
+            <input ng-model="changePassword.check.password2" class="form-control" name="password2" id="password2" type="password" placeholder="再次输入新密码" required
+                   ng-change="changePassword.checkPassword()"/>
+            <uib-alert type="warning" ng-show="changePassword.checkpasswordErr">{{changePassword.checkpasswordErr}}</uib-alert>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="changePassword.cancel()">{{'取消'|translate}}</button>
+    <button class="btn btn-default" type="submit" ng-click="changePassword.ok()" ng-disabled="changePwd_form.$invalid||changePassword.checkpasswordErr||changePassword.Err">{{'确定'|translate}}</button>
+  </div>
+</div>

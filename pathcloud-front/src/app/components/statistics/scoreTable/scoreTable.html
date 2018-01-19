@@ -1,0 +1,26 @@
+<div id="scoreTable">
+  <span class="pull-left">{{'质控评分排行'|translate}}</span>
+  <span class="pull-right">
+    <select ng-model="scoreTable.time" ng-change="scoreTable.setTime()"
+            ng-options="time.value as time.name for time in scoreTable.timeList">
+    </select>
+  </span>
+  <div class="table-min">
+    <table>
+      <thead>
+      <tr>
+        <td>{{'技术员'|translate}}</td>
+        <td>{{'工位'|translate}}</td>
+        <td>{{'评分'|translate}}</td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="item2 in scoreTable.scoreData">
+        <td ng-bind="item2.operator.firstName"></td>
+        <td ng-bind="item2.operationDesc"></td>
+        <td ng-bind="item2.average"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

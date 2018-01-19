@@ -1,0 +1,145 @@
+<div id="sectionCreate">
+  <toolbar class="clearfix">
+    <div class="search clearfix">
+      <search-input class="pull-right" style="width: 400px" model="section.filter" clear="true" get-data="section.getBlockInfo()"  placeholder="{{'输入病理号-蜡块号-玻片号查询'|translate}}"></search-input>
+      <!--<div class="input-group">-->
+      <!--<input class="form-control" type="text" ng-model="createMaterial.searchData.filter" ng-keyup="eCreate.search($event)" auto-focus="true" onfocus=" this.style.imeMode='active' " autofocus placeholder="姓名/病理号，号段用'-'分开 ">-->
+      <!--<span class="input-group-btn">-->
+      <!--<button class="btn btn-default" type="button" ng-click="eCreate.search()"><span class="glyphicon glyphicon-search"></span></button>-->
+      <!--</span>-->
+      <!--</div>-->
+    </div>
+  </toolbar>
+
+  <div class="page">
+    <!--<code>{{section.blockInfo}}</code>-->
+    <div class="content-box content-section clearfix center-block">
+      <div class="clearfix">
+        <div class="pull-left" style="width: 140px;  margin-left: 28px;">
+          <div class="img-box">
+            <img src="./assets/images/embed-box.png" height="70" width="100" alt="包埋图片">
+          </div>
+          <div class="color-box text-center">
+            <div class="big ">{{section.marker.length||1}}<span>{{'切片'|translate}}</span></div>
+            <p ng-repeat="item in section.dyeTypeList">{{item}}</p>
+          </div>
+        </div>
+        <div class="text-box">
+          <div class="text big">
+            {{'病理号'|translate}}：{{section.blockInfo.pathologySerialNumber}}
+          </div>
+          <div class="text big">
+            {{'蜡块号'|translate}}：{{section.blockInfo.subId}}
+          </div>
+          <div class="text">
+            {{'病人姓名'|translate}}：{{section.blockInfo.patientName}}
+          </div>
+          <div class="text">
+            {{'取材部位'|translate}}：{{section.blockInfo.bodyPart}}
+          </div>
+          <div class="text">
+            {{'取材医生'|translate}}：{{section.blockInfo.grossingDoctor.firstName}}
+          </div>
+        </div>
+        <div class="text-box">
+          <div class="text">
+            {{'取材备注'|translate}}：
+          </div>
+          <div class="text high text-ellipsis" uib-popover="{{section.blockInfo.grossingRemark}}">
+            {{section.blockInfo.grossingRemark}}
+          </div>
+          <div class="text ">
+            {{'取材标识'|translate}}：{{section.blockInfo.biaoshiDesc}}
+          </div>
+          <div class="text" ng-show="section.blockInfo.specialSectionOperation===17||section.blockInfo.specialSectionOperation===20">
+            {{'切片申请人'|translate}}：{{section.blockInfo.specialSectionApplicant.firstName}}
+          </div>
+          <div class="text" ng-show="section.blockInfo.specialDye">
+            {{'特染申请人'|translate}}：{{section.blockInfo.specialDyeApplicant}}
+          </div>
+
+        </div>
+        <div class="text-box text-remark">
+          <div class="text ">
+            {{'切片备注'|translate}}：
+          </div>
+          <select class="form-control" ng-model="section.remark.noteType" ng-options="item.name as item.name for item in section.sectionRemarkLIst">
+            <option value="">{{'选择常见问题'|translate}}</option>
+          </select>
+          <div class="text">{{'其他'|translate}}</div>
+          <textarea class="form-control" name="" id="" rows="3" ng-model="section.remark.note"></textarea>
+        </div>
+        <div class="section-remark"  style="    padding-top: 30px; width: 892px;padding-left: 0;  float: right;">
+          <div class="text" ng-show="section.blockInfo.specialSectionOperation===17">
+            {{'深切备注'|translate}}：{{section.blockInfo.specialSectionRemark}}
+          </div>
+          <div class="text" ng-show="section.blockInfo.specialSectionOperation===20">
+            {{'重切备注'|translate}}：{{section.blockInfo.specialSectionRemark}}
+          </div>
+          <div class="text" ng-show="section.blockInfo.specialDye">
+            {{'特染要求'|translate}}：{{section.marker.join(",")}}
+            <!--{{section.blockInfo.marker.join("；")}}-->
+          </div>
+          <div class="text" ng-show="section.blockInfo.specialDye">
+            {{'特染备注'|translate}}：{{section.blockInfo.specialDyeRemark.join(",")}}
+          </div>
+        </div>
+      </div>
+
+
+      <!--进度条部分-->
+      <div class="clearfix" style="margin-left: 178px; margin-top: 30px;">
+        <div class="progress-box">
+          <div>{{'当前病理号完成切片进度'|translate}}：</div>
+          <uib-progressbar max="section.blockInfo.pathBlockCount" value="section.blockInfo.pathSectionCount" type="success"><span style="color:#000; white-space:nowrap;">{{section.blockInfo.pathSectionCount}} / {{section.blockInfo.pathBlockCount}}</span></uib-progressbar>
+        </div>
+        <div class="progress-box">
+          <div>{{'当日切片工作量进度'|translate}}：</div>
+          <uib-progressbar max="section.count.todayOperated" value="section.count.todayOperated" type="success"><span style="color:#000; white-space:nowrap;">{{section.count.todayOperated}}<!-- / {{section.count.todayTotal}}--></span></uib-progressbar>
+
+        </div>
+        <div class="progress-box" style="margin-right: 0">
+          <!--<div>待切片样本总数：</div>-->
+          <h4 style=" margin-top: 17px">{{'待切片样本总数'|translate}}：{{section.count.prepareOperate}}</h4>
+          <p>
+            {{'扫描下一个蜡块时系统自动保存当前蜡块信息'|translate}}
+          </p>
+          <!--<uib-progressbar max="section.count.blockTotal" value="section.count.hadOperated" type="success"><span style="color:#000; white-space:nowrap;">{{section.count.hadOperated}} / {{section.count.blockTotal}}</span></uib-progressbar>-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container footer-confirm">
+    <p>{{'当前病理号还有以下蜡块号未切片'|translate}}：</p>
+
+    <div class="pull-left"  style=" width: 460px; overflow: hidden;  white-space: nowrap;">
+      <!--<h4>&lt;!&ndash;待切片样本数：{{section.blockInfo.prepareSectionCount||section.count.blockTotal}}&ndash;&gt;</h4>-->
+      <button style="margin-right: 10px;width: 56px; margin-bottom: 10px;" class="btn btn-warning btn-lg"
+              click-debounce
+              ng-hide="section.blockInfo.subId === item || $index>5"
+              ng-repeat="item in section.blockInfo.otherSection track by $index"
+              ng-click="section.getBlockInfoButton(item)"
+              ng-disabled="$index===5 || section.pending">{{$index>=5 ? "......": item}}</button>
+    </div>
+
+
+    <div class=" pull-right">
+
+      <button id="section" class="btn btn-default btn-lg" ng-disabled="!section.blockInfo.pathologySerialNumber||section.blockInfo.status!=15"  ng-click="section.confirmSection('from page')">{{'完成切片'|translate}}</button>
+    </div>
+    <div class="pull-right">
+      <!--快速打印玻片：-->
+      <button id="print" style="margin-right: 10px; padding: 10px 30px;" class="btn btn-warning btn-lg" ng-disabled="!section.blockInfo.pathologySerialNumber" ng-click="section.print(1)">{{'打印'|translate}}</button>
+      <!--<button style="margin-right: 10px; padding: 10px 30px;" ng-repeat="item in [1,2,3,4,5,6,7,8,9,10] track by $index" class="btn btn-warning btn-lg" ng-disabled="!section.blockInfo.pathologySerialNumber" ng-click="section.print(item)">{{item}}</button>-->
+    </div>
+
+    <!--<div class="pull-right" style="margin-right:40px;">
+      打印方式：
+      <select ng-model="section.sectionPrintMedium" ng-options="item.code as item.name for item in section.printTypeList">
+        &lt;!&ndash;<option value="1">玻片</option>&ndash;&gt;
+        &lt;!&ndash;<option value="2">标签</option>&ndash;&gt;
+      </select>
+    </div>-->
+  </div>
+</div>
+

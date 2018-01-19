@@ -1,0 +1,116 @@
+<toolbar class="clearfix">
+  <div class="search clearfix">
+    <search-input style="width: 270px;" class="pull-left" model="researchQuery.filter.filter" get-data="researchQuery.search()" placeholder="{{'输入病理号、姓名快速搜索'|translate}}" auto-focus="{{autoFocus}}"></search-input>
+    <span class="pull-right cursor-pointer" style="height:35px;line-height:35px;color:#169bd5;" ng-click="researchQuery.export()">{{'导出结果'|translate}}</span>
+  </div>
+</toolbar>
+
+    <div class="container no-padding research-query">
+  <div class="clearfix toolbar" style="background: none">
+    <div class="search form-inline clearfix from-group ">
+      <div class="pull-left clearfix">
+        {{'申请日期'|translate}}：
+        <p class="input-group">
+          <!--开始：-->
+          <input type="text" class="form-control" readonly="readonly" clear-text="清除" close-text="确定" current-text="今天" ng-click="popup3.opened=true" uib-datepicker-popup="{{format}}" ng-model="researchQuery.receiveStartTime" is-open="popup3.opened" datepicker-options="dateOptions1" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+          <!--<span class="input-group-btn">-->
+            <!--<button type="button" class="btn btn-default" ng-click="popup3.opened=true"><i class="glyphicon glyphicon-calendar"></i></button>-->
+          <!--</span>-->
+        </p>
+        ~
+        <p class="input-group">
+          <!--结束：-->
+          <input type="text" class="form-control" readonly clear-text="清除" close-text="确定" current-text="今天" ng-click="popup4.opened=true"  uib-datepicker-popup ng-model="researchQuery.receiveEndTime" is-open="popup4.opened" datepicker-options="dateOptions2" ng-required="true" close-text="Close" />
+          <!--<span class="input-group-btn">-->
+            <!--<button type="button" class="btn btn-default" ng-click="popup4.opened=true"><i class="glyphicon glyphicon-calendar"></i></button>-->
+          <!--</span>-->
+        </p>
+
+      </div>
+      <div class="pull-left">
+        <select class="form-control" ng-model="researchQuery.filter.departments" ng-options="item.code as item.name for item in researchQuery.departmentsList">
+          <option value="">{{'选择科室'|translate}}</option>
+        </select>
+      </div>
+      <button class="btn btn-default form-control  btn-sm" ng-click="researchQuery.query()">{{'筛选'|translate}}</button>
+      <!--<span class="pull-right cursor-pointer" style="height:35px;line-height:35px;color:#169bd5;" ng-click="researchQuery.export()">导出结果</span>-->
+
+    </div>
+  </div>
+  <div id="researchQuery">
+    <div>
+
+      <!--查询结果表格-->
+      <div class="table-container">
+        <div class="table-min">
+          <table class=" table-hover table-bordered">
+            <thead>
+            <tr>
+              <th ng-repeat="item in researchQuery.tableHeaders" ng-click="researchQuery.getSortList(item)" class="{{item.class}} cursor-pointer" ng-style="item.style">{{item.name|translate}}
+                <i class="cursor-pointer glyphicon glyphicon-chevron-down arrow"
+                ng-hide="!item.order"
+                ng-class="{'rotate-180':item.sort==='asc','rotate-0':item.sort==='desc'||!item.sort}" />
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in researchQuery.queryResultList track by $index" ng-click="researchQuery.getOne(item)" ng-class="{active:researchQuery.activeOne.id===item.id}">
+              <td><a ng-bind="item.pathNo" ></a></td>
+              <td ng-bind="item.applicant"></td>
+              <td ng-bind="item.statusDesc"></td>
+              <td ng-bind="item.phone"></td>
+              <td ng-bind="item.identityDesc"></td>
+              <td ng-bind="item.tutor"></td>
+              <td ng-bind="item.departments | department"></td>
+              <td ng-bind="item.taskTypeDesc"></td>
+              <td ng-bind="item.funds"></td>
+              <!--<td ng-bind="item.inspectHospital"></td>-->
+              <td ng-bind="item.applyTime| date : 'yyyy-MM-dd' "></td>
+
+            </tr>
+            <tr ng-repeat="n in [].constructor(10) track by $index" ng-show="!researchQuery.queryResultList.length||researchQuery.queryResultList.length<=$index"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+
+            <!--<tr><td class="text-center" colspan="11" ng-show="!sampleSearch.data.length">暂无数据</td></tr>-->
+
+            </tbody>
+          </table>
+          <div class="table-footer clearfix">
+            <div ng-show="researchQuery.total>0" class="pull-left form-control-static pagination">{{'共'|translate}}<span ng-bind="researchQuery.total"></span>{{'条结果'|translate}}</div>
+            <uib-pagination class="pull-right" boundary-links="true" items-per-page="researchQuery.filter.length" max-size="10"
+                            total-items="researchQuery.total"
+                            ng-model="researchQuery.filter.page"
+                            ng-change="researchQuery.getData()"
+                            previous-text="{{'上一页'|translate}}" next-text="{{'下一页'|translate}}" first-text="&laquo;" last-text="&raquo;">
+
+            </uib-pagination>
+          </div>
+        </div>
+      </div>
+      <!--切换tab-->
+      <div class="tab-container">
+        <uib-tabset active="researchQuery.activeTab" type="pills">
+
+          <uib-tab index="1" heading="{{'申请信息'|translate}}" ng-click="researchQuery.applicationTab()">
+            <div ng-if="researchQuery.applicationTabActive"  ng-click="researchQuery.stopPropagation($event)" class="pathology-report" ng-include="'app/site/caseQuery/queryResearch/tabs/applicationInfo.html'"></div>
+          </uib-tab>
+          <uib-tab index="2" heading="{{'样本信息'|translate}}" ng-click="researchQuery.sampleTab()">
+            <div ng-click="researchQuery.stopPropagation($event)" class="pathology-report" ng-include="'app/site/caseQuery/queryResearch/tabs/sampleInfo.html'"></div>
+          </uib-tab>
+          <uib-tab index="3" heading="{{'染色信息'|translate}}" ng-click="researchQuery.specialDyeTab()">
+            <div ng-click="researchQuery.stopPropagation($event)" class="pathology-report" ng-include="'app/site/caseQuery/queryResearch/tabs/specialDye.html'"></div>
+          </uib-tab>
+          <!--<uib-tab index="4" heading="诊断信息" ng-click="researchQuery.diagnosisTab()">-->
+          <!--<div ng-click="researchQuery.stopPropagation($event)" class="pathology-report" ng-include="'app/site/caseQuery/queryResearch/tabs/diagnosisInfo.html'"></div>-->
+          <!--</uib-tab>-->
+          <!--<uib-tab index="5" heading="其他检查">-->
+          <!--<div ng-click="researchQuery.stopPropagation($event)" class="pathology-report" ng-include="'app/site/caseQuery/queryResearch/tabs/otherInfo.html'"></div>-->
+          <!--</uib-tab>-->
+
+        </uib-tabset>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+

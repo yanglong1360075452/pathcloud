@@ -1,0 +1,58 @@
+<div id="lostSlide">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="lostSlide.cancel()"><span aria-hidden="true"
+                                                                                                   class="icon-remove-sign"></span><span
+      class="sr-only">Close</span></button>
+    <h4 class="modal-title">玻片丢失</h4>
+  </div>
+
+  <div class="modal-body clearfix">
+    <div class="info-container">
+
+      <!--<div class="flex-box" style="justify-content: space-between">-->
+      <!--<div>病理号：{{item.pathNo}}</div>-->
+      <!--<div>玻片总数：{{item.slidePrepareConfirmCount}}</div>-->
+      <!--<div>缺失玻片数：{{item.lostSlideCount}}</div>-->
+      <!--</div>-->
+      <div class="table-container">
+        <!--<div class="title">缺失玻片信息：</div>-->
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th>病理号</th>
+            <th>蜡块号</th>
+            <th>玻片号</th>
+            <th>状态</th>
+            <th>最后操作人</th>
+            <th>最后操作时间</th>
+            <th>处理方式</th>
+            <th>备注</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="item in lostSlide.lostData track by item.id">
+            <td>{{item.pathNo}}</td>
+            <td>{{item.blockSubId}}</td>
+            <td>{{item.subId}}</td>
+            <td>{{item.statusDesc}}</td>
+            <td>{{item.lastOperator.firstName}}</td>
+            <td>{{item.lastOperateTime | date:'yyyy-MM-dd HH:mm'}}</td>
+            <td><select class="form-control input-sm" name="handelType" ng-init="item.handelType = 3 " ng-model="item.handelType">
+              <option ng-value="3">异常终止</option>
+            </select></td>
+            <td><input ng-model="item.note"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="error-title">*请返回寻找缺失的玻片，提交处理后，缺失的玻片将被移出系统！</div>
+    </div>
+
+  </div>
+  <div class="modal-footer" style="text-align: center">
+    <button class="btn btn-warning" type="button" ng-click="lostSlide.cancel()">返回</button>
+    <button class="btn btn-default" type="button" ng-click="lostSlide.ok()">提交处理</button>
+  </div>
+
+</div>

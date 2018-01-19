@@ -1,0 +1,31 @@
+<div>
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="dehydrateStop.cancel()"><span aria-hidden="true" class="icon-remove-sign"></span><span class="sr-only">Close</span></button>
+
+    <h4 class="modal-title">{{dehydrateStop.modalTitle |translate}}</h4>
+  </div>
+  <div class="modal-body" >
+    <div style="margin:30px 15px">{{dehydrateStop.modalDescription |translate}}</div>
+    <div class="basket" style="min-height: 300px">
+      <div class="col-md-6 " ng-model="dehydrateStop.activeMachine" ng-click="dehydrateStop.check(item)" ng-repeat="item in dehydrateStop.dehydratorList">
+        <div class="basket-box clearfix cursor-pointer">
+          <div class="basket-header pull-left blue-label ">
+            {{item.name}}
+          </div>
+          <div class="basket-content pull-left">
+            <span ng-show="item.checked" class="active active-icon"><i class="glyphicon glyphicon-ok"></i></span>
+            <div class="">{{'可用空间'|translate}}：{{item.capacity-item.usedBlock}}</div>
+            <div class="">{{'已用空间'|translate}}：{{item.usedBlock}}</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="dehydrateStop.cancel()">{{'关闭'|translate}}</button>
+    <button class="btn btn-warning" type="button" ng-click="dehydrateStop.stop()">{{ dehydrateStop.modalTitle |translate}}</button>
+  </div>
+
+</div>

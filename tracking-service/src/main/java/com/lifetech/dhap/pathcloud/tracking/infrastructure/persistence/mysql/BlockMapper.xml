@@ -1,0 +1,1174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lifetech.dhap.pathcloud.tracking.domain.BlockRepository">
+    <resultMap id="BaseResultMap" type="com.lifetech.dhap.pathcloud.tracking.domain.model.Block">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="serial_number" property="serialNumber" jdbcType="CHAR"/>
+        <result column="number" property="number" jdbcType="CHAR"/>
+        <result column="path_id" property="pathId" jdbcType="BIGINT"/>
+        <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
+        <result column="marker" property="marker" jdbcType="VARCHAR"/>
+        <result column="sub_id" property="subId" jdbcType="VARCHAR"/>
+        <result column="biaoshi" property="biaoshi" jdbcType="INTEGER"/>
+        <result column="body_part" property="bodyPart" jdbcType="VARCHAR"/>
+        <result column="count" property="count" jdbcType="INTEGER"/>
+        <result column="unit" property="unit" jdbcType="INTEGER"/>
+        <result column="print" property="print" jdbcType="INTEGER"/>
+        <result column="deep_section" property="deepSection" jdbcType="BIT"/>
+        <result column="special_dye" property="specialDye" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="create_by" property="createBy" jdbcType="BIGINT"/>
+        <result column="update_by" property="updateBy" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="note" property="note" jdbcType="LONGVARCHAR"/>
+        <result column="apply_id" property="applyId" jdbcType="BIGINT"/>
+        <result column="embed_pause" property="embedPause" jdbcType="BIT"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from block
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.lifetech.dhap.pathcloud.tracking.domain.model.Block">
+        insert into block (serial_number,number, path_id,deep_section,special_dye,
+        sub_id, biaoshi, body_part,
+        count, unit, print,
+        status, create_by, update_by,
+        create_time, update_time, note,parent_id,marker,apply_id,embed_pause
+        )
+        values (#{serialNumber,jdbcType=CHAR},#{number,jdbcType=CHAR},#{pathId,jdbcType=BIGINT},#{deepSection,jdbcType=BIT},#{specialDye,jdbcType=INTEGER},
+        #{subId,jdbcType=VARCHAR}, #{biaoshi,jdbcType=INTEGER}, #{bodyPart,jdbcType=VARCHAR},
+        #{count,jdbcType=INTEGER}, #{unit,jdbcType=INTEGER}, #{print,jdbcType=INTEGER},
+        #{status,jdbcType=INTEGER}, #{createBy,jdbcType=BIGINT}, #{createBy,jdbcType=BIGINT},
+        now(), now(), #{note,jdbcType=LONGVARCHAR},#{parentId,jdbcType=BIGINT}, #{marker,jdbcType=VARCHAR}, #{applyId,jdbcType=BIGINT},#{embedPause,jdbcType=BIGINT}
+        )
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.lifetech.dhap.pathcloud.tracking.domain.model.Block">
+        update block
+        <set>
+            <if test="serialNumber != null">serial_number = #{serialNumber,jdbcType=CHAR},</if>
+            <if test="number != null">number = #{number,jdbcType=CHAR},</if>
+            <if test="subId != null">sub_id = #{subId,jdbcType=VARCHAR},</if>
+            <if test="biaoshi != null">biaoshi = #{biaoshi,jdbcType=INTEGER},</if>
+            <if test="bodyPart != null">body_part = #{bodyPart,jdbcType=VARCHAR},</if>
+            <if test="count != null">count = #{count,jdbcType=INTEGER},</if>
+            <if test="unit != null">unit = #{unit,jdbcType=INTEGER},</if>
+            <if test="print != null">print = #{print,jdbcType=INTEGER},</if>
+            <if test="status != null">status = #{status,jdbcType=INTEGER},</if>
+            <if test="updateBy != null">update_by = #{updateBy,jdbcType=BIGINT},</if>
+            <if test="note != null">note = #{note,jdbcType=LONGVARCHAR},</if>
+            <if test="deepSection != null">deep_section = #{deepSection,jdbcType=BIT},</if>
+            <if test="embedPause != null">embed_pause = #{embedPause,jdbcType=BIT},</if>
+            special_dye = #{specialDye,jdbcType=INTEGER},
+            marker = #{marker,jdbcType=VARCHAR},
+            apply_id = #{applyId,jdbcType=BIGINT},
+            update_time = now(),
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="batchUpdate" parameterType="com.lifetech.dhap.pathcloud.tracking.domain.model.Block">
+        replace into block (id,serial_number, number,path_id,deep_section,special_dye,
+        sub_id, biaoshi, body_part,
+        count, unit, print,
+        status, create_by, update_by,
+        create_time, update_time, note,parent_id,marker,apply_id,embed_pause
+        )
+        values
+        <foreach collection="list" item="item" index="index"
+                 separator=",">
+            (
+            #{item.id,jdbcType=BIGINT},#{item.serialNumber,jdbcType=CHAR},#{item.number,jdbcType=CHAR},#{item.pathId,jdbcType=BIGINT},#{item.deepSection,jdbcType=BIT},#{item.specialDye,jdbcType=INTEGER},
+            #{item.subId,jdbcType=VARCHAR}, #{item.biaoshi,jdbcType=INTEGER}, #{item.bodyPart,jdbcType=VARCHAR},
+            #{item.count,jdbcType=INTEGER}, #{item.unit,jdbcType=INTEGER}, #{item.print,jdbcType=INTEGER},
+            #{item.status,jdbcType=INTEGER}, #{item.createBy,jdbcType=BIGINT}, #{item.createBy,jdbcType=BIGINT},
+            now(), now(), #{item.note,jdbcType=LONGVARCHAR},#{item.parentId,jdbcType=BIGINT},
+            #{item.marker,jdbcType=VARCHAR},
+            #{item.applyId,jdbcType=BIGINT},#{item.embedPause,jdbcType=BIGINT}
+            )
+        </foreach>
+    </update>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select id, serial_number,number, path_id, sub_id, biaoshi, body_part, count, unit, print,
+        status, create_by, update_by, create_time, update_time, note,parent_id,marker,deep_section,special_dye,apply_id,embed_pause
+        from block
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectBlockByNumber" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select id, serial_number,number, path_id, sub_id, biaoshi, body_part, count, unit, print,
+        status, create_by, update_by, create_time, update_time, note,parent_id,marker,deep_section,special_dye,apply_id,embed_pause
+        from block
+        where number = #{number,jdbcType=CHAR} and status=10
+    </select>
+
+    <select id="selectBlockByCondition" resultMap="BaseResultMap"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.BlockCondition">
+        select id, serial_number, number,path_id, sub_id, biaoshi, body_part, count, unit, print,
+        status, create_by, update_by, create_time, update_time,
+        note,parent_id,marker,deep_section,special_dye,apply_id,embed_pause
+        from block
+        WHERE parent_id is null
+        <if test="pathId != null">AND path_id = #{pathId,jdbcType=BIGINT}</if>
+        <if test="againstBiaoshi != null">AND biaoshi != #{againstBiaoshi,jdbcType=INTEGER}</if>
+        <if test="status != null">AND status = #{status,jdbcType=INTEGER}</if>
+        <if test="statusList != null">
+            and status in
+            <foreach collection="statusList" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="countBlockByCondition" resultType="java.lang.Long"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.BlockCondition">
+        select count(1) from block
+        WHERE parent_id is null
+        <if test="pathId != null">AND path_id = #{pathId,jdbcType=BIGINT}</if>
+        <if test="againstBiaoshi != null">AND biaoshi != #{againstBiaoshi,jdbcType=INTEGER}</if>
+        <if test="status != null">AND status = #{status,jdbcType=INTEGER}</if>
+        <if test="statusList != null">
+            and status in
+            <foreach collection="statusList" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="selectBlockBySerialNumber" resultMap="BaseResultMap" parameterType="java.lang.String">
+                select id, serial_number, number,path_id, sub_id, biaoshi, body_part, count, unit, print,
+        status, create_by, update_by, create_time, update_time, note,parent_id,marker,deep_section,special_dye,apply_id,embed_pause
+        from block
+        where serial_number = #{serialNumber,jdbcType=CHAR} and parent_id is NULL  and status != 40/*异常终止*/
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, serial_number, number,path_id, sub_id, biaoshi, body_part, count, unit, print,
+        status, create_by, update_by, create_time, update_time, note,parent_id,marker,deep_section,special_dye,apply_id,embed_pause
+        from block
+    </select>
+
+    <select id="last" resultType="long" useCache="false">
+        SELECT LAST_INSERT_ID()
+    </select>
+
+    <select id="selectAllBlockByPathId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select id, serial_number,number, path_id, sub_id, biaoshi, body_part, count, unit, print,
+    status, create_by, update_by, create_time, update_time, note,parent_id,marker,deep_section,special_dye,apply_id,embed_pause
+    from block
+    where path_id = #{pathId,jdbcType=BIGINT} and parent_id is NULL
+  </select>
+
+    <select id="selectNormalBlocksByPathId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select id, serial_number,number, path_id, sub_id, biaoshi, body_part, count, unit, print,
+    status, create_by, update_by, create_time, update_time, note,parent_id,marker,deep_section,special_dye,apply_id,embed_pause
+    from block
+    where path_id = #{pathId,jdbcType=BIGINT} and parent_id is NULL and status != 40
+    </select>
+
+    <select id="selectNormalBlockIdsByPathId" resultType="java.lang.Long" parameterType="java.lang.Long">
+    select id from block where path_id = #{pathId,jdbcType=BIGINT} and parent_id is NULL and status != 40/*异常终止*/
+    and biaoshi != 3  /*脱钙*/
+  </select>
+
+    <select id="selectSlideIdsByPathId" resultType="java.lang.Long" parameterType="java.lang.Long">
+        select id from block where path_id = #{pathId,jdbcType=BIGINT} and parent_id is NOT NULL and status != 40/*异常终止*/
+    </select>
+
+    <select id="selectSlideIdsByBlockId" resultType="java.lang.Long" parameterType="java.lang.Long">
+         select id from block where parent_id = #{blockId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectByDehydratorId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select b.id, b.serial_number, b.number,b.path_id, b.sub_id, b.biaoshi, b.body_part, b.count, b.unit, b.print,
+        b.status, b.create_by, b.update_by, b.create_time, b.update_time, b.note,b.parent_id,b.marker,b.deep_section,b.special_dye,b.apply_id,b.embed_pause
+    from block b
+    INNER JOIN tracking t on b.id = t.block_id
+    where b.status=13 and t.operation=3 and t.instrument_id=#{dehydratorId,jdbcType=BIGINT} and b.parent_id is NULL
+  </select>
+
+    <select id="selectMinStatusByPathId" resultType="java.lang.Integer" parameterType="java.lang.Long">
+    select min(status) from block where path_id = #{pathId,jdbcType=BIGINT}
+  </select>
+
+    <select id="selectMinStatusByBlockId" resultType="java.lang.Integer" parameterType="java.lang.Long">
+        select min(status) from block where parent_id = #{blockId,jdbcType=BIGINT}
+    </select>
+
+    <resultMap id="BlockDetailResultMap" type="com.lifetech.dhap.pathcloud.tracking.domain.model.BlockDetail">
+        <id column="block_id" property="blockId" jdbcType="BIGINT"/>
+        <result column="application_id" property="applicationId" jdbcType="BIGINT"/>
+        <result column="path_id" property="pathologyId" jdbcType="BIGINT"/>
+        <result column="pathology_number" property="pathologyNumber" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="departments" property="departments" jdbcType="INTEGER"/>
+        <result column="sub_id" property="subId" jdbcType="VARCHAR"/>
+        <result column="slide_id" property="slideId" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
+        <result column="biaoshi" property="biaoshi" jdbcType="INTEGER"/>
+        <result column="body_part" property="bodyPart" jdbcType="VARCHAR"/>
+        <result column="count" property="count" jdbcType="INTEGER"/>
+        <result column="unit" property="unit" jdbcType="INTEGER"/>
+        <result column="basket_number" property="basketNumber" jdbcType="INTEGER"/>
+        <result column="print" property="print" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="note" property="note" jdbcType="LONGVARCHAR"/>
+        <result column="operator_id" property="operatorId" jdbcType="BIGINT"/>
+        <result column="operator_name" property="operatorName" jdbcType="VARCHAR"/>
+        <result column="sec_operator_id" property="secOperatorId" jdbcType="BIGINT"/>
+        <result column="operation_time" property="operationTime" jdbcType="TIMESTAMP"/>
+        <result column="apply_id" property="applyId" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <select id="selectBlockDetailByCondition" resultMap="BlockDetailResultMap"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.GrossingCon">
+        select t1.id as block_id, t2.id as application_id, t.serial_number as pathology_number, t1.sub_id,
+        t1.biaoshi, t1.body_part,t.id as path_id,t1.count, t1.unit, t1.print,t1.apply_id, t3.instrument_id as
+        basket_number, t1.status, t1.note, t2.departments,
+        t2.patient_name as name, t3.operator_id,t3.operator_name, t3.sec_operator_id, t3.operation_time
+        from pathology t
+        inner join application t2 on t.id = t2.pathology_id and t.status in (10, 11, 12,41)
+        <if test="pathologyId != null">and t.id = #{pathologyId,jdbcType=BIGINT}</if>
+        <if test="startTime != null">and t.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        left join block t1 on t1.path_id = t.id and (t1.status is null or t1.status in (10, 11, 12 , 41))
+        left join tracking t3 on t3.block_id = t1.id and t3.operation = #{operation,jdbcType=INTEGER}
+        <where>
+            <if test="usingFrozen == true">AND t.inspect_category !=3</if>
+            <if test="endTime != null"><![CDATA[and t.create_time <= #{endTime,jdbcType=TIMESTAMP} ]]></if>
+            <if test="blockStatus != null and blockStatus != 41">and t1.status = #{blockStatus,jdbcType=INTEGER}</if>
+            <if test="blockStatus == 41">and t.status = #{blockStatus,jdbcType=INTEGER}</if>
+            <if test="departments != null">and t2.departments = #{departments,jdbcType=INTEGER}</if>
+            <if test="operator != null">and t3.operator_id = #{operator,jdbcType=BIGINT}</if>
+            <if test="secOperator != null">and t3.sec_operator_id = #{secOperator,jdbcType=BIGINT}</if>
+            <if test="pathologyId == null and filter != null">and t2.patient_name like
+                CONCAT(#{filter,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="basketNumbers != null">
+                and t3.instrument_id in
+                <foreach collection="basketNumbers" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="pathNoStart != null and pathNoEnd != null">
+                and (t.serial_number BETWEEN #{pathNoStart,jdbcType=VARCHAR} AND #{pathNoEnd,jdbcType=VARCHAR})
+            </if>
+        </where>
+        GROUP by pathology_number,block_id
+        <if test="order != null">ORDER BY ${order}</if>
+        limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </select>
+
+    <select id="countBlockDetailByCondition" resultType="long"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.GrossingCon">
+        select count(1) from (
+        select t1.id as block_id, t2.id as application_id, t.serial_number as pathology_number, t1.sub_id,
+        t1.biaoshi, t1.body_part,t.id as path_id,t1.count, t1.unit, t1.print,t1.apply_id, t3.instrument_id as
+        basket_number, t1.status, t1.note, t2.departments,
+        t2.patient_name as name, t3.operator_id,t3.operator_name, t3.sec_operator_id, t3.operation_time
+        from pathology t
+        inner join application t2 on t.id = t2.pathology_id and t.status in (10, 11, 12,41)
+        <if test="pathologyId != null">and t.id = #{pathologyId,jdbcType=BIGINT}</if>
+        <if test="startTime != null">and t.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        left join block t1 on t1.path_id = t.id and (t1.status is null or t1.status in (10, 11, 12 , 41))
+        left join tracking t3 on t3.block_id = t1.id and t3.operation = #{operation,jdbcType=INTEGER}
+        <where>
+            <if test="usingFrozen == true">AND t.inspect_category !=3</if>
+            <if test="endTime != null"><![CDATA[and t.create_time <= #{endTime,jdbcType=TIMESTAMP} ]]></if>
+            <if test="blockStatus != null and blockStatus != 41">and t1.status = #{blockStatus,jdbcType=INTEGER}</if>
+            <if test="blockStatus == 41">and t.status = #{blockStatus,jdbcType=INTEGER}</if>
+            <if test="departments != null">and t2.departments = #{departments,jdbcType=INTEGER}</if>
+            <if test="operator != null">and t3.operator_id = #{operator,jdbcType=BIGINT}</if>
+            <if test="secOperator != null">and t3.sec_operator_id = #{secOperator,jdbcType=BIGINT}</if>
+            <if test="pathologyId == null and filter != null">and t2.patient_name like
+                CONCAT(#{filter,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="basketNumbers != null">
+                and t3.instrument_id in
+                <foreach collection="basketNumbers" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="pathNoStart != null and pathNoEnd != null">
+                and (t.serial_number BETWEEN #{pathNoStart,jdbcType=VARCHAR} AND #{pathNoEnd,jdbcType=VARCHAR})
+            </if>
+        </where>
+        GROUP by pathology_number,block_id
+        ) t1
+    </select>
+
+
+    <select id="getFrozenBlockByCondition" resultMap="BlockDetailResultMap"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.GrossingCon">
+        select p.id as path_id,b.id as block_id,sa.number,sa.path_no as pathology_number,p.patient_name as
+        name,p.departments,b.sub_id,b.body_part,b.count,
+        t.operator_id,t.operator_name,t.sec_operator_id,t.operation_time,t.instrument_id as basket_number,sa.`status`
+        from special_application sa
+        INNER JOIN pathology p on sa.path_no = p.serial_number
+        LEFT JOIN block b on sa.number=b.number and b.parent_id = 0 /*冰冻产生的切片*/
+        LEFT JOIN tracking t on b.id = t.block_id and t.operation=35 /*冰冻取材*/
+        <where>
+            sa.type=1 /*冰冻申请*/
+            <if test="endTime != null"><![CDATA[and sa.create_time <= #{endTime,jdbcType=TIMESTAMP} ]]></if>
+            <if test="startTime != null"><![CDATA[and sa.create_time >= #{startTime,jdbcType=TIMESTAMP} ]]></if>
+            <if test="blockStatus != null and blockStatus != 41">and sa.status = #{blockStatus,jdbcType=INTEGER}</if>
+
+            <if test="departments != null">and p.departments = #{departments,jdbcType=INTEGER}</if>
+            <if test="operator != null">and t.operator_id = #{operator,jdbcType=BIGINT}</if>
+            <if test="secOperator != null">and t.sec_operator_id = #{secOperator,jdbcType=BIGINT}</if>
+            <if test="pathologyId == null and filter != null">and p.patient_name like
+                CONCAT(#{filter,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="basketNumbers != null">
+                and t.instrument_id in
+                <foreach collection="basketNumbers" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="pathNoStart != null and pathNoEnd != null">
+                and (p.serial_number BETWEEN #{pathNoStart,jdbcType=VARCHAR} AND #{pathNoEnd,jdbcType=VARCHAR})
+            </if>
+        </where>
+        <if test="order != null">ORDER BY ${order}</if>
+        limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </select>
+
+    <select id="countFrozenBlockByCondition" resultType="long"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.GrossingCon">
+        select count(1) from special_application sa
+        INNER JOIN pathology p on sa.path_no = p.serial_number
+        LEFT JOIN block b on sa.number=b.number and b.parent_id = 0 /*冰冻产生的切片*/
+        LEFT JOIN tracking t on b.id = t.block_id and t.operation=35 /*冰冻取材*/
+        <where>
+            sa.type=1 /*冰冻申请*/
+            <if test="endTime != null"><![CDATA[and sa.create_time <= #{endTime,jdbcType=TIMESTAMP} ]]></if>
+            <if test="startTime != null"><![CDATA[and sa.create_time >= #{startTime,jdbcType=TIMESTAMP} ]]></if>
+            <if test="blockStatus != null and blockStatus != 41">and sa.status = #{blockStatus,jdbcType=INTEGER}</if>
+
+            <if test="departments != null">and p.departments = #{departments,jdbcType=INTEGER}</if>
+            <if test="operator != null">and t.operator_id = #{operator,jdbcType=BIGINT}</if>
+            <if test="secOperator != null">and t.sec_operator_id = #{secOperator,jdbcType=BIGINT}</if>
+            <if test="pathologyId == null and filter != null">and p.patient_name like
+                CONCAT(#{filter,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="basketNumbers != null">
+                and t.instrument_id in
+                <foreach collection="basketNumbers" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="pathNoStart != null and pathNoEnd != null">
+                and (p.serial_number BETWEEN #{pathNoStart,jdbcType=VARCHAR} AND #{pathNoEnd,jdbcType=VARCHAR})
+            </if>
+        </where>
+    </select>
+
+    <select id="selectNoGrossingBlockByCondition" resultMap="BlockDetailResultMap"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.GrossingCon">
+        select t.id as path_id, a.id as application_id, t.serial_number as pathology_number, t.departments,
+        t.patient_name as name, t.status
+        from pathology t
+        INNER JOIN application a on t.id = a.pathology_id
+        <where>
+            <if test="pathologyId != null">and t.id = #{pathologyId,jdbcType=BIGINT}</if>
+            <if test="startTime != null">and t.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+            <if test="endTime != null"><![CDATA[and t.create_time <= #{endTime,jdbcType=TIMESTAMP} ]]></if>
+            <if test="blockStatus != null">and t.status = #{blockStatus,jdbcType=INTEGER}</if>
+            <if test="departments != null">and t.departments = #{departments,jdbcType=INTEGER}</if>
+            <if test="pathologyId == null and filter != null">and t.patient_name like
+                CONCAT(#{filter,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="pathNoStart != null and pathNoEnd != null">
+                and (t.serial_number BETWEEN #{pathNoStart,jdbcType=VARCHAR} AND #{pathNoEnd,jdbcType=VARCHAR})
+            </if>
+        </where>
+        <if test="order != null">ORDER BY ${order}</if>
+        limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </select>
+
+    <select id="countNoGrossingBlockByCondition" resultType="long"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.GrossingCon">
+        select count(1)
+        from pathology t
+        <where>
+            <if test="pathologyId != null">and t.id = #{pathologyId,jdbcType=BIGINT}</if>
+            <if test="startTime != null">and t.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+            <if test="endTime != null"><![CDATA[and t.create_time <= #{endTime,jdbcType=TIMESTAMP} ]]></if>
+            <if test="blockStatus != null">and t.status = #{blockStatus,jdbcType=INTEGER}</if>
+            <if test="departments != null">and t.departments = #{departments,jdbcType=INTEGER}</if>
+            <if test="pathologyId == null and filter != null">and t.patient_name like
+                CONCAT(#{filter,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="pathNoStart != null and pathNoEnd != null">
+                and (t.serial_number BETWEEN #{pathNoStart,jdbcType=VARCHAR} AND #{pathNoEnd,jdbcType=VARCHAR})
+            </if>
+        </where>
+    </select>
+
+    <select id="countPathologyByCondition" resultType="long"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.GrossingCon">
+        select count(DISTINCT t.id)
+        from pathology t
+        <if test="pathologyId != null">and t.id =
+            #{pathologyId,jdbcType=BIGINT}
+        </if>
+        <if test="startTime != null">and t.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        left join block t1 on t1.path_id = t.id and t1.parent_id is NULL
+        left join tracking t3 on t3.block_id = t1.id and t3.operation = #{operation,jdbcType=INTEGER}
+        <where>
+            <if test="endTime != null"><![CDATA[and t.create_time <= #{endTime,jdbcType=TIMESTAMP} ]]></if>
+            <if test="blockStatus != null">and t1.status = #{blockStatus,jdbcType=INTEGER}</if>
+            <if test="departments != null">and t.departments = #{departments,jdbcType=INTEGER}</if>
+            <if test="operator != null">and t3.operator_id = #{operator,jdbcType=BIGINT}</if>
+            <if test="secOperator != null">and t3.sec_operator_id = #{secOperator,jdbcType=BIGINT}</if>
+            <if test="pathologyId == null and filter != null">and t.patient_name like
+                CONCAT(#{filter,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="basketNumbers != null">
+                and t3.instrument_id in
+                <foreach collection="basketNumbers" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="pathNoStart != null and pathNoEnd != null">
+                and (t.serial_number BETWEEN #{pathNoStart,jdbcType=VARCHAR} AND #{pathNoEnd,jdbcType=VARCHAR})
+            </if>
+        </where>
+    </select>
+
+    <select id="countBlockByBiaoshi" resultType="java.lang.Long" parameterType="java.lang.Integer">
+    SELECT count(1) from block where biaoshi = #{biaoshi,jdbcType=INTEGER} and parent_id is NULL
+  </select>
+
+    <select id="countBlockByUnit" resultType="java.lang.Long" parameterType="java.lang.Integer">
+    SELECT count(1) from block where unit = #{unit,jdbcType=INTEGER} and parent_id is NULL
+  </select>
+
+
+    <resultMap id="basketInfo" type="com.lifetech.dhap.pathcloud.tracking.domain.model.Basket">
+        <id column="basket_number" property="basketNumber" jdbcType="INTEGER"/>
+        <result column="block_count" property="blockCount" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <select id="selectBasketsInfoByCondition" resultMap="basketInfo"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.BasketCon">
+        select instrument_id as basket_number,count(1) as block_count from tracking a
+        INNER JOIN block b on a.block_id = b.id and b.parent_id is NULL
+        where a.operation = 1 and b.status = #{status,jdbcType=INTEGER}
+        <if test="userId != null">and a.sec_operator_id=#{userId,jdbcType=BIGINT}</if>
+        GROUP BY instrument_id
+        limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </select>
+
+    <select id="countBasketsInfoByCondition" resultType="java.lang.Long">
+        select count(DISTINCT instrument_id) from tracking a
+        INNER JOIN block b on a.block_id = b.id and b.parent_id is NULL
+        where a.operation = 1 and b.status = #{status,jdbcType=INTEGER}
+        <if test="userId != null">and a.sec_operator_id=#{userId,jdbcType=BIGINT}</if>
+    </select>
+
+    <select id="selectRecorderByBasket" resultType="java.lang.Long" parameterType="java.util.Map">
+        select t.sec_operator_id,t.operation_time from tracking t
+        INNER JOIN block b on t.block_id = b.id and b.parent_id is NULL
+        where t.operation = 1 and b.status=#{status,jdbcType=INTEGER} and
+        t.instrument_id=#{instrumentId,jdbcType=INTEGER}
+        <if test="userId != null">
+            and t.sec_operator_id = #{userId,jdbcType=BIGINT}
+        </if>
+        ORDER BY t.operation_time desc limit 1
+    </select>
+
+    <select id="selectGrossingDoctorByPathId" resultType="java.lang.Long" parameterType="java.lang.Long">
+        select t.operator_id,t.operation_time from tracking t
+        inner join block b on t.block_id = b.id and b.parent_id is NULL
+        inner join pathology p on p.id = b.path_id
+        where p.id=#{pathId,jdbcType=BIGINT} and t.operation=1
+        ORDER BY t.operation_time desc limit 1
+    </select>
+
+    <resultMap id="BlockExtendMap" type="com.lifetech.dhap.pathcloud.tracking.domain.model.BlockExtend">
+        <id column="application_id" property="applicationId" jdbcType="BIGINT"/>
+        <result column="pathology_id" property="pathologyId" jdbcType="BIGINT"/>
+        <result column="block_id" property="blockId" jdbcType="BIGINT"/>
+        <result column="application_no" property="applicationSerialNumber" jdbcType="VARCHAR"/>
+        <result column="pathology_no" property="pathologySerialNumber" jdbcType="VARCHAR"/>
+        <result column="block_no" property="blockSerialNumber" jdbcType="VARCHAR"/>
+        <result column="patient_name" property="patientName" jdbcType="VARCHAR"/>
+        <result column="departments" property="departments" jdbcType="INTEGER"/>
+        <result column="sub_id" property="subId" jdbcType="VARCHAR"/>
+        <result column="biaoshi" property="biaoshi" jdbcType="INTEGER"/>
+        <result column="body_part" property="bodyPart" jdbcType="VARCHAR"/>
+        <result column="count" property="count" jdbcType="INTEGER"/>
+        <result column="unit" property="unit" jdbcType="INTEGER"/>
+        <result column="grossing_doctor" property="grossingDoctor" jdbcType="BIGINT"/>
+        <result column="grossing_doctor_desc" property="grossingDoctorDesc" jdbcType="BIGINT"/>
+        <result column="grossing_remark" property="grossingRemark" jdbcType="LONGVARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="marker" property="marker" jdbcType="VARCHAR"/>
+        <result column="special_dye" property="specialDye" jdbcType="INTEGER"/>
+        <result column="apply_id" property="applyId" jdbcType="BIGINT"/>
+        <result column="embed_pause" property="embedPause" jdbcType="BIT"/>
+    </resultMap>
+    <select id="selectBlockExtendBySerialNumber" resultMap="BlockExtendMap" parameterType="java.lang.String">
+        select b.id as block_id,b.serial_number as block_no,b.sub_id,b.biaoshi,b.body_part,b.count,b.unit,b.note as grossing_remark,b.`status`,b.marker,
+        p.id as pathology_id,p.serial_number as pathology_no,a.id as application_id,a.serial_number as application_no,
+        a.patient_name,a.departments,t.operator_id as grossing_doctor,t.operator_name as grossing_doctor_desc,b.special_dye,b.apply_id,b.embed_pause
+        from block b
+        INNER JOIN pathology p on b.path_id = p.id
+        INNER JOIN application a on a.pathology_id = p.id
+        INNER JOIN tracking t on t.block_id = b.id and t.operation=1
+        where
+        b.serial_number=#{serialNumber,jdbcType=CHAR} and b.parent_id is NULL  and b.status != 40/*异常终止*/
+        LIMIT 1
+    </select>
+
+    <select id="selectNotSpecialBlockExtendByCondition" resultMap="BlockExtendMap"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.ApplicationCondition">
+        select b.id as block_id,b.serial_number as block_no,b.sub_id,b.biaoshi,b.body_part,b.count,b.unit,b.note as
+        grossing_remark,b.`status`,b.marker,
+        p.id as pathology_id,p.serial_number as pathology_no,a.id as application_id,a.serial_number as application_no,
+        a.patient_name,a.departments,b.special_dye,b.apply_id,b.embed_pause
+        from block b
+        INNER JOIN pathology p on b.path_id = p.id
+        INNER JOIN application a on a.pathology_id = p.id
+        <where>
+            b.parent_id is NULL and b.special_dye=0 and b.id not in (select block_id from block_ihc bi where bi.block_id
+            = b.id and bi.status =1)
+            and b.status != 40
+            <if test="createBy != null">AND a.create_by = #{createBy,jdbcType=BIGINT}</if>
+            <if test="createTimeStart != null">and a.create_time >= #{createTimeStart,jdbcType=BIGINT}</if>
+            <if test="createTimeEnd != null">and a.create_time &lt;= #{createTimeEnd,jdbcType=BIGINT}</if>
+            <if test="pathNo != null">and p.serial_number = #{pathNo,jdbcType=VARCHAR}</if>
+            <if test="pathId != null">and p.id = #{pathId,jdbcType=BIGINT}</if>
+        </where>
+        <if test="order != null">ORDER BY ${order}</if>
+        limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </select>
+
+    <select id="countNotSpecialBlockExtendByCondition"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.ApplicationCondition"
+            resultType="java.lang.Long">
+        select count(b.id) from block b
+        INNER JOIN pathology p on b.path_id = p.id
+        INNER JOIN application a on a.pathology_id = p.id
+        <where>
+            b.parent_id is NULL and b.special_dye=0 and b.id not in (select block_id from block_ihc bi where bi.block_id
+            = b.id and bi.status =1)
+            and b.status != 40
+            <if test="createBy != null">AND a.create_by = #{createBy,jdbcType=BIGINT}</if>
+            <if test="createTimeStart != null">and a.create_time >= #{createTimeStart,jdbcType=BIGINT}</if>
+            <if test="createTimeEnd != null">and a.create_time &lt;= #{createTimeEnd,jdbcType=BIGINT}</if>
+            <if test="pathNo != null">and p.serial_number = #{pathNo,jdbcType=VARCHAR}</if>
+        </where>
+    </select>
+
+    <select id="countBlockByStatus" parameterType="java.lang.Integer" resultType="java.lang.Long">
+        SELECT count(1) from block where status = #{status,jdbcType=INTEGER}
+    </select>
+
+    <select id="countAbnormalBlockByStatusAndTime" parameterType="map" resultType="java.lang.Long">
+        SELECT count(1)
+        from block
+        where status = #{status,jdbcType=INTEGER} and update_time &lt;= #{time,jdbcType=TIMESTAMP}
+    </select>
+
+    <select id="selectAbnormalBlockByStatusAndTime"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.GrossingCon"
+            resultMap="BlockDetailResultMap">
+        select t.id as block_id, a.id as application_id, p.serial_number as pathology_number, t.path_id, t.sub_id,
+        t.status, t.update_by as operator_id, t.update_time as operation_time, t.parent_id
+        <if test="blockStatus >= 16">, b.sub_id as slide_id</if>
+        from block t
+        inner join pathology p on t.path_id = p.id and t.status = #{blockStatus,jdbcType=INTEGER}
+        INNER JOIN application a on a.pathology_id = p.id
+        <if test="blockStatus >= 16">inner join block b on t.parent_id = b.id</if>
+        where t.update_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+        <if test="order != null">ORDER BY ${order}</if>
+        limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </select>
+
+    <select id="countAbnormalBlock" parameterType="map" resultType="java.lang.Long">
+        SELECT count(1)
+        from pathology
+        <where>
+            <if test="status != null">status = #{status,jdbcType=INTEGER}</if>
+            <if test="time != null">and create_time &lt;= #{time,jdbcType=TIMESTAMP}</if>
+        </where>
+    </select>
+
+    <select id="selectAbnormalBlock"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.GrossingCon"
+            resultMap="BlockDetailResultMap">
+        select p.id as path_id,a.id as application_id, p.serial_number as pathology_number,
+        p.status, p.create_by as operator_id, p.create_time as operation_time
+        from pathology p
+        INNER JOIN application a on p.id = a.pathology_id
+        where p.status = #{blockStatus,jdbcType=INTEGER} and p.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+        <if test="order != null">ORDER BY ${order}</if>
+        limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </select>
+    <resultMap id="slideMap" type="com.lifetech.dhap.pathcloud.tracking.domain.model.Slide">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="serial_number" property="serialNumber" jdbcType="CHAR"/>
+        <result column="number" property="number" jdbcType="CHAR"/>
+        <result column="path_id" property="pathId" jdbcType="BIGINT"/>
+        <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
+        <result column="marker" property="marker" jdbcType="VARCHAR"/>
+        <result column="sub_id" property="subId" jdbcType="VARCHAR"/>
+        <result column="biaoshi" property="biaoshi" jdbcType="INTEGER"/>
+        <result column="body_part" property="bodyPart" jdbcType="VARCHAR"/>
+        <result column="count" property="count" jdbcType="INTEGER"/>
+        <result column="unit" property="unit" jdbcType="INTEGER"/>
+        <result column="print" property="print" jdbcType="INTEGER"/>
+        <result column="deep_section" property="deepSection" jdbcType="BIT"/>
+        <result column="special_dye" property="specialDye" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="create_by" property="createBy" jdbcType="BIGINT"/>
+        <result column="update_by" property="updateBy" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="note" property="note" jdbcType="LONGVARCHAR"/>
+        <result column="path_no" property="pathNo" jdbcType="VARCHAR"/>
+        <result column="block_no" property="blockSerialNumber" jdbcType="VARCHAR"/>
+        <result column="block_sub_id" property="blockSubId" jdbcType="VARCHAR"/>
+        <result column="receiver" property="receiver" jdbcType="VARCHAR"/>
+        <result column="section_operator" property="sectionOperator" jdbcType="VARCHAR"/>
+        <result column="receive_time" property="receiveTime" jdbcType="TIMESTAMP"/>
+        <result column="confirm_user" property="confirmUser" jdbcType="TIMESTAMP"/>
+        <result column="apply_id" property="applyId" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <select id="selectSlideByIhcId" resultMap="slideMap" parameterType="java.lang.Long">
+            select b.id, b.serial_number, b.path_id, b.sub_id,b.special_dye,b.marker,b.update_time,bb.sub_id as block_sub_id,p.serial_number as path_no,b.parent_id,
+            b.biaoshi,b.body_part,b.count,b.unit,b.print,b.status,b.create_by,b.create_time,b.update_by,b.note,b.parent_id,b.deep_section,b.apply_id,b.number
+            from block b
+            INNER JOIN block bb on b.parent_id = bb.id
+            INNER JOIN tracking t on b.apply_id = t.id and t.operation=30/*申请特检*/
+            INNER JOIN block_ihc bi on t.instrument_id = bi.id
+            INNER JOIN pathology p on bb.path_id = p.id
+            INNER JOIN application_ihc ai on bi.ihc_id = ai.id
+            where b.parent_id is not null and ai.id = #{ihcId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectSlideByBlockIhcId" resultMap="slideMap" parameterType="java.lang.Long">
+            select b.id, b.serial_number, b.path_id, b.sub_id,b.special_dye,b.marker,b.update_time,bb.sub_id as block_sub_id,p.serial_number as path_no,b.parent_id,
+            b.biaoshi,b.body_part,b.count,b.unit,b.print,b.status,b.create_by,b.create_time,b.update_by,b.note,b.parent_id,b.deep_section,b.apply_id,b.number
+            from block b
+            INNER JOIN block bb on b.parent_id = bb.id
+            INNER JOIN tracking t on b.apply_id = t.id and t.operation=30/*申请特检*/
+            INNER JOIN pathology p on bb.path_id = p.id
+        where b.parent_id is not null and t.instrument_id = #{blockIhcId,jdbcType=BIGINT} and b.status != 40
+    </select>
+
+    <select id="selectSlideByBlockIhcIdAndMarker" resultMap="BaseResultMap" parameterType="java.util.Map">
+            select b.id, b.serial_number, b.path_id, b.sub_id,b.special_dye,b.marker,b.update_time,b.parent_id,
+            b.biaoshi,b.body_part,b.count,b.unit,b.print,b.status,b.create_by,b.create_time,b.update_by,b.note,b.parent_id,b.deep_section,b.apply_id,b.number
+            from block b
+            INNER JOIN tracking t on b.apply_id = t.id and t.operation=30/*申请特检*/
+        where b.parent_id is not null and t.instrument_id = #{blockIhcId,jdbcType=BIGINT} and b.status != 40 and b.marker=#{marker,jdbcType=VARCHAR}
+        limit 1
+    </select>
+
+    <select id="selectSlideByBlockIdAndMarker" resultMap="BaseResultMap" parameterType="java.util.Map">
+      select b.id, b.serial_number, b.path_id, b.sub_id,b.special_dye,b.marker,b.update_time,b.parent_id,
+            b.biaoshi,b.body_part,b.count,b.unit,b.print,b.status,b.create_by,b.create_time,b.update_by,b.note,b.parent_id,b.deep_section,b.apply_id,b.number
+            from block b
+        where  b.parent_id = #{blockId,jdbcType=BIGINT} and b.status != 40 and b.marker=#{marker,jdbcType=VARCHAR}
+        limit 1
+    </select>
+
+    <select id="selectSlideBySlideNoAndSubId" resultMap="slideMap" parameterType="java.lang.String">
+            select id, serial_number, path_id, sub_id, biaoshi, body_part, count, unit, print,
+            status, create_by, update_by, create_time, update_time, note,parent_id,marker,deep_section,special_dye,apply_id,number
+            from block
+            where serial_number = #{slideNo,jdbcType=CHAR} and sub_id = #{subId,jdbcType=VARCHAR} and parent_id is NOT NULL  and status != 40/*异常终止*/
+    </select>
+
+    <select id="selectSlideByCondition" resultMap="slideMap"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.SlideCondition">
+        select b.id, b.serial_number, b.path_id, b.sub_id, b.biaoshi, b.body_part, b.count, b.unit, b.print,
+        b.status, b.create_by, b.update_by, b.create_time, b.update_time,t.operator_name as section_operator,
+        b.note,b.parent_id,b.marker,b.deep_section,b.special_dye,b.apply_id,b.number
+        from block b
+        INNER JOIN tracking t on t.block_id=b.id and t.operation=6 /*切片*/
+        where b.status != 40 and b.parent_id is not NULL
+        <if test="sectionOperator != null">and t.operator_id = #{sectionOperator,jdbcType=BIGINT}</if>
+        <if test="blockId != null">and b.parent_id = #{blockId,jdbcType=BIGINT}</if>
+        <if test="pathId != null">and b.path_id = #{pathId,jdbcType=BIGINT}</if>
+        <if test="status != null">and b.status = #{status,jdbcType=INTEGER}</if>
+        <if test="number != null">and b.number = #{number,jdbcType=CHAR}</if>
+        <if test="againstBiaoshi != null">AND b.biaoshi != #{againstBiaoshi,jdbcType=INTEGER}</if>
+        limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectSlideIdByCondition" resultType="java.lang.Long"  parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.SlideCondition">
+        select b.id from block b
+        INNER JOIN tracking t on t.block_id=b.id and t.operation=6 /*切片*/
+        where b.status != 40 and b.parent_id is not NULL
+        <if test="sectionOperator != null">and t.operator_id = #{sectionOperator,jdbcType=BIGINT}</if>
+        <if test="blockId != null">and b.parent_id = #{blockId,jdbcType=BIGINT}</if>
+        <if test="pathId != null">and b.path_id = #{pathId,jdbcType=BIGINT}</if>
+        <if test="status != null">and b.status = #{status,jdbcType=INTEGER}</if>
+        <if test="number != null">and b.number = #{number,jdbcType=CHAR}</if>
+        <if test="againstBiaoshi != null">AND b.biaoshi != #{againstBiaoshi,jdbcType=INTEGER}</if>
+        <if test="start != null and size != null">limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}</if>
+    </select>
+
+    <select id="countSlideByCondition"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.SlideCondition"
+            resultType="java.lang.Long">
+        select count(b.id) from block b
+        <if test="sectionOperator != null">INNER JOIN tracking t on t.block_id=b.id and t.operation=6 /*切片*/</if>
+        where b.status != 40 and b.parent_id is not NULL
+        <if test="sectionOperator != null">and t.operator_id = #{sectionOperator,jdbcType=BIGINT}</if>
+        <if test="blockId != null">and b.parent_id = #{blockId,jdbcType=BIGINT}</if>
+        <if test="pathId != null">and b.path_id = #{pathId,jdbcType=BIGINT}</if>
+        <if test="status != null">and b.status = #{status,jdbcType=INTEGER}</if>
+        <if test="number != null">and b.number = #{number,jdbcType=CHAR}</if>
+        <if test="againstBiaoshi != null">AND b.biaoshi != #{againstBiaoshi,jdbcType=INTEGER}</if>
+    </select>
+
+    <select id="selectSlideConfirmBySlideNoAndSubId" resultMap="slideMap" parameterType="java.lang.String">
+        SELECT b.id,b.parent_id,b.serial_number,b.sub_id,b.path_id,b.biaoshi,b.status,b.special_dye,b.marker,bb.serial_number as block_no,
+        bb.sub_id as block_sub_id ,b.apply_id,b.number
+        FROM block b
+        INNER JOIN block bb on b.parent_id = bb.id
+        WHERE b.serial_number=#{slideNo,jdbcType=VARCHAR} AND b.sub_id =#{subId,jdbcType=VARCHAR} and  b.parent_id IS NOT NULL and b.status = 18 /*待制片确认*/
+    </select>
+
+    <select id="selectSlideConfirmByPathId" resultMap="slideMap" parameterType="java.lang.Long">
+        SELECT b.id,b.parent_id,b.serial_number,b.sub_id,b.path_id,b.biaoshi,b.status,b.special_dye,b.marker,bb.serial_number as block_no,
+        bb.sub_id as block_sub_id,b.apply_id,b.number
+        FROM block b
+        INNER JOIN block bb on b.parent_id = bb.id
+        WHERE b.path_id=#{pathId,jdbcType=BIGINT} AND b.parent_id IS NOT NULL and b.status = 18 /*待制片确认*/;
+    </select>
+
+    <select id="selectSlideConfirmIdsByPathId" resultType="java.lang.Long" parameterType="java.lang.Long">
+        SELECT id FROM block
+        WHERE path_id=#{pathId,jdbcType=BIGINT} AND parent_id IS NOT NULL and (status = 16 or status = 17 or status=18) /*待染色 待封片 待制片确认*/;
+    </select>
+
+    <select id="countSlideConfirmByPathId" resultType="java.lang.Long" parameterType="java.lang.Long">
+        SELECT count(1) FROM block
+        WHERE path_id=#{pathId,jdbcType=BIGINT} AND parent_id IS NOT NULL and (status = 16 or status = 17 or status=18) /*待染色 待封片 待制片确认*/;
+    </select>
+
+    <select id="selectSlideConfirmByBlockId" resultMap="slideMap" parameterType="java.lang.Long">
+        SELECT b.id,b.parent_id,b.serial_number,b.sub_id,b.path_id,b.biaoshi,b.status,b.special_dye,b.marker,bb.serial_number as block_no,
+        bb.sub_id as block_sub_id,b.apply_id,b.number
+        FROM block b
+        INNER JOIN block bb on b.parent_id = bb.id
+        WHERE b.parent_id=#{BIGINT,jdbcType=VARCHAR} and b.status = 18 /*待制片确认*/
+    </select>
+
+    <select id="selectSlideDistributeByCondition" resultMap="slideMap"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.SlideCondition">
+        select b.id,b.parent_id,b.sub_id,bb.sub_id as block_sub_id,p.serial_number as path_no,t.operator_id as
+        confirm_user ,tt.note as receiver ,tt.operation_time as receive_time,b.apply_id from block b
+        INNER JOIN block bb on b.parent_id = bb.id
+        INNER JOIN pathology p on b.path_id = p.id
+        INNER JOIN tracking t on t.block_id = b.id and t.operation=8/*制片确认操作*/
+        RIGHT JOIN tracking tt on tt.block_id = t.block_id and tt.operation=9/*派片操作*/
+        where b.status>19/*控制玻片是已派过片的状态*/
+        <if test="pathNo != null">
+            and p.serial_number = #{pathNo,jdbcType=VARCHAR}
+        </if>
+        <if test="startPathNo != null and endPathNo != null">
+            and p.serial_number BETWEEN #{startPathNo,jdbcType=VARCHAR} AND #{endPathNo,jdbcType=VARCHAR}
+        </if>
+        limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </select>
+
+    <select id="countSlideDistributeByCondition"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.SlideCondition"
+            resultType="java.lang.Long">
+        select count(1) from block b
+        INNER JOIN block bb on b.parent_id = bb.id
+        INNER JOIN pathology p on b.path_id = p.id
+        INNER JOIN tracking t on t.block_id = b.id and t.operation=8/*制片确认操作*/
+        RIGHT JOIN tracking tt on tt.block_id = t.block_id and tt.operation=9/*派片操作*/
+        where b.status>19/*控制玻片是已派过片的状态*/
+        <if test="pathNo != null">
+            and p.serial_number = #{pathNo,jdbcType=VARCHAR}
+        </if>
+        <if test="startPathNo != null and endPathNo != null">
+            and p.serial_number BETWEEN #{startPathNo,jdbcType=VARCHAR} AND #{endPathNo,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <select id="selectBlockDetailById" parameterType="java.lang.Long" resultMap="BlockDetailResultMap">
+        select t.id as block_id, a.id as application_id, p.serial_number as pathology_number, t.path_id, t.sub_id,
+        t.status, t.update_by as operator_id, t.update_time as operation_time, p.patient_name as name, t.parent_id,t.apply_id
+        from block t
+        inner join pathology p on t.path_id = p.id and t.id = #{blockId,jdbcType=BIGINT}
+        INNER JOIN application a on p.id = a.pathology_id
+        limit 1
+    </select>
+
+    <select id="selectPathologyGrossingOperator" parameterType="java.lang.Long" resultMap="BlockDetailResultMap">
+        select t.id as block_id, t.path_id, t.sub_id,
+        t.status, t1.operator_id,t1.operator_name, t1.sec_operator_id, t1.operation_time,t.apply_id
+        from block t
+        inner join tracking t1 on t.id = t1.block_id and t.path_id = #{pathologyId,jdbcType=BIGINT}
+        where t1.operation = 1
+        limit 1
+    </select>
+
+    <select id="selectLastSlideSubIdByBlockId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        select IFNULL(max(sub_id+0),0) from block where parent_id  = #{blockId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectHadSectionBlocksIdByPathId" parameterType="java.lang.Long" resultType="java.lang.Long">
+        SELECT DISTINCT (b.parent_id) FROM block b
+        INNER JOIN block bb ON b.parent_id = bb.id
+        WHERE bb.path_id=#{pathId,jdbcType=BIGINT} AND b.parent_id IS NOT NULL AND bb.`status` != 40 AND b.`status` != 40
+    </select>
+
+    <select id="selectHadEmbedBlocksIdByPathId" parameterType="java.lang.Long" resultType="java.lang.Long">
+        SELECT DISTINCT(b.id) FROM block b
+        INNER JOIN tracking t on t.block_id = b.id and t.operation=5
+        WHERE b.path_id = #{pathId,jdbcType=BIGINT}
+    </select>
+
+    <resultMap id="GrossingInfo" type="com.lifetech.dhap.pathcloud.tracking.domain.model.GrossingInfo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="serial_number" property="serialNumber" jdbcType="VARCHAR"/>
+        <result column="number" property="number" jdbcType="VARCHAR"/>
+        <result column="path_id" property="pathId" jdbcType="BIGINT"/>
+        <result column="apply_id" property="applyId" jdbcType="BIGINT"/>
+        <result column="sub_id" property="subId" jdbcType="VARCHAR"/>
+        <result column="biaoshi" property="biaoshi" jdbcType="INTEGER"/>
+        <result column="body_part" property="bodypart" jdbcType="VARCHAR"/>
+        <result column="count" property="count" jdbcType="INTEGER"/>
+        <result column="unit" property="unit" jdbcType="VARCHAR"/>
+        <result column="note" property="note" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="operator_id" property="operatorId" jdbcType="BIGINT"/>
+        <result column="operator_name" property="operatorName" jdbcType="VARCHAR"/>
+        <result column="sec_operator_id" property="secOperatorId" jdbcType="BIGINT"/>
+        <result column="create_time" property="grossingTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="selectGrossingInfo" parameterType="java.util.Map" resultMap="GrossingInfo">
+        select
+        b.id,b.serial_number,b.path_id,b.sub_id,b.biaoshi,b.body_part,b.count,b.unit,b.note,b.status,t.operator_id,t.operator_name,
+        t.sec_operator_id,b.create_time,b.apply_id,b.number
+        FROM block b
+        <if test="number == null">
+            INNER JOIN tracking t on t.block_id=b.id
+            WHERE b.path_id=#{pathId,jdbcType=BIGINT} AND t.operation = 1
+        </if>
+        <if test="number != null">
+            LEFT JOIN tracking t on t.block_id=b.id
+            WHERE b.number =#{number,jdbcType=CHAR} AND t.operation = 35 and b.parent_id = 0
+        </if>
+    </select>
+
+    <select id="selectLastSlideIdByBlockId" parameterType="java.lang.Long" resultType="java.lang.Long">
+        select id from block where parent_id=#{blockId,jdbcType=BIGINT} ORDER BY create_time DESC LIMIT 1
+    </select>
+
+    <select id="selectBlockForWaitTime" parameterType="map" resultMap="BaseResultMap">
+        <if test="status == 10">
+            select *
+            FROM block
+            WHERE path_id = #{blockId,jdbcType=BIGINT} AND create_time > #{time,jdbcType=TIMESTAMP}
+            order by create_time asc limit 1
+        </if>
+        <if test="status != 10">
+            select *
+            FROM block
+            WHERE parent_id = #{blockId,jdbcType=BIGINT} AND create_time > #{time,jdbcType=TIMESTAMP}
+            order by create_time asc limit 1
+        </if>
+    </select>
+
+    <select id="getEmbedsQuery" parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.EmbedsCon"
+            resultType="com.lifetech.dhap.pathcloud.tracking.application.dto.InfoQueryDto">
+        SELECT p.serial_number as serialNumber,b.sub_id as subId,p.patient_name as patientName,
+        p.departments as departments,t.operator_id as grossingDoctorId,t.operator_name as grossingDoctorName,b.body_part
+        as bodyPart,b.count as count,b.biaoshi as biaoShi,t1.operator_id as operatorDoctorId,t1.operator_name as
+        operatorDoctorName,
+        t1.operation_time as operateTime, t1.note_type as note,t1.note as other, b.status as status
+        from pathology p
+        LEFT JOIN block b on b.path_id=p.id
+        LEFT JOIN tracking t on t.block_id=b.id AND t.operation=1
+        LEFT JOIN tracking t1 on t1.block_id=b.id AND t1.operation=5
+        <where>
+            1=1
+            <if test="status == null and operatorId == null">and b.status in (14,15)</if>
+            <if test="status != null">and b.status = #{status,jdbcType=INTEGER}</if>
+            <if test="filter != null">and (p.serial_number = #{filter,jdbcType=VARCHAR} OR p.patient_name LIKE
+                CONCAT(#{filter,jdbcType=VARCHAR},'%'))
+            </if>
+            <if test="startPathNo != null and endPathNo != null">AND (p.serial_number BETWEEN
+                #{startPathNo,jdbcType=VARCHAR} AND #{endPathNo,jdbcType=VARCHAR})
+            </if>
+            <if test="startTime != null">AND b.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+            <if test="endTime != null"><![CDATA[AND b.create_time < #{endTime,jdbcType=TIMESTAMP}]]></if>
+            <if test="operatorId != null">AND t1.operator_id =#{operatorId,jdbcType=BIGINT} AND b.status=15</if>
+        </where>
+        <if test="order != null">ORDER BY ${order}</if>
+        limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </select>
+
+    <select id="getEmbedsQueryTotal"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.EmbedsCon"
+            resultType="java.lang.Long">
+        SELECT COUNT(1)
+        from pathology p
+        LEFT JOIN block b on b.path_id=p.id
+        LEFT JOIN tracking t on t.block_id=b.id AND t.operation=1
+        LEFT JOIN tracking t1 on t1.block_id=b.id AND t1.operation=5
+        <where>
+            1=1
+            <if test="status == null and operatorId == null">and b.status in (14,15)</if>
+            <if test="status != null">and b.status = #{status,jdbcType=INTEGER}</if>
+            <if test="filter != null">and (p.serial_number = #{filter,jdbcType=VARCHAR} OR p.patient_name LIKE
+                CONCAT(#{filter,jdbcType=VARCHAR},'%'))
+            </if>
+            <if test="startPathNo != null and endPathNo != null">AND (p.serial_number BETWEEN
+                #{startPathNo,jdbcType=VARCHAR} AND #{endPathNo,jdbcType=VARCHAR})
+            </if>
+            <if test="startTime != null">AND b.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+            <if test="endTime != null"><![CDATA[AND b.create_time < #{endTime,jdbcType=TIMESTAMP}]]></if>
+            <if test="operatorId != null">AND t1.operator_id =#{operatorId,jdbcType=BIGINT} AND b.status=15</if>
+        </where>
+    </select>
+
+    <select id="getDyeQuery" parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.EmbedsCon"
+            resultType="com.lifetech.dhap.pathcloud.tracking.application.dto.InfoQueryDto">
+        SELECT p.serial_number as serialNumber,bb.sub_id as subId,b.sub_id as slideId,
+        t.operator_id as grossingDoctorId,b.body_part
+        as bodyPart,b.count as count,b.biaoshi as biaoShi,t1.operator_id as operatorDoctorId,
+        t1.create_time as operateTime, b.status as status,b.id as id,
+        t.operator_name as grossingDoctorName,t1.operator_name as operatorDoctorName,
+        t1.instrument_id as dyeInstrumentId,t2.operator_id as mountingId,t2.operator_name as mountingName,
+        t2.instrument_id as mountingInstrumentId,t2.create_time as mountingTime
+        from block b
+        LEFT JOIN pathology p on b.path_id=p.id
+        LEFT JOIN block bb ON b.parent_id=bb.id
+        LEFT JOIN tracking t ON t.block_id=bb.id AND t.operation=1
+        LEFT JOIN tracking t1 ON t1.block_id=b.id AND t1.operation=7
+        LEFT JOIN tracking t2 ON t2.block_id=b.id AND t2.operation=22
+        <where>
+            <if test="status == null">AND b.status in (16,17,18)</if>
+            <if test="status != null">AND b.status = #{status,jdbcType=INTEGER}</if>
+            <if test="filter != null ">AND p.serial_number = #{filter,jdbcType=VARCHAR}</if>
+            <if test="filter != null and startPathNo != null">AND p.serial_number = #{filter,jdbcType=VARCHAR} AND
+                bb.sub_id = #{startPathNo,jdbcType=VARCHAR}
+            </if>
+            <if test="filter != null and endPathNo != null and startPathNo != null">AND p.serial_number =
+                #{filter,jdbcType=VARCHAR} AND
+                bb.sub_id = #{startPathNo,jdbcType=VARCHAR} AND b.sub_id = #{endPathNo,jdbcType=VARCHAR}
+            </if>
+            <if test="startTime != null">AND b.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+            <if test="endTime != null"><![CDATA[AND b.create_time < #{endTime,jdbcType=TIMESTAMP}]]></if>
+            <if test="operatorId != null">AND t1.operator_id = #{operatorId,jdbcType=BIGINT}</if>
+            <if test="mountingId != null">AND t2.operator_id = #{mountingId,jdbcType=BIGINT}</if>
+            <if test="dyeInstrumentId != null">AND t1.instrument_id = #{dyeInstrumentId,jdbcType=BIGINT}</if>
+            <if test="mountingInstrumentId != null">AND t2.instrument_id = #{mountingInstrumentId,jdbcType=BIGINT}</if>
+        </where>
+        <if test="order != null">ORDER BY ${order}</if>
+        limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </select>
+
+    <select id="getDyeQueryTotal" parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.EmbedsCon"
+            resultType="java.lang.Long">
+        SELECT COUNT(1)
+        from block b
+        LEFT JOIN pathology p on b.path_id=p.id
+        LEFT JOIN block bb ON b.parent_id=bb.id
+        LEFT JOIN tracking t ON t.block_id=bb.id AND t.operation=1
+        LEFT JOIN tracking t1 ON t1.block_id=b.id AND t1.operation=7
+        LEFT JOIN tracking t2 ON t2.block_id=b.id AND t2.operation=22
+        <where>
+            <if test="status == null">AND b.status in (16,17,18)</if>
+            <if test="status != null">AND b.status = #{status,jdbcType=INTEGER}</if>
+            <if test="filter != null ">AND p.serial_number = #{filter,jdbcType=VARCHAR}</if>
+            <if test="filter != null and startPathNo != null">AND p.serial_number = #{filter,jdbcType=VARCHAR} AND
+                bb.sub_id = #{startPathNo,jdbcType=VARCHAR}
+            </if>
+            <if test="filter != null and endPathNo != null and startPathNo != null">AND p.serial_number =
+                #{filter,jdbcType=VARCHAR} AND
+                bb.sub_id = #{startPathNo,jdbcType=VARCHAR} AND b.sub_id = #{endPathNo,jdbcType=VARCHAR}
+            </if>
+            <if test="startTime != null">AND b.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+            <if test="endTime != null"><![CDATA[AND b.create_time < #{endTime,jdbcType=TIMESTAMP}]]></if>
+            <if test="operatorId != null">AND t1.operator_id = #{operatorId,jdbcType=BIGINT}</if>
+            <if test="mountingId != null">AND t2.operator_id = #{mountingId,jdbcType=BIGINT}</if>
+            <if test="dyeInstrumentId != null">AND t1.instrument_id = #{dyeInstrumentId,jdbcType=BIGINT}</if>
+            <if test="mountingInstrumentId != null">AND t2.instrument_id = #{mountingInstrumentId,jdbcType=BIGINT}</if>
+        </where>
+    </select>
+
+    <select id="getDyePerson" resultType="long">
+        SELECT u.id
+        FROM `user` u
+        INNER JOIN role r ON u.role_id=r.id
+        INNER JOIN role_permission rp on rp.role_id=r.id
+        INNER JOIN permission p ON rp.permission_id=p.id
+        WHERE p.id=8
+    </select>
+
+    <select id="getPrintPerson" resultType="long">
+        SELECT u.id
+        FROM `user` u
+        INNER JOIN role r ON u.role_id=r.id
+        INNER JOIN role_permission rp on rp.role_id=r.id
+        INNER JOIN permission p ON rp.permission_id=p.id
+        WHERE p.id=13
+    </select>
+
+    <select id="selectRegrossingLessWaitTime" parameterType="java.lang.Long" resultType="java.lang.Long">
+        select UNIX_TIMESTAMP(create_time)-UNIX_TIMESTAMP(operation_time) from
+        (select create_time from block where id = #{blockId,jdbcType=BIGINT}) a,
+        (select operation_time from path_tracking where path_id = (select path_id from block where id = #{blockId,jdbcType=BIGINT}) and operation=19
+        and operation_time &lt; (select create_time from block where id=#{blockId,jdbcType=BIGINT}) order by operation_time desc limit 1) b;
+    </select>
+
+    <select id="selectRegrossingWaitTime" parameterType="java.lang.Long" resultType="java.lang.Long">
+    select UNIX_TIMESTAMP(grossing_time)-UNIX_TIMESTAMP(apply_time) from
+	(SELECT b.path_id as path_id,b.id,b.grossing_time,@rank:=@rank+1 as seq  FROM
+         (SELECT path_id,id,create_time as grossing_time FROM block WHERE biaoshi=2 and path_id =(select path_id from block WHERE id = #{blockId,jdbcType=BIGINT}) and parent_id is NULL  ORDER BY path_id,id) b ,(SELECT @rank:=0) n) a
+	INNER JOIN
+	(SELECT pt.path_id as path_id,pt.apply_time,@num:=@num+1 as seq  FROM
+         (SELECT path_id,operation_time as apply_time FROM path_tracking  WHERE path_id =(select path_id from block WHERE id = #{blockId,jdbcType=BIGINT})  and operation=19  ORDER BY path_id,id) pt ,(SELECT @num:=0) n ) b
+    on a.path_id = b.path_id and a.seq = b.seq
+    WHERE a.id = #{blockId,jdbcType=BIGINT}
+    </select>
+
+    <select id="countHadOperatedBlocks"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.HadOperatedCondition"
+            resultType="java.lang.Long">
+        SELECT count(1) FROM block b
+        WHERE parent_id IS NULL AND b.status != 40
+        <if test="pathId != null">AND b.path_id=#{pathId,jdbcType=BIGINT}</if>
+        <if test="status != null">AND b.status > #{status,jdbcType=INTEGER}</if>
+        <if test="startTime != null">AND b.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and b.create_time < #{endTime,jdbcType=TIMESTAMP}]]></if>
+    </select>
+
+    <select id="getSectionsQuery" parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.EmbedsCon"
+            resultType="com.lifetech.dhap.pathcloud.tracking.application.dto.InfoQueryDto">
+        SELECT * from (
+        select bb.id,p.serial_number as serialNumber,b.sub_id as subId,bb.sub_id as slideId,bb.print,p.patient_name as patientName,
+        p.departments,t.operator_id as grossingDoctorId,t.operator_name as grossingDoctorName,b.body_part as bodyPart,
+        b.unit,b.count,b.biaoshi,tt.operator_id as operatorDoctorId,tt.operator_name as
+        operatorDoctorName,tt.operation_time as operateTime,
+        tt.note as other,tt.note_type as note,bb.status,b.id as blockId,bb.special_dye as specialDye,bb.create_time
+        from block bb
+        INNER JOIN pathology p on bb.path_id = p.id
+        INNER JOIN block b on bb.parent_id = b.id
+        INNER JOIN tracking t on t.block_id=b.id and t.operation=1
+        left join tracking tt on tt.block_id=bb.id and tt.operation=6
+        where bb.status in (15,16)
+        union all
+        select null as id,p.serial_number as serialNumber,b.sub_id as subId,null as slideId,b.print,p.patient_name as
+        patientName,
+        p.departments,t.operator_id as grossingDoctorId,t.operator_name as grossingDoctorName,b.body_part as bodyPart,
+        b.unit,b.count,b.biaoshi,tt.operator_id as operatorDoctorId,tt.operator_name as
+        operatorDoctorName,tt.operation_time as operateTime,
+        tt.note as other,tt.note_type as note,b.status,b.id as blockId,IFNULL(bi.special_dye,0) as
+        specialDye,b.create_time
+        from block b
+        INNER JOIN pathology p on b.path_id = p.id
+        left join block_ihc bi on bi.block_id = b.id
+        left join tracking tt on tt.block_id=b.id and tt.operation=6
+        INNER JOIN tracking t on t.block_id=b.id and t.operation=1
+        where b.status=15 and b.id not in (select parent_id from block where block.parent_id=b.id and block.status=15)
+        GROUP BY blockId
+        ) t
+        <where>
+            <if test="filter != null">and (serialNumber = #{filter,jdbcType=VARCHAR} OR patientName LIKE
+                CONCAT(#{filter,jdbcType=VARCHAR},'%'))
+            </if>
+            <if test="startPathNo != null and endPathNo != null">AND (serialNumber BETWEEN
+                #{startPathNo,jdbcType=VARCHAR} AND #{endPathNo,jdbcType=VARCHAR})
+            </if>
+            <if test="startTime != null">AND create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+            <if test="endTime != null"><![CDATA[AND create_time < #{endTime,jdbcType=TIMESTAMP}]]></if>
+            <if test="operatorId != null">AND operatorDoctorId =#{operatorId,jdbcType=BIGINT}</if>
+            <if test="dyeCategory != null and dyeCategory &lt;= 1">AND specialDye =#{dyeCategory,jdbcType=INTEGER}</if>
+            <if test="dyeCategory != null and dyeCategory == 2">AND specialDye > 1</if>
+            <if test="printCount != null and printCount== 0">AND print =#{printCount,jdbcType=INTEGER}</if>
+            <if test="printCount != null and printCount == 1">AND print > 0</if>
+            <if test="status != null">AND status =#{status,jdbcType=INTEGER}</if>
+        </where>
+        <if test="order != null">ORDER BY ${order}</if>
+        limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </select>
+
+    <select id="getSectionsQueryTotal"
+            parameterType="com.lifetech.dhap.pathcloud.tracking.application.condition.EmbedsCon"
+            resultType="java.lang.Long">
+        SELECT count(*) from (
+        select bb.id,p.serial_number as serialNumber,b.sub_id as subId,bb.sub_id as slideId,bb.print,p.patient_name as patientName,
+        p.departments,t.operator_id as grossingDoctorId,t.operator_name as grossingDoctorName,b.body_part as bodyPart,
+        b.unit,b.count,b.biaoshi,tt.operator_id as operatorDoctorId,tt.operator_name as
+        operatorDoctorName,tt.operation_time as operateTime,
+        tt.note as other,tt.note_type as note,bb.status,b.id as blockId,bb.special_dye as specialDye,bb.create_time
+        from block bb
+        INNER JOIN pathology p on bb.path_id = p.id
+        INNER JOIN block b on bb.parent_id = b.id
+        INNER JOIN tracking t on t.block_id=b.id and t.operation=1
+        left join tracking tt on tt.block_id=bb.id and tt.operation=6
+        where bb.status in (15,16)
+        union all
+        select null as id,p.serial_number as serialNumber,b.sub_id as subId,null as slideId,b.print,p.patient_name as
+        patientName,
+        p.departments,t.operator_id as grossingDoctorId,t.operator_name as grossingDoctorName,b.body_part as bodyPart,
+        b.unit,b.count,b.biaoshi,tt.operator_id as operatorDoctorId,tt.operator_name as
+        operatorDoctorName,tt.operation_time as operateTime,
+        tt.note as other,tt.note_type as note,b.status,b.id as blockId,IFNULL(bi.special_dye,0) as
+        specialDye,b.create_time
+        from block b
+        INNER JOIN pathology p on b.path_id = p.id
+        left join block_ihc bi on bi.block_id = b.id
+        left join tracking tt on tt.block_id=b.id and tt.operation=6
+        INNER JOIN tracking t on t.block_id=b.id and t.operation=1
+        where b.status=15 and b.id not in (select parent_id from block where block.parent_id=b.id and block.status=15)
+       GROUP BY blockId
+        ) t
+        <where>
+            <if test="filter != null">and (serialNumber = #{filter,jdbcType=VARCHAR} OR patientName LIKE
+                CONCAT(#{filter,jdbcType=VARCHAR},'%'))
+            </if>
+            <if test="startPathNo != null and endPathNo != null">AND (serialNumber BETWEEN
+                #{startPathNo,jdbcType=VARCHAR} AND #{endPathNo,jdbcType=VARCHAR})
+            </if>
+            <if test="startTime != null">AND create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+            <if test="endTime != null"><![CDATA[AND create_time < #{endTime,jdbcType=TIMESTAMP}]]></if>
+            <if test="operatorId != null">AND operatorDoctorId =#{operatorId,jdbcType=BIGINT}</if>
+            <if test="dyeCategory != null and dyeCategory &lt;= 1">AND specialDye =#{dyeCategory,jdbcType=INTEGER}</if>
+            <if test="dyeCategory != null and dyeCategory == 2">AND specialDye > 1</if>
+            <if test="printCount != null and printCount== 0">AND print =#{printCount,jdbcType=INTEGER}</if>
+            <if test="printCount != null and printCount == 1">AND print > 0</if>
+            <if test="status != null">AND status =#{status,jdbcType=INTEGER}</if>
+        </where>
+    </select>
+
+    <select id="getEmbedPerson" resultType="java.lang.Long">
+        SELECT u.id
+        FROM `user` u
+        INNER JOIN role r ON u.role_id=r.id
+        INNER JOIN role_permission rp on rp.role_id=r.id
+        INNER JOIN permission p ON rp.permission_id=p.id
+        WHERE p.id=6
+    </select>
+
+    <select id="getSectionPerson" resultType="java.lang.Long">
+        SELECT u.id
+        FROM `user` u
+        INNER JOIN role r ON u.role_id=r.id
+        INNER JOIN role_permission rp on rp.role_id=r.id
+        INNER JOIN permission p ON rp.permission_id=p.id
+        WHERE p.id=7
+    </select>
+
+    <select id="selectSlideByApplyId" parameterType="java.lang.Long" resultType="java.lang.Long">
+        select id from block where apply_id=#{applyId,jdbcType=BIGINT} and parent_id is not null
+    </select>
+</mapper>

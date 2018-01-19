@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lifetech.dhap.pathcloud.reagent.domain.StoreMapper">
+    <resultMap id="BaseResultMap" type="com.lifetech.dhap.pathcloud.reagent.domain.model.Store">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="reagent_id" jdbcType="BIGINT" property="reagentId"/>
+        <result column="order_number" jdbcType="VARCHAR" property="orderNumber"/>
+        <result column="batch_number" jdbcType="VARCHAR" property="batchNumber"/>
+        <result column="product_number" jdbcType="VARCHAR" property="productNumber"/>
+        <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer"/>
+        <result column="article_number" jdbcType="VARCHAR" property="articleNumber"/>
+        <result column="produce_time" jdbcType="TIMESTAMP" property="produceTime"/>
+        <result column="expiry_time" jdbcType="TIMESTAMP" property="expiryTime"/>
+        <result column="manufacturer_phone" jdbcType="VARCHAR" property="manufacturerPhone"/>
+        <result column="spec" jdbcType="VARCHAR" property="spec"/>
+        <result column="receive_status" jdbcType="INTEGER" property="receiveStatus"/>
+        <result column="preparation" jdbcType="VARCHAR" property="preparation"/>
+        <result column="preparation_time" jdbcType="TIMESTAMP" property="preparationTime"/>
+        <result column="pre_experiment" jdbcType="VARCHAR" property="preExperiment"/>
+        <result column="pre_experiment_time" jdbcType="TIMESTAMP" property="preExperimentTime"/>
+        <result column="pre_experiment_result" jdbcType="VARCHAR" property="preExperimentResult"/>
+        <result column="specification" jdbcType="DOUBLE" property="specification"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="dilution_rate_front" jdbcType="DOUBLE" property="dilutionRateFront"/>
+        <result column="dilution_rate_rear" jdbcType="DOUBLE" property="dilutionRateRear"/>
+        <result column="real_capacity" jdbcType="DOUBLE" property="realCapacity"/>
+        <result column="count" jdbcType="INTEGER" property="count"/>
+        <result column="count_unit" jdbcType="INTEGER" property="countUnit"/>
+        <result column="total_capacity" jdbcType="DOUBLE" property="totalCapacity"/>
+        <result column="used_capacity" jdbcType="DOUBLE" property="usedCapacity"/>
+        <result column="create_by" jdbcType="BIGINT" property="createBy"/>
+        <result column="update_by" jdbcType="BIGINT" property="updateBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from store
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.lifetech.dhap.pathcloud.reagent.domain.model.Store">
+    insert into store (id, reagent_id, order_number, 
+      batch_number, product_number, manufacturer, 
+      article_number, produce_time, expiry_time, 
+      manufacturer_phone, spec, receive_status, 
+      preparation, preparation_time, pre_experiment, 
+      pre_experiment_time, pre_experiment_result, 
+      specification, type, dilution_rate_front, 
+      dilution_rate_rear, real_capacity, count, 
+      count_unit, total_capacity, used_capacity, 
+      create_by, update_by, create_time, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{reagentId,jdbcType=BIGINT}, #{orderNumber,jdbcType=VARCHAR}, 
+      #{batchNumber,jdbcType=VARCHAR}, #{productNumber,jdbcType=VARCHAR}, #{manufacturer,jdbcType=VARCHAR}, 
+      #{articleNumber,jdbcType=VARCHAR}, #{produceTime,jdbcType=TIMESTAMP}, #{expiryTime,jdbcType=TIMESTAMP}, 
+      #{manufacturerPhone,jdbcType=VARCHAR}, #{spec,jdbcType=VARCHAR}, #{receiveStatus,jdbcType=INTEGER}, 
+      #{preparation,jdbcType=VARCHAR}, #{preparationTime,jdbcType=TIMESTAMP}, #{preExperiment,jdbcType=VARCHAR}, 
+      #{preExperimentTime,jdbcType=TIMESTAMP}, #{preExperimentResult,jdbcType=VARCHAR}, 
+      #{specification,jdbcType=DOUBLE}, #{type,jdbcType=INTEGER}, #{dilutionRateFront,jdbcType=DOUBLE}, 
+      #{dilutionRateRear,jdbcType=DOUBLE}, #{realCapacity,jdbcType=DOUBLE}, #{count,jdbcType=INTEGER}, 
+      #{countUnit,jdbcType=INTEGER}, #{totalCapacity,jdbcType=DOUBLE}, #{usedCapacity,jdbcType=DOUBLE}, 
+      #{createBy,jdbcType=BIGINT}, #{createBy,jdbcType=BIGINT}, now(),
+     now())
+  </insert>
+    <update id="updateByPrimaryKey" parameterType="com.lifetech.dhap.pathcloud.reagent.domain.model.Store">
+    update store
+    set reagent_id = #{reagentId,jdbcType=BIGINT},
+      order_number = #{orderNumber,jdbcType=VARCHAR},
+      batch_number = #{batchNumber,jdbcType=VARCHAR},
+      product_number = #{productNumber,jdbcType=VARCHAR},
+      manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      article_number = #{articleNumber,jdbcType=VARCHAR},
+      produce_time = #{produceTime,jdbcType=TIMESTAMP},
+      expiry_time = #{expiryTime,jdbcType=TIMESTAMP},
+      manufacturer_phone = #{manufacturerPhone,jdbcType=VARCHAR},
+      spec = #{spec,jdbcType=VARCHAR},
+      receive_status = #{receiveStatus,jdbcType=INTEGER},
+      preparation = #{preparation,jdbcType=VARCHAR},
+      preparation_time = #{preparationTime,jdbcType=TIMESTAMP},
+      pre_experiment = #{preExperiment,jdbcType=VARCHAR},
+      pre_experiment_time = #{preExperimentTime,jdbcType=TIMESTAMP},
+      pre_experiment_result = #{preExperimentResult,jdbcType=VARCHAR},
+      specification = #{specification,jdbcType=DOUBLE},
+      type = #{type,jdbcType=INTEGER},
+      dilution_rate_front = #{dilutionRateFront,jdbcType=DOUBLE},
+      dilution_rate_rear = #{dilutionRateRear,jdbcType=DOUBLE},
+      real_capacity = #{realCapacity,jdbcType=DOUBLE},
+      count = #{count,jdbcType=INTEGER},
+      count_unit = #{countUnit,jdbcType=INTEGER},
+      total_capacity = #{totalCapacity,jdbcType=DOUBLE},
+      used_capacity = #{usedCapacity,jdbcType=DOUBLE},
+      update_by = #{updateBy,jdbcType=BIGINT},
+      update_time = now()
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, reagent_id, order_number, batch_number, product_number, manufacturer, 
+    article_number, produce_time, expiry_time, manufacturer_phone, spec, receive_status, 
+    preparation, preparation_time, pre_experiment, pre_experiment_time, pre_experiment_result, 
+    specification, type, dilution_rate_front, dilution_rate_rear, real_capacity, count, 
+    count_unit, total_capacity, used_capacity, create_by, update_by, create_time, update_time
+    from store
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+    <select id="selectByUnique" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select id, reagent_id, order_number, batch_number, product_number, manufacturer,
+    article_number, produce_time, expiry_time, manufacturer_phone, spec, receive_status,
+    preparation, preparation_time, pre_experiment, pre_experiment_time, pre_experiment_result,
+    specification, type, dilution_rate_front, dilution_rate_rear, real_capacity, count,
+    count_unit, total_capacity, used_capacity, create_by, update_by, create_time, update_time
+    from store
+    where reagent_id = #{reagentId,jdbcType=BIGINT} and batch_number = #{batchNumber,jdbcType=VARCHAR} and order_number = #{orderNumber,jdbcType=VARCHAR}
+  </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, reagent_id, order_number, batch_number, product_number, manufacturer, 
+    article_number, produce_time, expiry_time, manufacturer_phone, spec, receive_status, 
+    preparation, preparation_time, pre_experiment, pre_experiment_time, pre_experiment_result, 
+    specification, type, dilution_rate_front, dilution_rate_rear, real_capacity, count, 
+    count_unit, total_capacity, used_capacity, create_by, update_by, create_time, update_time
+    from store
+  </select>
+
+    <resultMap id="reagentStoreMap" type="com.lifetech.dhap.pathcloud.reagent.domain.model.ReagentStore"
+               extends="BaseResultMap">
+        <result column="reagent_name" jdbcType="VARCHAR" property="reagentName"/>
+        <result column="reagent_category" jdbcType="INTEGER" property="reagentCategory"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="reagent_type" jdbcType="INTEGER" property="reagentType"/>
+    </resultMap>
+
+    <select id="selectByCondition" resultMap="reagentStoreMap"
+            parameterType="com.lifetech.dnap.pathcloud.reagent.application.condition.StoreCondition">
+        select * from (
+        select s.id, s.reagent_id, s.order_number, s.batch_number, s.product_number, s.manufacturer,r.name as reagent_name,
+        r.category as reagent_category,r.type as reagent_type,
+        article_number, s.produce_time, s.expiry_time, s.manufacturer_phone, s.spec, s.receive_status,
+        preparation, s.preparation_time, s.pre_experiment, s.pre_experiment_time, s.pre_experiment_result,
+        specification, s.type, s.dilution_rate_front, s.dilution_rate_rear, s.real_capacity, s.count,
+        count_unit, s.total_capacity, s.used_capacity, s.create_by, s.update_by, s.create_time, s.update_time,
+        if(s.total_capacity=used_capacity,4/*补货*/,if(date_format(s.expiry_time, '%Y-%m-%d') &lt; CURDATE(),3/*过期*/,
+        if(DATE_ADD(date_format(s.expiry_time, '%Y-%m-%d'),INTERVAL -30 day)&lt;=CURDATE(),2/*即将过期*/,1/*正常*/))) as status
+        from store s
+        INNER JOIN reagent r on s.reagent_id = r.id
+        ) t
+        <where>
+            <if test="filter != null"> reagent_name like CONCAT('%',#{filter,jdbcType=VARCHAR},'%')</if>
+            <if test="category != null">and reagent_category = #{category,jdbcType=INTEGER}</if>
+            <if test="type != null">and reagent_type = #{type,jdbcType=INTEGER}</if>
+            <if test="status != null">and status = #{status,jdbcType=INTEGER}</if>
+            <if test="startTime != null">AND create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+            <if test="endTime != null"><![CDATA[AND create_time < #{endTime,jdbcType=TIMESTAMP}]]></if>
+        </where>
+        <if test="order != null">ORDER BY ${order}</if>
+        limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </select>
+
+    <select id="countByCondition"
+            parameterType="com.lifetech.dnap.pathcloud.reagent.application.condition.StoreCondition"
+            resultType="java.lang.Long">
+        select count(1) from (
+        select s.id, s.reagent_id, s.order_number, s.batch_number, s.product_number, s.manufacturer,r.name as reagent_name,
+        r.category as reagent_category,r.type as reagent_type,
+        article_number, s.produce_time, s.expiry_time, s.manufacturer_phone, s.spec, s.receive_status,
+        preparation, s.preparation_time, s.pre_experiment, s.pre_experiment_time, s.pre_experiment_result,
+        specification, s.type, s.dilution_rate_front, s.dilution_rate_rear, s.real_capacity, s.count,
+        count_unit, s.total_capacity, s.used_capacity, s.create_by, s.update_by, s.create_time, s.update_time,
+        if(s.total_capacity=used_capacity,4/*补货*/,if(date_format(s.expiry_time, '%Y-%m-%d') &lt; CURDATE(),3/*过期*/,
+        if(DATE_ADD(date_format(s.expiry_time, '%Y-%m-%d'),INTERVAL -30 day)&lt;=CURDATE(),2/*即将过期*/,1/*正常*/))) as status
+        from store s
+        INNER JOIN reagent r on s.reagent_id = r.id
+        ) t
+        <where>
+            <if test="filter != null"> reagent_name like CONCAT('%',#{filter,jdbcType=VARCHAR},'%')</if>
+            <if test="category != null">and reagent_category = #{category,jdbcType=INTEGER}</if>
+            <if test="type != null">and reagent_type = #{type,jdbcType=INTEGER}</if>
+            <if test="status != null">and status = #{status,jdbcType=INTEGER}</if>
+            <if test="startTime != null">AND create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+            <if test="endTime != null"><![CDATA[AND create_time < #{endTime,jdbcType=TIMESTAMP}]]></if>
+        </where>
+    </select>
+
+    <select id="getCurrentUse" parameterType="com.lifetech.dnap.pathcloud.reagent.application.condition.StoreCondition" resultMap="BaseResultMap">
+        SELECT s.* FROM store s
+        INNER JOIN reagent r on s.reagent_id = r.id
+        WHERE s.total_capacity>s.used_capacity and s.expiry_time>now() and  r.category=#{category,jdbcType=INTEGER} AND r.type = #{type,jdbcType=INTEGER}
+        <if test="name != null">
+            and r.name = #{name,jdbcType=VARCHAR}
+        </if>
+        ORDER BY s.produce_time,s.create_time
+        limit 1
+    </select>
+</mapper>

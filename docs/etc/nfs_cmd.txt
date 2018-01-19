@@ -1,0 +1,52 @@
+======================background==============================
+
+web server(nfs client):	192.168.0.12
+nfs server(rw):			192.168.0.16
+nfs server(ro):			192.168.0.15
+
+make sure ro nfs server can access rw nfs server without password
+
+========================nfs mount=============================
+
+<<nfs server>>
+
+#sudo apt-get install nfs-kernel-server
+
+#mkdir /nfs_share
+
+#sudo vi /etc/exports
+	>>>>>> for read write
+	/nfs_share 192.168.0.12(rw,no_root_squash,no_subtree_check)
+	>>>>>> for read only
+	/nfs_share 192.168.0.12(ro,no_root_squash,no_subtree_check)
+	>>>>>>
+
+#service rpcbind restart
+#service nfs-kernel-server restart
+
+
+<<nfs client>>
+
+#sudo apt-get install nfs-common
+#mkdir /nfs_mnt_rw && chown tomcat7 /nfs_mnt_rw
+#sudo mount -t nfs 192.168.0.16:/nfs_share /nfs_mnt_rw
+
+#mkdir /nfs_mnt_ro && chown tomcat7 /nfs_mnt_ro
+#sudo mount -t nfs 192.168.0.15:/nfs_share /nfs_mnt_ro
+
+#sudo vi /etc/rc.local
+	>>>>>
+	sudo mount -t nfs 192.168.0.16:/nfs_share /nfs_mnt_rw
+	sudo mount -t nfs 192.168.0.15:/nfs_share /nfs_mnt_ro
+	>>>>>
+
+	
+
+=====================rsync=====================================
+
+#####Config remote ssh/rysnc from slave to master w/o specify public key file
+ssh-keygen  ## Run from slave machine(192.168.0.15), Don't enter anything for passphase
+copy .ssh/id_rsa.pub generated above and paste to .ssh/authorized_keys in nfs master(192.168.0.16)
+
+#####add the command below to the crontab####
+rsync -azv 192.168.0.16:/nfs_share/ /nfs_share/

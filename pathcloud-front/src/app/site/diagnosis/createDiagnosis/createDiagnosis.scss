@@ -1,0 +1,353 @@
+.diagnosis-number-box{
+  min-width: 20px;
+  height: 20px;
+  background: #f7e4c0;
+  text-align: center;
+}
+
+.diagnose-photo{
+  border: 1px solid #ccc;
+  border-top: none;
+  padding-bottom: 5px;
+
+  .category-container{
+    width:430px;
+    margin-top: 5px;
+    float: left;
+
+    .slider-container{
+      height:125px;
+    }
+    .category-item{
+      //width: 25%;
+      float: left;
+      padding:0 2px;
+    }
+  }
+  .operates{
+    width:100px;
+    button{
+      margin-top: 5px;
+      width: 82px;
+    }
+  }
+}
+
+#createDiagnosis {
+
+  .tab2-body{
+    .textarea {
+      height: 100%;
+      border: none;
+      outline: none;
+      overflow: auto;
+    }
+  }
+
+
+
+  .the-tab{
+    position: relative;
+  }
+  .template {
+    width: 100%;
+    height: 302px;
+    border: 1px solid #668697;
+    position: relative;
+    //transition: all linear 0.2s;
+    .active {
+      background-color: #ddeeff;
+    }
+    ul li {
+      margin: 2px 0;
+      padding: 5px;
+    }
+    .template-left {
+      width: 10%;
+      height: 100%;
+      background-color: #ddd;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-right: 1px solid #668697;
+
+      p {
+        margin: auto;
+        margin-top: 100px;
+        width: 20px;
+        font-size: 16px;
+        word-wrap: break-word;
+        //letter-spacing: 16px;
+        writing-mode: vertical-lr;
+        writing-mode: tb-lr;
+      }
+    }
+    .template-main {
+      width: 45%;
+      height: 100%;
+      border-right: 1px solid #668697;
+      border-left: 1px solid #668697;
+      overflow-y: auto;
+      position: absolute;
+      left: 10%;
+    }
+    .template-right {
+      width: 45%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      overflow-y: auto;
+    }
+  }
+  //最近模板样式
+  .recent-template {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    margin-top: 10px;
+    .recent-left {
+      width: 100px;
+    }
+    .recent-right {
+      width: calc(100% - 100px);
+      .template-item {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 25px;
+        .template-p {
+          background-color: #eeeeee;
+          padding: 0 5px;
+          margin: 5px;
+          width: 94px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          word-break: break-all;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+
+  .box{
+    flex-wrap: wrap;
+    align-content: flex-start;
+    display: flex;
+    margin: 0 -5px;
+    .box-item{
+      width:30%;
+      margin: 5px auto;
+    }
+  }
+
+    .error{
+        color: red;
+        td{
+             cursor:pointer !important;;
+        }
+    }
+
+    .list-row-justified{
+        width: 100%;
+        margin-bottom: 15px;
+        .list-cell{
+            width: 30%;
+            float: left;
+        }
+    }
+
+
+
+    .star {
+        color: #fed010;
+    }
+    .jujianImg {
+        width: 75px;
+        height: 50px;
+        padding-right: 10px;
+        float: left;
+    }
+
+    .xianwei{
+      width: 75px;
+      height: 50px;
+      padding-right: 10px;
+      float: left;
+    }
+    textarea,
+    .sample-info,
+    .operate-div,
+    .see-div,
+    .diagnosis-div {
+        width: 100%;
+    }
+    textarea {
+        height: 100%;
+        padding: 10px;
+    }
+    h5 {
+        font-weight: bolder;
+    }
+    .common-bottom-apart {
+        margin-bottom: 15px;
+    }
+    .head {
+        //margin-bottom:10px;
+        margin-top: 5px;
+        height: 25px;
+    }
+    .head h5 {
+        height: 25px;
+        line-height: 10px;
+    }
+
+    .sample-info {
+        background: #f2f7f9;
+        padding: 10px;
+        height: 410px;
+        .head {
+            border-bottom: 1px solid #668697;
+            font-weight: bold;
+            margin-bottom: 5px;
+            h5 {
+                margin: 10px;
+            }
+        }
+        .body {
+            p {
+                margin-bottom: 10px;
+                width: 100%;
+                line-height: 19px;
+                a {
+                    line-height: 19px;
+                }
+            }
+            .icon-div {
+                height: 20px;
+                div {
+                    width: 50%;
+                    img {
+                        margin-top: -5px;
+                        margin-right: 5px;
+                    }
+                }
+            }
+            .open-modal {
+                span {
+                    width: 50%;
+                }
+            }
+        }
+    }
+    .operate-div {
+        .star-list i {
+            font-size: 20px;
+            margin-left: 5px;
+        }
+    }
+    .see-div {
+        .see-head {}
+        .see-body {
+            .content {
+                height: 150px;
+                border: 1px solid #ccc;
+                overflow: auto;
+                padding: 5px;
+            }
+        }
+    }
+    .diagnosis-div {
+
+        .head {
+            margin-bottom: 10px;
+        }
+        .body {
+            height: 302px;
+            border: 1px solid #ccc;
+            position: relative;
+            .body-content {
+                width: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+
+            }
+            .body-bar {
+                height: 40px;
+                width: 100%;
+                background: #e3e2ef;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                padding: 10px 20px;
+            }
+        }
+
+    }
+    .photo-collect {
+        height: 300px;
+    }
+}
+
+//.department-template{
+//  .department-content{
+//    height:187px;
+//    .tab-content{
+//      .tab-pane{
+//        textarea{
+//          height:147px;
+//          width:100%;
+//          resize: none;
+//        }
+//      }
+//    }
+//  }
+//  .department-footer {
+//    position: relative;
+//    .temmplate-default {
+//      background-color: #ddd;
+//      padding: 10px;
+//      border-left: 1px solid rgb(169, 169, 169);
+//      border-right: 1px solid rgb(169, 169, 169);
+//    }
+//    .template-active{
+//      height:300px;
+//      transition: all linear 0.2s;
+//    }
+//    .ng-hide {
+//      height: 0;
+//    }
+//    .template{
+//      border:1px solid rgb(169, 169, 169);
+//      position: absolute;
+//      background-color: #fff;
+//      overflow: hidden;
+//      z-index: 9;
+//      width:100%;
+//      .active{
+//        background-color: #ddeeff;
+//      }
+//      ul li{
+//        margin: 2px 0;
+//        padding: 5px;
+//      }
+//      .template-left{
+//        width:10%;
+//        height: 100%;
+//        background-color: #ddd;
+//      }
+//      .template-main{
+//        height: 100%;
+//        width:45%;
+//        overflow-y: auto;
+//        border-left:1px solid rgb(169, 169, 169);
+//        border-right:1px solid rgb(169, 169, 169);
+//      }
+//      .template-right{
+//        height: 100%;
+//        width:45%;
+//        overflow-y: auto;
+//      }
+//    }
+//  }
+//}

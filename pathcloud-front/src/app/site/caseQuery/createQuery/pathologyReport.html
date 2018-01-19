@@ -1,0 +1,11 @@
+<div class="pathology-report">
+
+  <div class="print-title">
+    <!--与该病人关联的病理号共 3 个，<a href="">显示所有</a>-->
+    <a class="pull-right" href="" ng-click="createQuery.printReport($event)"><i class="fa fa-print fa-2x" aria-hidden="true"></i>{{'打印'|translate}}</a>
+  </div>
+
+  
+  <report report-data="reportData" ></report>
+
+</div>

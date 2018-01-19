@@ -1,0 +1,89 @@
+<toolbar class="clearfix">
+  <div class="form-inline">
+    <search-input class="pull-right" style="width: 350px" model="searchDye.searchStr" get-data="searchDye.search()"  placeholder="{{'病理号-蜡块号-玻片号'|translate}}"></search-input>
+  </div>
+</toolbar>
+
+<div id="searchDye">
+  <div class="container clearfix">
+    <!--筛选条件-->
+    <div class="table-header form-control-static form-inline clearfix">
+      <date-seletor dateset="searchDye.defaultTime" start-time="searchDye.startTime" end-time="searchDye.endTime"></date-seletor>
+      <select class="form-control input-sm clam-select" ng-model="searchDye.searchData.status"
+              ng-options="status.value as status.name for status in searchDye.statusList">
+        <option value="">{{'样本状态'|translate}}</option>
+      </select>
+      <select class="form-control input-sm clam-select" ng-model="searchDye.searchData.operatorId"
+              ng-options="operator.id as operator.firstName for operator in searchDye.operatorList" >
+        <option value="">{{'染色技术员'|translate}}</option>
+      </select>
+      <select class="form-control input-sm clam-select" ng-model="searchDye.searchData.mountingId"
+              ng-options="operator.id as operator.firstName for operator in searchDye.operatorList" >
+        <option value="">{{'封片技术员'|translate}}</option>
+      </select>
+      <select class="form-control input-sm clam-select" ng-model="searchDye.searchData.dyeInstrumentId"
+              ng-options="operator.id as operator.name for operator in searchDye.instruments| filter:{type:1}| orderBy: 'name'" >
+        <option value="">{{'染色机'|translate}}</option>
+      </select>
+      <select class="form-control input-sm clam-select" ng-model="searchDye.searchData.mountingInstrumentId"
+              ng-options="operator.id as operator.name for operator in searchDye.instruments| filter:{type:2}| orderBy: 'name'" >
+        <option value="">{{'封片机'|translate}}</option>
+      </select>
+      <button id="query" ng-click="searchDye.query()" class="btn btn-sm btn-default">&nbsp;{{'筛选'|translate}}&nbsp;</button>
+    </div>
+    <!--筛选结果-->
+    <div class="table-min">
+
+      <table class=" table-hover table-bordered">
+        <thead>
+        <tr>
+          <th ng-repeat="item in searchDye.tableHeaders" class="cursor-pointer"  ng-click="searchDye.getSortList(item)">
+            {{item.name|translate}}
+            <i class="cursor-pointer glyphicon glyphicon-chevron-down arrow"
+               ng-show="item.order"
+               ng-class="{'rotate-180':item.sort==='asc','rotate-0':item.sort==='desc'||!item.sort}" />
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in searchDye.dyeDataList track by $index">
+          <td ng-bind="item.serialNumber"></td>
+          <td ng-bind="item.subId"></td>
+          <td ng-bind="item.slideId"></td>
+          <td ng-bind="item.grossingDoctorName"></td>
+          <!--<td ng-bind="item.bodyPart"></td>-->
+          <!--<td ng-bind="item.count"></td>-->
+          <td ng-bind="item.biaoShiName"></td>
+          <td ng-bind="item.embedDoctorName"></td>
+          <td ng-bind="item.dyeInstrumentName"></td>
+          <td ng-bind="item.embedTime| date : 'yyyy-MM-dd HH:mm'"></td>
+          <td ng-bind="item.mountingName"></td>
+          <td ng-bind="item.mountingInstrumentName"></td>
+          <td ng-bind="item.mountingTime| date : 'yyyy-MM-dd HH:mm'"></td>
+          <td ng-bind="item.statusName"></td>
+        </tr>
+        </tr>
+        <tr ng-repeat="n in [].constructor(20) track by $index" ng-show="searchDye.dyeDataList.length<=$index">
+          <td  ng-repeat="m in [].constructor(12) track by $index"></td>
+        </tr>
+        </tbody>
+      </table>
+
+      <div class="table-footer">
+        <div class="pull-left form-control-static pagination">
+          {{'共'|translate}}<span ng-bind="searchDye.dyeDataCount||0"></span>{{'条结果'|translate}}
+        </div>
+        <uib-pagination class="pull-right" boundary-links="true" max-size="10"
+                        items-per-page="searchDye.searchData.length"
+                        total-items="searchDye.dyeDataCount"
+                        ng-model="searchDye.searchData.page"
+                        ng-change="searchDye.getDyeData()"
+                        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+        </uib-pagination>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+

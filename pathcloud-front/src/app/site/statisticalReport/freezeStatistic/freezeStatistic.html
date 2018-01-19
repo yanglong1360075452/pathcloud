@@ -1,0 +1,15 @@
+<toolbar class="clearfix">
+    <ul class="list-unstyled menu-list">
+        <li ng-class="{active:fStatistic.activeMenu==0}" ng-click="fStatistic.choseMenu(0)">{{'冰冻切片机'|translate}}</li>
+        <li ng-class="{active:fStatistic.activeMenu==1}" ng-click="fStatistic.choseMenu(1)">{{'显微镜'|translate}}</li>
+        <li ng-class="{active:fStatistic.activeMenu==2}" ng-click="fStatistic.choseMenu(2)">{{'染色机'|translate}}</li>
+        <li ng-class="{active:fStatistic.activeMenu==3}" ng-click="fStatistic.choseMenu(3)">{{'封片机'|translate}}</li>
+        <!--<li>冰冻预约</li>-->
+    </ul>
+</toolbar>
+<div>
+    <div class="container" ng-show="fStatistic.activeMenu==0" ng-include="'app/site/statisticalReport/freezeStatistic/appointment/appointment.html'"></div>
+    <div class="container" ng-show="fStatistic.activeMenu==1" ng-include="'app/site/statisticalReport/freezeStatistic/microscope/microscope.html'"></div>
+    <div class="container" ng-show="fStatistic.activeMenu==2" ng-include="'app/site/statisticalReport/freezeStatistic/dye/dye.html'"></div>
+    <div class="container" ng-show="fStatistic.activeMenu==3" ng-include="'app/site/statisticalReport/freezeStatistic/sealing/sealing.html'"></div>
+</div>

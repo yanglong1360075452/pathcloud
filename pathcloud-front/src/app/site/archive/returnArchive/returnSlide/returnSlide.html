@@ -1,0 +1,59 @@
+<div class="returnSlide" ng-controller="ReturnSlideController as returnSlide">
+  <!--筛选条件-->
+  <div class="table-header form-control-static form-inline clearfix">
+
+      <div class="form-control-static">{{"玻片号"|translate}}<span class="required">*</span>：</div>
+      <input class="form-control input-sm" ng-class="{'input-long':lang==='en'}" type="text" ng-model="returnSlide.slideFilter.serialNumber" placeholder="{{'病理号-蜡块号-玻片号'|translate}}">
+      <button ng-click="returnSlide.getSlideData()" ng-disabled="!returnSlide.slideFilter.serialNumber" class="btn btn-sm btn-info">{{"添加"|translate}}</button>
+      <button class="btn btn-sm btn-primary pull-right" ng-click="returnSlide.confirm()" ng-disabled="!returnSlide.productionList.length">{{"确认归还"|translate}}</button>
+
+  </div>
+  <!--筛选结果-->
+  <div class="table-min">
+
+    <table class=" table-hover table-bordered">
+      <thead>
+      <tr>
+        <th ng-repeat="item in returnSlide.tableHeaders" cursor-pointer>
+          {{item.name|translate}}
+        </th>
+        <!--<th>病理号|translate</th>
+        <th>蜡块号</th>
+        <th>玻片号</th>
+        <th>特染标记</th>
+        <th>病人姓名</th>
+        <th>晾片架编号</th>
+        <th>抽屉编号</th>
+        <th>借阅人</th>
+        <th>借阅日期</th>
+        <th>预计归还日期</th>
+        <th>逾期天数</th>
+        <th>删除</th>-->
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="item in returnSlide.productionList track by $index">
+        <td ng-bind="item.serialNumber"></td>
+        <td ng-bind="item.blockSubId"></td>
+        <td ng-bind="item.slideSubId"></td>
+        <td ng-bind="item.ihcMarker"></td>
+        <td ng-bind="item.patientName"></td>
+        <td ng-bind="item.archiveStatus == 0 ? item.archiveBox : ''"></td>
+        <td ng-bind="item.archiveStatus == 1 ? item.archiveBox : ''"></td>
+        <td ng-bind="item.borrowName"></td>
+        <td ng-bind="item.createTime | date : 'yyyy-MM-dd HH:mm'"></td>
+        <td ng-bind="item.planBack | date : 'yyyy-MM-dd HH:mm'"></td>
+        <td ng-bind="item.overdue"></td>
+        <td ng-click="returnSlide.productionList.splice($index,1)"><a href><i class="glyphicon glyphicon-trash"></i></a></td>
+      </tr>
+      </tr>
+      <tr ng-repeat="n in [].constructor(1) track by $index" ng-show="returnSlide.productionList.length<=$index||!returnSlide.productionList.length">
+        <td ng-repeat="n in [].constructor(12) track by $index" ></td>
+      </tr>
+      </tbody>
+    </table>
+
+
+  </div>
+
+</div>

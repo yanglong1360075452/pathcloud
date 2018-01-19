@@ -1,0 +1,94 @@
+<div  id="confirmMaterial">
+
+  <toolbar class="clearfix">
+      <div class="form-control-static">
+        <h4 style="margin-top: 5px;" class="pull-left">{{'脱水篮编号'|translate}}：</h4>
+        <div class="pull-left basket-div">
+          <ul class="basket-ul" ng-style="{width:(confirmMaterial.checkBox.length-1)*180+300+'px'}">
+            <li class="basket-li" ng-repeat="item in confirmMaterial.checkBox track by $index">
+              <div class="basket-no"><span>{{item.basketNumber}}</span></div>
+              <div class="block-count">
+                <label class="cursor-pointer no-margin">
+                  {{'包埋盒'|translate}}：<span>{{item.blockCount}}</span>
+                  <!--<span ng-show="confirmMaterial.basketStr==item.basketNumber" class="active active-icon"><i class="glyphicon glyphicon-ok"></i></span>-->
+                  <input type="radio" id="basket{{confirmMaterial.basketStr}}" class="basket-check" ng-model="confirmMaterial.basketStr" ng-value="item.basketNumber" ng-click="confirmMaterial.getDataList()">
+                </label>
+                <!--<input type="checkbox" class="basket-check" ng-model="item.isChecked" ng-click="confirmMaterial.IsChecked($index)">-->
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="pull-right">
+          <a class="btn btn-sm btn-info" href="openimgsw:">{{'图像采集'|translate}}</a>
+          <button id="confirmMaterialButton" class=" btn btn-sm btn-primary" ng-click="confirmMaterial.confirmMaterial()" ng-disabled="!confirmMaterial.basketStr||confirmMaterial.inConfirm">{{'取材确认'|translate}}</button>
+        </div>
+      </div>
+  </toolbar>
+
+  <div class="container clearfix">
+    <!--<code>{{confirmMaterial.checkBox}}</code>-->
+    <div class="row">
+      <div class="col-xs-9">
+        <div class="table-min">
+          <table class=" table-hover table-bordered">
+            <thead class="primary-table-head">
+            <tr >
+              <th ng-repeat="item in confirmMaterial.tableHeaders">
+                {{item.name|translate}}
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in confirmMaterial.grossingData track by $index">
+              <td ng-bind="item.pathologyNumber"></td>
+              <td ng-bind="item.name"></td>
+              <td ng-bind="item.departments | department"></td>
+              <td ng-bind="item.subId"></td>
+              <td ng-bind="item.bodyPart"></td>
+              <td ng-bind="item.count"></td>
+              <td ng-bind="item.biaoshiName"></td>
+              <td ng-bind="item.operatorName"></td>
+              <td ng-bind="item.secOperatorName"></td>
+              <td ng-bind="item.basketNumber"></td>
+              <td ng-bind="item.operationTime| date : 'yyyy-MM-dd'"></td>
+            </tr>
+            <tr ng-repeat="n in [].constructor(20) track by $index" ng-show="!confirmMaterial.grossingData||confirmMaterial.grossingData.length<=$index">
+              <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            </tbody>
+          </table>
+          <div class="table-footer">
+            <div class="pull-left form-control-static pagination">
+              {{'共'|translate}}<span ng-bind="confirmMaterial.total"></span>{{'个'|translate}}{{'包埋盒'|translate}}，
+              {{'共'|translate}}<span ng-bind="confirmMaterial.totalPathology"></span>{{'个'|translate}}{{'病理号'|translate}}
+            </div>
+            <uib-pagination class="pull-right" boundary-links="true"
+                            items-per-page="confirmMaterial.searchData.length" max-size="10"
+                            total-items="confirmMaterial.total"
+                            ng-model="confirmMaterial.searchData.page"
+                            ng-change="confirmMaterial.getDataList()"
+                            previous-text="&lsaquo;" next-text="&rsaquo;"
+                            first-text="&laquo;" last-text="&raquo;">
+            </uib-pagination>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-xs-3">
+        <!--<div class="gumVideoContainer embed-responsive embed-responsive-4by3">
+          <video class="embed-responsive-item" id="gumVideo" autoplay muted></video>
+          <div class="video-toolbar">
+            <i class="fa-2x fa fa-expand" ng-click="confirmMaterial.enlarge()"></i>
+            &lt;!&ndash;<i class="fa-2x fa fa-video-camera"></i>&ndash;&gt;
+            <i id="camera" class="fa-2x fa fa-camera" ng-click="confirmMaterial.photo()"></i>
+          </div>
+        </div>-->
+
+        <div class="photo" ng-if="confirmMaterial.photoUrl">
+          <img class="cursor-pointer" ng-src="{{confirmMaterial.photoUrl||''}}" ng-click="confirmMaterial.enlarge()" alt="">
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

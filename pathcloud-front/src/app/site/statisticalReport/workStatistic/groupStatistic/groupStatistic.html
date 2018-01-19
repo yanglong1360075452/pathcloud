@@ -1,0 +1,81 @@
+<div id="groupStatistic" ng-controller="GroupStatisticController as gStatistic">
+
+  <div class="container clearfix">
+    <!--筛选条件-->
+    <div class="table-header form-control-static form-inline clearfix">
+      <select  class="form-control input-sm clam-select" ng-model="selectYear"
+               ng-options="year as year for year in yearArr">
+      </select>
+      <select class="form-control input-sm clam-select" ng-model="gStatistic.searchData.filter "
+              ng-options="specialDye.value as specialDye.name for specialDye in gStatistic.specialDyeList">
+      </select>
+      <button ng-click="gStatistic.getWorkDataList()" class="btn btn-sm btn-default">&nbsp;{{'筛选'|translate}}&nbsp;</button>
+      <button ng-click="gStatistic.export()" class="btn btn-sm btn-second pull-right">&nbsp;{{'导出'|translate}}&nbsp;</button>
+    </div>
+    <!--筛选结果-->
+    <div class="table-min">
+      <table class=" table-bordered">
+        <thead>
+        <tr>
+          <th ng-repeat="item in gStatistic.tableHeaders" ng-click="gStatistic.getSortList(item)" cursor-pointer>
+            {{item.name|translate}}
+          </th>
+        </tr>
+        </thead>
+        <tbody ng-repeat="item in gStatistic.workData track by $index">
+        <tr>
+          <td rowspan="2" ng-bind="item.inspectCategoryName|translate"></td>
+          <td>{{'例数'|translate}}</td>
+          <td ng-bind="item.january.pathNum"></td>
+          <td ng-bind="item.february.pathNum"></td>
+          <td ng-bind="item.march.pathNum"></td>
+          <td ng-bind="item.april.pathNum"></td>
+          <td ng-bind="item.may.pathNum"></td>
+          <td ng-bind="item.june.pathNum"></td>
+          <td ng-bind="item.july.pathNum"></td>
+          <td ng-bind="item.august.pathNum"></td>
+          <td ng-bind="item.september.pathNum"></td>
+          <td ng-bind="item.october.pathNum"></td>
+          <td ng-bind="item.november.pathNum"></td>
+          <td ng-bind="item.december.pathNum"></td>
+          <td ng-bind="item.pathologyTotal"></td>
+        </tr>
+        <tr>
+          <td>{{'片数'|translate}}</td>
+          <td ng-bind="item.january.blockNum"></td>
+          <td ng-bind="item.february.blockNum"></td>
+          <td ng-bind="item.march.blockNum"></td>
+          <td ng-bind="item.april.blockNum"></td>
+          <td ng-bind="item.may.blockNum"></td>
+          <td ng-bind="item.june.blockNum"></td>
+          <td ng-bind="item.july.blockNum"></td>
+          <td ng-bind="item.august.blockNum"></td>
+          <td ng-bind="item.september.blockNum"></td>
+          <td ng-bind="item.october.blockNum"></td>
+          <td ng-bind="item.november.blockNum"></td>
+          <td ng-bind="item.december.blockNum"></td>
+          <td ng-bind="item.blockTotal"></td>
+        </tr>
+        <!--<tr ng-repeat="n in [].constructor(12) track by $index" ng-show="gStatistic.workData.length<=$index">-->
+          <!--<td></td><td></td><td></td><td></td><td></td><td></td><td></td>-->
+          <!--<td></td><td></td><td></td><td></td><td></td><td></td><td></td>-->
+        <!--</tr>-->
+        </tbody>
+      </table>
+      <!--<div class="table-footer">-->
+      <!--<div class="pull-left form-control-static pagination">-->
+      <!--共<span ng-bind="gStatistic.totalItems||0"></span>条结果-->
+      <!--</div>-->
+      <!--<uib-pagination class="pull-right" boundary-links="true" max-size="10"-->
+      <!--items-per-page="gStatistic.searchData.length"-->
+      <!--total-items="gStatistic.totalItems"-->
+      <!--ng-model="gStatistic.searchData.page"-->
+      <!--ng-change="gStatistic.getGrossingDataList()"-->
+      <!--previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">-->
+      <!--</uib-pagination>-->
+      <!--</div>-->
+
+    </div>
+  </div>
+</div>
+

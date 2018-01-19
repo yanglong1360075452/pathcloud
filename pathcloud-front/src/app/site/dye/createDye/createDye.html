@@ -1,0 +1,85 @@
+<div id="createDye">
+<toolbar class="clearfix">
+  <div class="pull-left">
+    <div class="form-control-static">
+      <div class="pull-left">{{'当前用户待染玻片数'|translate}}：</div>
+      <div class="pull-right cursor-pointer diagnosis-number-box" ng-click="createDye.getUserData()">
+       {{createDye.currentUserCount}}
+      </div>
+    </div>
+
+  </div>
+  <div class="pull-left">
+    <div class="form-control-static">
+      <div class="pull-left">{{'全科待染玻片数'|translate}}：</div>
+      <div class="pull-right cursor-pointer diagnosis-number-box" ng-click="createDye.getAllData()">
+        {{createDye.totalCount}}
+      </div>
+    </div>
+  </div>
+  <!--搜索部分-->
+  <div class="form-inline clearfix">
+    <search-input class="pull-right search-input-lg" model="createDye.slideNo" get-data="createDye.getDyeInfo()" clear="true" placeholder="{{'病理号-蜡块号-玻片号'|translate}}"></search-input>
+  </div>
+
+</toolbar>
+
+<div class="container clearfix">
+  <!--<form name="dye_form">-->
+  <div class="tableOuter">
+    <table class="table-min table-hover table-bordered">
+      <thead>
+      <tr class="text-center">
+        <th style="width: 40px;"><input style="width: 15px;" type="checkbox" ng-model="createDye.allChecked" ng-click="createDye.chkAll()"></th>
+        <th>{{'病理号'|translate}}</th>
+        <th>{{'蜡块号'|translate}}</th>
+        <th>{{'玻片号'|translate}}</th>
+        <th>{{'取材医生'|translate}}</th>
+        <th>{{'取材部位'|translate}}</th>
+        <th>{{'组织数'|translate}}</th>
+        <th>{{'取材标识'|translate}}</th>
+        <th>{{'样本状态'|translate}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="item in createDye.dyeInfoList track by $index">
+        <td><input style="width: 15px;" type="checkbox" ng-model="item.check" ng-click="createDye.check(item.check)"></td>
+        <td ng-bind="item.pathNo"></td>
+        <td ng-bind="item.blockSubId"></td>
+        <td ng-bind="item.subId"></td>
+        <td ng-bind="item.grossingUser.firstName"></td>
+        <td ng-bind="item.grossingBody"></td>
+        <td ng-bind="item.grossingCount"></td>
+        <td ng-bind="item.biaoshiDesc"></td>
+        <td ng-bind="item.statusDesc"></td>
+      </tr>
+      <tr ng-repeat="n in [].constructor(13) track by $index" ng-show="createDye.dyeInfoList.length<=$index||!createDye.dyeInfoList.length">
+        <td ng-repeat="n in [].constructor(9) track by $index"></td>
+      </tr>
+
+      </tbody>
+    </table>
+  </div>
+    <div class="clearfix">
+      <br />
+      <div class="pull-left" ng-show="createDye.dyeInfoList.length">
+        <p>{{'共'|translate}} {{createDye.type==0?createDye.dyeInfoList.length:createDye.totalItems}} {{'项'|translate}}，{{'已选'|translate}} {{createDye.checkedCount}} {{'项'|translate}}</p>
+      </div>
+      <div class="form-inline text-right">
+        <select id="instrumentSelect" style="margin-right: 20px;" class="form-control input-sm clam-select" ng-model="createDye.instrumentId"
+                ng-options="status.id as status.name for status in createDye.instruments">
+          <option value="">{{'选择染色机'|translate}}</option>
+        </select>
+        <button id="dye" class="pull-right btn btn-lg btn-default" ng-click="createDye.startDye()">{{'开始染色'|translate}}</button>
+      </div>
+      <uib-pagination ng-show="createDye.type==1" class="pull-left" boundary-links="true" items-per-page="createDye.filter.length" max-size="10"
+                      total-items="createDye.totalItems"
+                      ng-model="createDye.filter.page"
+                      ng-change="createDye.getData()"
+                      previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+      </uib-pagination>
+    </div>
+  <!--</form>-->
+</div>
+
+</div>

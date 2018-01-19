@@ -1,0 +1,29 @@
+<div id="embedSetting" ng-controller="SampleCategoryController as sampleType">
+
+  <!--检查类别-->
+  <div class="container clearfix">
+
+  <div class="remark-add form-horizontal form-inline">
+    <div class="header-group">
+      {{'样本类别'|translate}}：
+      <input type="text" class="form-control" id="" ng-model="sampleType.sampleCategory">
+
+      <button class="btn btn-default" style="width: 78px;" ng-disabled="!sampleType.sampleCategory" ng-click="sampleType.addSampleCategory()">{{'添加'|translate}}</button>
+
+    </div>
+  </div>
+  <div class="remark-list row clearfix">
+    <div class="col-sm-6" ng-repeat="item in sampleType.sampleCategoryList">
+      <div class="remark-item">
+        <button type="button" class="close" ng-click="sampleType.deleteSampleCategory(item.code)">
+          <i class="fa fa-times-circle" aria-hidden="true"></i>
+          <span class="sr-only">Close</span>
+        </button>
+        <div>{{item.name}}</div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+</div>
+

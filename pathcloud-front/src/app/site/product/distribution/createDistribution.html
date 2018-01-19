@@ -1,0 +1,123 @@
+<div id="createDistribution" ng-controller="createDistributionController as createDistribution">
+  <!--待派片tab-->
+  <div class="container distribute-div">
+    <div class="row">
+      <!--待派片列表-->
+      <div class="col-md-8">
+        <div class="pull-left">
+          <h4>{{'待派片列表'|translate}}</h4>
+        </div>
+
+        <div class="toolbar-sm form-inline pull-right clearfix">
+
+          <select class="form-control input-sm" ng-model="createDistribution.getCondition.operator"
+                    ng-options="item.id as item.firstName for item in createDistribution.grossingUserList">
+              <option value="">{{'取材医生'|translate}}</option>
+            </select>
+            <select style="max-width: 120px;" class="form-control input-sm" ng-model="createDistribution.getCondition.departments"
+                    ng-options="status.code as status.name for status in createDistribution.departmentList">
+              <option value="">{{'送检科室'|translate}}</option>
+            </select>
+          <button id="query" ng-click="createDistribution.getDistribute()" class="btn btn-sm btn-primary"><span
+            class="glyphicon glyphicon-filter"></span>{{'筛选'|translate}}
+          </button>
+
+        </div>
+        <br>
+        <div class="table-min">
+          <table class="table-hover table-bordered">
+            <thead>
+            <tr class="text-center">
+              <th style="width: 40px;">
+                <input id="checkboxAll"
+                       style="width: 15px;" type="checkbox"
+                       ng-model="createDistribution.allChecked"
+                       ng-click="createDistribution.checkAll()"
+                       ng-disabled="!createDistribution.getDistributeData">
+              </th>
+              <th>{{'病理号'|translate}}</th>
+              <th>{{'玻片数'|translate}}</th>
+              <th>{{'取材医生'|translate}}</th>
+              <th>{{'送检科室'|translate}}</th>
+              <th>{{'制片确认时间'|translate}}</th>
+              <th>{{'制片确认人'|translate}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in createDistribution.getDistributeData track by $index">
+              <ng-form name="inner_form">
+
+                <td style="width: 40px;">
+                  <input style="width: 15px;" type="checkbox" ng-model="item.check" name="checkboxItem" ng-click="createDistribution.checkItem($index,item)">
+                </td>
+                <td>{{item.serialNumber}}</td>
+                <td>{{item.slideTotal}}</td>
+                <td>{{item.grossingOperatorName}}</td>
+                <td>{{item.departments | department}}</td>
+                <td>{{item.confirmTime | date:"yyyy-MM-dd HH:mm"}}</td>
+                <td >{{item.confirmOperatorName}}</td>
+              </ng-form>
+            </tr>
+            <tr ng-repeat="n in [].constructor(20) track by $index"
+                ng-show="!createDistribution.getDistributeData||createDistribution.getDistributeData.length<=$index">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            </tbody>
+          </table>
+          <div class="table-footer">
+            <uib-pagination class="pull-right" boundary-links="true"
+                            items-per-page="createDistribution.getCondition.length" max-size="10"
+                            total-items="createDistribution.getDistributeLength"
+                            ng-model="createDistribution.getCondition.page"
+                            ng-change="createDistribution.getDistribute()"
+                            previous-text="&lsaquo;" next-text="&rsaquo;"
+                            first-text="&laquo;" last-text="&raquo;">
+            </uib-pagination>
+          </div>
+
+        </div>
+      </div>
+      <!--派片-->
+      <div class="col-md-4">
+        <h4>{{'派片'|translate}}</h4>
+        <br>
+        <div class="distribute-right">
+          <div class="common-height">{{'已选玻片'|translate}}: <span>{{createDistribution.checkedSlideLength}}</span></div>
+          <div class="common-height distribute-box form-inline">
+            <sapn>{{'收片医生'|translate}}:</sapn>
+            <select name="" id="" class="form-control input-sm" ng-model="createDistribution.doctor" ng-options="item as item.firstName for item in createDistribution.diagnosisUserList">
+              <option value="">请选择</option>
+            </select>
+            <!--<span class="distribute-input">
+              <input id="doctor" type="text" class="form-control common-height" ng-model="createDistribution.doCondition.distributeDoctor">
+              <span class="btn-down cursor-pointer" ng-click="createDistribution.openList()"><i class="glyphicon glyphicon-triangle-bottom"></i></span>
+              &lt;!&ndash;下拉部分&ndash;&gt;
+              <div ng-show="createDistribution.showList" class="distribute-list form-control">
+              <p class="chose-item" ng-repeat="item in createDistribution.diagnosisUserList" ng-click="createDistribution.chooseItem(item.firstName)">{{item.firstName}}</p>
+            </div>
+            </span>-->
+
+
+          </div>
+          <div class="common-height">
+            <button id="submit" class="btn btn-info special-height"
+                    ng-click="createDistribution.doDistribute()"
+                    ng-disabled="!createDistribution.doctor ||!createDistribution.checkedSlideLength">
+              {{'派片'|translate}}
+            </button>
+            <!--<button ng-click="createDistribution.doDistribute()">测试</button>-->
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+

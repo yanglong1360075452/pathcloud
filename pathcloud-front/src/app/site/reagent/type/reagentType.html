@@ -1,0 +1,98 @@
+<div id="reagent">
+  <toolbar class="clearfix">
+    <!--搜索部分-->
+    <div class="form-inline clearfix">
+      <search-input class="pull-right search-input-lg" model="reagent.filterStr" get-data="reagent.getReagentInfo()" clear="true" placeholder="{{'输入试剂名称查询'|translate}}"></search-input>
+    </div>
+  </toolbar>
+  <div class="container clearfix">
+    <div class="col-lg-4">
+          <div class="title">
+            <h4 class="ng-binding">{{"新增试剂"|translate}}</h4>
+          </div>
+          <div class="content">
+            <form id="borrow-archive-form"  class="form-inline text-center reagentType" name="reagent_form" novalidate>
+              <div class="form-group">
+                <label>{{"试剂类型"|translate}}：</label>
+                <select class="form-control input-sm" ng-model="reagent.addReagent.type"
+                        ng-options="item.code as item.name for item in reagent.type">
+                  <option value="">{{'常规试剂'|translate}}</option>
+                </select>
+              </div>
+              <div class="form-group" ng-class="{'has-success':nameOk = reagent_form.name.$dirty && reagent_form.name.$valid && reagent.checkButton,
+                'has-error':nameErr = reagent_form.name.$dirty  && !reagent.checkButton && reagent_form.name.$valid}" style="position: relative">
+                <label>{{"试剂名称"|translate}} <span class="required">*</span>：</label>
+                <input type="text" ng-model="reagent.addReagent.name" name="name"  class="form-control input-sm" maxlength="30"
+                       required>
+                <span ng-show="nameOk && reagent.checkButton" class="glyphicon glyphicon-ok form-control-feedback"></span>
+              </div>
+              <div class="form-group">
+                <label>{{"克隆号"|translate}}：</label>
+                <input type="text" ng-model="reagent.addReagent.cloneNumber" class="form-control input-sm" maxlength="30">
+              </div>
+              <div class="form-group">
+                <label>{{"预处理"|translate}}：</label>
+                <select class="form-control input-sm" ng-model="reagent.addReagent.preProcess"
+                        ng-options="item.code as item.name for item in reagent.preProcess">
+                  <option value="">{{'无需修复'|translate}}</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>{{"阳性部位"|translate}}：</label>
+                <input type="text" ng-model="reagent.addReagent.positivePosition"  class="form-control input-sm" maxlength="50">
+              </div>
+
+              <div class="form-group">
+                <label>{{"鉴别诊断"|translate}}：</label>
+                <textarea name="" id="" cols="30" rows="5" class="form-control input-sm" ng-model="reagent.addReagent.diagnose" maxlength="1024"></textarea>
+              </div>
+              <div class="text-center">
+                <button class="btn btn-primary" ng-click="reagent.add()" ng-disabled="reagent_form.$invalid || !reagent.checkButton">{{"添加"|translate}}</button>
+              </div>
+            </form>
+          </div>
+    </div>
+    <div class="col-lg-8" style="margin-top:10px;">
+      <div class="table-min">
+        <table class="table-hover table-bordered">
+          <thead>
+            <tr class="text-center">
+              <th ng-repeat="item in reagent.reagentTitle">
+                {{item.name|translate}}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in reagent.list track by $index">
+              <td>{{item.typeDesc}}</td>
+              <td>{{item.name}}</td>
+              <td>{{item.cloneNumber}}</td>
+              <td >{{item.preProcessDesc}}</td>
+              <td >{{item.positivePosition}}</td>
+              <td class="long-note" title="{{item.diagnose}}">{{item.diagnose}}</td>
+              <td ng-click="reagent.amend(item)"><a href="">{{'编辑'|translate}}</a></td>
+            </tr>
+          <tr ng-repeat="n in [].constructor(15) track by $index" ng-show="reagent.list.length<=$index||reagent.list==null">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="pull-left reagentPage">共{{reagent.totalItems}}条结果</div>
+        <uib-pagination class="pull-right reagentPage" boundary-links="true" items-per-page="reagent.filter.length" max-size="10"
+                        total-items="reagent.totalItems"
+                        ng-model="reagent.filter.page"
+                        ng-change="reagent.getReagentList()"
+                        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+        </uib-pagination>
+      </div>
+    </div>
+  </div>
+</div>
+

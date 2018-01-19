@@ -1,0 +1,66 @@
+<div id="peopleStatistic" ng-controller="PeopleStatisticController as pStatistic">
+
+  <div class="container clearfix">
+    <!--筛选条件-->
+    <div class="table-header form-control-static form-inline clearfix">
+      <!--<select class="form-control input-sm clam-select" ng-model="pStatistic.searchData.createTimeStart"-->
+              <!--ng-options="date.date as date.name for date in pStatistic.dateList" >-->
+      <!--</select>-->
+
+      <select  class="form-control input-sm clam-select" ng-model="selectYear"
+              ng-options="year as year for year in yearArr">
+      </select>
+      <select  class="form-control input-sm clam-select" ng-model="selectMonth"
+              ng-options="month as month+'月' for month in monthArr">
+      </select>
+
+      <select class="form-control input-sm clam-select" ng-model="pStatistic.searchData.station"
+              ng-options="station.value as station.name for station in pStatistic.stationList">
+        <option value="">{{'工位选择'|translate}}</option>
+      </select>
+      <button ng-click="pStatistic.getWorkDataList()" class="btn btn-sm btn-default">&nbsp;{{'筛选'|translate}}&nbsp;</button>
+      <button ng-click="pStatistic.export()" class="btn btn-sm btn-second pull-right" >&nbsp;{{'导出'|translate}}&nbsp;</button>
+    </div>
+    <!--筛选结果-->
+    <div class="table-min">
+      <table class=" table-hover table-bordered">
+        <thead>
+        <tr>
+          <th ng-repeat="item in pStatistic.tableHeaders" ng-click="pStatistic.getSortList(item)" class="{{item.class}} cursor-pointer">
+            {{item.typeDesc|translate}}
+            <i class="cursor-pointer glyphicon glyphicon-chevron-down arrow"
+               ng-hide="!item.order"
+               ng-class="{'rotate-180':item.sort==='asc','rotate-0':item.sort==='desc'||!item.sort}" />
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in pStatistic.workData track by $index">
+          <td ng-bind="item.userName"></td>
+          <td ng-bind="item.firstName"></td>
+          <td ng-bind="item.station"></td>
+          <td ng-repeat="item in item.items track by $index" ng-bind="item.num"></td>
+          <td ng-bind="item.total2"></td>
+        </tr>
+        <tr ng-repeat="n in [].constructor(20) track by $index" ng-show="pStatistic.workData.length<=$index">
+          <td ng-repeat="n in [].constructor(pStatistic.tableHeaders.length) track by $index"></td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="table-footer">
+        <div class="pull-left form-control-static pagination">
+          {{'共'|translate}}<span ng-bind="pStatistic.totalItems||0"></span>{{'条结果'|translate}}
+        </div>
+        <uib-pagination class="pull-right" boundary-links="true" max-size="10"
+        items-per-page="pStatistic.searchData.length"
+        total-items="pStatistic.totalItems"
+        ng-model="pStatistic.searchData.page"
+        ng-change="pStatistic.getWorkDataList()"
+        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+        </uib-pagination>
+      </div>
+
+    </div>
+  </div>
+</div>
+

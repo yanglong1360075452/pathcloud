@@ -1,0 +1,31 @@
+<div id="tableChart">
+  <span class="pull-left">{{'工作量排行'|translate}}</span>
+  <span class="pull-right">
+    <select ng-model="tChart.workStation" ng-change="tChart.setTime()"
+            ng-options="section.value as section.name for section in tChart.sectionList">
+    </select>
+    <select ng-model="tChart.time" ng-change="tChart.setTime()"
+            ng-options="time.value as time.name for time in tChart.timeList">
+    </select>
+  </span>
+  <div class="table-min">
+    <table>
+      <thead>
+        <tr>
+          <td>{{'技术员'|translate}}</td>
+          <td>{{'病例数'|translate}}</td>
+          <td>{{'蜡块数'|translate}}</td>
+          <td>{{'玻片数'|translate}}</td>
+        </tr>
+      </thead>
+      <tbody >
+      <tr ng-repeat="item in tChart.sectionData">
+        <td ng-bind="item.operator.firstName"></td>
+        <td ng-bind="item.pathCount"></td>
+        <td ng-bind="item.blockCount"></td>
+        <td ng-bind="item.slideCount"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

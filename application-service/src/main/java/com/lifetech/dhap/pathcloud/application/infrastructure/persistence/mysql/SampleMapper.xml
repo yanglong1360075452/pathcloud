@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lifetech.dhap.pathcloud.application.domain.SampleRepository">
+    <resultMap id="BaseResultMap" type="com.lifetech.dhap.pathcloud.application.domain.model.Sample">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="application_id" property="applicationId" jdbcType="BIGINT"/>
+        <result column="serial_number" property="serialNumber" jdbcType="CHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="category" property="category" jdbcType="INTEGER"/>
+        <result column="delete" property="delete" jdbcType="BIT"/>
+        <result column="create_by" property="createBy" jdbcType="BIGINT"/>
+        <result column="update_by" property="updateBy" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="note" property="note" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from sample
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.lifetech.dhap.pathcloud.application.domain.model.Sample">
+        insert into sample (id, application_id, serial_number,name, category, create_by, update_by, create_time, update_time,
+        note,`delete`)
+        values (#{id,jdbcType=BIGINT}, #{applicationId,jdbcType=BIGINT}, #{serialNumber,jdbcType=CHAR},
+        #{name,jdbcType=VARCHAR}, #{category,jdbcType=INTEGER}, #{createBy,jdbcType=BIGINT},
+        #{updateBy,jdbcType=BIGINT}, now(), #{updateTime,jdbcType=TIMESTAMP},
+        #{note,jdbcType=LONGVARCHAR},#{delete,jdbcType=BIT})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.lifetech.dhap.pathcloud.application.domain.model.Sample">
+        update sample set
+        <if test="serialNumber != null">serial_number=#{serialNumber,jdbcType=VARCHAR},</if>
+        name = #{name,jdbcType=VARCHAR},
+        category = #{category,jdbcType=INTEGER},
+        `delete` = #{delete,jdbcType=BIT},
+        update_by = #{updateBy,jdbcType=BIGINT},
+        update_time = now(),
+        note = #{note,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select id, application_id, serial_number, name, category, create_by, update_by, create_time,
+        update_time, note,`delete`
+        from sample
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, application_id, serial_number, name, category, create_by, update_by, create_time,
+        update_time, note,`delete`
+        from sample
+    </select>
+
+    <select id="last" resultType="long" useCache="false">
+    SELECT LAST_INSERT_ID()
+  </select>
+
+    <select id="selectByApplicationId" resultMap="BaseResultMap"
+            parameterType="com.lifetech.dhap.pathcloud.application.application.condition.SampleCondition">
+        select id, application_id, serial_number, name, category, create_by, update_by, create_time,update_time,note,`delete`
+        from sample
+        <where>
+            <if test="applicationId != null">application_id = #{applicationId,jdbcType=BIGINT}</if>
+            <if test="delete != null">AND `delete` =  #{delete,jdbcType=BIT}</if>
+        </where>
+    </select>
+
+    <select id="selectByPathId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select s.id, s.application_id, s.serial_number, s.name, s.category, s.create_by, s.update_by, s.create_time,s.update_time,s.note,s.`delete`
+        from sample s
+        INNER JOIN application a on s.application_id = a.id
+        WHERE a.pathology_id=#{pathId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectIdsByApplicationId" resultType="java.lang.Long"
+            parameterType="com.lifetech.dhap.pathcloud.application.application.condition.SampleCondition">
+    select id from sample
+        <where>
+            <if test="applicationId != null">application_id = #{applicationId,jdbcType=BIGINT}</if>
+            <if test="delete != null">AND `delete` =  #{delete,jdbcType=BIT}</if>
+        </where>
+    </select>
+
+    <select id="countByCondition" resultType="java.lang.Long"
+            parameterType="com.lifetech.dhap.pathcloud.application.application.condition.SampleCondition">
+      SELECT count(1) from sample
+        <where>
+            <if test="category != null">category = #{category,jdbcType=INTEGER}</if>
+            <if test="delete != null">AND `delete` =  #{delete,jdbcType=BIT}</if>
+        </where>
+    </select>
+</mapper>

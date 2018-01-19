@@ -1,0 +1,48 @@
+<!--插入显微图像弹窗-->
+<div id="drawPhoto">
+  <div class="modal-header blue-label">
+    <button type="button" class="close" data-dismiss="modal" ng-click="drawPhoto.cancel()">
+      <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title ok-color">{{'插入显微图像'|translate}}</h4>
+  </div>
+  <div class="modal-body clearfix" >
+    <div class="form-group clearfix">
+      <div class="col-sm-12 canvas-container" >
+        <canvas id="canvas"></canvas>
+        <div id="text-input" class="text-input" ng-model="drawPhoto.text" contenteditable="true"></div>
+
+        <div class="canvas-toolbar">
+          <div class="type flex-content">
+            <i class="fa fa-minus tool" data="line"></i>
+            <i class="fa fa-square-o tool" data="rect"></i>
+            <i class="fa fa-circle-o tool"  data="circle"></i>
+            <i class="fa fa-pencil tool" data="pen"></i>
+            <i class="fa fa-font tool" data="text"></i>
+            <i class="fa fa-trash clear shezhi" data="delete"></i>
+            <i class="fa fa-undo back shezhi" data="undo"></i>
+            <i class="fa fa-save save shezhi" data="save"></i>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="form-group clearfix">
+      <div class="col-sm-12">
+        <div id="img-container" class=" clearfix">
+          <slider-container scroll-width="drawPhoto.containerWidth" per-item-num="drawPhoto.perItemNum" total-num="drawPhoto.imgList.length">
+            <div class=" clearfix" >
+              <img ng-repeat="item in drawPhoto.imgList track by $index" ng-style="drawPhoto.imgStyle" ng-src="{{drawPhoto.imgUrlHeader+item.url}}" ng-click="drawPhoto.changeBg($index)">
+            </div>
+          </slider-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <!--<button class="btn btn-warning" type="button" ng-click="drawPhoto.cancel()">取消</button>-->
+    <button class="btn btn-default" type="button" ng-click="drawPhoto.ok()">{{'关闭'|translate}}</button>
+  </div>
+
+</div>

@@ -1,0 +1,62 @@
+<div id="monthStatistic" ng-controller="MonthStatisticController as mStatistic">
+  <div class="container clearfix">
+    <!--筛选条件-->
+    <div class="table-header form-control-static form-inline clearfix">
+      <select  class="form-control input-sm clam-select" ng-model="selectYear"
+               ng-options="year as year for year in yearArr">
+      </select>
+      <select class="form-control input-sm clam-select" ng-model="mStatistic.searchData.station"
+              ng-options="station.value as station.name for station in mStatistic.stationList">
+      </select>
+      <button ng-click="mStatistic.getWorkDataList()" class="btn btn-sm btn-default">&nbsp;{{'筛选'|translate}}&nbsp;</button>
+      <button ng-click="mStatistic.export()" class="btn btn-sm btn-second pull-right">&nbsp;{{'导出'|translate}}&nbsp;</button>
+    </div>
+    <!--筛选结果-->
+    <div class="table-min">
+      <table class=" table-hover table-bordered">
+        <thead>
+        <tr>
+          <th ng-repeat="item in mStatistic.tableHeaders" ng-click="mStatistic.getSortList(item)" cursor-pointer>
+            {{item.name|translate}}
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in mStatistic.workData track by $index">
+          <td ng-bind="item.inspectCategoryName|translate"></td>
+          <td ng-bind="item.january"></td>
+          <td ng-bind="item.february"></td>
+          <td ng-bind="item.march"></td>
+          <td ng-bind="item.april"></td>
+          <td ng-bind="item.may"></td>
+          <td ng-bind="item.june"></td>
+          <td ng-bind="item.july"></td>
+          <td ng-bind="item.august"></td>
+          <td ng-bind="item.september"></td>
+          <td ng-bind="item.october"></td>
+          <td ng-bind="item.november"></td>
+          <td ng-bind="item.december"></td>
+          <td ng-bind="item.total"></td>
+        </tr>
+        <tr ng-repeat="n in [].constructor(12) track by $index" ng-show="mStatistic.workData.length<=$index">
+          <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+          <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        </tr>
+        </tbody>
+      </table>
+      <!--<div class="table-footer">-->
+      <!--<div class="pull-left form-control-static pagination">-->
+      <!--共<span ng-bind="mStatistic.totalItems||0"></span>条结果-->
+      <!--</div>-->
+      <!--<uib-pagination class="pull-right" boundary-links="true" max-size="10"-->
+      <!--items-per-page="mStatistic.searchData.length"-->
+      <!--total-items="mStatistic.totalItems"-->
+      <!--ng-model="mStatistic.searchData.page"-->
+      <!--ng-change="mStatistic.getGrossingDataList()"-->
+      <!--previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">-->
+      <!--</uib-pagination>-->
+      <!--</div>-->
+    </div>
+  </div>
+</div>
+

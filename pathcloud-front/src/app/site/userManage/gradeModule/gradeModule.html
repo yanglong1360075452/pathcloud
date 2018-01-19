@@ -1,0 +1,33 @@
+<toolbar class="clearfix">
+  <div class="clearfix">
+    <button class="pull-right btn btn-default" ng-click="gradeModule.addGrade()">新建标准</button>
+  </div>
+</toolbar>
+<div class="container" id="gradeModule">
+  <h4>{{'评分标准'|translate}}</h4>
+  <div class="table">
+    <table class="table table-hover table-bordered">
+      <thead class="primary-table-head">
+      <tr>
+        <th ng-repeat="item in gradeModule.tableHeaders" cursor-pointer ng-style="item.style">{{item.name|translate}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="item in gradeModule.gradeData track by $index">
+        <td ng-bind="item.workstationName"></td>
+        <td ng-bind="item.oneScore"></td>
+        <td ng-bind="item.twoScore"></td>
+        <td  ng-bind="item.threeScore"></td>
+        <td ng-bind="item.fourScore"></td>
+        <td ng-bind="item.fiveScore"></td>
+        <td>{{item.qualified}}分</td>
+        <td class="text-center cursor-pointer" >
+          <a class="table-edit" ng-click="gradeModule.updateGrade(item)"><i class="glyphicon glyphicon-edit"></i></a>
+          <a class="table-edit" ng-click="gradeModule.deleteGrade(item.code)"><i class="glyphicon glyphicon-trash"></i></a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

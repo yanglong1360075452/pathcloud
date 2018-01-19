@@ -1,0 +1,28 @@
+#reagent{
+  .container{
+    .title{
+      h4{
+        background:#EEEEEE;
+        height: 60px;
+        line-height: 60px;
+        padding-left: 20px;
+      }
+    }
+    .content{
+      border: 1px solid #EEEEEE;
+      height: 400px;
+      .form-group:nth-of-type(1){
+        margin-top:20px;
+      }
+    }
+    .reagentPage{
+      margin-top:20px;
+    }
+    .reagentType{
+      label{
+        text-align: left!important;
+        font-weight: bold;
+      }
+    }
+  }
+}

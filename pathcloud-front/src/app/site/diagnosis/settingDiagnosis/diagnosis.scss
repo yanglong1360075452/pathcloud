@@ -1,0 +1,129 @@
+.diagnosisTemplate{
+   .template-container{
+    .title{
+      height: 30px;
+      text-align: left;
+    }
+
+    .content{
+      .i-container{
+        padding-right: 5px;
+        top: -2px;
+        i:{
+          color:#ddeeaa;
+        }
+      }
+      .active{
+        background-color: rgba(199, 227, 255, 0.6) !important;
+      }
+      border: 1px #000000 solid;
+      position: relative;
+      padding: 0;
+      height: 480px;
+
+      //.radio-inline + .radio-inline, .checkbox-inline + .checkbox-inline {
+      //  margin-top: 0;
+      //  padding-right: 10px;
+      //  margin-left: 0;
+      //}
+      .radio-inline, .checkbox-inline {
+         margin-top: 0;
+         padding-right: 10px;
+         margin-left: 0;
+       }
+
+      .list-container{
+        padding-top: 5px;
+        height: 100%;
+        padding-bottom: 30px;
+        overflow-y: auto;
+        .active{
+          background-color: #ddeeff;
+        }
+        li{
+          height: 25px;
+          line-height: 25px;
+          vertical-align: middle;
+          text-align: left;
+          padding-left: 10px;
+          margin: 3px 0;
+          cursor: pointer;
+          input{
+            height: 100%;
+            border: 0;
+            background-color: transparent;
+            outline: none;
+          }
+
+        }
+      }
+      .list-toolbar{
+        height: 30px;
+        width: 100%;
+        background-color: #f2f2f2;
+        position: absolute;
+        bottom:0;
+
+        .flex-box{
+          justify-content: center;
+          margin-top:3px;
+          button{
+            background-color: transparent;
+            border: 0px;
+            &:active,&:visited{
+              border: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
+
+
+
+/*Toggle Specific styles*/
+.slideThree {
+  width: 80px;
+  height: 26px;
+  background: #f2f7f9;
+  margin-top:-7px;
+  position: relative;
+  border: 1px solid $theme-color;
+
+}
+.slideThree:before {
+  content: '单选';
+  position: absolute;
+  left: 10px;
+  z-index: 0;
+  font: 12px/26px Arial, sans-serif;
+}
+.slideThree input[type=checkbox] {
+  visibility: hidden;
+}
+.slideThree input[type=checkbox]:checked + label {
+  left: 43px;
+}
+.slideThree label {
+  display: block;
+  width: 34px;
+  height: 20px;
+  cursor: pointer;
+  position: absolute;
+  top: 2px;
+  left:1px;
+  z-index: 1;
+  background: #69bcd0;
+  border-radius: 3px;
+  transition: all 0.4s ease;
+}
+.slideThree:after {
+  content: '多选';
+  color: #000;
+  position: absolute;
+  right: 10px;
+  z-index: 0;
+  font: 12px/26px Arial, sans-serif;
+}

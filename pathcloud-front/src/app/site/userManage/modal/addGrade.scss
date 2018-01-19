@@ -1,0 +1,16 @@
+#addGrade{
+  .modal-body{
+    width:100%;
+    .row{
+      width:80%;
+      margin:10px 10%;
+      select{
+        width:135px;
+      }
+      textarea{
+        width:100%;
+        height:40px;
+      }
+    }
+  }
+}

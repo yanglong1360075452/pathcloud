@@ -1,0 +1,51 @@
+<div id="updateGrade">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="updateGrade.cancel()">
+      <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title text-left" id="modal-title" ng-bind="updateGrade.Title"></h4>
+  </div>
+  <div class="modal-body" id="modal-body">
+    <form name="updateFrm">
+      <div class="row">
+        <div class="col-sm-6" style="padding:0;">
+          <span>工位选择:<span style="color:red">*</span></span>
+          <select class="station-select cursor-disabled" ng-model="updateGrade.data.workstation" ng-options="station.value as station.name for station in updateGrade.stationList" required disabled>
+            <option value="">请选择</option>
+          </select>
+        </div>
+        <div class="col-sm-6" style="padding:0;text-align:right;">
+          <span>合格标准:<span style="color:red">*</span></span>
+          <select ng-model="updateGrade.data.qualified" ng-options="valid.value as valid.name for valid in updateGrade.validList" required>
+            <option value="">请选择</option>
+          </select>分
+        </div>
+      </div>
+      <div class="row">
+        <p>1 分：</p>
+        <input type="text" placeholder="打分标准" ng-model="updateGrade.data.oneScore"/>
+      </div>
+      <div class="row">
+        <p>2 分：</p>
+        <input type="text" placeholder="打分标准" ng-model="updateGrade.data.twoScore"/>
+      </div>
+      <div class="row">
+        <p>3 分</p>
+        <input type="text" placeholder="打分标准" ng-model="updateGrade.data.threeScore"/>
+      </div>
+      <div class="row">
+        <p>4 分：</p>
+        <input type="text" placeholder="打分标准" ng-model="updateGrade.data.fourScore"/>
+      </div>
+      <div class="row">
+        <p>5 分：</p>
+        <input type="text" placeholder="打分标准" ng-model="updateGrade.data.fiveScore"/>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="updateGrade.cancel()">取消</button>
+    <button class="btn btn-default" type="button" ng-click="updateGrade.ok()" ng-disabled="updateFrm.$invalid">确定</button>
+  </div>
+</div>

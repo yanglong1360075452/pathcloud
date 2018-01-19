@@ -1,0 +1,292 @@
+<div id="createMaterial" ng-click="createMaterial.closeTemplate()">
+  <toolbar class="clearfix">
+    <div class="col-md-3">
+      <div class="input-group">
+        <input class="form-control" type="text" ng-model="createMaterial.searchData.filter" ng-keyup="createMaterial.search($event)" auto-focus="true" onfocus=" this.style.imeMode='active' " autofocus placeholder="{{'姓名/病理号 号段用“-”分开'|translate}} ">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button" ng-click="createMaterial.search()" id="searchMaterial"><span class="glyphicon glyphicon-search"></span></button>
+        </span>
+      </div>
+    </div>
+    <div class="col-md-9 clearfix">
+      <div class="col-md-10">
+        <div class="top-header" >
+          {{"病理号"|translate}}：<span class="pathology-span">{{createMaterial.pathologicData.serialNumber}}</span>
+          {{"姓名"|translate}}： <span class="pathology-span">{{createMaterial.pathologicData.patientName}}</span>
+          <br ng-if="lang === 'en'" />
+          {{"送检科室"|translate}}：<span class="pathology-span">{{createMaterial.pathologicData.departments | department}}</span>
+          {{"样本数"|translate}}：<span>{{createMaterial.pathologicData.samples.length}}</span>
+        </div>
+        <div>
+          <!--检查项目：<span class="pathology-span"></span>-->
+          <!--是否加急：<span>{{createMaterial.pathologicData.urgentFlag?"是":"否"}}</span>-->
+        </div>
+
+      </div>
+      <button id="viewMaterialButton" class="pull-right btn btn-default" ng-click="createMaterial.view(createMaterial.pathologicData.serialNumber,createMaterial.pathologicData.pathologyNumber)">{{"查看申请单"|translate}}</button>
+    </div>
+  </toolbar>
+
+  <div class="container clearfix">
+    <div class="col-md-3">
+      <div class="table-header row clearfix">
+        <div class="col-xs-6" style="margin-bottom:10px;padding-right:0;width:48%;margin-right:2%;">
+          <date-seletor dateset="createMaterial.defaultTime" start-time="createMaterial.filterData.createTimeStart" end-time="createMaterial.filterData.createTimeEnd"></date-seletor>
+        </div>
+        <div class="col-xs-6" style="margin-bottom:10px;padding-left:0;width:48%;">
+          <department-selector departmentset="createMaterial.filterData.departments"></department-selector>
+        </div>
+        <div class="col-xs-6" style="margin-bottom:10px;padding-right:0;width:48%;margin-right:2%;">
+          <select class="form-control input-sm" ng-model="createMaterial.status" ng-options="date.value as date.name for date in createMaterial.sampleStatusList">
+            <option value="">{{"样本状态"|translate}}</option>
+          </select>
+        </div>
+        <div class="col-xs-6" style="margin-bottom:10px;padding-left:0;width:48%;">
+          <button ng-click="createMaterial.filter()" class="btn btn-block btn-sm btn-default"><span class="glyphicon glyphicon-filter" id="query"></span>{{"筛选"|translate}}</button>
+        </div>
+      </div>
+      <div class="table">
+        <table class="table-min table-hover table-bordered">
+          <thead>
+          <tr>
+            <th ng-repeat="item in createMaterial.tableHeaders" ng-click="createMaterial.getSortList(item)" class="{{item.class}} cursor-pointer" ng-style="item.style">{{::item.name|translate}}
+              <i class="cursor-pointer glyphicon glyphicon-chevron-down arrow"
+                 ng-hide="!item.order"
+                 ng-class="{'rotate-180':item.sort==='asc','rotate-0':item.sort==='desc'||!item.sort}" />
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-class="{'active-bg':item.id==createMaterial.active}" ng-click="createMaterial.getOne(item,$index)" ng-repeat="item in createMaterial.pathologicDataList track by $index">
+            <td ng-bind="item.serialNumber"></td>
+            <td><div style="width: 43px;overflow: hidden;text-overflow:ellipsis" ng-bind="item.patientName" title="{{item.patientName}}"></div></td>
+            <td ng-bind="item.statusName"></td>
+          </tr>
+          <tr ng-repeat="n in [].constructor(17) track by $index" ng-show="!createMaterial.pathologicDataList||createMaterial.pathologicDataList.length<=$index"><td></td><td></td><td></td></tr>
+
+          <!--<tr><td class="text-center" colspan="11" ng-show="!createMaterial.pathologicDataList.length">暂无数据</td></tr>-->
+
+        </tbody>
+      </table>
+      <div class="table-footer clearfix">
+        <div class="pull-left form-control-static pagination">{{"共"|translate}}<span ng-bind="createMaterial.totalItems || 0"></span>{{"条结果"|translate}}</div>
+        <uib-pagination class="pull-right"  items-per-page="createMaterial.filterData.length" max-size="0"
+                        boundary-link-numbers="true"
+                        total-items="createMaterial.totalItems"
+                        ng-model="createMaterial.filterData.page"
+                        ng-change="createMaterial.getDataList()"
+                        previous-text="{{'上一页'|translate}}" next-text="{{'下一页'|translate}}" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+      </div>
+    </div>
+    </div>
+    <div class="col-md-9">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="department-template">
+          <div class="department-content">
+            <uib-tabset type="pills">
+              <uib-tab heading="{{'常规巨检'|translate}}" id="normal">
+                <textarea class="form-control" ng-model="createMaterial.pathologicData.jujianNote"></textarea>
+              </uib-tab>
+              <uib-tab heading="{{'冰冻巨检'|translate}}" id="frozen" ng-show="createMaterial.pathologicData.afterFrozen">
+                <textarea class="form-control" ng-model="createMaterial.pathologicData.bingdongNote"></textarea>
+              </uib-tab>
+            </uib-tabset>
+          </div>
+          <div class="department-footer" ng-blur="createMaterial.open=false">
+            <div class="temmplate-default primary-table-head">
+              <button type="button" id="template-btn" class="btn btn-default btn-sm" ng-click="createMaterial.changeTemplateStatus($event)">{{'模板选择'|translate}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': createMaterial.open, 'glyphicon-chevron-right': !createMaterial.open}"></i></button>
+              <a type="button"  class="btn btn-default btn-sm" href="openimgsw:">{{'图像采集'|translate}}</a>
+            </div>
+            <div class="template"  ng-class=" {'template-active':createMaterial.open}" ng-show="createMaterial.open&&createMaterial.templateType==0" ng-click="createMaterial.stopPropagation($event)">
+              <div class="pull-left template-left "><p>{{'科室类别'|translate}}</p></div>
+              <div class="pull-left template-main">
+                <ul class="list-unstyled">
+                  <!--ng-show="createMaterial.pathologicData.departments===item.code||!createMaterial.pathologicData.departments"-->
+                  <li class="cursor-pointer" ng-class="{'active':item.code===createMaterial.activeDdepartment}" ng-repeat="item in createMaterial.departmentList" ng-click="createMaterial.choseDdepartment(item.code)">
+                    {{item.name}}
+                    <div class="pull-right i-container">
+                      <i class="glyphicon glyphicon-play" ng-show="createMaterial.activeDdepartment===item.code"></i>
+                      <!--<i class="fa fa-caret-right" aria-hidden="true" ng-show="createMaterial.activeDdepartment===item.code"></i>-->
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="pull-left template-right">
+                <ul class="list-unstyled">
+                  <li class="cursor-pointer" ng-class="{'active':item.id===createMaterial.activeTemplate}" ng-repeat="item in createMaterial.templateList" ng-click="createMaterial.choseTemplate(item)">{{item.name}}</li>
+                </ul>
+              </div>
+            </div>
+            <div class="template"  ng-class=" {'template-active':createMaterial.open}" ng-show="createMaterial.open&&createMaterial.templateType==1">
+              <custom-template content="createMaterial.pathologicData.jujianNote" position="6"></custom-template>
+            </div>
+          </div>
+        </div>
+        <div class="recent-template clearfix">
+          <div class="recent-left pull-left ">
+            <p style="margin-top: 5px;"><span >{{'最近使用模板'|translate}}</span></p>
+          </div>
+          <div class="recent-right pull-left">
+            <div class=" pull-left cursor-pointer" style="overflow: hidden;text-overflow: ellipsis" ng-repeat="item in createMaterial.recentTemplate">
+              <p class=" btn-template" style="overflow: hidden;text-overflow: ellipsis;word-break: break-all;white-space: nowrap" title="{{item.name}}" ng-click="createMaterial.choseTemplate(item)">{{item.name}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <h5>{{'巨检所见'|translate}}</h5>
+
+        <div class="gumVideoContainer embed-responsive embed-responsive-4by3" style='border: 1px solid #EEEEEE' >
+          <!--<video class="embed-responsive-item" id="gumVideo" autoplay muted></video>-->
+          <img ng-src={{createMaterial.selectPhotoResult.url}} class="embed-responsive-item" alt="" ng-show="createMaterial.photoShow">
+          <div class="video-toolbar">
+            <i class="fa-2x fa fa-expand"  ng-click="createMaterial.showBigImg(createMaterial.selectPhotoResult.url)"></i>
+            <!--<i class="fa-2x fa fa-video-camera"></i>-->
+            <!--<i class="fa-2x fa fa-camera" ng-click="createMaterial.photo()"></i>-->
+            <i class="fa fa-2x fa-trash" ng-click="createMaterial.deletePhoto(createMaterial.selectPhotoResult.index,createMaterial.selectPhotoResult.id)"></i>
+          </div>
+        </div>
+        <div class="img-group" id="img-container">
+
+          <slider-container new="createMaterial.newSlider" scroll-width="createMaterial.containerWidth" per-item-num="createMaterial.perItemNum" total-num="createMaterial.pathologicData.media.length">
+            <div class=" clearfix" >
+              <img style="height: 60px;" ng-repeat="item in createMaterial.pathologicData.media track by $index" ng-style="createMaterial.imgStyle" class="pull-left" ng-click="createMaterial.selectPhoto(item.url,$index,item.id)"
+                   ng-src="{{item.url}}">
+              <!--<img style="height: 50px;margin-right: 10px;" class="pull-left" ng-click="createMaterial.showBigImg(item)" ng-src="http://114.115.210.44:8080/psts/{{item}}">-->
+            </div>
+            <!--<div class="pull-left" ng-repeat="item in createMaterial.pathologicData.media.images track by $index" index="$index">-->
+              <!--<img style="height: 50px;margin-right: 10px;" class="pull-left" ng-click="createMaterial.showBigImg(item)" ng-src="{{item}}">-->
+            <!--</div>-->
+          </slider-container>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="material-left col-md-10">
+        <h4>{{'取材记录'|translate}}</h4>
+        <div style="position: absolute;right: 17px;top: 15px;color: red"><p class="small error">{{'异常终止数据以红色字体标识'|translate}}</p></div>
+        <div class=" table-container">
+          <form name="material_form" style=" max-height: 189px;margin-bottom: 10px;overflow: auto;">
+            <table class="table-min table-hover table-bordered">
+            <thead>
+            <tr class="text-center">
+              <th style="width: 40px;"><input style="width: 15px;" type="checkbox" ng-model="createMaterial.allChecked" ng-click="createMaterial.chkAll()"></th>
+              <th>{{'打印次数'|translate}}</th>
+              <th>{{'取材标识'|translate}}</th>
+              <th>{{'蜡块号'|translate}}</th>
+              <th>{{'取材部位'|translate}}</th>
+              <th>{{'组织数'|translate}}</th>
+              <th>{{'脱水篮编号'|translate}}</th>
+              <th>{{'取材备注'|translate}}</th>
+              <th>{{'冰冻号'|translate}}</th>
+
+            </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in createMaterial.pathologicData.blocks track by $index " ng-class="{error:item.status&&item.status===40,gray:item.status&&item.status>11}">
+                <ng-form name="inner_form">
+                  <td style="width: 40px;"><input style="width: 15px;" type="checkbox" ng-model="item.checked"></td>
+                  <td name="printStatus">{{item.print}}</td>
+                  <td name="biaoshi">
+                    <select ng-model="item.biaoshi"
+                            ng-options="type.code as type.name for type in createMaterial.biaoshiList"
+                            ng-change="createMaterial.selectBiaoshi(item)"
+                            ng-disabled="item.status&&item.status>11||createMaterial.pathologicData.biaoshiDisabled">
+
+                    </select>
+                  </td>
+                  <td name="subId" class="input-select">
+                    <!--蜡块-->
+                    <select class="subId" name="demoSelect" ng-model="item.subId" ng-options="name as name for name in createMaterial.subIdList" ng-disabled="item.status&&item.status>11">
+                    </select>
+                    <!--/*createMaterial.subIdPattern(item.subId,5)*/"  [0-9a-zA-Z]{0,4}$ /[^\w\.\/]/ig   onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" -->
+                    <input class="subId" type="text" name="inputSelect" ng-model="item.subId" ng-keyup="createMaterial.subIdPattern(item)" ng-change="createMaterial.subIdPattern(item)"  maxlength="4"  ng-disabled="item.status&&item.status>11">
+                  </td>
+                  <td name="bodyPart"><input style="text-align: center"  auto-focus="{{item.isNewAdd}}"  ng-model="item.bodyPart" ng-keyup="createMaterial.strLength(item,18)" maxlength="18" type="text" ng-disabled="item.status&&item.status>11"></td>
+                  <td name="unit" style="width: 80px;">
+                    <!--组织数-->
+                    <input style="width: 30px;text-align: center" class="pull-left " ng-model="item.count" type="text"  ng-disabled="item.status&&item.status>11">
+                    <select style="width: 38px;height: 100%;" class="pull-left "  ng-model="item.unit" ng-options="unit.code as unit.name for unit in createMaterial.blockUnitList"  ng-disabled="item.status&&item.status>11">
+                    </select>
+                  </td>
+                  <!--脱水篮编号-->
+                  <td name="basketNumber"><input class="text-center" ng-model="item.basketNumber" min="1" type="number" ng-disabled="item.status&&item.status>11"></td>
+                  <!--取材备注-->
+                  <td class="input-select" id="note-select" name="note" ng-init="showNote = false">
+                    <select class="bodyPart" name="noteSelect" ng-model="item.note" ng-options="note.name as note.name for note in createMaterial.noteList" ng-disabled="item.status&&item.status>11">
+                    </select>
+                    <input class="bodyPart" type="text" name="note"  oninput="value=value.replace(/[\;\,]+/,'');" maxlength="10" ng-model="item.note" ng-disabled="item.status&&item.status>11">
+                  </td>
+                  <td><span ng-show="item.biaoshi === 5">
+                    <select ng-model="item.number" ng-options="item.number as item.frozenNumber for item in createMaterial.frozenNumbers" ng-disabled="item.status&&item.status>11"></select>
+                    </span>
+                  </td>
+                </ng-form>
+              </tr>
+              <tr ng-repeat="n in [].constructor(6) track by $index" ng-show="!createMaterial.pathologicData||!createMaterial.pathologicData.blocks||createMaterial.pathologicData.blocks.length<=$index">
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+              </tr>
+            </tbody>
+          </table>
+          </form>
+            <div name="tools" class="operations clearfix"  >
+              <fieldset class="pull-left text-left" ng-disabled="!createMaterial.pathologicData.blocks || !createMaterial.pathologicData">
+                <button id="add" class="btn btn-default" ng-disabled="createMaterial.isAfterConfirm" ng-click="createMaterial.add(1)">{{'添加'|translate}}</button>
+                <button id="addMore" class="btn btn-default" ng-disabled="createMaterial.isAfterConfirm" ng-click="createMaterial.add()">{{'批量添加'|translate}}</button>
+                <button id="delete" class="btn btn-default" ng-disabled="createMaterial.isAfterConfirm" ng-click="createMaterial.delete()">{{'删除'|translate}}</button>
+                <button id="print" class="btn btn-default" ng-click="createMaterial.print()">{{'打印'|translate}}</button>
+              </fieldset>
+              <div class="pull-left operations" style="margin-left: 20px">
+                <!--<button class="btn btn-default" ng-click="createMaterial.showPrintTool = !createMaterial.showPrintTool" ng-disabled="false">{{'打印工具'|translate}}</button>-->
+              </div>
+              <fieldset class="pull-right text-right" ng-disabled="!createMaterial.pathologicData">
+                <button id="cancel" class="btn btn-default" ng-hide="createMaterial.pathologicData.status === 11" ng-disabled="createMaterial.isAfterConfirm" ng-click="createMaterial.cancel()">{{'撤单'|translate}}</button>
+                <button id="save" class="btn btn-primary" style="width: 100px;" ng-disabled="createMaterial.pathologicData.status>11" ng-click="createMaterial.save()">{{'保存'|translate}}</button>
+              </fieldset>
+
+            </div>
+
+          </div>
+        </div>
+      <div class="material-right col-md-2">
+        <p>{{'脱水篮编号'|translate}}：</p>
+        <input class="form-control input-sm" type="number" min="1" max="99" max-byte="4" ng-model="createMaterial.basketNumber" oninput="if(value.length>2)value=value.slice(0,2)">
+        <p>{{'包埋盒打印'|translate}}：</p>
+        <select class="form-control input-sm" ng-model="createMaterial.autoPrint" ng-options="item.value as item.name for item in createMaterial.autoPrintList">
+        </select>
+        <p>{{'取材医生'|translate}}<span class="required">*</span>：</p>
+        <select class="form-control input-sm" ng-model="createMaterial.pathologicData.grossingDoctor.id" ng-disabled="createMaterial.pathologicData.grossingDoctorDisabled" ng-options="date.id as date.firstName for date in createMaterial.grossingUserLIst" ng-required="true">
+          <option value="">{{'请选择'|translate}}--</option>
+        </select>
+        <p>{{'记录人员'|translate}}：</p>
+        <p>{{user.firstName}}</p>
+
+      </div>
+    </div>
+    </div>
+
+    <!--打印工具-->
+    <div class="print-tool" ng-show="createMaterial.showPrintTool">
+      <div class="tool-header clearfix">
+        打印工具
+        <div class="close pull-right" ng-click="createMaterial.showPrintTool = false">
+          <i class="fa fa-times-circle" aria-hidden="true"></i>
+        </div>
+      </div>
+      <div class="tool-body">
+        <p>病理号：</p>
+        <p><input class="form-control input-sm" type="text" ng-model="createMaterial.startNo"></p>
+        <p>至：</p>
+        <p><input class="form-control input-sm"  type="text" ng-model="createMaterial.endNo"></p>
+        <p>蜡块数：</p>
+        <p><input class="form-control input-sm"  type="number" min="1" ng-model="createMaterial.totalNo"></p>
+        <button class="btn btn-default btn-block" ng-disabled="!createMaterial.totalNo" ng-click="createMaterial.printTool()">打印</button>
+
+      </div>
+    </div>
+
+
+  </div>
+</div>
+

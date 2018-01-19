@@ -1,0 +1,74 @@
+<toolbar class="clearfix">
+  <!--搜索部分-->
+  <div class="form-inline clearfix">
+      <search-input class="pull-right search-input-lg" style="" model="specialDyeSearch.searchStr" get-data="specialDyeSearch.search()"  placeholder="{{'输入姓名/病理号查询'|translate}}"></search-input>
+  </div>
+
+</toolbar>
+
+<div class="container clearfix">
+  <!--筛选部分-->
+  <div class="form-inline toolbar" style="background: none">
+    <date-seletor dateset="specialDyeSearch.defaultTime"  start-time="specialDyeSearch.startTime" end-time="specialDyeSearch.endTime"></date-seletor>
+
+    <select class="form-control input-sm" ng-model="specialDyeSearch.dyeType" ng-options="status.code as status.name for status in specialDyeSearch.dyeTypeList">
+      <option value="">{{'染色类别'|translate}}</option>
+    </select>
+
+    <button ng-click="specialDyeSearch.query()" id="query" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-filter"></span>{{'筛选'|translate}}</button>
+  </div>
+  <!--表格显示部分-->
+  <div class="table-min">
+    <table class=" table-hover table-bordered">
+      <thead class="primary-table-head">
+      <tr>
+        <!--<th>{{'病理号'|translate}}</th>-->
+        <!--<th>{{'蜡块号'|translate}}</th>-->
+        <!--<th>{{'染色类别'|translate}}</th>-->
+        <!--<th style="width: 200px">{{'试剂/抗体名称'|translate}}</th>-->
+        <!--<th style="width: 200px">{{'备注'|translate}}</th>-->
+        <!--<th>{{'申请人'|translate}}</th>-->
+        <!--<th>{{'联系电话'|translate}}</th>-->
+        <!--<th>{{'申请时间'|translate}}</th>-->
+        <!--<th>{{'状态'|translate}}</th>-->
+        <!--<th>{{'操作'|translate}}</th>-->
+        <th ng-repeat="item in specialDyeSearch.tableHeaders" ng-click="specialDyeSearch.getSortList(item)" class="{{item.class}} cursor-pointer" ng-style="item.style">{{item.name|translate}}
+          <i class="cursor-pointer glyphicon glyphicon-chevron-down arrow"
+             ng-hide="!item.order"
+             ng-class="{'rotate-180':item.sort==='asc','rotate-0':item.sort==='desc'||!item.sort}" />
+        </th>
+      </tr>
+      </thead>
+        <!--item.ihcMarkers.join(';')-->
+      <tbody>
+      <tr ng-repeat="item in specialDyeSearch.data.data track by $index">
+        <td ng-bind="item.serialNumber"></td>
+        <td ng-bind="item.subId"></td>
+        <td ng-bind="item.dyeCategoryName"></td>
+        <td>{{specialDyeSearch.filterMarker(item)}}</td>
+        <td ng-bind="item.note"></td>
+        <td ng-bind="item.applyUser"></td>
+        <td ng-bind="item.phone"></td>
+        <td ng-bind="item.applyTime | date : 'yyyy-MM-dd HH:mm'"></td>
+        <td ng-bind="item.statusName"></td>
+        <td><a href="" ng-class="{disabled:item.status!=1}" ng-disabled="item.status!=1" ng-click="specialDyeSearch.cancel(item.id)" >{{'撤销'|translate}}</a></td>
+        <!--<td style="width: 260px;"><div title="{{item.other}}" style="max-width: 260px;overflow: hidden;text-overflow:ellipsis">{{item.note}} &nbsp; {{item.other}}</div></td>-->
+
+      </tr>
+      <tr ng-repeat="n in [].constructor(20) track by $index" ng-show="specialDyeSearch.data.data.length<=$index">
+        <td  ng-repeat="n in [].constructor(10) track by $index"></td>
+      </tr>
+
+      </tbody>
+    </table>
+    <div class="table-footer">
+      <div class="pull-left form-control-static pagination">{{'共'|translate}}<span ng-bind="specialDyeSearch.data.total"></span>{{'条结果'|translate}}</div>
+      <uib-pagination class="pull-right" boundary-links="true" items-per-page="specialDyeSearch.filterData.length" max-size="10"
+                      total-items="specialDyeSearch.data.total"
+                      ng-model="specialDyeSearch.filterData.page"
+                      ng-change="specialDyeSearch.getDataList()"
+                      previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,2844 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="pathcloud@localhost">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.1">
+    <root id="1"/>
+    <schema id="2" parent="1" name="pathcloud">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="apollo"/>
+    <schema id="4" parent="1" name="information_schema"/>
+    <schema id="5" parent="1" name="jas"/>
+    <schema id="6" parent="1" name="lims"/>
+    <schema id="7" parent="1" name="mysql"/>
+    <schema id="8" parent="1" name="performance_schema"/>
+    <schema id="9" parent="1" name="sakila"/>
+    <schema id="10" parent="1" name="sys"/>
+    <schema id="11" parent="1" name="test"/>
+    <schema id="12" parent="1" name="world"/>
+    <table id="13" parent="2" name="application"/>
+    <table id="14" parent="2" name="application_ihc"/>
+    <table id="15" parent="2" name="block"/>
+    <table id="16" parent="2" name="block_archive"/>
+    <table id="17" parent="2" name="block_borrow"/>
+    <table id="18" parent="2" name="block_copy"/>
+    <table id="19" parent="2" name="block_ihc"/>
+    <table id="20" parent="2" name="block_scan"/>
+    <table id="21" parent="2" name="block_scan_image"/>
+    <table id="22" parent="2" name="block_score"/>
+    <table id="23" parent="2" name="booking"/>
+    <table id="24" parent="2" name="collect"/>
+    <table id="25" parent="2" name="consult"/>
+    <table id="26" parent="2" name="dehydrator"/>
+    <table id="27" parent="2" name="ihc_marker_index"/>
+    <table id="28" parent="2" name="instrument"/>
+    <table id="29" parent="2" name="instrument_event"/>
+    <table id="30" parent="2" name="instrument_event_code"/>
+    <table id="31" parent="2" name="microscope_tracking"/>
+    <table id="32" parent="2" name="param_setting"/>
+    <table id="33" parent="2" name="path_tracking"/>
+    <table id="34" parent="2" name="pathology"/>
+    <table id="35" parent="2" name="pathology_file"/>
+    <table id="36" parent="2" name="permission"/>
+    <table id="37" parent="2" name="reagent"/>
+    <table id="38" parent="2" name="reagent_record"/>
+    <table id="39" parent="2" name="role"/>
+    <table id="40" parent="2" name="role_permission"/>
+    <table id="41" parent="2" name="sample"/>
+    <table id="42" parent="2" name="sequence"/>
+    <table id="43" parent="2" name="special_application"/>
+    <table id="44" parent="2" name="system_notification"/>
+    <table id="45" parent="2" name="system_notification_receiver"/>
+    <table id="46" parent="2" name="template"/>
+    <table id="47" parent="2" name="template_setting"/>
+    <table id="48" parent="2" name="tracking"/>
+    <table id="49" parent="2" name="user"/>
+    <routine id="50" parent="2" name="currentVal">
+      <RoutineKind>function</RoutineKind>
+    </routine>
+    <routine id="51" parent="2" name="nextVal">
+      <RoutineKind>function</RoutineKind>
+    </routine>
+    <column id="52" parent="13" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="53" parent="13" name="serial_number">
+      <Position>2</Position>
+      <DataType>char(11)|0</DataType>
+    </column>
+    <column id="54" parent="13" name="his_id">
+      <Position>3</Position>
+      <DataType>varchar(15)|0</DataType>
+    </column>
+    <column id="55" parent="13" name="patient_name">
+      <Position>4</Position>
+      <DataType>varchar(30)|0</DataType>
+    </column>
+    <column id="56" parent="13" name="patient_no">
+      <Position>5</Position>
+      <DataType>varchar(30)|0</DataType>
+    </column>
+    <column id="57" parent="13" name="admission_no">
+      <Position>6</Position>
+      <DataType>varchar(30)|0</DataType>
+    </column>
+    <column id="58" parent="13" name="status">
+      <Position>7</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="59" parent="13" name="reject_reason">
+      <Position>8</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="60" parent="13" name="reason_type">
+      <Position>9</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="61" parent="13" name="age">
+      <Position>10</Position>
+      <DataType>int(3)|0</DataType>
+    </column>
+    <column id="62" parent="13" name="sex">
+      <Position>11</Position>
+      <DataType>int(1)|0</DataType>
+    </column>
+    <column id="63" parent="13" name="marital_status">
+      <Position>12</Position>
+      <DataType>int(2)|0</DataType>
+      <DefaultExpression>&apos;90&apos;</DefaultExpression>
+    </column>
+    <column id="64" parent="13" name="origin_place">
+      <Position>13</Position>
+      <DataType>varchar(20)|0</DataType>
+    </column>
+    <column id="65" parent="13" name="profession">
+      <Position>14</Position>
+      <DataType>varchar(20)|0</DataType>
+    </column>
+    <column id="66" parent="13" name="patient_tel">
+      <Position>15</Position>
+      <DataType>varchar(18)|0</DataType>
+    </column>
+    <column id="67" parent="13" name="address">
+      <Position>16</Position>
+      <DataType>varchar(30)|0</DataType>
+    </column>
+    <column id="68" parent="13" name="hospital">
+      <Position>17</Position>
+      <DataType>varchar(30)|0</DataType>
+    </column>
+    <column id="69" parent="13" name="doctor">
+      <Position>18</Position>
+      <Comment>送检医生</Comment>
+      <DataType>varchar(10)|0</DataType>
+    </column>
+    <column id="70" parent="13" name="departments">
+      <Position>19</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="71" parent="13" name="doctor_tel">
+      <Position>20</Position>
+      <Comment>送检医生电话</Comment>
+      <DataType>varchar(18)|0</DataType>
+    </column>
+    <column id="72" parent="13" name="inspection_item">
+      <Position>21</Position>
+      <DataType>varchar(20)|0</DataType>
+    </column>
+    <column id="73" parent="13" name="visit_cat">
+      <Position>22</Position>
+      <DataType>varchar(20)|0</DataType>
+    </column>
+    <column id="74" parent="13" name="gynaecology">
+      <Position>23</Position>
+      <DataType>bit(1)|0</DataType>
+    </column>
+    <column id="75" parent="13" name="menopause">
+      <Position>24</Position>
+      <DataType>bit(1)|0</DataType>
+    </column>
+    <column id="76" parent="13" name="menopause_time">
+      <Position>25</Position>
+      <DataType>varchar(20)|0</DataType>
+    </column>
+    <column id="77" parent="13" name="menopause_end">
+      <Position>26</Position>
+      <DataType>date|0</DataType>
+    </column>
+    <column id="78" parent="13" name="hcg">
+      <Position>27</Position>
+      <DataType>float(9,3)|0</DataType>
+    </column>
+    <column id="79" parent="13" name="gynaecology_remark">
+      <Position>28</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="80" parent="13" name="clinical_diagnosis">
+      <Position>29</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="81" parent="13" name="medical_summary">
+      <Position>30</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="82" parent="13" name="clinical_findings">
+      <Position>31</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="83" parent="13" name="imaging_findings">
+      <Position>32</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="84" parent="13" name="operation_findings">
+      <Position>33</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="85" parent="13" name="medical_history">
+      <Position>34</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="86" parent="13" name="history_medicine">
+      <Position>35</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="87" parent="13" name="history_pathology">
+      <Position>36</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="88" parent="13" name="urgent_flag">
+      <Position>37</Position>
+      <DataType>bit(1)|0</DataType>
+    </column>
+    <column id="89" parent="13" name="research">
+      <Position>38</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="90" parent="13" name="apply_type">
+      <Position>39</Position>
+      <DataType>int(1)|0</DataType>
+      <DefaultExpression>&apos;1&apos;</DefaultExpression>
+    </column>
+    <column id="91" parent="13" name="applicant">
+      <Position>40</Position>
+      <DataType>varchar(30)|0</DataType>
+    </column>
+    <column id="92" parent="13" name="create_by">
+      <Position>41</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="93" parent="13" name="update_by">
+      <Position>42</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="94" parent="13" name="create_time">
+      <Position>43</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="95" parent="13" name="update_time">
+      <Position>44</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <index id="96" parent="13" name="idx_departments">
+      <ColNames>departments</ColNames>
+    </index>
+    <index id="97" parent="13" name="idx_patient_name">
+      <ColNames>patient_name</ColNames>
+    </index>
+    <index id="98" parent="13" name="index_create_by">
+      <ColNames>create_by</ColNames>
+    </index>
+    <index id="99" parent="13" name="index_serial_number">
+      <ColNames>serial_number</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="100" parent="13" name="index_status">
+      <ColNames>status</ColNames>
+    </index>
+    <key id="101" parent="13" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="102" parent="13" name="index_serial_number">
+      <ColNames>serial_number</ColNames>
+      <UnderlyingIndexName>index_serial_number</UnderlyingIndexName>
+    </key>
+    <column id="103" parent="14" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="104" parent="14" name="departments">
+      <Position>2</Position>
+      <Comment>送检科室</Comment>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="105" parent="14" name="apply_user">
+      <Position>3</Position>
+      <Comment>申请人</Comment>
+      <DataType>varchar(10)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="106" parent="14" name="apply_tel">
+      <Position>4</Position>
+      <Comment>联系电话</Comment>
+      <DataType>varchar(18)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="107" parent="14" name="create_by">
+      <Position>5</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="108" parent="14" name="update_by">
+      <Position>6</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="109" parent="14" name="create_time">
+      <Position>7</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="110" parent="14" name="update_time">
+      <Position>8</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <key id="111" parent="14" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="112" parent="15" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="113" parent="15" name="serial_number">
+      <Position>2</Position>
+      <DataType>char(15)|0</DataType>
+    </column>
+    <column id="114" parent="15" name="path_id">
+      <Position>3</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="115" parent="15" name="sub_id">
+      <Position>4</Position>
+      <DataType>varchar(9)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="116" parent="15" name="biaoshi">
+      <Position>5</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="117" parent="15" name="body_part">
+      <Position>6</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="118" parent="15" name="count">
+      <Position>7</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="119" parent="15" name="unit">
+      <Position>8</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="120" parent="15" name="note">
+      <Position>9</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="121" parent="15" name="print">
+      <Position>10</Position>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="122" parent="15" name="embed_pause">
+      <Position>11</Position>
+      <DataType>bit(1)|0</DataType>
+      <DefaultExpression>b&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="123" parent="15" name="parent_id">
+      <Position>12</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="124" parent="15" name="marker">
+      <Position>13</Position>
+      <DataType>varchar(1024)|0</DataType>
+    </column>
+    <column id="125" parent="15" name="deep_section">
+      <Position>14</Position>
+      <DataType>bit(1)|0</DataType>
+      <DefaultExpression>b&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="126" parent="15" name="special_dye">
+      <Position>15</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="127" parent="15" name="apply_id">
+      <Position>16</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="128" parent="15" name="status">
+      <Position>17</Position>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;11&apos;</DefaultExpression>
+    </column>
+    <column id="129" parent="15" name="create_by">
+      <Position>18</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="130" parent="15" name="update_by">
+      <Position>19</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="131" parent="15" name="create_time">
+      <Position>20</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="132" parent="15" name="update_time">
+      <Position>21</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <index id="133" parent="15" name="index_parent_id">
+      <ColNames>parent_id</ColNames>
+    </index>
+    <index id="134" parent="15" name="index_path_id">
+      <ColNames>path_id</ColNames>
+    </index>
+    <index id="135" parent="15" name="index_serial_number">
+      <ColNames>serial_number</ColNames>
+    </index>
+    <index id="136" parent="15" name="index_status">
+      <ColNames>status</ColNames>
+    </index>
+    <index id="137" parent="15" name="index_sub_id">
+      <ColNames>sub_id</ColNames>
+    </index>
+    <key id="138" parent="15" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="139" parent="16" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="140" parent="16" name="serial_number">
+      <Position>2</Position>
+      <Comment>病理号</Comment>
+      <DataType>char(10)|0</DataType>
+    </column>
+    <column id="141" parent="16" name="path_id">
+      <Position>3</Position>
+      <Comment>病理ID</Comment>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="142" parent="16" name="block_sub_id">
+      <Position>4</Position>
+      <Comment>腊块号</Comment>
+      <DataType>varchar(3)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="143" parent="16" name="block_id">
+      <Position>5</Position>
+      <Comment>腊块ID</Comment>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="144" parent="16" name="slide_id">
+      <Position>6</Position>
+      <Comment>玻片ID</Comment>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="145" parent="16" name="slide_sub_id">
+      <Position>7</Position>
+      <Comment>玻片号</Comment>
+      <DataType>varchar(3)|0</DataType>
+    </column>
+    <column id="146" parent="16" name="status">
+      <Position>8</Position>
+      <Comment>状态，0-晾片 1-存档 2-借出</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="147" parent="16" name="ihc_marker">
+      <Position>9</Position>
+      <Comment>试剂抗体</Comment>
+      <DataType>varchar(30)|0</DataType>
+    </column>
+    <column id="148" parent="16" name="patient_name">
+      <Position>10</Position>
+      <Comment>病人姓名</Comment>
+      <DataType>varchar(30)|0</DataType>
+    </column>
+    <column id="149" parent="16" name="archive_box">
+      <Position>11</Position>
+      <Comment>抽屉编号</Comment>
+      <DataType>varchar(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="150" parent="16" name="archive_index">
+      <Position>12</Position>
+      <Comment>蜡块位置</Comment>
+      <DataType>varchar(10)|0</DataType>
+    </column>
+    <column id="151" parent="16" name="create_by">
+      <Position>13</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="152" parent="16" name="update_by">
+      <Position>14</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="153" parent="16" name="create_time">
+      <Position>15</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="154" parent="16" name="update_time">
+      <Position>16</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <index id="155" parent="16" name="index_block_id">
+      <ColNames>block_id</ColNames>
+    </index>
+    <index id="156" parent="16" name="index_path_id">
+      <ColNames>path_id</ColNames>
+    </index>
+    <index id="157" parent="16" name="index_slide_id">
+      <ColNames>slide_id</ColNames>
+    </index>
+    <key id="158" parent="16" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="159" parent="17" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="160" parent="17" name="archive_id">
+      <Position>2</Position>
+      <Comment>归档ID</Comment>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="161" parent="17" name="borrow_name">
+      <Position>3</Position>
+      <Comment>姓名</Comment>
+      <DataType>varchar(50)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="162" parent="17" name="borrow_phone">
+      <Position>4</Position>
+      <Comment>联系电话</Comment>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="163" parent="17" name="plan_back">
+      <Position>5</Position>
+      <Comment>计划归还日期</Comment>
+      <DataType>datetime|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="164" parent="17" name="real_back">
+      <Position>6</Position>
+      <Comment>实际归还日期</Comment>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="165" parent="17" name="borrow_type">
+      <Position>7</Position>
+      <Comment>借阅人类别</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="166" parent="17" name="tutor">
+      <Position>8</Position>
+      <DataType>varchar(50)|0</DataType>
+    </column>
+    <column id="167" parent="17" name="unit">
+      <Position>9</Position>
+      <DataType>varchar(50)|0</DataType>
+    </column>
+    <column id="168" parent="17" name="note">
+      <Position>10</Position>
+      <DataType>varchar(50)|0</DataType>
+    </column>
+    <column id="169" parent="17" name="departments">
+      <Position>11</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="170" parent="17" name="status">
+      <Position>12</Position>
+      <Comment>状态 1-未归还，2-已归还</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="171" parent="17" name="archive_status">
+      <Position>13</Position>
+      <Comment>借阅时蜡块或玻片存档状态</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="172" parent="17" name="create_by">
+      <Position>14</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="173" parent="17" name="update_by">
+      <Position>15</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="174" parent="17" name="create_time">
+      <Position>16</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="175" parent="17" name="update_time">
+      <Position>17</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="176" parent="17" name="id_number">
+      <Position>18</Position>
+      <Comment>身份证号</Comment>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="177" parent="17" name="cash_pledge">
+      <Position>19</Position>
+      <Comment>押金费</Comment>
+      <DataType>varchar(20)|0</DataType>
+    </column>
+    <index id="178" parent="17" name="index_archive_id">
+      <ColNames>archive_id</ColNames>
+    </index>
+    <key id="179" parent="17" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="180" parent="18" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="181" parent="18" name="serial_number">
+      <Position>2</Position>
+      <DataType>char(15)|0</DataType>
+    </column>
+    <column id="182" parent="18" name="path_id">
+      <Position>3</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="183" parent="18" name="sub_id">
+      <Position>4</Position>
+      <DataType>varchar(9)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="184" parent="18" name="biaoshi">
+      <Position>5</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="185" parent="18" name="body_part">
+      <Position>6</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="186" parent="18" name="count">
+      <Position>7</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="187" parent="18" name="unit">
+      <Position>8</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="188" parent="18" name="note">
+      <Position>9</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="189" parent="18" name="print">
+      <Position>10</Position>
+      <DataType>bit(1)|0</DataType>
+      <DefaultExpression>b&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="190" parent="18" name="embed_pause">
+      <Position>11</Position>
+      <DataType>bit(1)|0</DataType>
+      <DefaultExpression>b&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="191" parent="18" name="parent_id">
+      <Position>12</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="192" parent="18" name="marker">
+      <Position>13</Position>
+      <DataType>varchar(1024)|0</DataType>
+    </column>
+    <column id="193" parent="18" name="deep_section">
+      <Position>14</Position>
+      <DataType>bit(1)|0</DataType>
+      <DefaultExpression>b&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="194" parent="18" name="special_dye">
+      <Position>15</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="195" parent="18" name="apply_id">
+      <Position>16</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="196" parent="18" name="status">
+      <Position>17</Position>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;11&apos;</DefaultExpression>
+    </column>
+    <column id="197" parent="18" name="create_by">
+      <Position>18</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="198" parent="18" name="update_by">
+      <Position>19</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="199" parent="18" name="create_time">
+      <Position>20</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="200" parent="18" name="update_time">
+      <Position>21</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <index id="201" parent="18" name="index_parent_id">
+      <ColNames>parent_id</ColNames>
+    </index>
+    <index id="202" parent="18" name="index_path_id">
+      <ColNames>path_id</ColNames>
+    </index>
+    <index id="203" parent="18" name="index_serial_number">
+      <ColNames>serial_number</ColNames>
+    </index>
+    <index id="204" parent="18" name="index_status">
+      <ColNames>status</ColNames>
+    </index>
+    <index id="205" parent="18" name="index_sub_id">
+      <ColNames>sub_id</ColNames>
+    </index>
+    <key id="206" parent="18" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="207" parent="19" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="208" parent="19" name="ihc_id">
+      <Position>2</Position>
+      <Comment>特染申请ID</Comment>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="209" parent="19" name="serial_number">
+      <Position>3</Position>
+      <Comment>病理号</Comment>
+      <DataType>char(10)|0</DataType>
+    </column>
+    <column id="210" parent="19" name="path_id">
+      <Position>4</Position>
+      <Comment>病理ID</Comment>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="211" parent="19" name="sub_id">
+      <Position>5</Position>
+      <Comment>腊块号</Comment>
+      <DataType>varchar(3)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="212" parent="19" name="block_id">
+      <Position>6</Position>
+      <Comment>腊块ID</Comment>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="213" parent="19" name="status">
+      <Position>7</Position>
+      <Comment>状态</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="214" parent="19" name="special_dye">
+      <Position>8</Position>
+      <Comment>#特染类别  0-HE染色, 1-免疫组化</Comment>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="215" parent="19" name="ihc_marker">
+      <Position>9</Position>
+      <Comment>特染要求</Comment>
+      <DataType>varchar(1024)|0</DataType>
+    </column>
+    <column id="216" parent="19" name="note">
+      <Position>10</Position>
+      <Comment>备注</Comment>
+      <DataType>varchar(1024)|0</DataType>
+    </column>
+    <column id="217" parent="19" name="create_by">
+      <Position>11</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="218" parent="19" name="update_by">
+      <Position>12</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="219" parent="19" name="create_time">
+      <Position>13</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="220" parent="19" name="update_time">
+      <Position>14</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="221" parent="19" name="number">
+      <Position>15</Position>
+      <Comment>特染申请号</Comment>
+      <DataType>char(10)|0</DataType>
+    </column>
+    <column id="222" parent="19" name="result">
+      <Position>16</Position>
+      <Comment>申请特染时常规病理的诊断结果</Comment>
+      <DataType>longtext|0</DataType>
+    </column>
+    <column id="223" parent="19" name="source">
+      <Position>17</Position>
+      <Comment>申请来源  0-特检申请工作站, 1-诊断工作站</Comment>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <index id="224" parent="19" name="index_ihc_id">
+      <ColNames>ihc_id</ColNames>
+    </index>
+    <index id="225" parent="19" name="index_status">
+      <ColNames>status</ColNames>
+    </index>
+    <key id="226" parent="19" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="227" parent="20" name="slide_id">
+      <Position>1</Position>
+      <Comment>玻片ID</Comment>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="228" parent="20" name="batch_id">
+      <Position>2</Position>
+      <Comment>批次ID</Comment>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="229" parent="20" name="path_id">
+      <Position>3</Position>
+      <Comment>病理ID</Comment>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="230" parent="20" name="block_id">
+      <Position>4</Position>
+      <Comment>腊块ID</Comment>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="231" parent="20" name="path_no">
+      <Position>5</Position>
+      <Comment>病理号</Comment>
+      <DataType>char(15)|0</DataType>
+    </column>
+    <column id="232" parent="20" name="patient_name">
+      <Position>6</Position>
+      <Comment>病人姓名</Comment>
+      <DataType>char(15)|0</DataType>
+    </column>
+    <column id="233" parent="20" name="block_sub_id">
+      <Position>7</Position>
+      <Comment>腊块号</Comment>
+      <DataType>varchar(3)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="234" parent="20" name="biaoshi">
+      <Position>8</Position>
+      <Comment>取材标识，1，常规，2，重取，3 脱钙</Comment>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="235" parent="20" name="marker">
+      <Position>9</Position>
+      <Comment>标记物</Comment>
+      <DataType>varchar(30)|0</DataType>
+    </column>
+    <column id="236" parent="20" name="special_dye">
+      <Position>10</Position>
+      <Comment>特染类别  0-HE染色, 1-免疫组化, null-白片</Comment>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="237" parent="20" name="sub_id">
+      <Position>11</Position>
+      <Comment>玻片号</Comment>
+      <DataType>varchar(3)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="238" parent="20" name="create_time">
+      <Position>12</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <index id="239" parent="20" name="index_batch_id">
+      <ColNames>batch_id</ColNames>
+    </index>
+    <key id="240" parent="20" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>slide_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="241" parent="21" name="batch_id">
+      <Position>1</Position>
+      <Comment>批次ID</Comment>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="242" parent="21" name="scan_location">
+      <Position>2</Position>
+      <Comment>扫描位置</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="243" parent="21" name="image_path">
+      <Position>3</Position>
+      <Comment>图片路径</Comment>
+      <DataType>varchar(2048)|0</DataType>
+    </column>
+    <column id="244" parent="21" name="image_name">
+      <Position>4</Position>
+      <Comment>文件名</Comment>
+      <DataType>varchar(2048)|0</DataType>
+    </column>
+    <column id="245" parent="21" name="image_size">
+      <Position>5</Position>
+      <Comment>文件大小</Comment>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="246" parent="21" name="error_blocks">
+      <Position>6</Position>
+      <Comment>异常玻片</Comment>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="247" parent="21" name="create_time">
+      <Position>7</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <key id="248" parent="21" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>batch_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="249" parent="22" name="parent_id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="250" parent="22" name="block_id">
+      <Position>2</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="251" parent="22" name="average">
+      <Position>3</Position>
+      <DataType>float(11,2)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="252" parent="22" name="grossing">
+      <Position>4</Position>
+      <DataType>float(11,2)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="253" parent="22" name="dehydrate">
+      <Position>5</Position>
+      <DataType>float(11,2)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="254" parent="22" name="embedding">
+      <Position>6</Position>
+      <DataType>float(11,2)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="255" parent="22" name="sectioning">
+      <Position>7</Position>
+      <DataType>float(11,2)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="256" parent="22" name="staining">
+      <Position>8</Position>
+      <DataType>float(11,2)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="257" parent="22" name="sealing">
+      <Position>9</Position>
+      <DataType>float(11,2)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="258" parent="22" name="note">
+      <Position>10</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="259" parent="22" name="create_by">
+      <Position>11</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="260" parent="22" name="update_by">
+      <Position>12</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="261" parent="22" name="create_time">
+      <Position>13</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="262" parent="22" name="update_time">
+      <Position>14</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <key id="263" parent="22" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>block_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="264" parent="23" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="265" parent="23" name="start_time">
+      <Position>2</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="266" parent="23" name="end_time">
+      <Position>3</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="267" parent="23" name="time_flag">
+      <Position>4</Position>
+      <DataType>varchar(100)|0</DataType>
+    </column>
+    <column id="268" parent="23" name="booking_pid">
+      <Position>5</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="269" parent="23" name="application_id">
+      <Position>6</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="270" parent="23" name="booking_person">
+      <Position>7</Position>
+      <DataType>varchar(20)|0</DataType>
+    </column>
+    <column id="271" parent="23" name="booking_phone">
+      <Position>8</Position>
+      <DataType>varchar(18)|0</DataType>
+    </column>
+    <column id="272" parent="23" name="create_time">
+      <Position>9</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="273" parent="23" name="instrument_id">
+      <Position>10</Position>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;1&apos;</DefaultExpression>
+    </column>
+    <index id="274" parent="23" name="index_application_id">
+      <ColNames>application_id</ColNames>
+    </index>
+    <key id="275" parent="23" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="276" parent="24" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="277" parent="24" name="target_id">
+      <Position>2</Position>
+      <Comment>病理ID或者特殊申请Id</Comment>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="278" parent="24" name="category">
+      <Position>3</Position>
+      <Comment>1 常规申请 2特殊申请</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="279" parent="24" name="label">
+      <Position>4</Position>
+      <Comment>标签</Comment>
+      <DataType>varchar(30)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="280" parent="24" name="permission">
+      <Position>5</Position>
+      <Comment>权限</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="281" parent="24" name="note">
+      <Position>6</Position>
+      <Comment>备注</Comment>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="282" parent="24" name="create_by">
+      <Position>7</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="283" parent="24" name="update_by">
+      <Position>8</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="284" parent="24" name="create_time">
+      <Position>9</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="285" parent="24" name="update_time">
+      <Position>10</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <key id="286" parent="24" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="287" parent="25" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="288" parent="25" name="number">
+      <Position>2</Position>
+      <Comment>会诊号</Comment>
+      <DataType>char(10)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="289" parent="25" name="application_id">
+      <Position>3</Position>
+      <Comment>申请ID</Comment>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="290" parent="25" name="result">
+      <Position>4</Position>
+      <Comment>诊断结果</Comment>
+      <DataType>longtext|0</DataType>
+    </column>
+    <column id="291" parent="25" name="diagnose">
+      <Position>5</Position>
+      <Comment>诊断描述</Comment>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="292" parent="25" name="status">
+      <Position>6</Position>
+      <Comment>状态</Comment>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;20&apos;</DefaultExpression>
+    </column>
+    <column id="293" parent="25" name="patient_name">
+      <Position>7</Position>
+      <Comment>病人姓名</Comment>
+      <DataType>varchar(30)|0</DataType>
+    </column>
+    <column id="294" parent="25" name="departments">
+      <Position>8</Position>
+      <Comment>送检科室</Comment>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="295" parent="25" name="hospital">
+      <Position>9</Position>
+      <Comment>送检医院</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="296" parent="25" name="requirement">
+      <Position>10</Position>
+      <Comment>会诊目的和要求</Comment>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="297" parent="25" name="note">
+      <Position>11</Position>
+      <Comment>备注</Comment>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="298" parent="25" name="consult_result">
+      <Position>12</Position>
+      <Comment>会诊意见</Comment>
+      <DataType>longtext|0</DataType>
+    </column>
+    <column id="299" parent="25" name="report_pic">
+      <Position>13</Position>
+      <Comment>报告图片</Comment>
+      <DataType>longtext|0</DataType>
+    </column>
+    <column id="300" parent="25" name="create_by">
+      <Position>14</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="301" parent="25" name="update_by">
+      <Position>15</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="302" parent="25" name="create_time">
+      <Position>16</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="303" parent="25" name="update_time">
+      <Position>17</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="304" parent="25" name="assign_diagnose">
+      <Position>18</Position>
+      <Comment>指定诊断医生</Comment>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="305" parent="25" name="out_consult">
+      <Position>19</Position>
+      <Comment>是否外院会诊</Comment>
+      <DataType>bit(1)|0</DataType>
+      <DefaultExpression>b&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="306" parent="25" name="out_consult_result">
+      <Position>20</Position>
+      <Comment>外院会诊意见</Comment>
+      <DataType>longtext|0</DataType>
+    </column>
+    <key id="307" parent="25" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="308" parent="26" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="309" parent="26" name="instrument_id">
+      <Position>2</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="310" parent="26" name="status">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="311" parent="26" name="used_block">
+      <Position>4</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="312" parent="26" name="capacity">
+      <Position>5</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="313" parent="26" name="reset_time">
+      <Position>6</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="314" parent="26" name="start_time">
+      <Position>7</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="315" parent="26" name="end_time">
+      <Position>8</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="316" parent="26" name="create_by">
+      <Position>9</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="317" parent="26" name="update_by">
+      <Position>10</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="318" parent="26" name="create_time">
+      <Position>11</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="319" parent="26" name="update_time">
+      <Position>12</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <index id="320" parent="26" name="index_instrumentid">
+      <ColNames>instrument_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="321" parent="26" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="322" parent="26" name="index_instrumentid">
+      <ColNames>instrument_id</ColNames>
+      <UnderlyingIndexName>index_instrumentid</UnderlyingIndexName>
+    </key>
+    <column id="323" parent="27" name="seq">
+      <Position>1</Position>
+      <DataType>int(3)|0</DataType>
+    </column>
+    <column id="324" parent="28" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="325" parent="28" name="type">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="326" parent="28" name="name">
+      <Position>3</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="327" parent="28" name="sn">
+      <Position>4</Position>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="328" parent="28" name="in_use">
+      <Position>5</Position>
+      <DataType>bit(1)|0</DataType>
+      <DefaultExpression>b&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="329" parent="28" name="description">
+      <Position>6</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="330" parent="28" name="last_heartbreak">
+      <Position>7</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="331" parent="28" name="disabled">
+      <Position>8</Position>
+      <DataType>bit(1)|0</DataType>
+      <DefaultExpression>b&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="332" parent="28" name="status">
+      <Position>9</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="333" parent="28" name="create_by">
+      <Position>10</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="334" parent="28" name="update_by">
+      <Position>11</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="335" parent="28" name="create_time">
+      <Position>12</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="336" parent="28" name="update_time">
+      <Position>13</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <index id="337" parent="28" name="index_sn_name">
+      <ColNames>type
+sn</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="338" parent="28" name="index_type_name">
+      <ColNames>type
+name</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="339" parent="28" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="340" parent="28" name="index_type_name">
+      <ColNames>type
+name</ColNames>
+      <UnderlyingIndexName>index_type_name</UnderlyingIndexName>
+    </key>
+    <key id="341" parent="28" name="index_sn_name">
+      <ColNames>type
+sn</ColNames>
+      <UnderlyingIndexName>index_sn_name</UnderlyingIndexName>
+    </key>
+    <column id="342" parent="29" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="343" parent="29" name="instrument_id">
+      <Position>2</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="344" parent="29" name="level">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="345" parent="29" name="occur_time">
+      <Position>4</Position>
+      <DataType>datetime|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="346" parent="29" name="msg">
+      <Position>5</Position>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="347" parent="29" name="status">
+      <Position>6</Position>
+      <DataType>bit(1)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>b&apos;1&apos;</DefaultExpression>
+    </column>
+    <column id="348" parent="29" name="create_by">
+      <Position>7</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="349" parent="29" name="update_by">
+      <Position>8</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="350" parent="29" name="create_time">
+      <Position>9</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="351" parent="29" name="update_time">
+      <Position>10</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <index id="352" parent="29" name="index_instrumentid">
+      <ColNames>instrument_id</ColNames>
+    </index>
+    <index id="353" parent="29" name="index_occur_instrumentid">
+      <ColNames>occur_time
+instrument_id</ColNames>
+    </index>
+    <key id="354" parent="29" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="355" parent="30" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="356" parent="30" name="instrument_id">
+      <Position>2</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="357" parent="30" name="code">
+      <Position>3</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="358" parent="30" name="msg">
+      <Position>4</Position>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="359" parent="30" name="level">
+      <Position>5</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="360" parent="30" name="create_by">
+      <Position>6</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="361" parent="30" name="update_by">
+      <Position>7</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="362" parent="30" name="create_time">
+      <Position>8</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="363" parent="30" name="update_time">
+      <Position>9</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <index id="364" parent="30" name="index_instrumentid_code">
+      <ColNames>instrument_id
+code</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="365" parent="30" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="366" parent="30" name="index_instrumentid_code">
+      <ColNames>instrument_id
+code</ColNames>
+      <UnderlyingIndexName>index_instrumentid_code</UnderlyingIndexName>
+    </key>
+    <column id="367" parent="31" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="368" parent="31" name="start_time">
+      <Position>2</Position>
+      <Comment>开始使用时间</Comment>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="369" parent="31" name="end_time">
+      <Position>3</Position>
+      <Comment>结束使用时间</Comment>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="370" parent="31" name="booking_pid">
+      <Position>4</Position>
+      <Comment>使用人ID</Comment>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="371" parent="31" name="microscope_id">
+      <Position>5</Position>
+      <Comment>显微镜ID</Comment>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;1&apos;</DefaultExpression>
+    </column>
+    <column id="372" parent="31" name="microscope">
+      <Position>6</Position>
+      <Comment>显微镜</Comment>
+      <DataType>varchar(50)|0</DataType>
+    </column>
+    <key id="373" parent="31" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="374" parent="32" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="375" parent="32" name="key">
+      <Position>2</Position>
+      <DataType>varchar(50)|0</DataType>
+    </column>
+    <column id="376" parent="32" name="content">
+      <Position>3</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="377" parent="32" name="create_by">
+      <Position>4</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="378" parent="32" name="update_by">
+      <Position>5</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="379" parent="32" name="create_time">
+      <Position>6</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="380" parent="32" name="update_time">
+      <Position>7</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <index id="381" parent="32" name="index_key">
+      <ColNames>key</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="382" parent="32" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="383" parent="32" name="index_key">
+      <ColNames>key</ColNames>
+      <UnderlyingIndexName>index_key</UnderlyingIndexName>
+    </key>
+    <column id="384" parent="33" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="385" parent="33" name="path_id">
+      <Position>2</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="386" parent="33" name="operation">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="387" parent="33" name="operator_id">
+      <Position>4</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="388" parent="33" name="sec_operator_id">
+      <Position>5</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="389" parent="33" name="operation_time">
+      <Position>6</Position>
+      <DataType>datetime|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="390" parent="33" name="note">
+      <Position>7</Position>
+      <DataType>longtext|0</DataType>
+    </column>
+    <column id="391" parent="33" name="note_type">
+      <Position>8</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="392" parent="33" name="create_by">
+      <Position>9</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="393" parent="33" name="update_by">
+      <Position>10</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="394" parent="33" name="create_time">
+      <Position>11</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="395" parent="33" name="update_time">
+      <Position>12</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <index id="396" parent="33" name="index_operation">
+      <ColNames>operation</ColNames>
+    </index>
+    <index id="397" parent="33" name="index_path_id">
+      <ColNames>path_id</ColNames>
+    </index>
+    <key id="398" parent="33" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="399" parent="34" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="400" parent="34" name="serial_number">
+      <Position>2</Position>
+      <DataType>char(9)|0</DataType>
+    </column>
+    <column id="401" parent="34" name="application_id">
+      <Position>3</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="402" parent="34" name="result">
+      <Position>4</Position>
+      <DataType>longtext|0</DataType>
+    </column>
+    <column id="403" parent="34" name="micro_diagnose">
+      <Position>5</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="404" parent="34" name="diagnose">
+      <Position>6</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="405" parent="34" name="jujian_note">
+      <Position>7</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="406" parent="34" name="bingdong_note">
+      <Position>8</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="407" parent="34" name="re_grossing">
+      <Position>9</Position>
+      <DataType>bit(1)|0</DataType>
+      <DefaultExpression>b&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="408" parent="34" name="status">
+      <Position>10</Position>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;10&apos;</DefaultExpression>
+    </column>
+    <column id="409" parent="34" name="inspect_category">
+      <Position>11</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="410" parent="34" name="patient_name">
+      <Position>12</Position>
+      <DataType>varchar(30)|0</DataType>
+    </column>
+    <column id="411" parent="34" name="departments">
+      <Position>13</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="412" parent="34" name="apply_type">
+      <Position>14</Position>
+      <DataType>int(1)|0</DataType>
+      <DefaultExpression>&apos;1&apos;</DefaultExpression>
+    </column>
+    <column id="413" parent="34" name="assign_grossing">
+      <Position>15</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="414" parent="34" name="assign_diagnose">
+      <Position>16</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="415" parent="34" name="report_pic">
+      <Position>17</Position>
+      <DataType>longtext|0</DataType>
+    </column>
+    <column id="416" parent="34" name="note">
+      <Position>18</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="417" parent="34" name="create_by">
+      <Position>19</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="418" parent="34" name="update_by">
+      <Position>20</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="419" parent="34" name="create_time">
+      <Position>21</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="420" parent="34" name="update_time">
+      <Position>22</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="421" parent="34" name="after_frozen">
+      <Position>23</Position>
+      <Comment>是否冻后</Comment>
+      <DataType>bit(1)|0</DataType>
+      <DefaultExpression>b&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="422" parent="34" name="frozen_number">
+      <Position>24</Position>
+      <Comment>冰冻号</Comment>
+      <DataType>char(9)|0</DataType>
+    </column>
+    <column id="423" parent="34" name="out_consult">
+      <Position>25</Position>
+      <Comment>是否外院会诊</Comment>
+      <DataType>bit(1)|0</DataType>
+      <DefaultExpression>b&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="424" parent="34" name="out_consult_result">
+      <Position>26</Position>
+      <Comment>外院会诊结果</Comment>
+      <DataType>longtext|0</DataType>
+    </column>
+    <index id="425" parent="34" name="idx_diagnose">
+      <ColNames>diagnose</ColNames>
+    </index>
+    <index id="426" parent="34" name="idx_jujian">
+      <ColNames>jujian_note</ColNames>
+    </index>
+    <index id="427" parent="34" name="idx_mirco">
+      <ColNames>micro_diagnose</ColNames>
+    </index>
+    <index id="428" parent="34" name="idx_ngram">
+      <ColNames>jujian_note
+diagnose
+micro_diagnose</ColNames>
+    </index>
+    <index id="429" parent="34" name="index_application_id">
+      <ColNames>application_id</ColNames>
+    </index>
+    <index id="430" parent="34" name="index_assign_diagnose">
+      <ColNames>assign_diagnose</ColNames>
+    </index>
+    <index id="431" parent="34" name="index_create_time">
+      <ColNames>create_time</ColNames>
+    </index>
+    <index id="432" parent="34" name="index_departments">
+      <ColNames>departments</ColNames>
+    </index>
+    <index id="433" parent="34" name="index_serial_number">
+      <ColNames>serial_number</ColNames>
+    </index>
+    <index id="434" parent="34" name="index_status">
+      <ColNames>status</ColNames>
+    </index>
+    <key id="435" parent="34" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="436" parent="35" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="437" parent="35" name="pathology_id">
+      <Position>2</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="438" parent="35" name="operation">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="439" parent="35" name="type">
+      <Position>4</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="440" parent="35" name="content">
+      <Position>5</Position>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="441" parent="35" name="keep_flag">
+      <Position>6</Position>
+      <DataType>bit(1)|0</DataType>
+      <DefaultExpression>b&apos;1&apos;</DefaultExpression>
+    </column>
+    <column id="442" parent="35" name="create_by">
+      <Position>7</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="443" parent="35" name="update_by">
+      <Position>8</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="444" parent="35" name="create_time">
+      <Position>9</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="445" parent="35" name="update_time">
+      <Position>10</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <index id="446" parent="35" name="index_operation">
+      <ColNames>operation</ColNames>
+    </index>
+    <index id="447" parent="35" name="index_pathology_id">
+      <ColNames>pathology_id</ColNames>
+    </index>
+    <key id="448" parent="35" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="449" parent="36" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="450" parent="36" name="name">
+      <Position>2</Position>
+      <DataType>varchar(30)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="451" parent="36" name="code">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="452" parent="36" name="description">
+      <Position>4</Position>
+      <DataType>varchar(1000)|0</DataType>
+    </column>
+    <column id="453" parent="36" name="create_by">
+      <Position>5</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="454" parent="36" name="update_by">
+      <Position>6</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="455" parent="36" name="create_time">
+      <Position>7</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="456" parent="36" name="update_time">
+      <Position>8</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <index id="457" parent="36" name="index_code">
+      <ColNames>code</ColNames>
+    </index>
+    <key id="458" parent="36" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="459" parent="37" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="460" parent="37" name="name">
+      <Position>2</Position>
+      <Comment>名称</Comment>
+      <DataType>varchar(30)|0</DataType>
+    </column>
+    <column id="461" parent="37" name="category">
+      <Position>3</Position>
+      <Comment>类别，1-试剂 2-耗材</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="462" parent="37" name="manufacturer">
+      <Position>4</Position>
+      <Comment>制造商</Comment>
+      <DataType>varchar(100)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="463" parent="37" name="serial_number">
+      <Position>5</Position>
+      <Comment>编号</Comment>
+      <DataType>varchar(100)|0</DataType>
+    </column>
+    <column id="464" parent="37" name="article_number">
+      <Position>6</Position>
+      <Comment>货号</Comment>
+      <DataType>varchar(100)|0</DataType>
+    </column>
+    <column id="465" parent="37" name="specification">
+      <Position>7</Position>
+      <Comment>规格</Comment>
+      <DataType>varchar(100)|0</DataType>
+    </column>
+    <column id="466" parent="37" name="batch_number">
+      <Position>8</Position>
+      <Comment>生产批号</Comment>
+      <DataType>varchar(100)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="467" parent="37" name="order_number">
+      <Position>9</Position>
+      <Comment>订单号</Comment>
+      <DataType>varchar(100)|0</DataType>
+    </column>
+    <column id="468" parent="37" name="expiry_date">
+      <Position>10</Position>
+      <Comment>失效日期</Comment>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="469" parent="37" name="count">
+      <Position>11</Position>
+      <Comment>数量</Comment>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="470" parent="37" name="status">
+      <Position>12</Position>
+      <Comment>接受状态 ，1-合格，2-破损</Comment>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="471" parent="37" name="spec">
+      <Position>13</Position>
+      <Comment>说明书</Comment>
+      <DataType>varchar(100)|0</DataType>
+    </column>
+    <column id="472" parent="37" name="preparation_phone">
+      <Position>14</Position>
+      <Comment>制造商电话</Comment>
+      <DataType>varchar(30)|0</DataType>
+    </column>
+    <column id="473" parent="37" name="preparation">
+      <Position>15</Position>
+      <Comment>制备人</Comment>
+      <DataType>varchar(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="474" parent="37" name="preparation_date">
+      <Position>16</Position>
+      <Comment>制备日期</Comment>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="475" parent="37" name="create_by">
+      <Position>17</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="476" parent="37" name="update_by">
+      <Position>18</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="477" parent="37" name="create_time">
+      <Position>19</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="478" parent="37" name="update_time">
+      <Position>20</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <key id="479" parent="37" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="480" parent="38" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="481" parent="38" name="reagent_id">
+      <Position>2</Position>
+      <Comment>试剂表id</Comment>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="482" parent="38" name="already_use">
+      <Position>3</Position>
+      <Comment>已使用量</Comment>
+      <DataType>float|0</DataType>
+    </column>
+    <column id="483" parent="38" name="surplus">
+      <Position>4</Position>
+      <Comment>剩余量</Comment>
+      <DataType>float|0</DataType>
+    </column>
+    <column id="484" parent="38" name="create_by">
+      <Position>5</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="485" parent="38" name="update_by">
+      <Position>6</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="486" parent="38" name="create_time">
+      <Position>7</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="487" parent="38" name="update_time">
+      <Position>8</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <key id="488" parent="38" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="489" parent="39" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="490" parent="39" name="name">
+      <Position>2</Position>
+      <DataType>varchar(30)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="491" parent="39" name="description">
+      <Position>3</Position>
+      <DataType>varchar(1000)|0</DataType>
+    </column>
+    <column id="492" parent="39" name="create_by">
+      <Position>4</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="493" parent="39" name="update_by">
+      <Position>5</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="494" parent="39" name="create_time">
+      <Position>6</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="495" parent="39" name="update_time">
+      <Position>7</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <key id="496" parent="39" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="497" parent="40" name="role_id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="498" parent="40" name="permission_id">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="499" parent="40" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>role_id
+permission_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="500" parent="41" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="501" parent="41" name="application_id">
+      <Position>2</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="502" parent="41" name="serial_number">
+      <Position>3</Position>
+      <DataType>char(14)|0</DataType>
+    </column>
+    <column id="503" parent="41" name="name">
+      <Position>4</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="504" parent="41" name="category">
+      <Position>5</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="505" parent="41" name="note">
+      <Position>6</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="506" parent="41" name="delete">
+      <Position>7</Position>
+      <DataType>bit(1)|0</DataType>
+      <DefaultExpression>b&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="507" parent="41" name="create_by">
+      <Position>8</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="508" parent="41" name="update_by">
+      <Position>9</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="509" parent="41" name="create_time">
+      <Position>10</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="510" parent="41" name="update_time">
+      <Position>11</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <index id="511" parent="41" name="index_application_id">
+      <ColNames>application_id</ColNames>
+    </index>
+    <index id="512" parent="41" name="index_serial_number">
+      <ColNames>serial_number</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="513" parent="41" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="514" parent="41" name="index_serial_number">
+      <ColNames>serial_number</ColNames>
+      <UnderlyingIndexName>index_serial_number</UnderlyingIndexName>
+    </key>
+    <column id="515" parent="42" name="seqname">
+      <Position>1</Position>
+      <Comment>sequence名称</Comment>
+      <DataType>varchar(50)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="516" parent="42" name="currentValue">
+      <Position>2</Position>
+      <Comment>当前sequence值</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="517" parent="42" name="increment">
+      <Position>3</Position>
+      <Comment>增长系数</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;1&apos;</DefaultExpression>
+    </column>
+    <key id="518" parent="42" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>seqname</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="519" parent="43" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="520" parent="43" name="cause_id">
+      <Position>2</Position>
+      <Comment>产生此申请的id,为病理ID或蜡块ID</Comment>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="521" parent="43" name="path_no">
+      <Position>3</Position>
+      <Comment>病理号</Comment>
+      <DataType>char(10)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="522" parent="43" name="number">
+      <Position>4</Position>
+      <Comment>特殊申请号</Comment>
+      <DataType>char(10)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="523" parent="43" name="type">
+      <Position>5</Position>
+      <Comment>特殊申请类别</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="524" parent="43" name="note">
+      <Position>6</Position>
+      <DataType>varchar(50)|0</DataType>
+    </column>
+    <column id="525" parent="43" name="result">
+      <Position>7</Position>
+      <Comment>诊断结果</Comment>
+      <DataType>longtext|0</DataType>
+    </column>
+    <column id="526" parent="43" name="special_result">
+      <Position>8</Position>
+      <Comment>特检结果</Comment>
+      <DataType>longtext|0</DataType>
+    </column>
+    <column id="527" parent="43" name="status">
+      <Position>9</Position>
+      <Comment>状态</Comment>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="528" parent="43" name="create_by">
+      <Position>10</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="529" parent="43" name="update_by">
+      <Position>11</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="530" parent="43" name="create_time">
+      <Position>12</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="531" parent="43" name="update_time">
+      <Position>13</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="532" parent="43" name="diagnose">
+      <Position>14</Position>
+      <Comment>诊断结果内容</Comment>
+      <DataType>longtext|0</DataType>
+    </column>
+    <column id="533" parent="43" name="out_consult">
+      <Position>15</Position>
+      <Comment>是否外院会诊</Comment>
+      <DataType>bit(1)|0</DataType>
+      <DefaultExpression>b&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="534" parent="43" name="report_pic">
+      <Position>16</Position>
+      <Comment>报告图片</Comment>
+      <DataType>longtext|0</DataType>
+    </column>
+    <column id="535" parent="43" name="out_consult_result">
+      <Position>17</Position>
+      <Comment>外院会诊结果</Comment>
+      <DataType>longtext|0</DataType>
+    </column>
+    <column id="536" parent="43" name="assign_diagnose">
+      <Position>18</Position>
+      <Comment>指定诊断医生</Comment>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <index id="537" parent="43" name="number">
+      <ColNames>number</ColNames>
+    </index>
+    <key id="538" parent="43" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="539" parent="44" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="540" parent="44" name="subject">
+      <Position>2</Position>
+      <DataType>varchar(50)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="541" parent="44" name="source">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="542" parent="44" name="content">
+      <Position>4</Position>
+      <DataType>varchar(1024)|0</DataType>
+    </column>
+    <column id="543" parent="44" name="note">
+      <Position>5</Position>
+      <DataType>varchar(1024)|0</DataType>
+    </column>
+    <column id="544" parent="44" name="type">
+      <Position>6</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="545" parent="44" name="path_id">
+      <Position>7</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="546" parent="44" name="block_id">
+      <Position>8</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="547" parent="44" name="block_status">
+      <Position>9</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="548" parent="44" name="abnormal_handle">
+      <Position>10</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="549" parent="44" name="read_flag">
+      <Position>11</Position>
+      <DataType>bit(1)|0</DataType>
+      <DefaultExpression>b&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="550" parent="44" name="receiver_type">
+      <Position>12</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="551" parent="44" name="receiver_id">
+      <Position>13</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="552" parent="44" name="create_by">
+      <Position>14</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="553" parent="44" name="update_by">
+      <Position>15</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="554" parent="44" name="create_time">
+      <Position>16</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="555" parent="44" name="update_time">
+      <Position>17</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <index id="556" parent="44" name="index_block_status">
+      <ColNames>block_status</ColNames>
+    </index>
+    <index id="557" parent="44" name="index_source">
+      <ColNames>source</ColNames>
+    </index>
+    <index id="558" parent="44" name="index_subject">
+      <ColNames>subject</ColNames>
+    </index>
+    <key id="559" parent="44" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="560" parent="45" name="notification_id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="561" parent="45" name="receiver_id">
+      <Position>2</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="562" parent="45" name="read_flag">
+      <Position>3</Position>
+      <DataType>bit(1)|0</DataType>
+      <DefaultExpression>b&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="563" parent="45" name="read_time">
+      <Position>4</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <index id="564" parent="45" name="index_receiver_id">
+      <ColNames>receiver_id</ColNames>
+    </index>
+    <key id="565" parent="45" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>notification_id
+receiver_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="566" parent="46" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="567" parent="46" name="name">
+      <Position>2</Position>
+      <DataType>varchar(20)|0</DataType>
+    </column>
+    <column id="568" parent="46" name="category">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="569" parent="46" name="parent">
+      <Position>4</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="570" parent="46" name="level">
+      <Position>5</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="571" parent="46" name="content">
+      <Position>6</Position>
+      <DataType>mediumtext|0</DataType>
+    </column>
+    <column id="572" parent="46" name="position">
+      <Position>7</Position>
+      <DataType>varchar(4)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="573" parent="46" name="display_order">
+      <Position>8</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="574" parent="46" name="create_by">
+      <Position>9</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="575" parent="46" name="update_by">
+      <Position>10</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="576" parent="46" name="create_time">
+      <Position>11</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="577" parent="46" name="update_time">
+      <Position>12</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <index id="578" parent="46" name="index_category">
+      <ColNames>category</ColNames>
+    </index>
+    <key id="579" parent="46" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="580" parent="47" name="template_id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="581" parent="47" name="operator_id">
+      <Position>2</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="582" parent="47" name="position">
+      <Position>3</Position>
+      <DataType>varchar(4)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="583" parent="47" name="create_time">
+      <Position>4</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <key id="584" parent="47" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>template_id
+operator_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="585" parent="48" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="586" parent="48" name="block_id">
+      <Position>2</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="587" parent="48" name="operation">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="588" parent="48" name="operator_id">
+      <Position>4</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="589" parent="48" name="operator_name">
+      <Position>5</Position>
+      <DataType>varchar(30)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="590" parent="48" name="sec_operator_id">
+      <Position>6</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="591" parent="48" name="operation_time">
+      <Position>7</Position>
+      <DataType>datetime|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="592" parent="48" name="manual_flag">
+      <Position>8</Position>
+      <DataType>bit(1)|0</DataType>
+      <DefaultExpression>b&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="593" parent="48" name="instrument_id">
+      <Position>9</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="594" parent="48" name="note">
+      <Position>10</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="595" parent="48" name="note_type">
+      <Position>11</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="596" parent="48" name="create_by">
+      <Position>12</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="597" parent="48" name="update_by">
+      <Position>13</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="598" parent="48" name="create_time">
+      <Position>14</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="599" parent="48" name="update_time">
+      <Position>15</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <index id="600" parent="48" name="index_block_id">
+      <ColNames>block_id</ColNames>
+    </index>
+    <index id="601" parent="48" name="index_instrument_id">
+      <ColNames>instrument_id</ColNames>
+    </index>
+    <index id="602" parent="48" name="index_operation">
+      <ColNames>operation</ColNames>
+    </index>
+    <index id="603" parent="48" name="index_operation_time">
+      <ColNames>operation_time</ColNames>
+    </index>
+    <index id="604" parent="48" name="index_operator_id">
+      <ColNames>operator_id</ColNames>
+    </index>
+    <index id="605" parent="48" name="index_sec_operator_id">
+      <ColNames>sec_operator_id</ColNames>
+    </index>
+    <key id="606" parent="48" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="607" parent="49" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="608" parent="49" name="user_name">
+      <Position>2</Position>
+      <DataType>varchar(30)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="609" parent="49" name="first_name">
+      <Position>3</Position>
+      <DataType>varchar(30)|0</DataType>
+    </column>
+    <column id="610" parent="49" name="last_name">
+      <Position>4</Position>
+      <DataType>varchar(30)|0</DataType>
+    </column>
+    <column id="611" parent="49" name="password">
+      <Position>5</Position>
+      <DataType>varchar(100)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="612" parent="49" name="email">
+      <Position>6</Position>
+      <DataType>varchar(50)|0</DataType>
+    </column>
+    <column id="613" parent="49" name="phone">
+      <Position>7</Position>
+      <DataType>varchar(18)|0</DataType>
+    </column>
+    <column id="614" parent="49" name="status">
+      <Position>8</Position>
+      <DataType>bit(1)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="615" parent="49" name="role_id">
+      <Position>9</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="616" parent="49" name="identity">
+      <Position>10</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="617" parent="49" name="tutor">
+      <Position>11</Position>
+      <DataType>varchar(50)|0</DataType>
+    </column>
+    <column id="618" parent="49" name="faculty">
+      <Position>12</Position>
+      <DataType>varchar(50)|0</DataType>
+    </column>
+    <column id="619" parent="49" name="student_number">
+      <Position>13</Position>
+      <DataType>varchar(50)|0</DataType>
+    </column>
+    <column id="620" parent="49" name="unit">
+      <Position>14</Position>
+      <DataType>varchar(50)|0</DataType>
+    </column>
+    <column id="621" parent="49" name="wno">
+      <Position>15</Position>
+      <DataType>varchar(50)|0</DataType>
+    </column>
+    <column id="622" parent="49" name="departments">
+      <Position>16</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="623" parent="49" name="task_type">
+      <Position>17</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="624" parent="49" name="task_name">
+      <Position>18</Position>
+      <DataType>varchar(50)|0</DataType>
+    </column>
+    <column id="625" parent="49" name="specialty">
+      <Position>19</Position>
+      <DataType>varchar(50)|0</DataType>
+    </column>
+    <column id="626" parent="49" name="qr_code">
+      <Position>20</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="627" parent="49" name="project_code">
+      <Position>21</Position>
+      <DataType>varchar(50)|0</DataType>
+    </column>
+    <column id="628" parent="49" name="lock_status">
+      <Position>22</Position>
+      <DataType>bit(1)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="629" parent="49" name="lock_count">
+      <Position>23</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="630" parent="49" name="lock_count_time">
+      <Position>24</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="631" parent="49" name="last_login_time">
+      <Position>25</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="632" parent="49" name="last_login_ip">
+      <Position>26</Position>
+      <DataType>varchar(30)|0</DataType>
+    </column>
+    <column id="633" parent="49" name="create_by">
+      <Position>27</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="634" parent="49" name="update_by">
+      <Position>28</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="635" parent="49" name="create_time">
+      <Position>29</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="636" parent="49" name="update_time">
+      <Position>30</Position>
+      <DataType>datetime|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <index id="637" parent="49" name="index_role_id">
+      <ColNames>role_id</ColNames>
+    </index>
+    <index id="638" parent="49" name="user_name">
+      <ColNames>user_name</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="639" parent="49" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="640" parent="49" name="user_name">
+      <ColNames>user_name</ColNames>
+      <UnderlyingIndexName>user_name</UnderlyingIndexName>
+    </key>
+    <argument id="641" parent="50">
+      <ArgumentDirection>R</ArgumentDirection>
+      <DataType>int(11)|0</DataType>
+    </argument>
+    <argument id="642" parent="50" name="seq_name">
+      <DataType>varchar(50)|0</DataType>
+    </argument>
+    <argument id="643" parent="51">
+      <ArgumentDirection>R</ArgumentDirection>
+      <DataType>int(11)|0</DataType>
+    </argument>
+    <argument id="644" parent="51" name="seq_name">
+      <DataType>varchar(50)|0</DataType>
+    </argument>
+  </database-model>
+</dataSource>

@@ -1,0 +1,53 @@
+<div id="permissionModule" class="container" ng-controller="permissionModuleController as permissionModule">
+  <div class="table-header form-control-static form-inline clearfix">
+    <div class="pull-left">
+      <button class="btn btn-default" ng-click="permissionModule.openPermissionModal()"> + {{'新建角色'|translate}}</button>
+    </div>
+  </div>
+  <div class="table">
+    <table class="table table-bordered">
+      <thead class="primary-table-head">
+        <tr>
+          <th ng-repeat="item in permissionModule.tableHeaders" ng-style="item.style">{{item.name|translate}}
+            <i class="cursor-pointer glyphicon glyphicon-chevron-down arrow"
+               ng-hide="!item.order"
+               ng-click="permissionModule.getSortList(item)"
+               ng-class="{'rotate-180':item.sort==='asc','rotate-0':item.sort==='desc'||!item.sort}" />
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr  ng-repeat="item in permissionModule.permissionModuleList">
+        <td>{{::item.name}}</td>
+        <td>{{::item.description}}</a></td>
+        <td style="width: 600px"><div>
+          <span style="padding-right: 5px" ng-repeat="subItem in item.permissions">{{::subItem.name}}</span>
+        </div></td>
+        <td style="width: 100px">{{::item.createTime | date : 'yyyy-MM-dd'}}</td>
+        <td class="text-center cursor-pointer" style="width: 124px">
+          <a class="table-edit" ng-hide="item.id==1" ng-click="permissionModule.openPermissionModal(item)">
+            <i class="glyphicon glyphicon-edit"></i>{{'编辑'|translate}}
+          </a>
+          <a class="table-edit" ng-hide="item.id==1" ng-click="permissionModule.remove(item.id)">
+            <i class="glyphicon glyphicon-trash"></i>{{'删除'|translate}}
+          </a>
+          <div ng-if="item.id==1">{{'不可修改'|translate}}</div>
+        </td>
+      </tr>
+      <tr ng-show="!permissionModule.permissionModuleList||permissionModule.permissionModuleList.length===0">
+        <td colspan="5" class="text-center">{{'暂无数据'|translate}}</td>
+      </tr>
+
+      </tbody>
+    </table>
+    <div class="table-footer">
+      <div class="pull-left form-control-static pagination">{{'共'|translate}}<span ng-bind="permissionModule.totalItems"></span>{{'条结果'|translate}}</div>
+      <uib-pagination class="pull-right" boundary-links="true" items-per-page="permissionModule.searchData.length" max-size="9"
+                      total-items="permissionModule.totalItems"
+                      ng-model="permissionModule.searchData.page"
+                      ng-change="permissionModule.getUserList()"
+                      previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+    </div>
+
+  </div>
+</div>

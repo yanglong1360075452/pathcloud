@@ -1,0 +1,1 @@
+java -jar local-dehydrate-client-1.0-SNAPSHOT-jar-with-dependencies.jar

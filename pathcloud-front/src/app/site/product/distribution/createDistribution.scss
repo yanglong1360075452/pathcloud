@@ -1,0 +1,46 @@
+#createDistribution{
+  .distribute-div{
+    .distribute-right{
+      height:238px;
+      background: #ecf7fb;
+      padding:38px 40px;
+      .distribute-input{
+        width:156px;
+        position:relative;
+        .btn-down,.btn-down:hover{
+          color:#000;
+          position:absolute;
+          right:5px;
+          top: 0px;
+          vertical-align:middle;
+          i{
+            font-size:16px;
+          }
+        }
+      }
+      .chose-item{
+        margin:0;
+      }
+      .chose-item:active{
+        background:#8c8c8c;
+      }
+      div{
+        margin-bottom:25px;
+      }
+      .distribute-box{
+        position:relative;
+        .distribute-list{
+          position: absolute;
+          top: 22px;
+          left: 0;
+          width: 180px;
+          height: 200px;
+          overflow-y:auto;
+          background:#fff;
+          border: 1px solid #dddddd;
+          z-index: 1;
+        }
+      }
+    }
+  }
+}

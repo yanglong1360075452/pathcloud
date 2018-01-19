@@ -1,0 +1,86 @@
+<toolbar class="clearfix">
+  <!--搜索部分-->
+  <div class="search clearfix">
+    <search-input class="pull-right" style="width: 350px" model="sSearch.searchStr" get-data="sSearch.search()"  placeholder="{{'输入姓名/病理号查询 号段用“-”分开'|translate}}"></search-input>
+  </div>
+
+</toolbar>
+
+<div class="container clearfix">
+  <!--筛选部分-->
+  <div class="form-inline toolbar" style="background: none">
+    <select class="form-control input-sm" ng-model="sSearch.dyeCategory" ng-options="status.code as status.name for status in [{name:'常规染色',code:0 },{name:'免疫组化',code:1 },{name:'特殊染色',code:2}]">
+
+    </select>
+    <date-seletor dateset="sSearch.defaultTime" start-time="sSearch.startTime" end-time="sSearch.endTime"></date-seletor>
+
+    <select class="form-control input-sm" ng-model="sSearch.status" ng-options="status.code as status.name for status in [{name:'待切片',code:15},{name:'待染色',code:16}]">
+      <option value="">{{'样本状态'|translate}}</option>
+    </select>
+    <select class="form-control input-sm" ng-model="sSearch.operatorId" ng-options="person.id as person.firstName for person in sSearch.sectionPersonList">
+      <option value="">{{'切片技术员'|translate}}</option>
+    </select>
+    <select class="form-control input-sm" ng-model="sSearch.filterData.printCount"
+            ng-options="status.code as status.name for status in [{name:'0',code:0},{name:'大于0',code:1}]">
+      <option value="">打印次数</option>
+    </select>
+
+    <button id="query" ng-click="sSearch.query()" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-filter"></span>{{'筛选'|translate}}</button>
+    <button id="print" ng-hide="sSearch.dyeCategory != 0" ng-click="sSearch.printSlide()" class="btn btn-sm btn-primary pull-right">{{'打印玻片'|translate}}</button>
+
+  </div>
+  <!--表格显示部分-->
+  <div class="table-min">
+    <table class=" table-hover table-bordered">
+      <thead class="primary-table-head">
+      <tr>
+        <th style="width: 40px;">
+          <input id="checkboxAll"
+                 style="width: 15px;" type="checkbox"
+                 ng-model="sSearch.allChecked"
+                 ng-click="sSearch.checkAll()">
+        </th>
+        <th ng-repeat="item in sSearch.tableHeaders" ng-click="sSearch.getSortList(item)" class="{{item.class}} cursor-pointer" ng-style="item.style">{{item.name|translate}}
+          <i class="cursor-pointer glyphicon glyphicon-chevron-down arrow"
+          ng-hide="!item.order"
+          ng-class="{'rotate-180':item.sort==='asc','rotate-0':item.sort==='desc'||!item.sort}" />
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="item in sSearch.data.data track by $index">
+        <td style="width: 40px;">
+          <input style="width: 15px;" type="checkbox" ng-model="item.check" name="checkboxItem" ng-click="sSearch.checkItem($index,item)">
+        </td>
+        <td ng-bind="item.serialNumber"></td>
+        <td ng-bind="item.subId"></td>
+        <td ng-bind="item.slideId"></td>
+        <td ng-bind="item.print"></td>
+        <td ng-bind="item.patientName"></td>
+        <td ng-bind="item.departments|department"></td>
+        <td ng-bind="item.grossingDoctorName"></td>
+        <td ng-bind="item.bodyPart"></td>
+        <td ng-bind="item.count"></td>
+        <td ng-bind="item.biaoShiName"></td>
+        <td ng-bind="item.embedDoctorName"></td>
+        <td ng-bind="item.embedTime| date : 'yyyy-MM-dd HH:mm' "></td>
+        <td style="width: 260px;"><div title="{{item.other}}" style="max-width: 260px;overflow: hidden;text-overflow:ellipsis">{{item.note}} &nbsp; {{item.other}}</div></td>
+        <td ng-bind="item.statusName"></td>
+      </tr>
+      <tr ng-repeat="n in [].constructor(20) track by $index" ng-show="sSearch.data.data.length<=$index">
+        <td ng-repeat="n in [].constructor(15) track by $index"></td>
+      </tr>
+
+      </tbody>
+    </table>
+    <div class="table-footer">
+      <div class="pull-left form-control-static pagination">{{'共'|translate}}<span ng-bind="sSearch.data.total"></span>{{'条结果'|translate}}</div>
+      <uib-pagination class="pull-right" boundary-links="true" items-per-page="sSearch.filterData.length" max-size="10"
+                      total-items="sSearch.data.total"
+                      ng-model="sSearch.filterData.page"
+                      ng-change="sSearch.getDataList()"
+                      previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+    </div>
+
+  </div>
+</div>

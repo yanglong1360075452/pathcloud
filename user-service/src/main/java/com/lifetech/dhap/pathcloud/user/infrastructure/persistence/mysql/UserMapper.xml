@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lifetech.dhap.pathcloud.user.domain.UserRepository" >
+  <resultMap id="BaseResultMap" type="com.lifetech.dhap.pathcloud.user.domain.model.User" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="first_name" property="firstName" jdbcType="VARCHAR" />
+    <result column="last_name" property="lastName" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="BIT" />
+    <result column="role_id" property="roleId" jdbcType="BIGINT" />
+    <result column="identity" property="identity" jdbcType="INTEGER" />
+    <result column="departments" property="departments" jdbcType="INTEGER" />
+    <result column="task_type" property="taskType" jdbcType="INTEGER" />
+    <result column="tutor" property="tutor" jdbcType="VARCHAR" />
+    <result column="faculty" property="faculty" jdbcType="VARCHAR" />
+    <result column="student_number" property="studentNumber" jdbcType="VARCHAR" />
+    <result column="wno" property="wno" jdbcType="VARCHAR" />
+    <result column="task_name" property="taskName" jdbcType="VARCHAR" />
+    <result column="specialty" property="specialty" jdbcType="VARCHAR" />
+    <result column="project_code" property="projectCode" jdbcType="VARCHAR" />
+    <result column="qr_code" property="qrCode" jdbcType="VARCHAR" />
+    <result column="unit" property="unit" jdbcType="VARCHAR" />
+    <result column="lock_status" property="lockStatus" jdbcType="BIT" />
+    <result column="lock_count" property="lockCount" jdbcType="INTEGER" />
+    <result column="lock_count_time" property="lockCountTime" jdbcType="TIMESTAMP" />
+    <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="BIGINT" />
+    <result column="update_by" property="updateBy" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.lifetech.dhap.pathcloud.user.domain.model.User" >
+    insert into user (user_name, first_name, qr_code, last_name, password, email,
+    phone, status, role_id, lock_status, create_by, create_time,identity,tutor,faculty,
+    student_number,unit,wno,task_name,
+    specialty,project_code,departments,task_type)
+    values (#{userName,jdbcType=VARCHAR}, #{firstName,jdbcType=VARCHAR}, #{qrCode,jdbcType=VARCHAR},
+    #{lastName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
+    #{phone,jdbcType=VARCHAR}, #{status,jdbcType=BIT}, #{roleId,jdbcType=BIGINT}, 0,
+    #{createBy,jdbcType=BIGINT}, now(),#{identity,jdbcType=INTEGER},#{tutor,jdbcType=VARCHAR},#{faculty,jdbcType=VARCHAR},
+    #{studentNumber,jdbcType=VARCHAR},#{unit,jdbcType=VARCHAR},#{wno,jdbcType=VARCHAR},#{taskName,jdbcType=VARCHAR},
+    #{specialty,jdbcType=VARCHAR},#{projectCode,jdbcType=VARCHAR},#{departments,jdbcType=INTEGER},#{taskType,jdbcType=INTEGER}
+    )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.lifetech.dhap.pathcloud.user.domain.model.User" >
+    update user
+    set
+    <if test="firstName != null">first_name = #{firstName,jdbcType=VARCHAR},</if>
+    <if test="lastName != null">last_name = #{lastName,jdbcType=VARCHAR},</if>
+    <if test="password != null">password = #{password,jdbcType=VARCHAR},</if>
+    <if test="phone != null">phone = #{phone,jdbcType=VARCHAR},</if>
+    <if test="status != null">status = #{status,jdbcType=BIT},</if>
+    <if test="roleId != null">role_id = #{roleId,jdbcType=BIGINT},</if>
+    <if test="lockStatus != null">lock_status = #{lockStatus,jdbcType=BIT},</if>
+    <if test="lastLoginTime != null">last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},</if>
+    <if test="lastLoginIp != null">last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},</if>
+    <if test="qrCode != null">qr_code = #{qrCode,jdbcType=VARCHAR},</if>
+    <if test="updateBy != null">update_by = #{updateBy,jdbcType=BIGINT},</if>
+    email = #{email,jdbcType=VARCHAR},
+    tutor = #{tutor,jdbcType=VARCHAR},
+    faculty = #{faculty,jdbcType=VARCHAR},
+    student_number = #{studentNumber,jdbcType=VARCHAR},
+    unit = #{unit,jdbcType=VARCHAR},
+    wno = #{wno,jdbcType=VARCHAR},
+    task_name = #{taskName,jdbcType=VARCHAR},
+    specialty = #{specialty,jdbcType=VARCHAR},
+    project_code = #{projectCode,jdbcType=VARCHAR},
+    departments = #{departments,jdbcType=INTEGER},
+    identity = #{identity,jdbcType=INTEGER},
+    task_type = #{taskType,jdbcType=INTEGER},
+    lock_count = #{lockCount,jdbcType=INTEGER},
+    lock_count_time = #{lockCountTime,jdbcType=TIMESTAMP},
+    update_time = now()
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    <!--
+      WARNING - @mbggenerated
+      This element is automatically generated by MyBatis Generator, do not modify.
+      This element was generated on Tue Nov 08 10:44:31 CST 2016.
+    -->
+    select id, user_name, first_name, last_name, password, email, phone, status, role_id, qr_code,
+    lock_status, last_login_time, last_login_ip, create_by, update_by, create_time, update_time,
+    identity,tutor,faculty,student_number,unit,wno,task_name,specialty,project_code,departments,task_type,lock_count,lock_count_time
+    from user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, user_name, first_name, last_name, password, email, phone, status, role_id,
+    lock_status, last_login_time, last_login_ip, create_by, update_by, create_time, update_time,
+    identity,tutor,faculty,student_number,unit,wno,task_name,specialty,project_code,departments,task_type,lock_count,lock_count_time
+    from user
+  </select>
+  <select id="selectByUsername" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select id, user_name, first_name, last_name, password, email, phone, status, role_id, qr_code,
+    lock_status, last_login_time, last_login_ip, create_by, update_by, create_time, update_time,
+    identity,tutor,faculty,student_number,unit,wno,task_name,specialty,project_code,departments,task_type,lock_count,lock_count_time
+    from user
+    where user_name = #{userName,jdbcType=VARCHAR} limit 1
+  </select>
+
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.lifetech.dhap.pathcloud.user.application.condition.UserCondition" >
+    select DISTINCT (u.id), u.user_name, u.first_name, u.last_name, u.password, u.email, u.phone, u.status, u.role_id,
+    u.lock_status, u.last_login_time, u.last_login_ip, u.create_by, u.update_by, u.create_time, u.update_time,
+    u.identity,u.tutor,u.faculty,u.student_number,u.unit,u.wno,u.task_name,u.specialty,u.project_code,u.departments,u.task_type,u.lock_count,
+    u.lock_count_time
+    from user u
+    <if test="permissionId != null or permissionIds != null">
+      INNER JOIN role r on r.id=u.role_id
+      INNER JOIN role_permission rp on rp.role_id = u.role_id
+    </if>
+    <where>
+      <if test="filter != null"> (u.user_name like CONCAT('%',#{filter,jdbcType=VARCHAR},'%')
+        or u.first_name like CONCAT('%',#{filter,jdbcType=VARCHAR},'%'))
+      </if>
+      <if test="status != null">
+          and u.status = #{status,jdbcType=BIT}
+      </if>
+      <if test="roleId != null">and u.role_id = #{roleId,jdbcType=BIGINT}</if>
+      <if test="permissionId != null">and rp.permission_id = #{permissionId,jdbcType=INTEGER}</if>
+      <if test="permissionIds != null and permissionIds.size() > 0">and rp.permission_id IN
+      <foreach collection="permissionIds" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+      </if>
+    </where>
+    <if test="order != null and (order.indexOf('u.user_name') != -1 or order.indexOf('u.first_name') != -1)">
+      ORDER BY CONVERT(${order.split(' ')[0]}  USING gbk) ${order.split(' ')[1]}
+    </if>
+    <if test="order != null and order.indexOf('u.user_name') == -1 and order.indexOf('u.first_name') == -1 ">ORDER BY ${order}</if>
+    limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+  </select>
+
+  <select id="countByCondition" resultType="long" parameterType="com.lifetech.dhap.pathcloud.user.application.condition.UserCondition" >
+    select count(*)
+    from user u
+    <if test="permissionId != null">
+      left JOIN role r on r.id=u.role_id
+      LEFT JOIN role_permission rp on rp.role_id = u.role_id
+    </if>
+    <where>
+      <if test="filter != null"> (u.user_name like CONCAT('%',#{filter,jdbcType=VARCHAR},'%')
+        or u.first_name like CONCAT('%',#{filter,jdbcType=VARCHAR},'%'))
+      </if>
+        <if test="status != null">
+            and u.status = #{status,jdbcType=BIT}
+        </if>
+      <if test="roleId != null">and u.role_id = #{roleId,jdbcType=BIGINT}</if>
+      <if test="permissionId != null">and rp.permission_id = #{permissionId,jdbcType=INTEGER}</if>
+    </where>
+  </select>
+
+  <select id="last" resultType="long" useCache="false">
+    SELECT LAST_INSERT_ID()
+  </select>
+
+  <update id="updateLoginInfo" parameterType="map" >
+    update user
+    set last_login_time = now(),
+    last_login_ip = #{ip,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="resetPassword" parameterType="map" >
+    update user
+    set update_time = now(),
+    qr_code = #{qrCode,jdbcType=VARCHAR},
+    password = #{password,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectUserPermissionsCode" resultType="java.lang.Integer" parameterType="java.lang.Long" >
+    select DISTINCT p.code from user t
+    inner join role_permission rp on t.role_id = rp.role_id
+    inner join permission p on rp.permission_id = p.id
+    where t.id = #{userId,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectSentReport" resultType="java.lang.Long">
+    select DISTINCT(operator_id) from path_tracking where operation=13 /*出报告*/
+  </select>
+
+  <select id="selectIdByFirstName" resultType="java.lang.Long" parameterType="java.lang.String">
+    select id from user where first_name like CONCAT('%',#{firstName,jdbcType=VARCHAR},'%')
+  </select>
+</mapper>

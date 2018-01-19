@@ -1,0 +1,20 @@
+<toolbar class="clearfix">
+  <ul class="list-unstyled menu-list">
+    <li ng-class="{active:systemModule.activeMenu==0}" ng-click="systemModule.choseMenu(0)">{{'时间'|translate}}</li>
+    <li ng-class="{active:systemModule.activeMenu==1}" ng-click="systemModule.choseMenu(1)">{{'科室'|translate}}</li>
+    <li ng-class="{active:systemModule.activeMenu==2}" ng-click="systemModule.choseMenu(2)">{{'工作站'|translate}}</li>
+    <li ng-class="{active:systemModule.activeMenu==3}" ng-click="systemModule.choseMenu(3)">{{'检查类别'|translate}}</li>
+    <li ng-class="{active:systemModule.activeMenu==4}" ng-click="systemModule.choseMenu(4)">{{'样本类别'|translate}}</li>
+    <li ng-class="{active:systemModule.activeMenu==5}" ng-click="systemModule.choseMenu(5)">{{'通用'|translate}}</li>
+  </ul>
+</toolbar>
+<div id="systemSetting">
+  <div class="container" ng-show="systemModule.activeMenu==0" ng-include="'app/site/userManage/systemSetting/timeSetting/index.html'"></div>
+  <div class="container" ng-show="systemModule.activeMenu==1" ng-include="'app/site/userManage/systemSetting/departmentsSetting/index.html'"></div>
+  <div class="container" ng-show="systemModule.activeMenu==2" ng-include="'app/site/userManage/systemSetting/stationSetting/station.html'"></div>
+  <div class="container" ng-show="systemModule.activeMenu==3" ng-include="'app/site/userManage/systemSetting/inspectCategory/index.html'"></div>
+  <div class="container" ng-show="systemModule.activeMenu==4" ng-include="'app/site/userManage/systemSetting/sampleCategory/index.html'"></div>
+  <div class="container" ng-show="systemModule.activeMenu==5" ng-include="'app/site/userManage/systemSetting/generalSetting/index.html'"></div>
+</div>
+
+

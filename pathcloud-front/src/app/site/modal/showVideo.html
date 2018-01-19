@@ -1,0 +1,16 @@
+<div id="video-modal" style="height: 70%">
+
+  <button style="position: absolute;right: 10px;top:10px;z-index: 100" type="button" class="close" data-dismiss="modal" ng-click="cancel()">
+    <span style="font-size: 40px" aria-hidden="true" class="glyphicon glyphicon-remove"></span><span class="sr-only">Close</span>
+  </button>
+
+  <div class="gumVideoContainer embed-responsive embed-responsive-4by3">
+    <video class="embed-responsive-item" id="Video" autoplay muted></video>
+    <div class="photo-toolbar" >
+      <i class="fa fa-2x fa-camera" ng-click="photo()"></i>
+    </div>
+  </div>
+
+  <!--<img ng-src="http://114.115.201.224:8080/psts/{{imgUrl}}" width="100%" height="100%">-->
+
+</div>

@@ -1,0 +1,9 @@
+<toolbar class="clearfix">
+  <ul class="list-unstyled menu-list">
+    <li ng-class="{active:consultation.activeMenu===0}" ng-click="consultation.choseMenu(0)" id="subRoute0">{{'会诊登记'|translate}}</li>
+  </ul>
+</toolbar>
+
+<div id="consultation">
+  <div class="container" ng-if="consultation.activeMenu===0" ng-include="'app/site/sampleRegistration/consultationApply/apply.html'"></div>
+</div>

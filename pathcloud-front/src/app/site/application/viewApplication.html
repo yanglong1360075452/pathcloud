@@ -1,0 +1,92 @@
+<toolbar class="clearfix">
+  <!--<div class="form-inline">-->
+    <div class=" form-control-static form-inline clearfix">
+      <search-input id="search" class="pull-right" style="width: 350px" model="viewApplication.searchStr" get-data="viewApplication.search()"  placeholder="{{'病理申请号/病人姓名'|translate}}"></search-input>
+    </div>
+
+
+</toolbar>
+
+<div class="container clearfix">
+  <div class="form-inline toolbar" style="background: none">
+    <date-seletor id="date" dateset="viewApplication.defaultTime" start-time="viewApplication.startTime" end-time="viewApplication.endTime"></date-seletor>
+    <select id="status" class="form-control input-sm" ng-model="viewApplication.searchData.status" ng-options="status.value as status.name for status in viewApplication.statusList">
+      <option value="">{{"选择状态"|translate}}</option>
+    </select>
+    <button ng-click="viewApplication.query()" id="query" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-filter"></span>{{"筛选"|translate}}</button>
+  </div>
+
+  <div class="accord table">
+
+      <uib-accordion close-others="false">
+        <div uib-accordion-group class="panel-default" is-open="status.open" ng-init="status.open=$index<3" id="{{item.serialNumber}}" ng-repeat="item in viewApplication.data track by $index">
+          <uib-accordion-heading>
+            <div class="form-control-static" >
+              {{"病理申请号"|translate}}：<span>{{item.serialNumber}}</span>  |  {{"病人姓名"|translate}}：<span>{{item.patientName}}</span>  |  {{"状态"|translate}}：<span>{{item.statusName}}</span>
+              <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-up': status.open, 'glyphicon-chevron-down': !status.open}"></i>
+            </div>
+          </uib-accordion-heading>
+          <div class="left col-sm-8">
+            <div class="row pad-13">
+              <div class="col-sm-4">{{"申请时间"|translate}}：<span>{{item.createTime| date : 'yyyy-MM-dd HH:mm'}}</span></div>
+              <div class="col-sm-4">{{"检查项目"|translate}}：<span>{{item.inspectionItem}}</span></div>
+              <div class="col-sm-4">{{"就诊类别"|translate}}：<span>{{item.visitCat}}</span></div>
+              <!--<div>申请时间：<span>{{item.createTime| date : 'yyyy-MM-dd hh:mm'}}</span>检查项目：<span>{{item.inspectionItem}}</span>就诊类别：<span>{{item.visitCat}}</span></div>-->
+            </div>
+            <div class="table">
+              <table class="table table-hover table-bordered">
+                <thead>
+                  <tr>
+                    <th>{{"样本号"|translate}}</th>
+                    <th>{{"样本名称"|translate}}</th>
+                    <th>{{"样本类别"|translate}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="sample in item.samples" >
+                  <td>{{sample.serialNumber}}</td>
+                  <td>{{sample.name}}</td>
+                  <td>
+                    <!--{{sample.category==1?"大样本":"小样本"}}-->
+                    <select name="sample" ng-model="sample.category" ng-value="sample.category" ng-options="category.code as category.name for category in viewApplication.categoryList" readonly="readonly" disabled>
+
+                    </select>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+          <div class="right col-sm-4">
+            <div class=" form-control-static form-inline clearfix">
+              <button class="btn btn-default" ng-click="viewApplication.view(item.serialNumber)" id="viewApplicationButton{{$index}}">{{"查看申请"|translate}}</button>
+              <button class="btn btn-default"  ng-click="viewApplication.printLabel(item.samples)" id="printsLabellingButton{{$index}}">{{"打印标签"|translate}}</button>
+              <button class="btn btn-default" ng-disabled="!(item.status==1||item.status==30)" ng-click="viewApplication.cancel(item.id,item.researchType)" id="cancelApplicationButton{{$index}}">{{"撤销申请"|translate}}</button>
+            </div>
+            <div ng-show="item.status==3" class="text-area " >
+              <div>{{"拒收原因"|translate}}：</div>
+              <div class="reject-reason">
+                <p ng-bind-html="item.reasonType">{{item.reasonType}}</p>
+                <p style="word-break: break-all;" data-ng-bind-html="item.rejectReason">{{}}</p>
+              </div>
+              <!--<textarea class="form-control reject-reason" ng-model="item.rejectReason" name="" id="" rows="5" readonly></textarea>-->
+            </div>
+          </div>
+          </div>
+
+    </uib-accordion>
+
+
+
+    <div class="table-footer">
+      <div class="pull-left form-control-static pagination">{{"共"|translate}}<span ng-bind="viewApplication.totalItems"></span>{{"条结果"|translate}}</div>
+      <uib-pagination class="pull-right" boundary-links="true" items-per-page="viewApplication.searchData.length" max-size="10"
+                      total-items="viewApplication.totalItems"
+                      ng-model="viewApplication.searchData.page"
+                      ng-change="viewApplication.getDataList()"
+                      previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,65 @@
+
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" ng-click="printModal.cancel()">
+    <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+    <span class="sr-only">Close</span>
+  </button>
+
+  <h4 class="modal-title text-left" id="modal-title">选择需要打印的玻片</h4>
+</div>
+
+
+  <div class="modal-body clearfix">
+      <h5 class="text-right">共{{printModal.total}}张，已选{{printModal.checkedSlides.length}}张</h5>
+    <div class="table table-min table-responsive">
+      <table class="table table-hover table-bordered">
+      <thead>
+        <tr class="text-center">
+
+          <th>玻片号</th>
+          <th>染色类别</th>
+          <th>试剂/抗体名称</th>
+          <th>选择</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in printModal.slideList track by $index" ng-click="printModal.check(item)">
+          <td>{{item.subId}}</td>
+          <td>{{item.specialDyeDesc}}</td>
+          <td>{{item.marker||item.specialDyeDesc}}</td>
+          <td>
+            <span ng-show="item.check" class="active active-icon"><i class="glyphicon glyphicon-ok"></i></span>
+          </td>
+        </tr>
+        <tr ng-repeat="n in [].constructor(5) track by $index" ng-show="printModal.slideList.length<=$index">
+          <td style="height: 35px;" ng-repeat="n in [].constructor(4) track by $index"></td>
+        </tr>
+
+      </tbody>
+      </table>
+    </div>
+
+      <div class="table-footer">
+        <div class="pull-left form-control-static pagination">
+          <button class="btn btn-warning" ng-click="printModal.checkAll()">全选</button>
+          <button class="btn btn-warning" ng-click="printModal.cancelAll()">全部取消</button>
+          <!--<button class="btn btn-warning" ng-click="printModal.checkOther()">反选</button>-->
+        </div>
+        <uib-pagination class="pull-right" boundary-links="true" items-per-page="printModal.params.length" max-size="4"
+                        total-items="printModal.total"
+                        ng-model="printModal.params.page"
+                        ng-change="printModal.getSlidesInfo()"
+                        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+      </div>
+
+  </div>
+ <!--modal-body-->
+
+
+
+  <div class="modal-footer">
+    <button ng-show="printModal.firstStep" class="btn btn-warning" type="button" ng-click="printModal.cancel()">取消</button>
+    <button ng-hide="printModal.firstStep" class="btn btn-default" type="submit" ng-click="printModal.ok()">确认</button>
+  </div>
+

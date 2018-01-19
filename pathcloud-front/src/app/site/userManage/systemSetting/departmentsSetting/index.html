@@ -1,0 +1,60 @@
+<div class="diagnosisTemplate" ng-controller="DepartmentsTemplateController as DepartmentsTpl">
+
+    <div class="container no-padding">
+        <div class="template-container">
+          <div class="col-sm-3">
+            <div class="title">
+              <h4>{{'科室类别'|translate}}</h4>
+            </div>
+            <div class="content">
+              <div class="list-container">
+                <ul class="list-unstyled">
+                  <li ng-repeat="item in DepartmentsTpl.departmentTypeList track by $index" ng-class="{active:DepartmentsTpl.activeType.index===$index}" ng-click="DepartmentsTpl.choseType(item,$index)">
+                    <input type="text" ng-model="item.departmentCategory" auto-focus="{{item.focus}}" ng-blur="DepartmentsTpl.saveType(item)" ng-disabled="!item.focus">
+
+                    <div class="pull-right i-container">
+                      <i class="glyphicon" ng-show="DepartmentsTpl.activeType.index===$index"><img src="assets/images/icon-caret-right.png" alt=""></i>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="list-toolbar">
+                <div class="flex-box">
+                  <button ng-click="DepartmentsTpl.addType()"><icon class="icon">+</icon>{{'添加'|translate}}</button>
+                  <button ng-click="DepartmentsTpl.departmentTypeList[DepartmentsTpl.activeType.index].focus=true"><icon  class="icon"><img  height="14" src="assets/images/edit.png" alt=""></icon>{{'重命名'|translate}}</button>
+                  <button ng-click="DepartmentsTpl.deleteType()"><icon  class="icon"><img height="14" src="assets/images/delete.png" alt=""></icon>{{'删除'|translate}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="title">
+              <h4>{{'科室名称'|translate}}</h4>
+            </div>
+            <div class="content">
+              <div class="list-container">
+                <ul class="list-unstyled">
+                  <li ng-repeat="item in DepartmentsTpl.departments track by $index" ng-class="{active:DepartmentsTpl.activeDepartment.index===$index}" ng-click="DepartmentsTpl.choseDdepartment(item,$index)">
+                    <!--<span ng-show="!item.focus">{{item.name}}</span>--> <!--{{DepartmentsTpl.activeTemplate}}=={{$index}}-->
+                   <input ng-model="item.name" id="template_{{$index}}" auto-focus="{{item.focus}}" ng-disabled="!item.focus" ng-blur="item.focus=false;DepartmentsTpl.saveDdepartment(item,$index)">
+                    <div class="pull-right i-container">
+                      <i ng-show="DepartmentsTpl.activeDepartment.index===$index"><img src="assets/images/icon-caret-right.png" alt=""></i>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="list-toolbar">
+                <div class="flex-box">
+                  <button ng-click="DepartmentsTpl.addDdepartment()"><icon class="icon">+</icon>{{'添加'|translate}}</button>
+                  <button ng-click="DepartmentsTpl.departments[DepartmentsTpl.activeDepartment.index].focus=true"><icon  class="icon"><img  height="14" src="assets/images/edit.png" alt=""></icon>{{'重命名'|translate}}</button>
+                  <!--<button ng-click="DepartmentsTpl.deleteTemplate()">删除</button>-->
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+    </div>
+
+</div>

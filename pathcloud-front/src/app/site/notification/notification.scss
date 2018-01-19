@@ -1,0 +1,31 @@
+#notification{
+
+  .notification-list{
+
+    .title{
+      border-bottom: 1px solid;
+      padding-bottom: 5px;
+    }
+  }
+
+  .notification-detail{
+    .block-span{
+      display: inline-block;
+      min-width:120px;
+    }
+    .main{
+      background-color: #f2f7f9;
+      min-height:400px;
+    }
+    .detail-header{
+      padding: 10px;
+      border-bottom: 1px solid;
+    }
+    .detail-body{
+      padding: 30px;
+    }
+  }
+  .readabled{
+    color: #0099d5;
+  }
+}

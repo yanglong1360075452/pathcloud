@@ -1,0 +1,34 @@
+#gStatus{
+  .basket-list{
+    width: 100%;
+    li{
+      float: left;
+      width: 30%;
+      margin: 10px 1.5%;
+      height: 124px;
+      background-color: #f2f2f2;
+      .li-number{
+        width: 20%;
+        height: 100%;
+        line-height: 124px;
+        vertical-align: middle;
+        text-align: center;
+        float: left;
+      }
+      .li-text{
+        width: 80%;
+        float: left;
+
+      }
+      .middle-box{
+        text-align:left;
+        padding-left: 10px;
+        .title{
+          line-height:80px;
+          margin: 0;
+        }
+      }
+    }
+  }
+
+}

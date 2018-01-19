@@ -1,0 +1,23 @@
+.border-box{
+  padding: 10px;
+  border: 1px #7592a1 solid;
+}
+
+#borrow-archive-form{
+  .department-selecter{
+    input{
+      background:white;
+    }
+  }
+  .form-control {
+    width: 200px;
+  }
+  .form-group {
+    margin-bottom: 10px;
+  }
+  label{
+    width:80px;
+    text-align: right;
+    font-weight: normal;
+  }
+}

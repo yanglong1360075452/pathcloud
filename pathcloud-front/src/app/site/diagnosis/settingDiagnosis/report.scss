@@ -1,0 +1,77 @@
+.report-template-setting{
+  width: 467px;
+  float: left;
+  .inputstyle{
+    width: 70px;
+    cursor: pointer;
+    outline: medium none;
+    position: absolute;
+    filter:alpha(opacity=0);
+    -moz-opacity:0;
+    opacity:0;
+    left:31px;
+    top: 0px;
+  }
+  .checkbox-inline{
+    margin-left:0;
+  }
+}
+
+.report-template-view{
+  position: relative;
+  width: 600px;
+  min-height: 550px;
+  float: right;
+  background-color: #f2f7f9;
+  .view{
+    width: 460px;
+  }
+  .view-info{ //模板预览按钮
+    position: absolute;
+    top:0;
+    right:0;
+    background-color: #f9e4bf;
+  }
+
+
+  //报告模板
+  .reprot-template{
+    .logo{
+      position: absolute;
+      width: 100px;
+      height: 70px;
+    }
+    .report-table-info{
+      //width: 120px;
+      //background-color: red;
+      input{
+        width: 100px;
+        background-color: transparent;
+        border: none;
+        border-bottom: 1px solid #000;
+      }
+    }
+    .diagnosticContent{
+      min-height: 100px;
+    }
+
+    .hospital-info{
+      margin-top: 20px;
+    }
+  }
+
+
+  .report-table-info{
+    .info{
+      display: inline-block;
+    }
+    .info-name{
+      min-width: 36px;
+
+    }
+    .info-value{
+      min-width:70px;
+      border-bottom: 1px solid #000;
+    }
+  }
+}

@@ -1,0 +1,99 @@
+#proStatus{
+
+
+  .pro-status{
+    position: relative;
+    width:490px;
+    float: left;
+    .pro-header{
+      span{
+        font-size: 16px;
+      }
+      text-align: center;
+      margin-bottom: 20px;
+      .status-title{
+        display: inline-block;
+        width: 57%;
+        text-align: center;
+      }
+      .count-title{
+        //width: 280px;
+        display: inline-block;
+        width: 20%;
+        text-align: center;
+      }
+      .error-title{
+        display: inline-block;
+        width: 20%;
+        text-align: center;
+      }
+    }
+
+    .pro-body{
+
+      .pro-item{
+        text-align: center;
+        position: relative;
+        margin-bottom: 24px;
+
+        .item{
+          display: inline-block;
+          height:45px;
+          line-height:45px;
+        }
+        .item-active{
+          position: absolute;
+          width: 15px;
+          height: 45px;
+          right:0;
+          top:0;
+          background-color: rgba(76, 102, 127, 0.149019607843137);
+          color: #eeeaec;
+          .icon-right{
+            //top:1px;
+          }
+        }
+        .item-status{
+          width: 57%;
+          background-color: #f1f4f5;
+          float: left;
+        }
+        .item-count{
+          width: 20%;
+          background-color: #ddf1f6;
+        }
+        .item-error{
+          width: 21%;
+          background-color: #f1dfe0;
+          float: right;
+        }
+      }
+    }
+  }
+  .pro-detail{
+    width: 600px;
+    .pro-header{
+      font-size: 16px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .pro-table{
+      .table-sample-error{
+        thead{
+          height: 37px;
+          line-height: 37px;
+        }
+        tbody{
+          td{
+            height: 28px;
+            line-height: 28px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.modal-sample-error{
+  width: 700px;
+}

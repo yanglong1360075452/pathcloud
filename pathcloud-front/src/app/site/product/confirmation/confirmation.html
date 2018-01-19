@@ -1,0 +1,101 @@
+<div id="proConfirmation">
+  <toolbar class="clearfix">
+    <div class="search clearfix">
+      <!--<div class="toolbar-info pull-right">{{'扫描仪已连接'|translate}}</div>-->
+    </div>
+  </toolbar>
+
+  <div class="container">
+    <div class="col-xs-6">
+      <div class="pic-container">
+        <img ng-src="{{proConfirmation.scanPic}}" width="100%" height="300px">
+      </div>
+      <div class="img-scroll">
+        <div>{{'未识别玻片'|translate}}</div>
+        <slider-container>
+          <div></div>
+        </slider-container>
+      </div>
+      <div class="add-btn-group clearfix">
+        <div>
+          <label for="pathology">{{'病理号'|translate}}<span class="required">*</span></label>
+          <input id="pathology" name="pathology" ng-model="proConfirmation.data.pathologySerialNumber" auto-focus="true" ng-keyup="proConfirmation.getFilterList($event)">
+          <button id="add" class="add-btn" ng-click="proConfirmation.getProductionDataByPathology()">{{'添加'|translate}}</button>
+          <button id="cancel" class="add-btn" ng-click="proConfirmation.undo()">{{'撤回'|translate}}</button>
+        </div>
+        <!--<div>-->
+          <!--<label for="blockSerial">蜡块号</label>-->
+          <!--<input id="blockSerial" name="blockSerial" ng-model="proConfirmation.data.subId">-->
+        <!--</div>-->
+        <!--<div>-->
+          <!--<button class="add-btn" ng-click="proConfirmation.getProductionDataByPathology()">添加</button>-->
+          <!--<button class="add-btn" ng-click="proConfirmation.undo()">撤回</button>-->
+        <!--</div>-->
+        <div style="padding: 3px 0 0 5px">
+          {{'提示：可输入 病理号-蜡块号-玻片号 查找'|translate}}
+        </div>
+      </div>
+      <div class="bottom-btn text-center">
+        <button class="add-btn" ng-click="proConfirmation.changeScanStatus()">
+          <span class="glyphicon" ng-class="{'glyphicon-play':!proConfirmation.start,'glyphicon-stop':proConfirmation.start}"></span>
+          {{proConfirmation.start?"停止扫描":"开始扫描"|translate}}
+
+        </button>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div  class="table-min">
+        <table class=" table-hover table-bordered">
+          <thead>
+          <tr>
+            <th ng-repeat="item in proConfirmation.tableHeaders">
+              {{item.name|translate}}
+            </th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <tr ng-repeat="item in proConfirmation.productionList track by $index">
+            <td ng-bind="item.pathNo"></td>
+            <td ng-bind="item.blockSubId"></td>
+            <td ng-bind="item.subId"></td>
+            <td ng-bind="item.applyTypeDesc"></td>
+            <td ng-bind="item.marker||item.specialDyeDesc"></td>
+            <td ng-bind="item.biaoshiDesc"></td>
+            <td ng-bind="item.statusDesc"></td>
+          </tr>
+          <tr ng-repeat="n in [].constructor(20) track by $index" ng-show="proConfirmation.productionList.length<=$index">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+          <!--<tr><td class="text-center" colspan="12" ng-show="!proConfirmation.grossingData.length">暂无数据</td></tr>-->
+          </tbody>
+        </table>
+        <div class="table-footer">
+          <div class="pull-left form-control-static pagination">
+            <button id="submit" class="btn btn-sm btn-default" ng-click="proConfirmation.submit()">{{'制片确认'|translate}}</button>
+
+            {{'共'|translate}} <span ng-bind="proConfirmation.searchData.total||0"></span>{{'个玻片'|translate}}
+          </div>
+          <uib-pagination class="pull-right" boundary-links="true"
+                          items-per-page="proConfirmation.searchData.length" max-size="10"
+                          total-items="proConfirmation.searchData.total"
+                          ng-model="proConfirmation.searchData.page"
+                          ng-change="proConfirmation.changePage(proConfirmation.searchData.page)"
+                          previous-text="&lsaquo;" next-text="&rsaquo;"
+                          first-text="&laquo;" last-text="&raquo;">
+          </uib-pagination>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+

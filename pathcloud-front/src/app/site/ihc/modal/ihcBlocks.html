@@ -1,0 +1,70 @@
+<div id="commonModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="commonModal.cancel()"><span aria-hidden="true" class="icon-remove-sign"></span><span class="sr-only">Close</span></button>
+
+    <h4 class="modal-title text-center" id="modal-title">我的蜡块</h4>
+  </div>
+
+
+  <div class="modal-body">
+  <!--搜索部分-->
+  <div class="form-inline clearfix">
+    <date-seletor dateset="ihcBlocks.defaultTime" change="ihcBlocks.myBlocks" start-time="ihcBlocks.startTime" end-time="ihcBlocks.endTime"></date-seletor>
+  </div>
+
+
+
+<div class="clearfix">
+  <!--<form name="dye_form">-->
+    <table class="table-min table-hover table-bordered">
+      <thead>
+      <tr class="text-center">
+        <th style="width: 40px;"><input style="width: 15px;" type="checkbox" ng-model="ihcBlocks.allChecked" ng-click="ihcBlocks.chkAll()"></th>
+        <th>病理号</th>
+        <th>蜡块号</th>
+        <th>染色类别</th>
+        <th>试剂/抗体名称</th>
+        <th>备注</th>
+        <th>申请人</th>
+        <th>联系电话</th>
+        <th>申请时间</th>
+        <th>操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="item in ihcBlocks.BlockList track by $index">
+        <td><input style="width: 15px;" type="checkbox" ng-model="item.check" ng-click="ihcBlocks.check(item.check)"></td>
+        <td ng-bind="item.pathologySerialNumber"></td>
+        <td ng-bind="item.subId"></td>
+        <td ng-bind="item.specialDyeDesc"></td>
+        <td ng-bind="item.grossingUser.firstName"></td>
+        <td ng-bind="item.grossingBody"></td>
+        <td ng-bind="item.grossingCount"></td>
+        <td ng-bind="item.biaoshiDesc"></td>
+        <td ng-bind="item.statusDesc"></td>
+      </tr>
+      <tr ng-repeat="n in [].constructor(20) track by $index" ng-show="ihcBlocks.BlockList.length<=$index">
+        <td ng-repeat="n in [].constructor(9) track by $index"></td>
+      </tr>
+
+      </tbody>
+    </table>
+
+    <div class="clearfix">
+      <br />
+      <div class="pull-left" ng-show="ihcBlocks.dyeInfoList.length">
+        <p>共 {{ihcBlocks.dyeInfoList.length}} 项，已选 {{ihcBlocks.checkedCount}} 项</p>
+      </div>
+      <button class="pull-right btn btn-lg btn-default" ng-click="ihcBlocks.startDye()">开始染色</button>
+    </div>
+  <!--</form>-->
+</div>
+
+</div> 
+ <!--modal-body-->
+
+
+  <div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="commonModal.cancel()">取消</button>
+    <button class="btn btn-default" type="submit" ng-click="commonModal.ok()">确定</button>
+  </div>

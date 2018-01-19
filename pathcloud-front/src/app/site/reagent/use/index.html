@@ -1,0 +1,9 @@
+<toolbar class="clearfix">
+  <ul class="list-unstyled menu-list">
+    <li ng-class="{active:reagent.activeMenu===1}" ng-click="reagent.choseMenu(1)">{{'使用记录'|translate}}</li>
+  </ul>
+</toolbar>
+
+<div id="reagent">
+  <div class="container" ng-if="reagent.activeMenu===1" ng-include="'app/site/reagent/use/useHistory.html'"></div>
+</div>

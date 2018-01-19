@@ -1,0 +1,17 @@
+<div id="inputModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="inputMod.cancel()"><span aria-hidden="true" class="glyphicon glyphicon-remove"></span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title" ng-bind="inputMod.modalTitle"></h4>
+  </div>
+  <div class="modal-body" >
+    <input type="number" class="form-control" min="1" max="100" ng-model="inputMod.text" auto-focus="true"  ng-keyup="inputMod.enter($event)" ng-pattern="/^[0-9]*$/">
+    <br>
+    取材标识：<select ng-model="inputMod.biaoshi" ng-options="type.code as type.name for type in inputMod.biaoshiList" ng-disabled="inputMod.biaoshiDisabled"></select>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="inputMod.cancel()">取消</button>
+    <button class="btn btn-default" type="button" ng-disabled="!inputMod.text||input.$invalid" ng-click="inputMod.ok()">确定</button>
+  </div>
+
+</div>

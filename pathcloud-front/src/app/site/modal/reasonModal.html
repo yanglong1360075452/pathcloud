@@ -1,0 +1,25 @@
+<div id="reasonModal">
+  <div class="modal-header">
+    <!--<button type="button" class="close" data-dismiss="modal" ng-click="reasonMod.cancel()"><span aria-hidden="true" class="icon-remove-sign"></span><span class="sr-only">Close</span></button>-->
+
+    <div class="close pull-right" ng-click="reasonMod.cancel()">
+      <i class="fa fa-times-circle" aria-hidden="true"></i>
+    </div>
+    <h4 class="modal-title" ng-bind="reasonMod.modal.header"></h4>
+
+  </div>
+  <div class="modal-body" >
+
+    <div class="clearfix">
+      <p class="pull-left">{{::reasonMod.modal.timeLabel}}：{{::reasonMod.modal.time | date:'yyyy-MM-dd HH:mm'}}</p>
+      <p class="pull-right">{{::reasonMod.modal.operatorLabel}}：{{::reasonMod.modal.operator}}</p>
+    </div>
+
+    <h4 ng-bind="reasonMod.modal.reasonLabel"></h4>
+    <textarea class="textLarge form-control" rows="4" onresize="false" readonly ng-model="reasonMod.modal.reason"></textarea>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-default" type="button" ng-click="reasonMod.ok()">关闭</button>
+  </div>
+
+</div>

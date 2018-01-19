@@ -1,0 +1,27 @@
+<div id="printModal">
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-title" ng-bind="printModal.Title">打印测试</h4>
+  </div>
+  <div class="modal-body">
+    <div id="printContent" style="background-color: #00cc99">
+      <!--<img src="./assets/images/heart.png" alt="heart"/>-->
+      <div class="clearfix">
+        <img class="pull-left" ng-src="{{printModal.qrImg}}" ng-show="printModal.qrImg"/>
+        <div class="pull-right" style="vertical-align: middle">
+          <div>病理申请号:</div>
+          <div>160826134408</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <qrcode id="qrcode" data="printModal.resistData"  ng-hide="printModal.qrImg"></qrcode>
+
+  <button ng-click="printModal.prn1_preview()">预览</button>
+  <button ng-click="printModal.printQrCodeLabel('1231242412')">打印</button>
+  <button ng-click="printModal.prn1_printA()">选择打印机</button>
+  <div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="printModal.cancel()">取消</button>
+    <button class="btn btn-default" type="submit" ng-click="printModal.ok()">确定</button>
+  </div>
+</div>

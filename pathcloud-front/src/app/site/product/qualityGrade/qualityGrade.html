@@ -1,0 +1,131 @@
+<div id="proQualityGrade">
+<toolbar class="clearfix">
+  <div class=" form-control-static form-inline clearfix">
+    <search-input id="search" class="pull-left" style="width: 350px" model="proQualityGrade.searchStr" get-data="proQualityGrade.search()" placeholder="{{'病理号-蜡块号-玻片号'|translate}}"></search-input>
+  </div>
+</toolbar>
+
+<div class="container clearfix">
+  <div class="col-lg-5 gradeType">
+    <div class="row clearfix settingType" style="border-bottom: 1px solid #000000">
+      <div class="col-sm-4">
+        {{'病理号'||translate}}：{{proQualityGrade.pathologyNumber}}
+      </div>
+      <div class="col-sm-4">
+       {{'蜡块号'||translate}}：{{proQualityGrade.blockSubId}}
+      </div>
+      <div class="col-sm-4">
+        {{'玻片号'||translate}}：{{proQualityGrade.slideSubId}}
+      </div>
+    </div>
+    <div class="row clearfix settingType">
+      <div class="col-sm-2">{{'取材'|translate}}：</div>
+      <div class="col-sm-6">
+        <uib-rating ng-model="proQualityGrade.scoreData.grossing" max="proQualityGrade.max" read-only="proQualityGrade.isReadonly"
+                    on-hover="proQualityGrade.hoveringOver(value)" on-leave="proQualityGrade.overStar = null"
+                    aria-labelledby="default-rating">
+        </uib-rating>
+      </div>
+      <div class="col-sm-3"></div>
+    </div>
+    <div class="row clearfix settingType">
+      <div class="col-sm-2">{{'脱水'|translate}}：</div>
+      <div class="col-sm-6">
+        <uib-rating ng-model="proQualityGrade.scoreData.dehydrate" max="proQualityGrade.max" read-only="proQualityGrade.isReadonly"
+                    on-hover="proQualityGrade.hoveringOver(value)" on-leave="proQualityGrade.overStar = null"
+                    aria-labelledby="default-rating">
+        </uib-rating>
+      </div>
+      <div class="col-sm-3"></div>
+    </div>
+    <div class="row clearfix settingType">
+      <div class="col-sm-2">{{'包埋'|translate}}：</div>
+      <div class="col-sm-6">
+        <uib-rating ng-model="proQualityGrade.scoreData.embedding" max="proQualityGrade.max" read-only="proQualityGrade.isReadonly"
+                    on-hover="proQualityGrade.hoveringOver(value)" on-leave="proQualityGrade.overStar = null"
+                    aria-labelledby="default-rating">
+        </uib-rating>
+      </div>
+      <div class="col-sm-3"></div>
+    </div>
+    <div class="row clearfix settingType">
+      <div class="col-sm-2">{{'切片'|translate}}：</div>
+      <div class="col-sm-6">
+        <uib-rating ng-model="proQualityGrade.scoreData.sectioning" max="proQualityGrade.max" read-only="proQualityGrade.isReadonly"
+                    on-hover="proQualityGrade.hoveringOver(value)" on-leave="proQualityGrade.overStar = null"
+                    aria-labelledby="default-rating">
+        </uib-rating>
+      </div>
+      <div class="col-sm-3"></div>
+    </div>
+    <div class="row clearfix settingType">
+      <div class="col-sm-2">{{'染色'|translate}}：</div>
+      <div class="col-sm-6">
+        <uib-rating ng-model="proQualityGrade.scoreData.staining" max="proQualityGrade.max" read-only="proQualityGrade.isReadonly"
+                    on-hover="proQualityGrade.hoveringOver(value)" on-leave="proQualityGrade.overStar = null"
+                    aria-labelledby="default-rating">
+        </uib-rating>
+      </div>
+      <div class="col-sm-3"></div>
+    </div>
+    <div class="row clearfix settingType">
+      <div class="col-sm-2">{{'封片'|translate}}：</div>
+      <div class="col-sm-6">
+        <uib-rating ng-model="proQualityGrade.scoreData.sealing" max="proQualityGrade.max" read-only="proQualityGrade.isReadonly"
+                    on-hover="proQualityGrade.hoveringOver(value)" on-leave="proQualityGrade.overStar = null"
+                    aria-labelledby="default-rating">
+        </uib-rating>
+      </div>
+      <div class="col-sm-3"></div>
+    </div>
+    <div class="row clearfix gradeSetting">
+      <div class="col-sm-4">
+        <label class="radio-inline">
+          <input type="radio" name="setting" ng-model="proQualityGrade.setting" value="0" ng-checked="true">
+          {{'无需处理'||translate}}
+        </label>
+      </div>
+      <div class="col-sm-4">
+        <label class="radio-inline">
+          <input type="radio" name="setting" ng-model="proQualityGrade.setting" value="1">
+          {{'申请重取'||translate}}
+        </label>
+      </div>
+      <div class="col-sm-4">
+        <label class="radio-inline ">
+          <input type="radio" name="setting" ng-model="proQualityGrade.setting" value="2">
+          {{'申请重切'||translate}}
+        </label>
+      </div>
+    </div>
+    <button class="btn btn-sm btn-default" ng-disabled="!proQualityGrade.slideInfo" ng-click="proQualityGrade.submit()">提交</button>
+  </div>
+   <div class="col-lg-7">
+     <h4>{{'评分细则'||translate}}:</h4>
+     <div class="table">
+       <table class="table table-hover table-bordered">
+         <thead class="primary-table-head">
+         <tr>
+           <th ng-repeat="item in proQualityGrade.tableHeaders" cursor-pointer ng-style="item.style">{{item.name|translate}}</th>
+         </tr>
+         </thead>
+         <tbody>
+         <tr ng-repeat="item in proQualityGrade.gradeData track by $index">
+           <td ng-bind="item.workstationName"></td>
+           <td ng-bind="item.oneScore"></td>
+           <td ng-bind="item.twoScore"></td>
+           <td  ng-bind="item.threeScore"></td>
+           <td ng-bind="item.fourScore"></td>
+           <td ng-bind="item.fiveScore"></td>
+           <td>{{item.qualified}}分</td>
+         </tr>
+         </tbody>
+       </table>
+     </div>
+   </div>
+</div>
+
+</div>
+
+
+

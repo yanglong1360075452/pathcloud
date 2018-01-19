@@ -1,0 +1,35 @@
+#proConfirmation{
+
+  .add-btn-group{
+    padding: 10px;
+    border: 1px #7592a1 solid;
+
+    &>div{
+      float: left;
+      padding-right: 5px;
+      label{
+        padding: 0 5px;
+      }
+    }
+  }
+
+  .img-scroll{
+    padding: 30px 0;
+  }
+
+  .add-btn{
+    padding: 2px 15px;
+    background-color: transparent;
+    border: 1px #7592a1 solid;
+    border-radius: 3px;
+    outline: none;
+  }
+
+  .bottom-btn{
+    margin-top: 20px;
+  }
+
+  .form-control-static{
+    padding-top: 0;
+  }
+}

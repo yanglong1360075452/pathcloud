@@ -1,0 +1,155 @@
+<div id="login">
+  <div class=" container">
+    <div class="title">全流程病理样本追踪和管理系统 PathTraq</div>
+  </div>
+  <div class="main">
+
+    <div class="container">
+      <div ng-if="!login.ifQrLogin" class="login-form">
+        <p class="form-title">用户登录</p>
+        <i class="fa fa-3x fa-qrcode qr-icon" ng-click="login.ifQrLogin = true"></i>
+
+        <form role="form" class="form-horizontal">
+
+          <!--<div><a href="myprotocol://">test</a></div>-->
+          <div class="input-group">
+                        <span class="input-group-addon">
+            <i class="glyphicon glyphicon-user"></i>
+          </span>
+            <input type="text" id="name" class="form-control input-style input-width" ng-model="login.data.username"/>
+          </div>
+
+          <div class="input-group">
+                        <span class="input-group-addon">
+            <i class="glyphicon glyphicon-lock"></i>
+          </span>
+            <input type="password" id="password" class="form-control input-style input-width"
+                   ng-model="login.data.password" ng-keyup="login.tab($event)"/>
+          </div>
+
+          <div class="login-error" ng-show="login.checkErr">
+            <uib-alert type="danger" close="login.checkErr=''">
+              {{login.checkErr}}
+            </uib-alert>
+          </div>
+          <!--记住密码-->
+          <div class="rember-password">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" ng-model="login.rember">记住密码
+              </label>
+            </div>
+          </div>
+
+
+          <input type="button" id="btn-login" class="form-control btn btn-default input-width" value="登录"
+                 ng-click="login.loginSystem()"/>
+
+
+        </form>
+      </div>
+
+      <div ng-if="login.ifQrLogin" class="login-form">
+        <p class="form-title">扫码登录</p>
+        <form ng-submit="login.qrcodeLogin()" role="form" class="form-horizontal">
+
+          <!--<div><a href="myprotocol://">test</a></div>-->
+          <div class="input-group" style="margin-top: 50px">
+                        <span class="input-group-addon">
+            <i class="fa fa-lg fa-qrcode"></i>
+          </span>
+            <input autofocus type="password" id="qrCode" class="form-control input-style input-width" ng-model="login.data.qrCode"/>
+          </div>
+
+          <div class="login-error" ng-show="login.checkErr">
+            <uib-alert type="danger" close="login.checkErr=''">
+              {{login.checkErr}}
+            </uib-alert>
+          </div>
+
+        </form>
+        <div class="qr-bottom">
+          <button id="login-btn" class="form-control btn btn-default input-width" ng-click="login.ifQrLogin = false">
+            用户名登录
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <div class="login-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-4">
+          <p><b>技术支持</b></p>
+          <p>联系我们</p>
+          <p>帮助文档</p>
+        </div>
+        <div class="col-xs-4">
+          <p><b>关于我们</b></p>
+          <p>Thermo Fisher Scientific</p>
+          <p>Thermo Fisher Cloud</p>
+        </div>
+        <div class="col-xs-4 text-right logo-cloud">
+          <img src="assets/images/logo-thermofisher-cloud.png" height="38" alt="logo-thermofisher-cloud">
+          <p>© 2016 Thermo Fisher Scientific All Rights Reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="container-1">
+
+  <div class="sub-left pull-left">
+
+    <div class="div-heart">
+      <img src="./assets/images/heart.png" alt="heart"/>
+    </div>
+
+  </div>
+
+  <div class="sub-right pull-right">
+
+    <div class="div-input pull-left">
+
+      <form role="form" class="form-horizontal">
+
+        <div class="form-group">
+          <label for="name" class="control-label font-style">用户名：</label>
+          <input type="text" id="name" class="input-style input-width" ng-model="login.data.username"/>
+        </div>
+
+        &lt;!&ndash;<br/>&ndash;&gt;
+
+        <div class="form-group">
+          <label for="password" class="control-label font-style">密&nbsp;&nbsp;&nbsp;码：</label>
+          <input type="password" id="password" class="input-style input-width" ng-model="login.data.password"  ng-keyup="login.tab($event)"/>
+        </div>
+
+        <div class="form-group">
+          <uib-alert type="danger" ng-show="login.checkErr" close="login.checkErr=''">
+            {{login.checkErr}}
+          </uib-alert>
+        </div>
+
+        <br/>
+
+        <div class="form-group">
+          <label class="control-label font-style" style="color: transparent;">密&nbsp;&nbsp;&nbsp;码：</label>
+            <input type="button" id="btn-login" class="btn btn-default input-width" value="登录" ng-click="login.loginSystem()"/>
+        </div>
+
+      </form>
+
+    </div>
+
+    <div class="div-foot pull-left">
+      <img src="./assets/images/thermo1.jpg" alt="thermo1"/>
+    </div>
+
+  </div>
+
+</div>-->
+
+</div>

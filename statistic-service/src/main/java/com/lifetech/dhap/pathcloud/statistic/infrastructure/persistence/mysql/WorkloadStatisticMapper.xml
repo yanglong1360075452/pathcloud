@@ -1,0 +1,1219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lifetech.dhap.pathcloud.statistic.domain.WorkloadStatisticRepository" >
+  <select id="monthInspectCategory" resultType="com.lifetech.dhap.pathcloud.statistic.domain.model.MonthInspectCategory"
+          parameterType="com.lifetech.dhap.pathcloud.statistic.application.condition.WorkloadCondition" >
+    select month(create_time) as pathologyMonth, count(1) as num, inspect_category as inspectCategory
+    from pathology
+    <where>
+      <if test="startTime != null">create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+      <if test="endTime != null"><![CDATA[and create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+      <if test="filter != null">and inspect_category = #{filter,jdbcType=INTEGER}</if>
+    </where>
+    group by month(create_time), inspect_category
+    order by inspect_category asc, month(create_time) asc
+  </select>
+
+  <select id="personInspectCategory" resultType="com.lifetech.dhap.pathcloud.statistic.domain.model.PersonInspectCategory"
+          parameterType="com.lifetech.dhap.pathcloud.statistic.application.condition.WorkloadCondition">
+    <if test="filter == null">
+      SELECT t.operator_id as operatorId,count(b.id) as num, count(DISTINCT p.id) as pathologyTotal,p.inspect_category as inspectCategory, t.operation
+      FROM pathology p
+      INNER JOIN block b ON b.path_id=p.id and b.parent_id is null
+      INNER JOIN tracking t ON t.block_id=b.id and t.operation in (1, 3, 5)
+      <where>
+        <if test="startTime != null">t.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and t.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+      </where>
+      GROUP by t.operator_id,p.inspect_category,t.operation
+      union all
+      SELECT b.create_by as operatorId,count(b.id) as num, count(DISTINCT p.id) as pathologyTotal,p.inspect_category as inspectCategory, 6 as operation
+      FROM pathology p
+      INNER JOIN block b ON b.path_id=p.id and b.parent_id is not null
+      <where>
+        <if test="startTime != null">b.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and b.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+      </where>
+      GROUP by b.create_by,p.inspect_category
+      <if test="order != null">ORDER BY ${order}</if>
+      <if test="start != null and size != null" >limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}</if>
+    </if>
+    <if test="filter != null and filter != 6">
+      SELECT t.operator_id as operatorId,count(b.id) as num, count(DISTINCT p.id) as pathologyTotal,p.inspect_category as inspectCategory, #{filter,jdbcType=INTEGER} as operation
+      FROM pathology p
+      INNER JOIN block b ON b.path_id=p.id and b.parent_id is null
+      INNER JOIN tracking t ON t.block_id=b.id and t.operation = #{filter,jdbcType=INTEGER}
+      <where>
+        <if test="startTime != null">t.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and t.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+      </where>
+      GROUP by t.operator_id,p.inspect_category
+      <if test="order != null">ORDER BY ${order}</if>
+      <if test="start != null and size != null" >limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}</if>
+    </if>
+    <if test="filter != null and filter == 6">
+      SELECT b.create_by as operatorId, count(b.id) as num, count(DISTINCT p.id) as pathologyTotal,p.inspect_category as inspectCategory, 6 as operation
+      FROM pathology p
+      INNER JOIN block b ON b.path_id=p.id and b.parent_id is not null
+      <where>
+        <if test="startTime != null">b.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and b.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+      </where>
+      GROUP by b.create_by,p.inspect_category
+      <if test="order != null">ORDER BY ${order}</if>
+      <if test="start != null and size != null" >limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}</if>
+    </if>
+  </select>
+
+  <select id="monthQualityControl" resultType="com.lifetech.dhap.pathcloud.statistic.domain.model.QualityMonth"
+          parameterType="com.lifetech.dhap.pathcloud.statistic.application.condition.QualityControlCon">
+    select t.*, IFNULL(t1.regrossingTotal, 0) as regrossingTotal,
+    IFNULL(t2.blockTotal,0) as blockTotal,
+    IFNULL(t3.reSectionTotal, 0) + IFNULL(t6.reSectionTotal, 0) as reSectionTotal,
+    IFNULL(t4.slideTotal, 0) as slideTotal,
+    IFNULL(t5.lowScoreTotal, 0) as lowScoreTotal
+    from (
+      select month(p.create_time) as pathologyMonth, count(DISTINCT p.id) as pathologyTotal
+      from pathology p
+      inner join block b on p.id = b.path_id and b.parent_id is null
+      <where>
+        <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+        <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+      </where>
+      group by month(p.create_time)
+    ) t
+    left join (
+      select month(p.create_time) as pathologyMonth, count(DISTINCT s.id) as regrossingTotal
+      from pathology p
+      inner join block b on p.id = b.path_id and b.parent_id is null
+      INNER JOIN block s ON s.path_id=p.id and s.biaoshi = 2 and s.parent_id is null
+      <where>
+        <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+        <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+      </where>
+      group by month(p.create_time)
+    ) t1 on t1.pathologyMonth = t.pathologyMonth
+    left join (
+      select month(p.create_time) as pathologyMonth, count(b.id) as blockTotal
+      from pathology p
+      inner join block b on p.id = b.path_id and b.parent_id is null
+      <where>
+        b.status != 40
+        <if test="startTime != null">and p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+        <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+      </where>
+      group by month(p.create_time)
+    ) t2 on t2.pathologyMonth = t.pathologyMonth
+    left join (
+      select month(p.create_time) as pathologyMonth, count(t.block_id) as reSectionTotal
+      from pathology p
+      inner join block b on p.id = b.path_id and b.parent_id is not null
+      inner join tracking t on b.id = t.block_id and t.operation = 20
+      <where>
+        <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+        <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+      </where>
+      group by month(p.create_time)
+    ) t3 on t3.pathologyMonth = t.pathologyMonth
+    left join (
+      select month(p.create_time) as pathologyMonth, count(t.block_id) as reSectionTotal
+      from pathology p
+      inner join block b on p.id = b.path_id and b.parent_id is null
+      inner join tracking t on b.id = t.block_id and t.operation = 17
+      <where>
+        <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+        <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+      </where>
+      group by month(p.create_time)
+    ) t6 on t6.pathologyMonth = t.pathologyMonth
+    left join (
+      select month(p.create_time) as pathologyMonth, count(b.id) as slideTotal
+      from pathology p
+      inner join block b on p.id = b.path_id and b.parent_id is not null
+      <where>
+        <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+        <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+      </where>
+      group by month(p.create_time)
+    ) t4 on t4.pathologyMonth = t.pathologyMonth
+    left join (
+      select month(p.create_time) as pathologyMonth, count(b.id) as lowScoreTotal
+      from pathology p
+      inner join block b on p.id = b.path_id and b.parent_id is not null
+      inner join block_score bs on b.id = bs.block_id and bs.type=1
+      <where>
+        <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+        <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+        <if test="grossingScore != null and dehydrateScore != null and embedScore != null and sectionScore != null and dyeScore != null and mountingScore != null ">
+          <![CDATA[and (
+        bs.grossing < #{grossingScore,jdbcType=INTEGER}
+          or bs.dehydrate < #{dehydrateScore,jdbcType=INTEGER}
+          or bs.embedding < #{embedScore,jdbcType=INTEGER}
+          or bs.sectioning < #{sectionScore,jdbcType=INTEGER}
+          or bs.staining < #{dyeScore,jdbcType=INTEGER}
+          or bs.sealing < #{mountingScore,jdbcType=INTEGER}
+          )]]>
+        </if>
+      </where>
+      group by month(p.create_time)
+    ) t5 on t5.pathologyMonth = t.pathologyMonth
+    order by t.pathologyMonth asc
+  </select>
+
+  <select id="coincidence" resultType="com.lifetech.dhap.pathcloud.statistic.domain.model.QualityMonth"
+    parameterType="com.lifetech.dhap.pathcloud.statistic.application.condition.CoincidenceCondition">
+select * from
+(select month(p.create_time) as pathologyMonth,count(p.id) as pathologyTotal from pathology p
+where p.after_frozen is true and p.`status`=25 and p.coincidence is not NULL
+    <if test="startTime != null"> and p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+    <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+GROUP BY  pathologyMonth) a
+LEFT JOIN
+(select month(p.create_time) as pathologyMonth,count(p.id) as coincidenceTotal from pathology p
+where p.after_frozen is true and p.`status`=25 and p.coincidence =1 GROUP BY  pathologyMonth) b
+on a.pathologyMonth=b.pathologyMonth
+    ORDER BY a.pathologyMonth asc;
+  </select>
+
+  <select id="goodQualityControl" resultType="com.lifetech.dhap.pathcloud.statistic.domain.model.QualityMonth"
+          parameterType="com.lifetech.dhap.pathcloud.statistic.application.condition.QualityControlCon">
+    select t.*, IFNULL(t1.regrossingTotal, 0) as regrossingTotal,
+    IFNULL(t2.blockTotal,0) as blockTotal,
+    IFNULL(t3.reSectionTotal, 0) + IFNULL(t6.reSectionTotal, 0) as reSectionTotal,
+    IFNULL(t4.slideTotal, 0) as slideTotal,
+    IFNULL(t5.goodScoreTotal, 0) as goodScoreTotal
+    from (
+    select month(p.create_time) as pathologyMonth, count(DISTINCT p.id) as pathologyTotal
+    from pathology p
+    inner join block b on p.id = b.path_id and b.parent_id is null
+    <where>
+      <if test="pathStatus != null"> p.status = #{pathStatus,jdbcType=INTEGER}</if>
+      <if test="startTime != null"> and p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+      <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+      <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+    </where>
+    group by month(p.create_time)
+    ) t
+    left join (
+    select month(p.create_time) as pathologyMonth, count(DISTINCT s.id) as regrossingTotal
+    from pathology p
+    inner join block b on p.id = b.path_id and b.parent_id is null
+    INNER JOIN block s ON s.path_id=p.id and s.biaoshi = 2 and s.parent_id is null
+    <where>
+      <if test="pathStatus != null"> p.status = #{pathStatus,jdbcType=INTEGER}</if>
+      <if test="startTime != null"> and p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+      <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+      <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+    </where>
+    group by month(p.create_time)
+    ) t1 on t1.pathologyMonth = t.pathologyMonth
+    left join (
+    select month(p.create_time) as pathologyMonth, count(b.id) as blockTotal
+    from pathology p
+    inner join block b on p.id = b.path_id and b.parent_id is null
+    <where>
+      b.status != 40
+      <if test="pathStatus != null">and p.status = #{pathStatus,jdbcType=INTEGER}</if>
+      <if test="startTime != null"> and p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+      <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+      <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+    </where>
+    group by month(p.create_time)
+    ) t2 on t2.pathologyMonth = t.pathologyMonth
+    left join (
+    select month(p.create_time) as pathologyMonth, count(t.block_id) as reSectionTotal
+    from pathology p
+    inner join block b on p.id = b.path_id and b.parent_id is not null
+    inner join tracking t on b.id = t.block_id and t.operation = 20
+    <where>
+      <if test="pathStatus != null"> p.status = #{pathStatus,jdbcType=INTEGER}</if>
+      <if test="startTime != null"> and p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+      <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+      <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+    </where>
+    group by month(p.create_time)
+    ) t3 on t3.pathologyMonth = t.pathologyMonth
+    left join (
+    select month(p.create_time) as pathologyMonth, count(t.block_id) as reSectionTotal
+    from pathology p
+    inner join block b on p.id = b.path_id and b.parent_id is null
+    inner join tracking t on b.id = t.block_id and t.operation = 17
+    <where>
+      <if test="pathStatus != null"> p.status = #{pathStatus,jdbcType=INTEGER}</if>
+      <if test="startTime != null"> and p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+      <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+      <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+    </where>
+    group by month(p.create_time)
+    ) t6 on t6.pathologyMonth = t.pathologyMonth
+    left join (
+    select month(p.create_time) as pathologyMonth, count(b.id) as slideTotal
+    from pathology p
+    inner join block b on p.id = b.path_id and b.parent_id is not null
+    <where>
+      <if test="pathStatus != null"> p.status = #{pathStatus,jdbcType=INTEGER}</if>
+      <if test="startTime != null"> and p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+      <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+      <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+    </where>
+    group by month(p.create_time)
+    ) t4 on t4.pathologyMonth = t.pathologyMonth
+    left join (
+    select month(p.create_time) as pathologyMonth, count(b.id) as goodScoreTotal
+    from pathology p
+    inner join block b on p.id = b.path_id and b.parent_id is not null
+    inner join block_score bs on b.id = bs.block_id and bs.type=1
+    <where>
+      <if test="pathStatus != null"> p.status = #{pathStatus,jdbcType=INTEGER}</if>
+      <if test="startTime != null"> and p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+      <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+      <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+      <if test="sectionScore != null "><![CDATA[and ( bs.sectioning >= #{sectionScore,jdbcType=INTEGER})]]></if>
+    </where>
+    group by month(p.create_time)
+    ) t5 on t5.pathologyMonth = t.pathologyMonth
+    order by t.pathologyMonth asc
+  </select>
+
+  <select id="reportDelay" resultType="com.lifetech.dhap.pathcloud.statistic.domain.model.QualityMonth"
+          parameterType="com.lifetech.dhap.pathcloud.statistic.application.condition.ReportCondition">
+    select t.*,
+    IFNULL(t1.delayTotal, 0) as delayTotal
+    from (
+    select month(p.create_time) as pathologyMonth, count(DISTINCT p.id)+count(DISTINCT sa.id) as pathologyTotal
+    from pathology p
+    LEFT JOIN special_application sa on p.serial_number = sa.path_no and sa.status = #{pathStatus,jdbcType=INTEGER}
+    and month(sa.create_time) = month(p.create_time)
+    <where>
+      <if test="pathStatus != null"> p.status = #{pathStatus,jdbcType=INTEGER}</if>
+      <if test="startTime != null"> and p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+      <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+    </where>
+    group by month(p.create_time)
+    ) t
+    left join (
+    select month(create_time) as pathologyMonth,count(delay) as delayTotal from (
+    select create_time,IF(DATEDIFF(operation_time,create_time)>realDay,TRUE ,FALSE ) as delay from (
+    SELECT create_time,operation_time,GREATEST(decalcify,difficult,typeDay) as realDay  from
+    (
+    select p.id, p.serial_number,p.status,p.create_time,pt.operation_time,
+    if(b.biaoshi is not null,#{decalcifyDeadline,jdbcType=INTEGER},0) as decalcify,
+    if(p.label = 1,#{difficultDeadline,jdbcType=INTEGER},0) as difficult,
+    #{reportDeadline,jdbcType=INTEGER} as typeDay
+    from pathology p
+    INNER JOIN path_tracking pt on p.id = pt.path_id and pt.operation = 13/*出报告*/
+    LEFT JOIN block b on b.path_id=p.id and b.biaoshi = 3/*脱钙*/
+    GROUP BY p.id
+    UNION
+    select sa.id, sa.number,sa.status,sa.create_time,sa.update_time,
+    if(b.biaoshi is not null,#{decalcifyDeadline,jdbcType=INTEGER},0) as decalcify,
+    if(p.label = 1,#{difficultDeadline,jdbcType=INTEGER},0) as difficult,
+    if(sa.type=1,#{freezeReportDeadline,jdbcType=INTEGER},if(sa.type=2,#{ihcReportDeadline,jdbcType=INTEGER},
+    if(sa.type=3,#{specialDyeReportDeadline,jdbcType=INTEGER},#{consultReportDeadline,jdbcType=INTEGER}))) as typeDay
+    from special_application sa
+    INNER JOIN pathology p on sa.path_no = p.serial_number
+    LEFT JOIN block b on b.path_id=p.id and b.biaoshi = 3/*脱钙*/
+    where sa.`status`=25
+    GROUP BY sa.id
+    ) tt) ttt) tttt
+    where delay = 1
+    <if test="startTime != null"> and create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+    <if test="endTime != null"><![CDATA[and create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+    group by month(create_time)
+    ) t1 on t1.pathologyMonth = t.pathologyMonth
+    order by t.pathologyMonth asc
+  </select>
+
+  <select id="personQualityControl" resultType="com.lifetech.dhap.pathcloud.statistic.domain.model.QualityPersonal"
+          parameterType="com.lifetech.dhap.pathcloud.statistic.application.condition.QualityControlCon">
+    <if test="operation == null">
+      select t.*,
+      IFNULL(t1.blockTotal, 0) as blockTotal,
+      IFNULL(t2.reGrossingTotal, 0) as reGrossingTotal,
+      IFNULL(t3.scoreTotal,0) as scoreTotal,
+      IFNULL(t4.lowScoreTotal,0) as lowScoreTotal,
+      IFNULL(t5.score,0) as score,
+      0 as reSectionTotal,
+      1 as operation
+      from (
+        select t.operator_id as operatorId, count(DISTINCT p.id) as pathologyTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null
+        INNER JOIN tracking t ON t.block_id=b.id and t.operation = 1
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t
+      left join (
+        select t.operator_id as operatorId, count(DISTINCT b.id) as blockTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null
+        INNER JOIN tracking t ON t.block_id=b.id and t.operation = 1
+        <where>
+          b.status != 40
+          <if test="startTime != null">and p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+      GROUP by t.operator_id
+      ) t1 on t1.operatorId = t.operatorId
+      left join (
+        select t.operator_id as operatorId, count(DISTINCT s.id) as reGrossingTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null
+        INNER JOIN tracking t ON t.block_id=b.id and t.operation = 1
+        INNER JOIN block s ON s.path_id=p.id and s.biaoshi = 2 and s.parent_id is null
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t2 on t1.operatorId = t2.operatorId
+      left join (
+        select t.operator_id as operatorId, count(bs.block_id) as scoreTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null and b.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id and t.operation = 1
+        inner join block_score bs on b.id = bs.parent_id and bs.type=1
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t3 on t3.operatorId = t.operatorId
+      left join (
+        select t.operator_id as operatorId, count(bs.block_id) as lowScoreTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null and b.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id and t.operation = 1
+        inner join block_score bs on b.id = bs.parent_id and bs.type=1
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+          <if test="grossingScore != null or operation == null"><![CDATA[and bs.grossing < #{grossingScore,jdbcType=INTEGER}]]></if>
+        </where>
+        GROUP by t.operator_id
+      ) t4 on t4.operatorId = t.operatorId
+      left join (
+        select t.operator_id as operatorId, sum(bs.grossing) as score
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null and b.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id and t.operation = 1
+        inner join block_score bs on b.id = bs.parent_id and bs.type=1
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t5 on t5.operatorId = t.operatorId
+      union all
+
+      select t.*,
+      IFNULL(t1.blockTotal, 0) as blockTotal,
+      0 as reGrossingTotal,
+      IFNULL(t3.scoreTotal,0) as scoreTotal,
+      IFNULL(t4.lowScoreTotal,0) as lowScoreTotal,
+      IFNULL(t5.score,0) as score,
+      0 as reSectionTotal,
+      3 as operation
+      from (
+        select t.operator_id as operatorId, count(DISTINCT p.id) as pathologyTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id
+        INNER JOIN tracking t ON t.block_id=b.id and t.operation = 3
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t
+      left join (
+        select t.operator_id as operatorId, count(b.id) as blockTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null
+        INNER JOIN tracking t ON t.block_id=b.id and t.operation = 3
+        <where>
+          b.status != 40
+          <if test="startTime != null">and p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t1 on t1.operatorId = t.operatorId
+      left join (
+      select t.operator_id as operatorId, count(bs.block_id) as scoreTotal
+      from pathology p
+      INNER JOIN block b ON b.path_id=p.id and b.parent_id is null and b.status != 40
+      INNER JOIN tracking t ON t.block_id=b.id  and t.operation = 3
+      inner join block_score bs on b.id = bs.parent_id and bs.type=1
+      <where>
+        <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+        <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+        <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+      </where>
+      GROUP by t.operator_id
+      ) t3 on t3.operatorId = t.operatorId
+      left join (
+        select t.operator_id as operatorId, count(bs.block_id) as lowScoreTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null and b.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id  and t.operation = 3
+        inner join block_score bs on b.id = bs.parent_id and bs.type=1
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+          <if test="dehydrateScore != null or operation == null"><![CDATA[and bs.dehydrate < #{dehydrateScore,jdbcType=INTEGER}]]></if>
+        </where>
+        GROUP by t.operator_id
+      ) t4 on t4.operatorId = t.operatorId
+      left join (
+        select t.operator_id as operatorId, sum(bs.dehydrate) as score
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null and b.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id and operation = 3
+        inner join block_score bs on b.id = bs.parent_id and bs.type=1
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t5 on t5.operatorId = t.operatorId
+      UNION all
+
+      select t.*,
+      IFNULL(t1.blockTotal, 0) as blockTotal,
+      0 as reGrossingTotal,
+      IFNULL(t3.scoreTotal,0) as scoreTotal,
+      IFNULL(t4.lowScoreTotal,0) as lowScoreTotal,
+      IFNULL(t5.score,0) as score,
+      0 as reSectionTotal,
+      5 as operation
+      from (
+        select t.operator_id as operatorId, count(DISTINCT p.id) as pathologyTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id
+        INNER JOIN tracking t ON t.block_id=b.id and t.operation = 5
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t
+      left join (
+        select t.operator_id as operatorId, count(b.id) as blockTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null and b.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id and t.operation = 5
+        <where>
+          b.status != 40
+          <if test="startTime != null">and p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t1 on t1.operatorId = t.operatorId
+      left join (
+        select t.operator_id as operatorId, count(bs.block_id) as scoreTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null and b.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id and t.operation = 5
+        inner join block_score bs on b.id = bs.parent_id and bs.type=1
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t3 on t3.operatorId = t.operatorId
+      left join (
+        select t.operator_id as operatorId, count(bs.block_id) as lowScoreTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null and b.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id and t.operation = 5
+        inner join block_score bs on b.id = bs.parent_id and bs.type=1
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+          <if test="embedScore != null or operation == null"><![CDATA[and bs.embedding < #{embedScore,jdbcType=INTEGER}]]></if>
+        </where>
+        GROUP by t.operator_id
+      ) t4 on t4.operatorId = t.operatorId
+      left join (
+        select t.operator_id as operatorId, sum(bs.grossing) as score
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null and b.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id and operation = 5
+        inner join block_score bs on b.id = bs.parent_id and bs.type=1
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t5 on t5.operatorId = t.operatorId
+      UNION all
+      select t.*,
+      IFNULL(t1.blockTotal, 0) as blockTotal,
+      0 as reGrossingTotal,
+      IFNULL(t3.scoreTotal,0) as scoreTotal,
+      IFNULL(t4.lowScoreTotal,0) as lowScoreTotal,
+      IFNULL(t5.score,0) as score,
+      IFNULL(t2.reSectionTotal, 0) + IFNULL(t6.reSectionTotal, 0) as reSectionTotal,
+      6 as operation
+      from (
+      select t.operator_id as operatorId, count(DISTINCT p.id) as pathologyTotal
+      from pathology p
+      INNER JOIN block b ON b.path_id=p.id
+      INNER JOIN tracking t ON t.block_id=b.id and t.operation = 6
+      <where>
+        <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+        <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+        <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+      </where>
+      GROUP by t.operator_id
+      ) t
+      left join (
+      select t.operator_id as operatorId, count(DISTINCT b.parent_id) as blockTotal
+      from pathology p
+      INNER JOIN block b ON b.path_id=p.id and b.parent_id is not null
+      INNER JOIN block bb on bb.id = b.parent_id and bb.status != 40
+      INNER JOIN tracking t ON t.block_id=b.id and t.operation = 6
+      <where>
+        <if test="startTime != null">and p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+        <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+        <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+      </where>
+      GROUP by t.operator_id
+      ) t1 on t1.operatorId = t.operatorId
+      left join (
+        select t.operator_id as operatorId, count(DISTINCT t2.id) as reSectionTotal
+        from pathology p
+        inner join block b on p.id = b.path_id and b.parent_id is not null
+      INNER JOIN block bb on bb.id = b.parent_id and bb.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id and t.operation = 6
+        inner join tracking t2 on b.id = t2.block_id and t2.operation = 20
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t2 on t2.operatorId = t.operatorId
+      left join (
+      select t.operator_id as operatorId, count(DISTINCT t2.id) as reSectionTotal
+      from pathology p
+      inner join block b on p.id = b.path_id and b.parent_id is not null
+      INNER JOIN block bb on bb.id = b.parent_id and bb.status != 40
+      INNER JOIN tracking t ON t.block_id=b.id and t.operation = 6
+      inner join tracking t2 on b.parent_id = t2.block_id and t2.operation = 17
+      <where>
+        <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+        <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+        <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+      </where>
+      GROUP by t.operator_id
+      ) t6 on t6.operatorId = t.operatorId
+      left join (
+      select t.operator_id as operatorId, count(bs.block_id) as scoreTotal
+      from pathology p
+      INNER JOIN block b ON b.path_id=p.id and b.parent_id is not null
+      INNER JOIN block bb on bb.id = b.parent_id and bb.status != 40
+      INNER JOIN tracking t ON t.block_id=b.id and t.operation = 6
+      inner join block_score bs on b.id = bs.block_id and bs.type=1
+      <where>
+        <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+        <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+        <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+      </where>
+      GROUP by t.operator_id
+      ) t3 on t3.operatorId = t.operatorId
+      left join (
+      select t.operator_id as operatorId, count(bs.block_id) as lowScoreTotal
+      from pathology p
+      INNER JOIN block b ON b.path_id=p.id and b.parent_id is not null
+      INNER JOIN block bb on bb.id = b.parent_id and bb.status != 40
+      INNER JOIN tracking t ON t.block_id=b.id and t.operation = 6
+      inner join block_score bs on b.id = bs.block_id and bs.type=1
+      <where>
+        <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+        <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+        <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        <if test="sectionScore != null or operation == null"><![CDATA[and bs.sectioning < #{sectionScore,jdbcType=INTEGER}]]></if>
+      </where>
+      GROUP by t.operator_id
+      ) t4 on t4.operatorId = t.operatorId
+      left join (
+      select t.operator_id as operatorId, sum(bs.sectioning) as score
+      from pathology p
+      INNER JOIN block b ON b.path_id=p.id and b.parent_id is not null
+      INNER JOIN block bb on bb.id = b.parent_id and bb.status != 40
+      INNER JOIN tracking t ON t.block_id=b.id and t.operation = 6
+      inner join block_score bs on b.id = bs.block_id and bs.type=1
+      <where>
+        <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+        <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+        <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+      </where>
+      GROUP by t.operator_id
+      ) t5 on t5.operatorId = t.operatorId
+      <if test="order != null">ORDER BY ${order}</if>
+      limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </if>
+    <if test="operation == 1">
+      select t.*,
+      IFNULL(t1.blockTotal, 0) as blockTotal,
+      IFNULL(t2.reGrossingTotal, 0) as reGrossingTotal,
+      IFNULL(t3.scoreTotal,0) as scoreTotal,
+      IFNULL(t4.lowScoreTotal,0) as lowScoreTotal,
+      IFNULL(t5.score,0) as score,
+      0 as reSectionTotal,
+      1 as operation
+      from (
+        select t.operator_id as operatorId, count(DISTINCT p.id) as pathologyTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id
+        INNER JOIN tracking t ON t.block_id=b.id <if test="operation != null">and t.operation = #{operation,jdbcType=INTEGER}</if>
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t
+      left join (
+        select t.operator_id as operatorId, count(DISTINCT b.id) as blockTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null
+        INNER JOIN tracking t ON t.block_id=b.id <if test="operation != null">and t.operation = #{operation,jdbcType=INTEGER}</if>
+        <where>
+          b.status != 40
+          <if test="startTime != null">and p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t1 on t1.operatorId = t.operatorId
+      left join (
+        select t.operator_id as operatorId, count(DISTINCT s.id) as reGrossingTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null and b.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id and t.operation = 1
+        INNER JOIN block s ON s.path_id=p.id and s.biaoshi = 2 and s.parent_id is null
+        <where>
+          <if test="startTime != null">t.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and t.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t2 on t2.operatorId = t.operatorId
+      left join (
+        select t.operator_id as operatorId, count(bs.block_id) as scoreTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null and b.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id <if test="operation != null">and t.operation = #{operation,jdbcType=INTEGER}</if>
+        inner join block_score bs on b.id = bs.parent_id and bs.type=1
+        <where>
+
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t3 on t3.operatorId = t.operatorId
+      left join (
+        select t.operator_id as operatorId, count(bs.block_id) as lowScoreTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null and b.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id <if test="operation != null">and t.operation = #{operation,jdbcType=INTEGER}</if>
+        inner join block_score bs on b.id = bs.parent_id and bs.type=1
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+          <if test="grossingScore != null or operation == null">
+            <![CDATA[and bs.grossing < #{grossingScore,jdbcType=INTEGER}]]>
+          </if>
+        </where>
+        GROUP by t.operator_id
+      ) t4 on t4.operatorId = t.operatorId
+      left join (
+        select t.operator_id as operatorId, sum(bs.grossing) as score
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null and b.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id <if test="operation != null">and t.operation = #{operation,jdbcType=INTEGER}</if>
+        inner join block_score bs on b.id = bs.parent_id and bs.type=1
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t5 on t5.operatorId = t.operatorId
+      <if test="order != null">ORDER BY ${order}</if>
+      limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </if>
+    <if test="operation == 3">
+      select t.*,
+      IFNULL(t1.blockTotal, 0) as blockTotal,
+      0 as reGrossingTotal,
+      IFNULL(t3.scoreTotal,0) as scoreTotal,
+      IFNULL(t4.lowScoreTotal,0) as lowScoreTotal,
+      IFNULL(t5.score,0) as score,
+      0 as reSectionTotal,
+      3 as operation
+      from (
+        select t.operator_id as operatorId, count(DISTINCT p.id) as pathologyTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id
+        INNER JOIN tracking t ON t.block_id=b.id <if test="operation != null">and t.operation = #{operation,jdbcType=INTEGER}</if>
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t
+      left join (
+        select t.operator_id as operatorId, count(b.id) as blockTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null
+        INNER JOIN tracking t ON t.block_id=b.id  and t.operation = 3
+        <where>
+          b.status != 40
+          <if test="startTime != null">and p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t1 on t1.operatorId = t.operatorId
+      left join (
+        select t.operator_id as operatorId, count(bs.block_id) as scoreTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null and b.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id <if test="operation != null">and t.operation = #{operation,jdbcType=INTEGER}</if>
+        inner join block_score bs on b.id = bs.parent_id and bs.type=1
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t3 on t3.operatorId = t.operatorId
+      left join (
+        select t.operator_id as operatorId, count(bs.block_id) as lowScoreTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null and b.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id <if test="operation != null">and t.operation = #{operation,jdbcType=INTEGER}</if>
+        inner join block_score bs on b.id = bs.parent_id and bs.type=1
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+          <if test="dehydrateScore != null or operation == null"><![CDATA[and bs.dehydrate < #{dehydrateScore,jdbcType=INTEGER}]]></if>
+        </where>
+        GROUP by t.operator_id
+      ) t4 on t4.operatorId = t.operatorId
+      left join (
+        select t.operator_id as operatorId, sum(bs.dehydrate) as score
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null and b.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id <if test="operation != null">and t.operation = #{operation,jdbcType=INTEGER}</if>
+        inner join block_score bs on b.id = bs.parent_id and bs.type=1
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+        ) t5 on t5.operatorId = t.operatorId
+      <if test="order != null">ORDER BY ${order}</if>
+      limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </if>
+    <if test="operation == 5">
+      select t.*,
+      IFNULL(t1.blockTotal, 0) as blockTotal,
+      0 as reGrossingTotal,
+      IFNULL(t3.scoreTotal,0) as scoreTotal,
+      IFNULL(t4.lowScoreTotal,0) as lowScoreTotal,
+      IFNULL(t5.score,0) as score,
+      0 as reSectionTotal,
+      5 as operation
+      from (
+        select t.operator_id as operatorId, count(DISTINCT p.id) as pathologyTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id
+        INNER JOIN tracking t ON t.block_id=b.id <if test="operation != null">and t.operation = #{operation,jdbcType=INTEGER}</if>
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t
+      left join (
+        select t.operator_id as operatorId, count(b.id) as blockTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null and b.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id <if test="operation != null">and t.operation = #{operation,jdbcType=INTEGER}</if>
+        <where>
+          b.status != 40
+          <if test="startTime != null">and p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t1 on t1.operatorId = t.operatorId
+      left join (
+        select t.operator_id as operatorId, count(bs.block_id) as scoreTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null and b.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id <if test="operation != null">and t.operation = #{operation,jdbcType=INTEGER}</if>
+        inner join block_score bs on b.id = bs.parent_id and bs.type=1
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t3 on t3.operatorId = t.operatorId
+      left join (
+        select t.operator_id as operatorId, count(bs.block_id) as lowScoreTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null and b.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id <if test="operation != null">and t.operation = #{operation,jdbcType=INTEGER}</if>
+        inner join block_score bs on b.id = bs.parent_id and bs.type=1
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+          <if test="embedScore != null or operation == null"><![CDATA[and bs.embedding < #{embedScore,jdbcType=INTEGER}]]></if>
+        </where>
+        GROUP by t.operator_id
+      ) t4 on t4.operatorId = t.operatorId
+      left join (
+        select t.operator_id as operatorId, sum(bs.embedding) as score
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is null and b.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id <if test="operation != null">and t.operation = #{operation,jdbcType=INTEGER}</if>
+        inner join block_score bs on b.id = bs.parent_id and bs.type=1
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t5 on t5.operatorId = t.operatorId
+      <if test="order != null">ORDER BY ${order}</if>
+      limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </if>
+    <if test="operation == 6">
+      select t.*,
+      IFNULL(t1.blockTotal, 0) as blockTotal,
+      0 as reGrossingTotal,
+      IFNULL(t3.scoreTotal,0) as scoreTotal,
+      IFNULL(t4.lowScoreTotal,0) as lowScoreTotal,
+      IFNULL(t5.score,0) as score,
+      IFNULL(t2.reSectionTotal, 0) + IFNULL(t6.reSectionTotal, 0) as reSectionTotal,
+      6 as operation
+      from (
+        select t.operator_id as operatorId, count(DISTINCT p.id) as pathologyTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id
+        INNER JOIN tracking t ON t.block_id=b.id <if test="operation != null">and t.operation = #{operation,jdbcType=INTEGER}</if>
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t
+      left join (
+        select t.operator_id as operatorId, count(DISTINCT b.parent_id) as blockTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is not null
+        INNER join block bb on bb.id = b.parent_id and bb.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id <if test="operation != null">and t.operation = #{operation,jdbcType=INTEGER}</if>
+        <where>
+          <if test="startTime != null">and p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t1 on t1.operatorId = t.operatorId
+      left join (
+        select t.operator_id as operatorId, count(DISTINCT t2.id) as reSectionTotal
+        from pathology p
+        inner join block b on p.id = b.path_id and b.parent_id is not null
+      INNER join block bb on bb.id = b.parent_id and bb.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id and t.operation = 6
+        inner join tracking t2 on b.id = t2.block_id and t2.operation = 20
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t2 on t2.operatorId = t.operatorId
+      left join (
+      select t.operator_id as operatorId, count(DISTINCT t2.id) as reSectionTotal
+      from pathology p
+      inner join block b on p.id = b.path_id and b.parent_id is not null
+      INNER join block bb on bb.id = b.parent_id and bb.status != 40
+      INNER JOIN tracking t ON t.block_id=b.id and t.operation = 6
+      inner join tracking t2 on b.parent_id = t2.block_id and t2.operation = 17
+      <where>
+        <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+        <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+        <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+      </where>
+      GROUP by t.operator_id
+      ) t6 on t6.operatorId = t.operatorId
+      left join (
+        select t.operator_id as operatorId, count(bs.block_id) as scoreTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is not null
+      INNER join block bb on bb.id = b.parent_id and bb.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id <if test="operation != null">and t.operation = #{operation,jdbcType=INTEGER}</if>
+        inner join block_score bs on b.id = bs.block_id and bs.type=1
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t3 on t3.operatorId = t.operatorId
+      left join (
+        select t.operator_id as operatorId, count(bs.block_id) as lowScoreTotal
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is not null
+      INNER join block bb on bb.id = b.parent_id and bb.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id <if test="operation != null">and t.operation = #{operation,jdbcType=INTEGER}</if>
+        inner join block_score bs on b.id = bs.block_id and bs.type=1
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+          <if test="sectionScore != null or operation == null"><![CDATA[and bs.sectioning < #{sectionScore,jdbcType=INTEGER}]]></if>
+        </where>
+        GROUP by t.operator_id
+      ) t4 on t4.operatorId = t.operatorId
+      left join (
+        select t.operator_id as operatorId, sum(bs.sectioning) as score
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id and b.parent_id is not null
+      INNER join block bb on bb.id = b.parent_id and bb.status != 40
+        INNER JOIN tracking t ON t.block_id=b.id <if test="operation != null">and t.operation = #{operation,jdbcType=INTEGER}</if>
+        inner join block_score bs on b.id = bs.block_id and bs.type=1
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        GROUP by t.operator_id
+      ) t5 on t5.operatorId = t.operatorId
+      <if test="order != null">ORDER BY ${order}</if>
+      limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </if>
+  </select>
+
+  <select id="personInspectCategoryTotal" resultType="java.lang.Long" parameterType="com.lifetech.dhap.pathcloud.statistic.application.condition.WorkloadCondition">
+    <if test="filter == null">
+      select sum(total) from
+      (
+      SELECT COUNT(DISTINCT t.operator_id) as total
+      FROM pathology p
+      INNER JOIN block b ON b.path_id=p.id
+      INNER JOIN tracking t ON t.block_id=b.id and t.operation in (1,3,5,6)
+      <where>
+        <if test="startTime != null">t.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and t.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+      </where>
+      group by t.operation
+      ) t
+    </if>
+    <if test="filter != null and filter != 6">
+      SELECT COUNT(DISTINCT t.operator_id)
+      FROM pathology p
+      INNER JOIN block b ON b.path_id=p.id and b.parent_id is null
+      INNER JOIN tracking t ON t.block_id=b.id
+      <where>
+        <if test="startTime != null">t.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and t.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+        <if test="filter != null">and t.operation = #{filter,jdbcType=INTEGER}</if>
+      </where>
+    </if>
+    <if test="filter != null and filter == 6">
+      SELECT COUNT(DISTINCT b.create_by)
+      FROM pathology p
+      INNER JOIN block b ON b.path_id=p.id and b.parent_id is not null
+      <where>
+        <if test="startTime != null">b.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and b.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+      </where>
+    </if>
+  </select>
+
+  <select id="countPersonQualityControl" resultType="java.lang.Long"
+    parameterType="com.lifetech.dhap.pathcloud.statistic.application.condition.QualityControlCon">
+    <if test="operation == null">
+      select sum(t.total) from
+      (
+        select count(DISTINCT t.operator_id) as total
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id
+        INNER JOIN tracking t ON t.block_id=b.id and t.operation = 1
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        UNION  all
+        select count(DISTINCT t.operator_id) as total
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id
+        INNER JOIN tracking t ON t.block_id=b.id and t.operation = 3
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        UNION all
+        select count(DISTINCT t.operator_id) as total
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id
+        INNER JOIN tracking t ON t.block_id=b.id and t.operation = 5
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+        UNION all
+        select count(DISTINCT t.operator_id) as total
+        from pathology p
+        INNER JOIN block b ON b.path_id=p.id
+        INNER JOIN tracking t ON t.block_id=b.id and t.operation = 6
+        <where>
+          <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+          <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+          <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+          <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+        </where>
+      ) t
+    </if>
+    <if test="operation != null">
+      select count(DISTINCT t.operator_id)
+      from pathology p
+      INNER JOIN block b ON b.path_id=p.id
+      INNER JOIN tracking t ON t.block_id=b.id <if test="operation != null">and t.operation = #{operation,jdbcType=INTEGER}</if>
+      <where>
+        <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+        <if test="specialDye != null">and b.special_dye = #{specialDye,jdbcType=INTEGER}</if>
+        <if test="inspectCategory != null">and p.inspect_category = #{inspectCategory,jdbcType=INTEGER}</if>
+      </where>
+    </if>
+  </select>
+
+  <select id="groupInspectCategory" resultType="com.lifetech.dhap.pathcloud.statistic.domain.model.GroupInspectCategory"
+          parameterType="com.lifetech.dhap.pathcloud.statistic.application.condition.WorkloadCondition" >
+    select p.pathologyMonth as pathologyMonth,p.pathologyNum as pathologyNum ,p.inspectCategory as inspectCategory,IFNULL(t.blockNum,0) as blockNum
+    from (
+      select month(p.create_time) as pathologyMonth, count(DISTINCT p.id) as pathologyNum, inspect_category as inspectCategory
+      from pathology p
+      LEFT JOIN block b on p.id = b.path_id and b.parent_id is null
+      <where>
+        <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+        <if test="filter != null">and b.special_dye = #{filter,jdbcType=INTEGER}</if>
+      </where>
+      group by month(p.create_time), p.inspect_category
+    ) p
+    LEFT JOIN
+    ( select month(b.create_time) as pathologyMonth, count(1) as blockNum,p.inspect_category as inspectCategory
+      from pathology p
+      INNER JOIN block b on b.path_id=p.id and b.parent_id is not null
+      <where>
+        <if test="startTime != null">p.create_time >= #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime != null"><![CDATA[and p.create_time < #{endTime,jdbcType=TIMESTAMP} ]]></if>
+        <if test="filter != null">and b.special_dye = #{filter,jdbcType=INTEGER}</if>
+      </where>
+      group by month(b.create_time), p.inspect_category
+    ) t on t.pathologyMonth=p.pathologyMonth and t.inspectCategory=p.inspectCategory
+    order by p.inspectCategory asc, p.pathologyMonth asc
+  </select>
+</mapper>

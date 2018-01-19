@@ -1,0 +1,14 @@
+<toolbar class="clearfix">
+  <ul class="list-unstyled menu-list">
+    <li ng-class="{active:settingDiagnosis.activeMenu==0}" ng-click="settingDiagnosis.choseMenu(0)">{{'诊断模板'|translate}}</li>
+    <li ng-class="{active:settingDiagnosis.activeMenu==1}" ng-click="settingDiagnosis.choseMenu(1)">{{'特检'|translate}}</li>
+    <li ng-class="{active:settingDiagnosis.activeMenu==2}" ng-click="settingDiagnosis.choseMenu(2)">{{'报告模板'|translate}}</li>
+  </ul>
+</toolbar>
+<div id="diagnosisSetting">
+  <div class="container" ng-show="settingDiagnosis.activeMenu==0" ng-include="'app/site/diagnosis/settingDiagnosis/formwork.html'">这里不管写什么都不会展示,完全被ng-include取代</div>
+  <div class="container" ng-show="settingDiagnosis.activeMenu==1" ng-include="'app/site/diagnosis/settingDiagnosis/dyeing.html'"></div>
+  <div class="container" ng-show="settingDiagnosis.activeMenu==2" ng-include="'app/site/diagnosis/settingDiagnosis/report.html'"></div>
+</div>
+
+

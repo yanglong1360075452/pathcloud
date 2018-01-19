@@ -1,0 +1,25 @@
+<div>
+  <div class="pull-left template-left" ng-click="stopPropagation($event)">
+    <p>{{'模板类别'|translate}}</p>
+  </div>
+  <div class="pull-left template-main" ng-click="stopPropagation($event)">
+    <ul class="list-unstyled">
+      <li class="cursor-pointer"  ng-repeat="oItem in oneLevel" ng-class="{active:activeTemplate===$index}" ng-click="chooseOneLevel(oItem,$index)">
+        {{oItem.name}}
+        <div class="pull-right i-container">
+          <i class="glyphicon glyphicon-play" ng-show="activeTemplate===$index"></i>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="pull-right template-right">
+    <ul class="list-unstyled">
+      <li class="cursor-pointer" ng-repeat="tItem in twoLevel" ng-class="{active:twoTemplate===$index}" ng-click="chooseTwolevel(tItem,$index)">
+        {{tItem.name}}
+        <div class="pull-right i-container">
+          <i class="glyphicon glyphicon-play" ng-show="twoTemplate===$index"></i>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,138 @@
+#configMaterial{
+
+  .title{
+    height: 30px;
+    text-align: left;
+
+  }
+
+  button{
+    outline: none !important;
+  }
+
+  .content{
+    .i-container{
+      padding-right: 5px;
+      top: -2px;
+      i:{
+        color:#ddeeaa;
+      }
+    }
+    .active{
+      background-color: rgba(199, 227, 255, 0.6) !important;
+    }
+    border: 1px #000000 solid;
+    position: relative;
+    padding: 0;
+    height: 480px;
+    textarea{
+      height: 100%;
+      width: 100%;
+      outline: none;
+      border: 0;
+    }
+
+    .list-container{
+      height: 100%;
+      padding-bottom: 30px;
+      overflow-y: auto;
+      .active{
+        background-color: #ddeeff;
+      }
+      li{
+        height: 25px;
+        line-height: 25px;
+        vertical-align: middle;
+        text-align: left;
+        padding-left: 10px;
+        margin: 3px 0;
+        cursor: pointer;
+        input{
+          height: 100%;
+          border: 0;
+          background-color: transparent;
+          outline: none;
+        }
+      }
+    }
+    .list-toolbar{
+      height: 30px;
+      width: 100%;
+      background-color: #f2f2f2;
+      position: absolute;
+      bottom:0;
+
+      .flex-box{
+        justify-content: center;
+        margin-top:3px;
+        button{
+          background-color: transparent;
+          border: 0px;
+          &:active,&:visited{
+            border: 0;
+          }
+        }
+      }
+    }
+  }
+
+  .high-row{
+    width: 100%;
+    margin-bottom: 15px;
+    //line-height: 40px;
+  }
+
+  .count-type-container{
+    width: 80px;
+    float: left;
+  }
+
+  .biaoshi-list{
+    .add-btn{
+      width: 80px;
+      border: 2px #777 dashed;
+      border-radius: 10px;
+      text-align: center;
+      color: #777;
+      height: 30px;
+      background-color: white;
+      vertical-align: middle;
+      &:hover{
+        color: #111;
+        border-color: #111;
+        cursor: pointer;
+      }
+    }
+    li{
+      float: left;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      background-color: #99ccff;
+      padding: 5px 10px;
+      border: 0;
+      border-radius: 10px;
+      min-width:80px;
+      width: auto;
+      text-align: center;
+      position: relative;
+      input{
+        width: 100%;
+        background-color: transparent;
+        border: 0;
+        outline: none;
+      }
+      i{
+        font-size: 16px;
+        position: absolute;
+        color: #777;
+        top: -5px;
+        right: -5px;
+        z-index: 10;
+        &:hover{
+          color: #111;
+        }
+      }
+    }
+  }
+
+}

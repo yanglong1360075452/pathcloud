@@ -1,0 +1,84 @@
+<toolbar class="clearfix">
+  <!--搜索部分-->
+  <div class="form-inline clearfix">
+      <search-input class="pull-left" model="ihcSearch.searchStr" get-data="ihcSearch.search()"  placeholder="输入病理号查询"></search-input>
+  </div>
+
+</toolbar>
+
+<div class="container clearfix">
+  <!--筛选部分-->
+  <div class="form-inline toolbar" style="background: none">
+    <date-seletor dateset="ihcSearch.defaultTime"  start-time="ihcSearch.startTime" end-time="ihcSearch.endTime"></date-seletor>
+
+    <select class="form-control input-sm" ng-model="ihcSearch.dyeCategory " ng-options="status.code as status.name for status in [{name:'免疫组化',code:1},{name:'特殊染色',code:2}]">
+      <!--<option value="">免疫组化</option>-->
+    </select>
+    <!--<select class="form-control input-sm" ng-model="ihcSearch.filterData.status" ng-options="status.code as status.name for status in [{name:'待包埋',code:14},{name:'待切片',code:15}]">-->
+      <!--<option value="">蜡块状态</option>-->
+    <!--</select>-->
+    <select class="form-control input-sm" ng-model="ihcSearch.filterData.status"
+            ng-options="status.code as status.name for status in [{name:'执行中',code:4},{name:'等待执行',code:1},{name:'延迟执行',code:2}]">
+      <option value="">执行状态</option>
+    </select>
+
+    <button ng-click="ihcSearch.query()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-filter"></span>筛选</button>
+    <div class="pull-right">
+      <button ng-click="ihcSearch.delay()" class="btn btn-sm btn-info">延迟执行</button>
+      <button style="width: 70px" ng-click="ihcSearch.confirm()" class="btn btn-sm btn-primary">执行</button>
+    </div>
+  </div>
+  <!--表格显示部分-->
+  <div class="table-min">
+    <table class=" table-hover table-bordered">
+      <thead class="primary-table-head">
+      <tr>
+        <th style="width: 40px;">
+          <input id="checkboxAll"
+                 style="width: 15px;" type="checkbox"
+                 ng-model="ihcSearch.allChecked"
+                 ng-click="ihcSearch.checkAll()">
+        </th>
+        <th ng-repeat="item in ihcSearch.tableHeaders" class="{{item.class}} cursor-pointer" ng-style="item.style">{{::item.name}}
+          <i class="cursor-pointer glyphicon glyphicon-chevron-down arrow"
+             ng-hide="!item.order"
+             ng-class="{'rotate-180':item.sort==='asc','rotate-0':item.sort==='desc'||!item.sort}" />
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="item in ihcSearch.data.data track by $index">
+        <td style="width: 40px;">
+          <input style="width: 15px;" type="checkbox" ng-model="item.check" name="checkboxItem" ng-click="ihcSearch.checkItem($index,item)">
+        </td>
+        <td ng-bind="item.number"></td>
+        <td ng-bind="item.serialNumber"></td>
+        <td ng-bind="item.subId"></td>
+        <!--<td ng-bind="item.blockStatus"></td>-->
+        <!--<td ng-bind="item.archiveIndex"></td>-->
+        <td ng-bind="item.updateBy.firstName"></td>
+        <td ng-bind="item.updateTime| date : 'yyyy-MM-dd HH:mm' "></td>
+        <td ng-bind="item.dyeCategoryName"></td>
+        <td ng-bind="item.applyUser"></td>
+        <td ng-bind="item.applyTime| date : 'yyyy-MM-dd HH:mm'"></td>
+        <!--<td ng-bind="item.note "></td>-->  <!--缴费状态-->
+        <td style="width: 260px;"><div title="{{item.other}}" style="max-width: 260px;overflow: hidden;text-overflow:ellipsis">{{item.note}} &nbsp; {{item.other}}</div></td>
+        <td ng-bind="item.status >= 4 ? '执行中': item.statusName"></td>
+      </tr>
+      <tr ng-repeat="n in [].constructor(20) track by $index" ng-show="ihcSearch.data.data.length<=$index">
+        <td  ng-repeat="n in [].constructor(11) track by $index"></td>
+      </tr>
+
+      </tbody>
+    </table>
+    <div class="table-footer">
+      <div class="pull-left form-control-static pagination">共<span ng-bind="ihcSearch.data.total"></span>条结果</div>
+      <uib-pagination class="pull-right" boundary-links="true" items-per-page="ihcSearch.filterData.length" max-size="10"
+                      total-items="ihcSearch.data.total"
+                      ng-model="ihcSearch.filterData.page"
+                      ng-change="ihcSearch.getDataList()"
+                      previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,10 @@
+<div id="percentChart">
+  <span class="pull-left">{{pChart.chartTitle}}</span>
+  <span class="pull-right select-span">
+    <select ng-model="pChart.timeFilter" ng-change="pChart.setTime()">
+      <option value="">月</option>
+      <option value="true">年</option>
+    </select>
+  </span>
+  <div ng-echarts class="pieChart" ec-config="pChart.lineConfig" ec-option="pChart.option"></div>
+</div>

@@ -1,0 +1,149 @@
+<div class="report-template">
+  <fieldset>
+    <img class="logo" src="" alt="logo" ng-src="{{reportTemplate.reportTemplateVO.imageURL}}">
+    <h3 class="text-center" ng-bind="reportTemplate.reportTemplateVO.reportBigName">大标题</h3>
+    <p class="text-center" ng-bind="reportTemplate.reportTemplateVO.reportSmallName">小标题</p>
+  </fieldset>
+
+  <br>
+
+  <div class="clearfix patient-id">
+    <!--<div class="patient pull-left">-->
+    <div class="div-table pull-left" ng-show="reportTemplate.reportTemplateVO.patientInformation[1].check">
+      <div class="name">{{reportTemplate.reportTemplateVO.patientInformation[1].name}}：</div>
+      <div class="content">
+        {{reportInfo.reportData.admissionNo}}
+      </div>
+    </div>
+    <!--</div>-->
+    <!--<div class="pull-right">-->
+    <div class="div-table pull-right" ng-show="reportTemplate.reportTemplateVO.patientInformation[2].check">
+      <div class="name">{{reportTemplate.reportTemplateVO.patientInformation[2].name}}：</div>
+      <div class="content" >
+        {{reportInfo.reportData.pathNo}}
+      </div>
+    </div>
+    <!--</div>-->
+  </div>
+
+  <fieldset>
+    <!--<div class="div-table clearfix">
+      <div class="name" ng-repeat="item in reportTemplate.reportTemplateVO.patientInformation" ng-show="item.check">
+        {{item.name}}
+      </div>
+      <div class="content" ng-repeat="item in reportTemplate.reportTemplateVO.patientInformation" ng-show="item.check">
+        {{item.check}}
+      </div>
+    </div>-->
+    <div class="clearfix patientInfo-container">
+      <div class="div-table" ng-show="reportTemplate.reportTemplateVO.patientInformation[0].check">
+        <div class="name">{{reportTemplate.reportTemplateVO.patientInformation[0].name}}：</div>
+        <div class="content" >
+          {{reportInfo.reportData.hisId}}
+        </div>
+      </div>
+      <div class="div-table" ng-show="reportTemplate.reportTemplateVO.patientInformation[3].check">
+        <div class="name">{{reportTemplate.reportTemplateVO.patientInformation[3].name}}：</div>
+        <div class="content" >
+          {{reportInfo.reportData.patientNo}}
+        </div>
+      </div>
+      <div class="div-table" ng-show="reportTemplate.reportTemplateVO.patientInformation[4].check">
+        <div class="name">{{reportTemplate.reportTemplateVO.patientInformation[4].name}}：</div>
+        <div class="content" >
+          {{reportInfo.reportData.patientName}}
+        </div>
+      </div>
+
+      <div class="div-table" ng-show="reportTemplate.reportTemplateVO.patientInformation[5].check">
+        <div class="name">{{reportTemplate.reportTemplateVO.patientInformation[5].name}}：</div>
+        <div class="content" >
+          {{reportInfo.reportData.age}}
+        </div>
+      </div>
+      <div class="div-table" ng-show="reportTemplate.reportTemplateVO.patientInformation[6].check">
+        <div class="name">{{reportTemplate.reportTemplateVO.patientInformation[6].name}}：</div>
+        <div class="content" >
+          {{reportInfo.reportData.sex| sex}}
+        </div>
+      </div>
+      <div class="div-table" ng-show="reportTemplate.reportTemplateVO.patientInformation[7].check">
+        <div class="name">{{reportTemplate.reportTemplateVO.patientInformation[7].name}}：</div>
+        <div class="content" >
+          {{reportInfo.reportData.bedNo}}
+        </div>
+      </div>
+      <div class="div-table" ng-show="reportTemplate.reportTemplateVO.patientInformation[8].check">
+        <div class="name">{{reportTemplate.reportTemplateVO.patientInformation[8].name}}：</div>
+        <div class="content" >
+          {{reportInfo.reportData.departmentsDesc}}
+        </div>
+      </div>
+      <div class="div-table" ng-show="reportTemplate.reportTemplateVO.patientInformation[9].check">
+        <div class="name">{{reportTemplate.reportTemplateVO.patientInformation[9].name}}：</div>
+        <div class="content" >
+          {{reportInfo.reportData.receiveTime|date:'yyyy-MM-dd HH:mm'}}
+        </div>
+      </div>
+      <div class="div-table" ng-show="reportTemplate.reportTemplateVO.patientInformation[10].check">
+        <div class="name">{{reportTemplate.reportTemplateVO.patientInformation[10].name}}：</div>
+        <div class="content" >
+          {{reportInfo.reportData.applyDoctor.firstName}}
+        </div>
+      </div>
+
+      <div class="div-table" ng-show="reportTemplate.reportTemplateVO.patientInformation[11].check">
+        <div class="name">{{reportTemplate.reportTemplateVO.patientInformation[11].name}}：</div>
+        <div class="content" >
+          {{reportInfo.reportData.patientPosition}}
+        </div>
+      </div>
+
+    </div>
+
+  </fieldset>
+
+  <!--肉眼所见-->
+  <div ng-show="reportTemplate.reportTemplateVO.diagnosticContent[0].check">
+    <h5>{{reportTemplate.reportTemplateVO.diagnosticContent[0].name}}:</h5>
+    巨检描述：
+    <div class="userSeeHtml" ng-bind-html="reportInfo.reportData.jujianNote"></div>
+    巨检图像：
+    <div>
+      <img width="100" ng-repeat="url in reportInfo.reportData.jujianImg" ng-src="{{url}}" alt="">
+    </div>
+  </div>
+  <!--显微所见-->
+ <div ng-show="reportTemplate.reportTemplateVO.diagnosticContent[1].check">
+  <h5>{{reportTemplate.reportTemplateVO.diagnosticContent[1].name}}:</h5>
+  <div class="micro-img"></div>
+ </div>
+ <!--病理诊断-->
+ <div ng-show="reportTemplate.reportTemplateVO.diagnosticContent[2].check">
+  <h5>{{reportTemplate.reportTemplateVO.diagnosticContent[2].name}}:</h5>
+  <div class="diagnosis" ng-bind-html="reportInfo.reportData.resultDom" ></div>
+ </div>
+
+
+  <fieldset class="clearfix" style="border-top: 1px solid; padding-top: 4px; margin-top: 4px;">
+    <div class="col-sm-4 no-padding" ng-show="reportTemplate.reportTemplateVO.diagnosticInformation[0].check">
+      {{reportTemplate.reportTemplateVO.diagnosticInformation[0].name}}
+      ：{{reportInfo.reportData.diagnoseDoctor.firstName}}
+    </div>
+    <div class="col-sm-4 no-padding" ng-show="reportTemplate.reportTemplateVO.diagnosticInformation[1].check">
+      {{reportTemplate.reportTemplateVO.diagnosticInformation[1].name}}
+      ：{{reportInfo.reportData.diagnoseTime | date : 'yyyy-MM-dd HH:mm'}}
+    </div>
+    <div class="col-sm-4 no-padding" ng-show="reportTemplate.reportTemplateVO.diagnosticInformation[2].check">
+      {{reportTemplate.reportTemplateVO.diagnosticInformation[2].name}}
+      ：{{reportInfo.reportData.diagnoseDoctor.firstName}}
+    </div>
+  </fieldset>
+
+  <fieldset class="clearfix" style="margin-top: 10px">
+    <pre class="hospital-info col-sm-7 no-padding">{{reportTemplate.reportTemplateVO.hospitalInformation}}</pre>
+  </fieldset>
+  <div class="text-right" style="padding: 0 10px;">{{reportTemplate.reportTemplateVO.specialTip}}</div>
+
+
+</div>

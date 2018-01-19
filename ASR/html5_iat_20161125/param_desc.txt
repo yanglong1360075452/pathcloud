@@ -1,0 +1,1 @@
+aue音频编码格式，默认就是用的speex-wb；usr用户信息，可忽略；ssm目前可以不去管它，听写的时候基本不用；sub=iat代表是听写识别服务，可不动；net_type网络类型，可不动，会自动获取；ent具体调用的服务引擎，医疗的就用medical16k，或者用另一种传参格式lang=medical,acous=medical,rate=16k（这都是历史遗留的参数设置格式，就按要求传就可以了）；rst识别结果格式；auf音频格式16k16bit的；vad_enable客户端语音断点检测(vad)开关参数；vad_timeout超时时长；vad_speech_tail语音尾部静音时长；compress基本不使用，按默认就可以了；call.appid子应用的标记appid，没有可不传。

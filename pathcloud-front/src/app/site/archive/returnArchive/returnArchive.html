@@ -1,0 +1,8 @@
+<toolbar class="clearfix">
+  <ul class="list-unstyled menu-list">
+    <li ng-class="{active:returnArchive.activeMenu==0}" ng-click="returnArchive.choseMenu(0)">{{"玻片"|translate}}</li>
+    <!--<li ng-class="{active:returnArchive.activeMenu==1}" ng-click="returnArchive.choseMenu(1)">{{"蜡块"|translate}}</li>-->
+  </ul>
+</toolbar>
+
+<div class="container" ng-show="returnArchive.activeMenu==0" ng-include="'app/site/archive/returnArchive/returnSlide/returnSlide.html'"></div>

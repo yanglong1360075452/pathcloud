@@ -1,0 +1,58 @@
+<!--申请重补取弹窗-->
+<div id="collectModal">
+  <div class="modal-header blue-label">
+    <button type="button" class="close" data-dismiss="modal" ng-click="collectModal.cancel()">
+      <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title ok-color">{{'病例收藏'|translate}}</h4>
+  </div>
+  <div class="modal-body clearfix" >
+
+    <form name="collect_from">
+
+      <div class="form-group clearfix">
+        <div class="col-sm-10 col-sm-push-1">
+          <p>{{'收藏标签'|translate}}：</p>
+
+          <div class="time-item">
+
+              <label class="checkbox-inline" ng-repeat="item in collectModal.typeList" ng-click="collectModal.selectTag()">
+                <input type="checkbox"  name="collect" ng-model="item.checked" ng-checked="item.checked"> {{item.name}}
+              </label>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group clearfix">
+        <div class="col-sm-10 col-sm-push-1">
+          <p>{{'查看权限'|translate}}：</p>
+
+          <div class="time-item">
+            <label class="radio-inline" ng-repeat="item in collectModal.statusList" ng-click="collectModal.settingPermission(item.code)">
+              <input type="radio" id="{{item.code}}" value="{{item.code}}" ng-model="collectModal.permission" ng-checked="collectModal.permission===item.code" required> {{item.name}}
+            </label>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="form-group clearfix">
+
+        <div class="col-sm-10 col-sm-push-1">
+          <p class="form-control-stastic">{{'收藏备注'|translate}}：</p>
+        </div>
+
+        <div class="col-sm-10  col-sm-push-1"><textarea ng-model="collectModal.note" class="form-control" rows="5"></textarea></div>
+      </div>
+
+    </form>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="collectModal.cancel()">{{'取消'|translate}}</button>
+    <button class="btn btn-default" type="button" ng-click="collectModal.ok()" ng-disabled="collect_from.$invalid">{{'确定'|translate}}</button>
+  </div>
+</div>

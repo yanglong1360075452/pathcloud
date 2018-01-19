@@ -1,0 +1,31 @@
+#embedSetting {
+  .page-content{
+    //
+    //height: -webkit-calc(100vh - 220px);
+    //height: -moz-calc(100vh - 220px);
+    //height: calc(100vh - 220px);
+  }
+}
+.remark-list {
+  .remark-item{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+    line-height:50px;
+    height:50px;
+    margin-top: 20px;
+    padding:0 20px;
+    background-color: #cfeaf1;
+    button{
+      margin-top: 15px;
+      margin-right: -10px;
+    }
+    div{
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-all;
+      white-space: nowrap;
+    }
+  }
+}

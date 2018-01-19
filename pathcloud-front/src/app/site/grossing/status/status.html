@@ -1,0 +1,57 @@
+<div  id="gStatus">
+  <toolbar class="clearfix">
+    <ul class="list-unstyled menu-list">
+      <li ng-class="{active:gStatus.activeMenu[0]}" ng-click="gStatus.choseMenu(0)" id="subRoute0">{{'正在使用的脱水篮'|translate}}</li>
+      <li ng-class="{active:gStatus.activeMenu[1]}" ng-click="gStatus.choseMenu(1)" id="subRoute1">{{'脱水机状态'|translate}}</li>
+    </ul>
+  </toolbar>
+
+
+  <!--正在使用的脱水篮  -->
+  <div ng-show="gStatus.showPart===0" class="container">
+    <ul class="list-unstyled clearfix basket-list">
+      <li ng-repeat="item in gStatus.usingBasketList">
+        <div class="li-number yellow-label">
+          {{item.basketNumber}}
+        </div>
+        <div class="li-text middle-box">
+          <div class="middle-inner">
+            <p>{{'包埋盒数'|translate}}：{{item.blockCount}}</p>
+            <p>{{'取材记录员'|translate}}：{{item.recorder}}</p>
+          </div>
+
+        </div>
+
+      </li>
+    </ul>
+  </div>
+
+
+  <!--脱水机状态-->
+  <div ng-show="gStatus.showPart===1" class="container">
+    <ul class="list-unstyled clearfix basket-list">
+      <li ng-repeat="item in gStatus.dehydratorList" >
+        <div class="li-number" ng-class="{'red-label':item.status&&!item.disabled,'blue-label':!item.status&&!item.disabled,'grey-label':item.disabled}">
+          {{item.name}}
+        </div>
+        <div class="li-text middle-box clearfix">
+          <div class="left-inner col-xs-6">
+            <p class="title">{{'状态'|translate}}：{{item.status | dehydratorStatus:item.disabled}}</p>
+            <a href ng-click="gStatus.showError(item.instrumentId,item.disabled)">{{'查看报警信息'|translate}}</a>
+          </div>
+            <p class="title">{{'包埋盒数'|translate}}:{{item.usedBlock}}</p>
+            <a href ng-click="gStatus.showBlocks(item)">{{'查看包埋盒信息'|translate}}</a>
+            <!--<p ng-show="item.errMsg">报警信息：{{item.errMsg}}  {{item.latestErrTime | date:"yyyy-MM-dd HH:mm"}}</p>-->
+        </div>
+          <!--<div class="middle-inner">-->
+            <!--<p>状态：{{item.status | dehydratorStatus:item.disabled}}  包埋盒数：{{item.usedBlock}}</p>-->
+            <!--<p ng-show="item.errMsg">报警信息：{{item.errMsg}}  {{item.latestErrTime | date:"yyyy-MM-dd HH:mm"}}</p>-->
+          <!--</div>-->
+
+        <!--</div>-->
+
+      </li>
+    </ul>
+  </div>
+
+</div>

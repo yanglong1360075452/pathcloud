@@ -1,0 +1,14 @@
+<toolbar class="clearfix">
+  <ul class="list-unstyled menu-list">
+    <li ng-class="{active:userManage.activeMenu==0}" ng-click="userManage.choseMenu(0)">{{'用户'|translate}}</li>
+    <li ng-class="{active:userManage.activeMenu==1}" ng-click="userManage.choseMenu(1)">{{'权限设置'|translate}}</li>
+  </ul>
+</toolbar>
+<div id="userManage">
+  <div class="container" ng-if="userManage.activeMenu==0" ng-include="'app/site/userManage/userManage/userModule/userModule.html'"></div>
+  <div class="container" ng-if="userManage.activeMenu==1" ng-include="'app/site/userManage/userManage/permissionModule/permissionModule.html'"></div>
+</div>
+
+
+
+

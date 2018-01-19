@@ -1,0 +1,11 @@
+<toolbar class="clearfix">
+  <ul class="list-unstyled menu-list">
+    <li ng-class="{active:reagent.activeMenu===1}" ng-click="reagent.choseMenu(1)">{{'试剂入库'|translate}}</li>
+    <li ng-class="{active:reagent.activeMenu===2}" ng-click="reagent.choseMenu(2)">{{'耗材入库'|translate}}</li>
+  </ul>
+</toolbar>
+
+<div id="reagent">
+  <div class="container" ng-if="reagent.activeMenu===1" ng-include="'app/site/reagent/store/storeCreate.html'"></div>
+  <div class="container" ng-if="reagent.activeMenu===2" ng-include="'app/site/reagent/store/storeConsumables.html'"></div>
+</div>

@@ -1,0 +1,18 @@
+/***********************************申请特染弹窗*************************************/
+#applySpecial{
+  .modal-body{
+
+    overflow-y: auto;
+    min-height: 350px;
+
+    #kangti{
+      height: 100px;
+      border: 1px solid $theme-color;
+    }
+    textarea{
+      resize: none;
+      height:100px;
+      width:100%;
+    }
+  }
+}

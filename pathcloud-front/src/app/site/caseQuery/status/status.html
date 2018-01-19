@@ -1,0 +1,87 @@
+<div id="proStatus">
+  <toolbar class="clearfix">
+    <div style="font-size: 16px">
+      {{'状态统计'|translate}}
+    </div>
+  </toolbar>
+
+  <div class="container">
+    <div class="pro-status clearfix pull-left">
+
+        <div class="pro-header">
+
+            <span class="status-title">{{'样本状态'|translate}}</span>
+            <span class="count-title">{{'样本数量'|translate}}</span>
+            <span class="error-title">{{'异常样本'|translate}}</span>
+
+        </div>
+
+        <div class="pro-body ">
+          <div class="pro-item cursor-pointer clearfix" ng-repeat="item in proStatus.statisticDataList" ng-click="proStatus.getOne(item)">
+            <div class="item item-status">{{item.statusName|translate}}</div>
+            <div class="item item-count">{{item.total}}</div>
+            <div class="item item-error">{{item.errorTotal}}
+              <div class="item-active" ng-show="proStatus.activeItem.status==item.status">
+                <span class="icon-right glyphicon glyphicon-chevron-right"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+    </div>
+    <div class="pro-detail pull-right">
+      <div class="pro-header">
+        {{'异常样本详情'|translate}}
+      </div>
+      <div class="pro-table table-min">
+        <table class="table-sample-error table-hover table-bordered status-table">
+
+          <thead>
+          <tr>
+            <th ng-repeat="item in proStatus.tableHeaders">
+              {{item.name|translate}}
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="item in proStatus.abnormalDataList.data track by $index">
+            <td ng-bind="item.pathologyNumber"></td>
+            <td ng-bind="item.subId"></td>
+            <td ng-bind="item.slideId"></td>
+            <td ng-bind="item.statusName"></td>
+            <td ng-bind="proStatus.waitingTime(item.operationTime)" ></td>
+            <td ng-bind="item.operatorName"></td>
+            <td ng-bind="item.operationTime| date : 'yyyy-MM-dd HH:mm'"></td>
+            <td ng-click="proStatus.dealOne(item)"><a href><i class="fa fa-reply-all" aria-hidden="true"></i></a></td>
+          </tr>
+          <tr ng-repeat="n in [].constructor(15) track by $index" ng-show="!proStatus.abnormalDataList.data||proStatus.abnormalDataList.data.length<=$index">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="table-footer">
+          <!--<div class="pull-left form-control-static pagination">-->
+            <!--共<span ng-bind="proStatus.abnormalDataList.total"></span>个-->
+          <!--</div>-->
+          <uib-pagination class="pull-right" boundary-links="true"
+                          items-per-page="proStatus.filter.length" max-size="10"
+                          total-items="proStatus.filter.totalError"
+                          ng-model="proStatus.filter.page"
+                          ng-change="proStatus.changePage()"
+                          previous-text="&lsaquo;" next-text="&rsaquo;"
+                          first-text="&laquo;" last-text="&raquo;">
+          </uib-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

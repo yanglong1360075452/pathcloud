@@ -1,0 +1,93 @@
+<div id="embedSetting">
+  <toolbar class="clearfix">
+    <!--<h5>常用拒收原因管理</h5>-->
+    <ul class="list-unstyled menu-list">
+      <li ng-class="{active:sampleSetting.activeMenu==0}" ng-click="sampleSetting.activeMenu=0" id="subRoute0">{{"拒收原因"|translate}}
+      </li>
+      <li ng-class="{active:sampleSetting.activeMenu==1}" ng-click="sampleSetting.activeMenu=1" id="subRoute1">{{"标签打印"|translate}}
+      </li>
+      <li ng-class="{active:sampleSetting.activeMenu==2}" ng-click="sampleSetting.activeMenu=2" id="subRoute2">{{"送检医院"|translate}}</li>
+    </ul>
+  </toolbar>
+
+  <!--TAB 1 拒收原因-->
+  <div class="container clearfix" ng-show="sampleSetting.activeMenu==0">
+    <div class="remark-add form-horizontal form-inline">
+      <div class="header-group">
+        {{"原因"|translate}}：
+        <input type="text" class="form-control" id="addbtn" ng-model="sampleSetting.data.name">
+        <button class="btn  btn-default" style="width: 78px;" ng-disabled="!sampleSetting.data.name"
+                ng-click="sampleSetting.add()" id="addReason">{{"添加"|translate}}
+        </button>
+      </div>
+    </div>
+
+    <div class="remark-list row clearfix">
+      <div class="col-sm-6" ng-repeat="item in sampleSetting.sampleRemarkLIst">
+        <div class="remark-item">
+          <button type="button" class="close" ng-click="sampleSetting.delete(item.code)">
+            <i class="fa fa-times-circle" aria-hidden="true"></i>
+            <span class="sr-only">Close</span>
+          </button>
+          <div title="{{item.name}}">{{item.name}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--TAB 2 打印方式-->
+  <div class="container clearfix" ng-show="sampleSetting.activeMenu==1">
+
+    <div class="remark-add form-horizontal form-inline">
+      <div style="margin-bottom: 20px">
+        {{"打印方式"|translate}}：
+        <select style="width: 160px;" class="form-control" ng-model="sampleSetting.printType"
+                ng-options="item.code as item.name for item in sampleSetting.printTypeList"
+                ng-change="sampleSetting.setPintType(sampleSetting.printType)">
+        </select>
+
+      </div>
+      <div class="inspectSetItem">
+        {{"打印数量"|translate}}：
+        <select style="width: 160px;" class="form-control" ng-model="sampleSetting.printCount"
+                ng-options="item.code as item.name for item in sampleSetting.printCountList"
+                ng-change="sampleSetting.setPintCount(sampleSetting.printCount)">
+
+        </select>
+      </div>
+    </div>
+
+  </div>
+
+  <!--TAB 3 送检医院-->
+  <div class="container clearfix" ng-show="sampleSetting.activeMenu === 2">
+    <div class="remark-add form-horizontal form-inline">
+      <div class="header-group">
+        {{"医院名称"|translate}}：
+        <input type="text" class="form-control" id="add3" ng-model="sampleSetting.inspectHospital.name">
+
+        <select class="form-control" name="" id="hospital" ng-model="sampleSetting.inspectHospital.grade" ng-options="item.name as item.name for item in sampleSetting.hospitalLevelList">
+          <option value="">医院等级</option>
+        </select>
+
+        <button class="btn  btn-default" style="width: 78px;" ng-disabled="!sampleSetting.inspectHospital.name || !sampleSetting.inspectHospital.grade"
+                ng-click="sampleSetting.addInspectHospital()" id="addHospital">{{"添加"|translate}}
+        </button>
+      </div>
+    </div>
+
+    <div class="remark-list row clearfix">
+      <div class="col-sm-3" ng-repeat="item in sampleSetting.inspectHospitalList">
+        <div class="remark-item">
+          <button type="button" class="close" ng-click="sampleSetting.deleteInspectHospital(item.code)">
+            <i class="fa fa-times-circle" aria-hidden="true"></i>
+            <span class="sr-only">Close</span>
+          </button>
+          <div title="{{item.name}}">{{item.name}} | {{item.grade}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+

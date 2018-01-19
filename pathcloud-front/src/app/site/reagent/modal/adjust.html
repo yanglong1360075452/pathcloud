@@ -1,0 +1,33 @@
+<div id="adjust">
+  <div class="modal-header blue-label">
+    <button type="button" class="close" data-dismiss="modal" ng-click="adjust.cancel()">
+      <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title ok-color">{{'库存调整'|translate}}</h4>
+  </div>
+  <div class="modal-body clearfix" >
+      <div class="col-lg-12">
+        <div class="col-lg-4">{{'名称'|translate}}:{{adjust.data.reagentName}}</div>
+        <div class="col-lg-4">{{'生产批号'|translate}}:{{adjust.data.batchNumber}}</div>
+        <div class="col-lg-4">{{'订单号'|translate}}:{{adjust.data.orderNumber}}</div>
+      </div>
+    <div class="col-lg-12">
+      <div class="col-lg-4">{{'库存余量'|translate}}:{{adjust.data.totalCapacity-adjust.data.usedCapacity}}{{adjust.data.category==1?ml:''}}</div>
+      <div class="col-lg-8">
+        {{'调整量'|translate}}:
+        <input type="text" ng-model="adjust.adjust">{{adjust.data.category==1?ml:''}}
+      </div>
+      <div class="col-lg-3"></div>
+    </div>
+    <div class="col-lg-12" style="margin-left:14px;">备注：</div>
+    <div class="col-lg-12" style="margin-left:14px;">
+      <textarea name="" id="" cols="75" rows="10" ng-model="adjust.note"></textarea>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning no-border" type="button" ng-click="adjust.cancel()">{{'取消'|translate}}</button>
+    <button class="btn btn-default no-border" type="button" ng-click="adjust.ok()">{{'确定'|translate}}</button>
+  </div>
+</div>
+

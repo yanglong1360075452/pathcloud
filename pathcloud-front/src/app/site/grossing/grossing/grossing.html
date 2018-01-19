@@ -1,0 +1,109 @@
+<div  id="grossing" style="margin-top: 20px">
+<div class="container">
+  <div class="row flex-center">
+    <div class="col-md-3">
+      <h4 style="margin-top: 20px">
+        1. {{'选择脱水篮'|translate}}
+      </h4>
+      <div class="basket">
+        <div class="basket-box cursor-pointer clearfix" ng-model="item.checked" ng-click="grossing.check(item)" ng-repeat="item in grossing.grossingBasketList">
+          <div class="basket-header pull-left yellow-label">
+            {{item.basketNumber}}
+          </div>
+          <div class="basket-content pull-left">
+            <span ng-show="item.checked" class="active active-icon"><i class="glyphicon glyphicon-ok"></i></span>
+            <div class="">{{'包埋盒数'|translate}}：{{item.blockCount}}</div>
+            <div class="">{{'取材记录员'|translate}}：{{item.recorder}}</div>
+          </div>
+        </div>
+        <!--当没有脱水篮的时候显示-->
+        <div class="basket-box cursor-pointer clearfix" ng-repeat="n in [].constructor(8) track by $index" ng-show="!grossing.grossingBasketList||grossing.grossingBasketList.length<=$index">
+          <div class="basket-header pull-left yellow-label">
+
+          </div>
+          <div class="basket-content pull-left">
+
+          </div>
+        </div>
+      </div>
+      <!--<div class="text-center"><button class="btn btn-default">拆分脱水篮</button></div>-->
+    </div>
+    <div class="col-md-3">
+      <h4 style="margin-top: 20px">
+        2. {{'选择脱水机'|translate}}
+      </h4>
+      <div class="basket">
+        <div class="basket-box clearfix cursor-pointer" ng-model="grossing.activeMachine" ng-class="{'cursor-disabled':item.inUse&&item.status!=1}" ng-click="grossing.checkDehydrateMachine(item)" ng-repeat="item in grossing.dehydratorList">
+          <div class="basket-header pull-left " ng-class=" {'purple-label':item.inUse&&item.status!=1,'green-label':!item.inUse||item.status===1}">
+            {{item.name}}
+          </div>
+          <div class="basket-content pull-left">
+            <span ng-show="grossing.activeMachine.name==item.name" class="active active-icon"><i class="glyphicon glyphicon-ok"></i></span>
+            <div class="">{{'可用空间'|translate}}：{{item.capacity-item.usedBlock}}</div>
+            <div class="">{{'已用空间'|translate}}：{{item.usedBlock}}</div>
+            <div class="pause-icon" ng-show="item.status==2"><i class="fa fa-pause" aria-hidden="true"></i></div>
+          </div>
+        </div>
+      </div>
+      <!--<div class="text-center"><button class="btn btn-default" ng-click="grossing.stop()">结束脱水 <i class="fa fa-stop-circle-o"></i></button></div>-->
+    </div>
+    <div class="col-md-1 ">
+      <div class="text-center" style="margin-bottom: 80px">
+        <button class="btn btn-default " id="add" ng-click="grossing.add()">{{'添加'|translate}}&nbsp;&nbsp;<i class="fa fa-chevron-right"></i></button>
+      </div>
+      <div class="text-center">
+        <button class="btn btn-default " id="cancel" ng-click="grossing.cancel()">{{'撤销'|translate}}&nbsp;<i class="fa fa-reply"></i></button>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <h4 style="margin-top: 20px">
+        3. {{'脱水确认'|translate}}
+        <p class="pull-right">{{'脱水机'|translate}}：{{grossing.dehydratorName}}</p>
+      </h4>
+      <div class="table-min" style="height: 490px; overflow-y: auto; margin-bottom: 20px; border-bottom: 1px solid #eee;">
+        <table class=" table-hover table-bordered text-center">
+          <thead>
+          <tr>
+            <th ng-repeat="item in grossing.tableHeaders" class="{{item.class}} cursor-pointer" ng-style="item.style">
+              {{::item.name|translate}}
+              <!--<i class="cursor-pointer glyphicon glyphicon-chevron-down arrow"-->
+                 <!--ng-hide="!item.order"-->
+                 <!--ng-class="{'rotate-180':item.sort==='asc','rotate-0':item.sort==='desc'||!item.sort}" />-->
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="item in grossing.dehydrateDataLIst.data track by $index">
+            <td ng-bind="item.pathologyNumber"></td>
+            <td ng-bind="item.subId"></td>
+            <td ng-bind="item.name"></td>
+            <td ng-bind="item.count"></td>
+            <td ng-bind="item.biaoshiName"></td>
+            <td ng-bind="item.statusName"></td>
+            <!--<td ng-bind="grossing.dehydratorName"></td>-->
+          </tr>
+
+          <tr ng-repeat="n in [].constructor(18) track by $index" ng-show="!grossing.dehydrateDataLIst.data||grossing.dehydrateDataLIst.data.length<=$index"><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+
+          </tbody>
+        </table>
+        <!--<div class="table-footer clearfix">-->
+          <!--<div ng-show="grossing.dehydrateDataLIst.total>0" class="pull-left form-control-static pagination">共<span ng-bind="grossing.dehydrateDataLIst.total"></span>条结果</div>-->
+          <!--<uib-pagination class="pull-right" boundary-links="true" items-per-page="grossing.dehydrateParams.length" max-size="0"-->
+                          <!--total-items="grossing.dehydrateDataLIst.total"-->
+                          <!--ng-model="grossing.dehydrateParams.page"-->
+                          <!--ng-change="grossing.getDehydrateDataLIst()"-->
+                          <!--previous-text="上一页" next-text="下一页" first-text="&laquo;" last-text="&raquo;"></uib-pagination>-->
+        <!--</div>-->
+      </div>
+      <div class="space-between text-center">
+        <!--<button class="btn btn-default pull-left">拆分脱水篮</button>-->
+        <button id="startGrossing" class="btn btn-default " ng-disabled="grossing.inGrossing" ng-click="grossing.start()">{{'开始脱水'|translate}} <i class="fa fa-play-circle-o"></i></button>
+        <button id="pauseGrossing" class="btn btn-default " ng-click="grossing.pause()">{{'暂停脱水'|translate}} <i class="fa fa-pause-circle-o"></i></button>
+        <button id="stopGrossing" class="btn btn-default " ng-click="grossing.stop()">{{'结束脱水'|translate}} <i class="fa fa-stop-circle-o"></i></button>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>

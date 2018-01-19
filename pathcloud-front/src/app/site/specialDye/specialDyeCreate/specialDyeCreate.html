@@ -1,0 +1,94 @@
+<div class=" container">
+  <div class="specialDye-main block-center">
+    <div class="specialDye-create-header" style="">
+      <h3 class="text-center specialDye-header">{{'染色申请表'|translate}}</h3>
+    </div>
+
+    <!--特检申请表-->
+    <div id="specialDye-form table-min table">
+      <form name="specialDyeApplyForm" id="specialDyeApplyForm" class="specialDye-apply-form">
+        <table class="table table-bordered">
+          <tr class="text-center">
+            <td>{{'申请人'|translate}}<span class="required">*</span></td>
+            <td>
+              <input ng-model="specialDyeCreate.applyData.applyUser" type="text"  required >
+            </td>
+            <td>{{'联系电话'|translate}}<span class="required">*</span></td>
+            <td>
+              <input ng-class="{'error':specialDyeApplyForm.phone.$invalid} " name="phone" ng-model="specialDyeCreate.applyData.applyTel" type="text" maxlength="18" required
+                ng-pattern="/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/"
+              >
+            </td>
+            <td>{{'送检科室'|translate}}<span class="required">*</span></td>
+            <td style="position: relative;width: 190px">
+              <!--<select-search class="department-selecter" require="true"   text="specialDyeCreate.departmentsDesc" value="specialDyeCreate.applyData.departments" get-data="specialDyeCreate.getDepartments(filter)" datas="specialDyeCreate.departmentList"></select-search>-->
+              <department-select ng-if="specialDyeCreate.userId" class="department-selecter" text="specialDyeCreate.departments | department" value="specialDyeCreate.applyData.departments" ></department-select>
+            </td>
+
+          </tr>
+        </table>
+        <!--错误提示-->
+        <!--<p class="error" ng-show="specialDyeApplyForm.phone.$dirty&&specialDyeApplyForm.phone.$invalid">手机号码错误</p>        -->
+        <br>
+
+        <!--添加蜡块-->
+        <div class="specialDye-create-table table-min mini">
+          <table class="table-bordered">
+            <thead>
+              <tr>
+                <th>{{'病理号'|translate}}<span class="required">*</span></th>
+                <th style="width: 60px">{{'蜡块号'|translate}}<span class="required">*</span></th>
+                <th>{{'染色类别'|translate}}</th>
+                <th style="width: 250px">{{'试剂/抗体名称'|translate}}<span class="required">*</span></th>
+                <th>{{'备注'|translate}}</th>
+                <th>{{'操作'|translate}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in specialDyeCreate.applyData.ihcBlocks">
+                <td style="width: 100px">
+                  <input ng-model="item.serialNumber" type="text" required>
+                </td>
+                <td><input ng-model="item.subId" type="text" required></td>
+                <td><select ng-model="item.specialDye" ng-change="specialDyeCreate.specialDyeSelect(item)" ng-options="item.code as item.name for item in specialDyeCreate.specialDyeList" type="text"></select></td>
+                <td style="width: 150px;"><input style="background: none" ng-disabled="!(item.specialDye===-1||item.specialDye===1)" ng-model="item.ihcMarker" type="text" placeholder="{{'不同标记物请用；隔开'|translate}}" required></td>
+                <td><input ng-model="item.note" type="text"></td>
+                <td><a href="" ng-click="specialDyeCreate.deleteBlock($index)"><i class="glyphicon glyphicon-trash"></i>&nbsp;{{'删除'|translate}}</a></td>
+
+              </tr>
+              <tr>
+                <td colspan="5"></td>
+                <!--<td></td>
+                <td></td>
+                <td></td>
+                <td></td>                -->
+                <td><a href="" ng-click="specialDyeCreate.addBlock()"><i class="glyphicon glyphicon-plus"></i>&nbsp;{{'添加'|translate}}</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </form>
+
+
+    <div>
+
+
+
+    <!--查看-->
+    <br>
+    <p>
+     <a ng-click="specialDyeCreate.myBlocks()" href="">{{'批量添加'|translate}}</a>
+     <span class="pull-right">*{{'染色类别是白片时，试剂/抗体名称不必填写，多张白片用“；”隔开'|translate}}</span>
+    </p>
+
+    <!--提交-->
+    <div class="text-center">
+       <button name="submit" id="submit" class="btn btn-lg btn-default " ng-disabled="!specialDyeCreate.applyData.departments||specialDyeApplyForm.$invalid" ng-click="specialDyeCreate.apply()">{{'提交申请'|translate}}</button>
+    </div>
+
+  </div>
+
+</div>
+
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<div ng-controller="FormworkController as FormworkDiagnosis">
+  <div class="col-sm-12">
+    <div class="pull-right">
+      {{'模板选择'|translate}}
+      <input type="radio" name="choose" value="0" ng-model="FormworkDiagnosis.choose">
+      {{'系统模板'|translate}}
+      <input type="radio" name="choose" value="1" ng-model="FormworkDiagnosis.choose">
+      {{'自定义模板'|translate}}
+    </div>
+  </div>
+  <div>
+    <div class="container" ng-show="FormworkDiagnosis.choose==0" ng-include="'app/site/diagnosis/settingDiagnosis/diagnosis.html'"></div>
+    <div class="container" ng-show="FormworkDiagnosis.choose==1" ng-include="'app/site/diagnosis/settingDiagnosis/custom.html'"></div>
+  </div>
+</div>

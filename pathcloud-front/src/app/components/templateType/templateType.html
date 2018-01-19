@@ -1,0 +1,67 @@
+<div class="template-container">
+  <div class="col-sm-3">
+    <div class="title">
+      <h4>{{'一级目录'|translate}}</h4>
+    </div>
+    <div class="content">
+      <div class="list-container">
+        <ul class="list-unstyled">
+          <li ng-repeat="item in OneLevelList" ng-class="{active:activeTemplate===$index}" ng-click="choseTemplate(item,$index)">
+            <input ng-model="item.name" auto-focus="{{item.focus}}" ng-disabled="!item.focus" ng-blur="item.focus=false;saveTemplate(item,OneLevelList,$index)">
+            <div class="pull-right i-container">
+              <i ng-show="activeTemplate===$index"><img src="assets/images/icon-caret-right.png" alt=""></i>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="list-toolbar">
+        <div class="flex-box">
+          <button  ng-click="addTemplate(OneLevelList,0)"><icon class="icon">+</icon>{{'添加'|translate}}</button>
+          <button ng-click="OneLevelList[activeTemplate].focus=true"><icon  class="icon"><img  height="14" src="assets/images/edit.png" alt=""></icon>{{'重命名'|translate}}</button>
+          <button  ng-click="deleteTemplate(activeTemplateId)"><icon  class="icon"><img height="14" src="assets/images/delete.png" alt=""></icon>{{'删除'|translate}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="title">
+      <h4>{{'二级目录'|translate}}</h4>
+    </div>
+    <div class="content">
+      <div class="list-container">
+        <ul class="list-unstyled">
+          <li id="templateName{{$index}}" ng-repeat="item in TwoLevelList" ng-class="{active:twoTemplate===$index}" ng-click="choseTwoTemplate(item,$index)">
+            <input ng-model="item.name" id="template_{{$index}}" auto-focus="{{item.focus}}" ng-disabled="!item.focus" ng-blur="item.focus=false;saveTemplate(item,TwoLevelList,$index)">
+            <div class="pull-right i-container">
+              <i ng-show="twoTemplate===$index"><img src="assets/images/icon-caret-right.png" alt=""></i>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="list-toolbar">
+        <div class="flex-box">
+          <button id="add" ng-click="addTemplate(TwoLevelList,1)"><icon class="icon">+</icon>{{'添加'|translate}}</button>
+          <button id="reName" ng-click="TwoLevelList[twoTemplate].focus=true"><icon  class="icon"><img  height="14" src="assets/images/edit.png" alt=""></icon>{{'重命名'|translate}}</button>
+          <button id="delete" ng-click="deleteTemplate(twoTemplateId)"><icon  class="icon"><img height="14" src="assets/images/delete.png" alt=""></icon>{{'删除'|translate}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="title">
+      <h4>{{'模板内容'|translate}}</h4>
+    </div>
+    <div class="content">
+      <div class="list-container" style="padding-top:0">
+            <textarea class="form-control" style="height:100%;width:100%;outline:none;border:0;"
+                      ng-disabled="!focusText" ng-model="TwoLevelList[twoTemplate].content"></textarea>
+      </div>
+      <div class="list-toolbar ">
+        <div class="flex-box">
+          <button class="btn-info" ng-click="changeText()">
+            <icon  class="icon"><img  height="14" src="assets/images/edit.png" alt=""></icon>{{focusText?"保存":"编辑"|translate}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

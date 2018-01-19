@@ -1,0 +1,16 @@
+<toolbar class="clearfix">
+  <ul class="list-unstyled menu-list">
+    <li ng-class="{active:workStatistic.activeMenu==0}" ng-click="workStatistic.choseMenu(0)">{{'按月统计'|translate}}</li>
+    <li ng-class="{active:workStatistic.activeMenu==1}" ng-click="workStatistic.choseMenu(1)">{{'按人统计'|translate}}</li>
+    <li ng-class="{active:workStatistic.activeMenu==2}" ng-click="workStatistic.choseMenu(2)">{{'按组统计'|translate}}</li>
+    <!--<li ng-class="{active:workStatistic.activeMenu==3}" ng-click="workStatistic.choseMenu(3)">按项目统计</li>-->
+  </ul>
+</toolbar>
+<div id="workStatistic">
+  <div class="container" ng-show="workStatistic.activeMenu==0" ng-include="'app/site/statisticalReport/workStatistic/monthStatistic/monthStatistic.html'">这里不管写什么都不会展示,完全被ng-include取代</div>
+  <div class="container" ng-show="workStatistic.activeMenu==1" ng-include="'app/site/statisticalReport/workStatistic/peopleStatistic/peopleStatistic.html'"></div>
+  <div class="container" ng-show="workStatistic.activeMenu==2" ng-include="'app/site/statisticalReport/workStatistic/groupStatistic/groupStatistic.html'"></div>
+  <!--<div class="container" ng-show="workStatistic.activeMenu==3" ng-include="'app/site/statisticalReport/workStatistic/projectStatistic/projectStatistic.html'"></div>-->
+</div>
+
+

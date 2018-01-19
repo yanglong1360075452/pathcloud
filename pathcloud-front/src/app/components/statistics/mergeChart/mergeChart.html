@@ -1,0 +1,10 @@
+<div id="mergeChart">
+  <span class="pull-left">{{mChart.chartTitle}}</span>
+  <span class="pull-right select-span">
+    <select ng-model="mChart.timeFilter" ng-change="mChart.setTime()">
+      <option value="">月</option>
+      <option value="true">年</option>
+    </select>
+  </span>
+  <div ng-echarts class="pillarChart" ec-config="mChart.lineConfig" ec-option="mChart.option"></div>
+</div>

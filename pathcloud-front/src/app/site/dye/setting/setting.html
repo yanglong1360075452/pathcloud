@@ -1,0 +1,53 @@
+<div  id="gSetting">
+
+  <toolbar class="clearfix">
+    <ul class="list-unstyled menu-list">
+      <li id="subRoute0" ng-class="{active:dyeSetting.activeMenu[0]}" ng-click="dyeSetting.choseMenu(0)">{{'染色机'|translate}}</li>
+      <li id="subRoute1" ng-class="{active:dyeSetting.activeMenu[1]}" ng-click="dyeSetting.choseMenu(1)">{{'封片机'|translate}}</li>
+    </ul>
+  </toolbar>
+
+
+  <div>
+    <div class="container dyeSetting-head" style="padding: 40px">
+      <div class="pull-left dyeSetting-title">
+        <span ng-if="dyeSetting.showPart===0">{{'添加/编辑染色机'|translate}}</span>
+        <span ng-if="dyeSetting.showPart===1">{{'添加/编辑封片机'|translate}}</span>
+      </div>
+      <div class="pull-right dyeSetting-add">
+        <input id="add" class="form-control blue-label ok-color" type="button" value="{{'添加'|translate}}" ng-click="dyeSetting.openAdd()"/>
+      </div>
+    </div>
+
+    <div class="container dyeSetting-body">
+      <ul class="list-unstyled grossing-list">
+        <li ng-repeat="item in dyeSetting.grossingList">
+          <div class="li-number" ng-class="{'grey-label':item.status,'blue-label':item.status === 0}">
+            {{item.name}}
+          </div>
+          <div class="li-text middle-box">
+            <div class="operate-div">
+              <div id="edit" class="pull-left cursor-pointer" style="margin-right: 5px;" ng-click="dyeSetting.openUpdate(item)">
+                <i class="fa fa-pencil-square-o fa-2x"></i>
+              </div>
+              <div id="delete" class="pull-left cursor-pointer" style="" ng-click="dyeSetting.deleteGrossing(item)">
+                <i class="fa fa-trash fa-2x"></i>
+              </div>
+            </div>
+            <!--<div class="middle-inner">-->
+            <p title="{{item.sn}}" class="sn text-ellipsis">{{'序列号'|translate}}：{{item.sn}}</p>
+            <p class="sn text-ellipsis" title="{{item.description}}">
+              <span ng-if="dyeSetting.showPart===0">{{'染色机备注'|translate}}：</span>
+              <span ng-if="dyeSetting.showPart===1">{{'封片机备注'|translate}}：</span>
+              {{item.description}}
+            </p>
+            <p>{{'状态'|translate}}：{{item.status ? "不可用":"正常"|translate}}</p>
+          </div>
+          <!--</div>-->
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+</div>

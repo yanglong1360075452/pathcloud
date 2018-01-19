@@ -1,0 +1,51 @@
+<div id="view">
+  <div class="modal-header blue-label">
+    <button type="button" class="close" data-dismiss="modal" ng-click="view.cancel()">
+      <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title ok-color">{{'使用记录'|translate}}</h4>
+  </div>
+  <div class="modal-body clearfix" style="min-height:300px;">
+      <div class="table-min">
+        <table class="table-hover table-bordered">
+          <thead>
+          <tr class="text-center">
+            <th ng-repeat="item in view.tableHeaders"  class="cursor-pointer text-center">
+              {{item.name|translate}}
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="item in  view.list track by $index">
+            <ng-form name="inner_form">
+              <td>{{item.updateOperator}}</td>
+              <td>{{item.updateTime  | date:"yyyy-MM-dd HH:mm"}}</td>
+              <td>{{item.dosage}}</td>
+              <td>{{item.note}}</td>
+            </ng-form>
+          </tr>
+          <tr ng-repeat="n in [].constructor(10) track by $index"
+              ng-show="!view.list||view.list.length<=$index">
+            <td ng-repeat="n in [].constructor(4) track by $index"></td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="table-footer">
+          <div class="pull-left form-control-static pagination">
+            {{'共'|translate}}<span ng-bind="view.total||0"></span>{{'条结果'|translate}}
+          </div>
+          <uib-pagination class="pull-right" boundary-links="true" max-size="10"
+                          items-per-page="view.filter.length"
+                          total-items="view.total"
+                          ng-model="view.filter.page"
+                          ng-change="view.getData()"
+                          previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+          </uib-pagination>
+        </div>
+      </div>
+
+  </div>
+</div>
+
+

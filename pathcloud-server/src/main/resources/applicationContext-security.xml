@@ -1,0 +1,278 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+
+    <global-method-security pre-post-annotations="enabled"/>
+
+    <!-- 不用权限管理的资源路径 -->
+    <http pattern="/static/**" security="none"/>
+    <http pattern="/assets/**" security="none"/>
+    <http pattern="/fonts/**" security="none"/>
+    <http pattern="/scripts/**" security="none"/>
+    <http pattern="/styles/**" security="none"/>
+    <http pattern="/favicon.ico" security="none"/>
+    <http pattern="/index.html" security="none"/>
+    <http pattern="/api/dehydrator/local-msg/**" security="none"/>
+    <http pattern="/api/static/**" security="none"/>
+    <!-- 制片扫描的玻片数据 -->
+    <http pattern="/api/production/scan/block" security="none"/>
+    <!-- 存档扫描的玻片数据 -->
+    <http pattern="/api/archiving/slide/scan/block" security="none"/>
+    <http pattern="/api/user/qrcode/**" security="none"/>
+    <http pattern="/" security="none"/>
+
+    <http use-expressions="true" entry-point-ref="authenticationProcessingFilterEntryPoint" auto-config="false">
+
+        <access-denied-handler ref="myAccessDeniedHandler"/>
+
+        <intercept-url pattern="/api/user/resetPassword" access="isAuthenticated()"/>
+        <intercept-url pattern="/api/user/*" method="GET" access="isAuthenticated()"/>
+        <intercept-url pattern="/api/user/*" method="PUT" access="isAuthenticated()"/>
+        <intercept-url pattern="/api/application/pathology/*" access="isAuthenticated()"/>
+        <intercept-url pattern="/api/template/**" method="GET" access="isAuthenticated()"/>
+
+        <!-- 指定某角色能访问的资源 -->
+
+        <!-- 0-系统管理 -->
+        <intercept-url pattern="/api/user" method="POST" access="hasRole('0')"/>
+        <intercept-url pattern="/api/user" method="GET" access="hasRole('0')"/>
+        <intercept-url pattern="/api/role" method="POST" access="hasRole('0')"/>
+        <intercept-url pattern="/api/role" method="DELETE" access="hasRole('0')"/>
+        <intercept-url pattern="/api/role" method="PUT" access="hasRole('0')"/>
+        <intercept-url pattern="/api/role/*" access="hasRole('0')"/>
+        <!-- 1-病理申请  256-登记 -->
+        <intercept-url pattern="/api/application" method="POST" access="hasAnyRole('1','256')"/>
+        <intercept-url pattern="/api/wechat/application/**"  access="hasRole('1')"/>
+        <!--撤销申请-->
+        <intercept-url pattern="/api/application/cancel/*" access="hasRole('1')"/>
+        <!--拒收申请-->
+        <intercept-url pattern="/api/application/reject/*" access="hasRole('256')"/>
+
+        <!--登记-->
+        <intercept-url pattern="/api/pathology" method="POST" access="hasRole('256')"/>
+        <!--登记信息-->
+        <intercept-url pattern="/api/pathology/sample" method="GET" access="hasRole('256')"/>
+        <!-- 4-取材  131072-冰冻取材-->
+        <!--获取有取材权限的用户列表-->
+        <intercept-url pattern="/api/user/grossing" method="GET" access="hasAnyRole('4','131072')"/>
+        <intercept-url pattern="/api/grossing/**" method="POST" access="hasRole('4')"/>
+        <intercept-url pattern="/api/grossing/**" method="PUT" access="hasRole('4')"/>
+        <intercept-url pattern="/api/grossing/**" method="DELETE" access="hasRole('4')"/>
+
+        <intercept-url pattern="/api/frozen/**" method="POST" access="hasRole('131072')"/>
+
+        <intercept-url pattern="/api/pathology" method="GET" access="hasAnyRole('4','131072')"/>
+
+        <!--8-脱水-->
+        <intercept-url pattern="/api/grossing/forDehydrate" access="hasRole('8')"/>
+        <intercept-url pattern="/api/dehydrate/**" access="hasRole('8')"/>
+        <intercept-url pattern="/api/dehydrator/**" access="hasRole('8')"/>
+
+        <!--获取脱水篮相关列表-->
+        <intercept-url pattern="/api/basket/*" access="hasAnyRole('4','8')"/>
+
+        <!--16-包埋-->
+        <intercept-url pattern="/api/embed/**" access="hasRole('16')"/>
+
+        <!--32-切片-->
+        <intercept-url pattern="/api/section/**" access="hasRole('32')"/>
+
+        <!--64-染色-->
+        <intercept-url pattern="/api/dye/**" access="hasRole('64')"/>
+        <intercept-url pattern="/api/wechat/dye/**" access="hasRole('64')"/>
+
+        <!--128-制片确认-->
+        <intercept-url pattern="/api/production/**" access="hasRole('128')"/>
+        <!--派片/样本状态-->
+        <intercept-url pattern="/api/distribute/**" access="hasRole('128')"/>
+
+        <!--2-一级诊断 4096 -二级诊断 8192-三级诊断-->
+        <intercept-url pattern="/api/diagnose/history/*" method="GET" access="hasAnyRole('2','4096','8192','1024')"/>
+        <intercept-url pattern="/api/diagnose/**" access="hasAnyRole('2','4096','8192')"/>
+        <intercept-url pattern="/api/diagnose/report/**" access="hasAnyRole('4096','8192')"/>
+
+        <intercept-url pattern="/api/template/**" access="hasAnyRole('2','4','1024','4096','8192')"/>
+
+        <intercept-url pattern="/api/query/sample/*/grossing" access="hasAnyRole('2','4096','8192','1024')"/>
+        <!--1024-信息查询-->
+        <intercept-url pattern="/api/query/**" access="hasRole('1024')"/>
+        <!--2048-报告-->
+        <intercept-url pattern="/api/report/**" method="GET" access="hasAnyRole('1024','2048')"/>
+
+        <!--16384-统计报表-->
+        <intercept-url pattern="/api/statistics/**" access="hasRole('16384')"/>
+
+        <!--32768-特染-->
+        <intercept-url pattern="/api/specialDye/**" access="hasAnyRole('32768','2','4096','8192','1024')"/>
+
+        <!--65536-免疫组化-->
+        <intercept-url pattern="/api/ihc/**" access="hasRole('65536')"/>
+
+        <!--262144-试剂耗材-->
+        <intercept-url pattern="/api/reagent/**" method="POST" access="hasRole('262144')"/>
+        <intercept-url pattern="/api/reagent/**" method="PUT" access="hasRole('262144')"/>
+        <intercept-url pattern="/api/store/**" method="POST" access="hasRole('262144')"/>
+        <intercept-url pattern="/api/store/**" method="PUT" access="hasRole('262144')"/>
+
+        <!-- 以上未列出的，也都必须验证才能访问 -->
+
+        <!--
+        logout-url 属性:这个指定的URL会触发注销操作，默认是 /j_spring_security_logout
+        invalidate-session 属性：如果为true，在注销的时候,会销毁会话
+        delete-cookies 属性：以逗号分隔的cookies名称，在用户注销时删除指定的cookies
+        -->
+        <!--<logout logout-success-url="/login" invalidate-session="true"-->
+        <!--logout-url="/logout" delete-cookies="JSESSIONID"/>-->
+
+        <custom-filter ref="myLogoutFilter" position="LOGOUT_FILTER"/>
+
+        <!--
+        session超时跳转页面 以及每用户可拥有的session最大个数
+        如果每次退出后，必须要求用户一定要重开浏览器才能登录，可以将 invalid-session-url="/logout.jsp"，以防止有些 Web 应用把用户的会话标识符，直接以 URL 的参数形式来传递
+        -->
+        <session-management session-authentication-strategy-ref="sessionAuthenticationStrategy"
+                            invalid-session-url="/#/login">
+        </session-management>
+
+        <custom-filter position="CONCURRENT_SESSION_FILTER" ref="concurrencyFilter"/>
+
+        <!-- 使用验证码过滤器 -->
+        <!-- <form-login /> -->
+        <!-- 或 -->
+        <!--<custom-filter ref="loginFilter" before="FORM_LOGIN_FILTER" />-->
+        <custom-filter ref="ajaxLoginFilter" position="FORM_LOGIN_FILTER"/>
+
+        <!-- 实现免登陆验证
+            key 为remember mecookie定义一个唯一的key值，以与我们的应用关联
+            token-validity-seconds 定义时间的长度（以秒计） -->
+        <remember-me key="CCDC-REMEMBER-ME" token-validity-seconds="1209600"/>
+
+        <!-- 使用自定义的过滤器 -->
+        <custom-filter ref="myFilterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR"/>
+
+        <!-- 所有地址全开，无需验证，测试用 -->
+        <!--<intercept-url pattern="/**" access="permitAll" />-->
+        <intercept-url pattern="/**" access="isAuthenticated()"/>
+    </http>
+
+    <!-- 配置登录入口点 -->
+    <beans:bean id="authenticationProcessingFilterEntryPoint"
+                class="com.lifetech.dhap.pathcloud.security.MyLoginUrlAuthenticationEntryPoint">
+        <beans:property name="loginFormUrl" value="/index.html"/>
+        <!-- 是否强制HTTPS -->
+        <beans:property name="forceHttps" value="false"/>
+        <beans:property name="useForward" value="true"/>
+    </beans:bean>
+
+    <beans:bean id="sessionAuthenticationStrategy"
+                class="org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy">
+        <beans:constructor-arg name="sessionRegistry" ref="sessionRegistry"/>
+        <beans:property name="maximumSessions" value="1000"/>
+        <beans:property name="exceptionIfMaximumExceeded" value="true"/>
+    </beans:bean>
+
+    <beans:bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl"/>
+
+    <!-- 实现了 UserDetailsService 接口的类 -->
+    <authentication-manager alias="myAuthenticationManager">
+        <authentication-provider ref="authenticationProvider"/>
+    </authentication-manager>
+
+    <beans:bean id="authenticationProvider"
+                class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+        <beans:property name="hideUserNotFoundExceptions" value="false"/>
+        <beans:property name="userDetailsService" ref="myUserDetailsService"/>
+        <beans:property name="passwordEncoder" ref="passwordEncoder"/>
+    </beans:bean>
+
+    <!-- 用户的密码加密方式 -->
+    <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+    <beans:bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
+        <beans:property name="userPropertyToUse" value="username"/>
+    </beans:bean>
+
+    <beans:bean id="myUserDetailsService" class="com.lifetech.dhap.pathcloud.security.SecurityUserDetailsService">
+    </beans:bean>
+
+    <beans:bean id="myAccessDecisionManager"
+                class="com.lifetech.dhap.pathcloud.security.MyAccessDecisionManager"/>
+
+    <!-- sessionManagementFilter -->
+    <beans:bean id="concurrencyFilter"
+                class="org.springframework.security.web.session.ConcurrentSessionFilter">
+        <beans:property name="sessionRegistry" ref="sessionRegistry"/>
+        <beans:property name="expiredUrl" value="/#/login"/>
+    </beans:bean>
+
+    <!-- 验证ajax请求-->
+    <beans:bean id="ajaxLoginFilter" init-method="init"
+                class="com.lifetech.dhap.pathcloud.security.AjaxUsernamePasswordAuthenticationFilter">
+        <beans:property name="authenticationManager" ref="myAuthenticationManager"/>
+        <beans:property name="successHandler" ref="ajaxSuccessHandler"/>
+        <beans:property name="failureHandler" ref="ajaxFailureHandler"/>
+        <beans:property name="username" value="username"/>
+        <beans:property name="password" value="password"/>
+        <beans:property name="sessionAuthenticationStrategy" ref="sessionAuthenticationStrategy"/>
+        <!-- 记住密码设置 -->
+        <beans:property name="rememberMeServices" ref="rememberMeServices"/>
+        <beans:property name="myRequestMatcher" ref="loginRequestMatcher"/>
+    </beans:bean>
+
+    <beans:bean id="myLogoutFilter" class="com.lifetech.dhap.pathcloud.security.MyLogoutFilter">
+        <beans:property name="logoutRequestMatcher" ref="logoutRequestMatcher"/>
+        <!-- 退出处理成功后的默认显示url -->
+        <beans:constructor-arg index="0" ref="logoutSuccessHandler"/>
+        <beans:constructor-arg index="1">
+            <!-- 退出成功后的handler列表 -->
+            <beans:array>
+                <beans:bean id="securityContextLogoutHandler"
+                            class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
+                <!-- 加入了开发人员自定义的退出成功处理 -->
+            </beans:array>
+        </beans:constructor-arg>
+    </beans:bean>
+
+    <beans:bean id="logoutSuccessHandler"
+                class="com.lifetech.dhap.pathcloud.security.MyLogoutSuccessHandler">
+        <beans:property name="defaultTargetUrl" value="/#/login"/>
+    </beans:bean>
+
+    <beans:bean id="rememberMeServices"
+                class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
+        <beans:constructor-arg name="key" value="CCDC-REMEMBER-ME"/>
+        <!-- 默认时间604800秒(一个星期) -->
+        <beans:property name="tokenValiditySeconds" value="604800"/>
+        <beans:property name="parameter" value="rememberMe"/>
+        <beans:constructor-arg name="userDetailsService" ref="myUserDetailsService"/>
+    </beans:bean>
+
+    <beans:bean id="ajaxSuccessHandler"
+                class="com.lifetech.dhap.pathcloud.security.MyAjaxAuthenticationSuccessHandler"/>
+    <beans:bean id="ajaxFailureHandler" class=
+            "com.lifetech.dhap.pathcloud.security.MyAjaxAuthenticationFailureHandler">
+        <beans:property name="forwardToDestination" value="false"/>
+        <beans:property name="defaultFailureUrl" value="/#/login"/>
+    </beans:bean>
+
+    <beans:bean id="myAccessDeniedHandler" class="com.lifetech.dhap.pathcloud.security.MyAccessDeniedHandler">
+        <beans:property name="errorPage" value="/#/403"/>
+    </beans:bean>
+
+    <beans:bean id="myFilterSecurityInterceptor"
+                class="com.lifetech.dhap.pathcloud.security.MyFilterSecurityInterceptor"/>
+    <beans:bean id="myInvocationSecurityMetadataSource"
+                class="com.lifetech.dhap.pathcloud.security.MyInvocationSecurityMetadataSource"/>
+
+    <beans:bean id="loginRequestMatcher" class="com.lifetech.dhap.pathcloud.security.MyRequestMatcher">
+        <beans:property name="filterProcessesUrl" value="/api/login"/>
+    </beans:bean>
+    <beans:bean id="logoutRequestMatcher" class="com.lifetech.dhap.pathcloud.security.MyRequestMatcher">
+        <beans:property name="filterProcessesUrl" value="/api/logout"/>
+    </beans:bean>
+</beans:beans>

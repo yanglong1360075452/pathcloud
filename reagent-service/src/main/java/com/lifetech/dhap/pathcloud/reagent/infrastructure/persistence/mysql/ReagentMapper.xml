@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lifetech.dhap.pathcloud.reagent.domain.ReagentMapper" >
+  <resultMap id="BaseResultMap" type="com.lifetech.dhap.pathcloud.reagent.domain.model.Reagent" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="category" property="category" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="clone_number" property="cloneNumber" jdbcType="VARCHAR" />
+    <result column="pre_process" property="preProcess" jdbcType="INTEGER" />
+    <result column="positive_position" property="positivePosition" jdbcType="VARCHAR" />
+    <result column="diagnose" property="diagnose" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="BIGINT" />
+    <result column="update_by" property="updateBy" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from reagent
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.lifetech.dhap.pathcloud.reagent.domain.model.Reagent" >
+    insert into reagent (id, name, category, 
+      type, clone_number, pre_process, 
+      positive_position, diagnose, create_by, 
+      update_by, create_time, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{category,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER}, #{cloneNumber,jdbcType=VARCHAR}, #{preProcess,jdbcType=INTEGER}, 
+      #{positivePosition,jdbcType=VARCHAR}, #{diagnose,jdbcType=VARCHAR}, #{createBy,jdbcType=BIGINT}, 
+      #{createBy,jdbcType=BIGINT},now(),now()
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.lifetech.dhap.pathcloud.reagent.domain.model.Reagent" >
+    update reagent
+    set name = #{name,jdbcType=VARCHAR},
+      category = #{category,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      clone_number = #{cloneNumber,jdbcType=VARCHAR},
+      pre_process = #{preProcess,jdbcType=INTEGER},
+      positive_position = #{positivePosition,jdbcType=VARCHAR},
+      diagnose = #{diagnose,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=BIGINT},
+      update_time = now()
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, name, category, type, clone_number, pre_process, positive_position, diagnose, 
+    create_by, update_by, create_time, update_time
+    from reagent
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByTypeAndName" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select id, name, category, type, clone_number, pre_process, positive_position, diagnose,
+    create_by, update_by, create_time, update_time
+    from reagent
+    where name = #{name,jdbcType=VARCHAR}
+    <if test="type != null"> and type =#{type,jdbcType=INTEGER} </if>
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, name, category, type, clone_number, pre_process, positive_position, diagnose, 
+    create_by, update_by, create_time, update_time
+    from reagent
+  </select>
+
+  <select id="last" resultType="long" useCache="false">
+        SELECT LAST_INSERT_ID()
+    </select>
+
+  <select id="selectByCondition" parameterType="com.lifetech.dnap.pathcloud.reagent.application.condition.ReagentCondition" resultMap="BaseResultMap">
+    select id, name, category, type, clone_number, pre_process, positive_position, diagnose,
+    create_by, update_by, create_time, update_time
+    from reagent
+    <where>
+      <if test="filter != null">name like CONCAT('%',#{filter,jdbcType=VARCHAR},'%')</if>
+      <if test="category != null">and category = #{category,jdbcType=INTEGER}</if>
+    </where>
+    <if test="order != null">ORDER BY ${order}</if>
+    limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+  </select>
+
+  <select id="countByCondition" parameterType="com.lifetech.dnap.pathcloud.reagent.application.condition.ReagentCondition" resultType="java.lang.Long">
+    select count(*) from reagent
+    <where>
+      <if test="filter != null">name LIKE CONCAT('%',#{filter,jdbcType=VARCHAR},'%')</if>
+      <if test="category != null">and category = #{category,jdbcType=INTEGER}</if>
+    </where>
+  </select>
+</mapper>

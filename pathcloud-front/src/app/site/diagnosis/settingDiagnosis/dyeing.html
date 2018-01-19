@@ -1,0 +1,91 @@
+<div class="dyeingTemplate" ng-controller="DyeingTemplateController as DyeingTpl">
+
+  <div class="row clearfix" id="configMaterial">
+    <div class="col-xs-3 typelist">
+      <div class="sign">特检类型</div>
+      <div class="typelist-content" >
+
+        <div class="name-list" ng-repeat="item in DyeingTpl.dyeTypeList track by $index" ng-hide="item.code<1" ng-class="{active:DyeingTpl.activeType.index===$index}" ng-click="DyeingTpl.choseDyeType(item,$index)">
+
+          <input type="text" class="input-sm form-control" ng-model="item.name" ng-disabled="!item.focus" ng-blur="DyeingTpl.saveDyeType(item)" auto-focus="{{item.focus}}">
+          <div class="pull-right" ng-hide="item.code == 1">
+            <a href="" class="icon" ng-click="item.focus=true"><i class="glyphicon glyphicon-edit"></i></a>
+            <a href="" class="icon" ng-click="DyeingTpl.deleteDyeType($index)"><i class="glyphicon glyphicon-trash"></i></a>
+          </div>
+
+        </div>
+      </div>
+      <button class="add-btn" ng-click="DyeingTpl.addDyeType()">+</button>
+    </div>
+    <div class="col-sm-3">
+      <div class="sign">
+        免疫组化标记物：
+      </div>
+      <div class="title">
+        <h4>{{'科室类别'|translate}}</h4>
+      </div>
+      <div class="content">
+        <div class="list-container">
+          <ul class="list-unstyled">
+            <li ng-repeat="item in DyeingTpl.departmentList" ng-class="{active:DyeingTpl.chosedMaterial===item.code}" ng-click="DyeingTpl.choseMaterial(item.code)">
+              {{item.name|translate}}
+              <div class="pull-right i-container">
+                <i class="" ng-show="DyeingTpl.chosedMaterial===item.code"><img src="assets/images/icon-caret-right.png" alt=""></i>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="sign"></div>
+      <div class="title">
+        <h4>{{'疾病类别'|translate}}</h4>
+      </div>
+      <div class="content">
+        <div class="list-container">
+          <ul class="list-unstyled">
+            <li ng-repeat="item in DyeingTpl.templateList" ng-class="{active:DyeingTpl.chosedTemIndex===$index}" ng-click="DyeingTpl.choseTemplate($index)">
+              <!--<span ng-show="!item.focus">{{item.name}}</span>-->
+              <input ng-model="item.name" id="template_{{$index}}" auto-focus="{{item.focus}}" ng-disabled="!item.focus" ng-blur="item.focus=false;DyeingTpl.saveTemplate(item,$index)">
+              <div class="pull-right i-container">
+                <i class="" ng-show="DyeingTpl.chosedTemIndex===$index"><img src="assets/images/icon-caret-right.png" alt=""></i>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="list-toolbar">
+          <div class="flex-box">
+            <button ng-click="DyeingTpl.addTemplate()"><icon class="icon">+</icon>{{'添加'|translate}}</button>
+            <button ng-click="DyeingTpl.templateList[DyeingTpl.chosedTemIndex].focus=true"><icon  class="icon"><img  height="14" src="assets/images/edit.png" alt=""></icon>{{'重命名'|translate}}</button>
+            <button ng-click="DyeingTpl.deleteTemplate()"><icon  class="icon"><img height="14" src="assets/images/delete.png" alt=""></icon>{{'删除'|translate}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="sign"></div>
+      <div class="title">
+        <h4>{{'标记物'|translate}}</h4>
+      </div>
+      <div class="content" ng-click="DyeingTpl.focusMarker = true">
+        <div class="list-container">
+          <div class="marker-item text-ellipsis" ng-repeat="item in DyeingTpl.marks track by $index">
+            {{item}}
+            <span ng-if="DyeingTpl.focusText" class="delete" ng-click="DyeingTpl.marks.splice($index,1)"><icon  class="icon"><img height="14" src="assets/images/delete.png" alt=""></icon></span>
+          </div>
+          <input ng-if="DyeingTpl.focusText" style="border: none; outline: none;box-shadow: none;" class="form-control" ng-model="DyeingTpl.marker" ng-disabled="!DyeingTpl.focusText" ng-blur="DyeingTpl.focusMarker = false" auto-focus="{{DyeingTpl.focusMarker}}" type="text" ng-keydown="DyeingTpl.handleKeyDown($event)">
+          <!--<textarea class="form-control" ng-model="DyeingTpl.templateList[DyeingTpl.chosedTemIndex].content"-->
+                    <!--ng-disabled="!DyeingTpl.focusText"></textarea>-->
+        </div>
+        <div class="list-toolbar ">
+          <div class="flex-box">
+            <button class="btn-info" ng-click="DyeingTpl.changeText()">
+              <icon  class="icon"><img  height="14" src="assets/images/edit.png" alt=""></icon>{{DyeingTpl.focusText?"保存":"编辑"|translate}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

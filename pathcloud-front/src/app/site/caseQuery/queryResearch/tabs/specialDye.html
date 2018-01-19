@@ -1,0 +1,50 @@
+<div class="pathology-report">
+
+
+  <div class="clearfix">
+    <div class="col-sm-2">
+      <ul class="nav nav-stacked">
+        <li ng-class="{active:researchQuery.specialDyeIndex === $index}" class="btn btn-primary btn-sm nav-item" ng-click="researchQuery.specialDyeSelect(item.code,$index)" ng-repeat="item in researchQuery.specialDyeList">{{item.name|translate}}</li>
+      </ul>
+    </div>
+    <div class="col-sm-10">
+      <!--基本信息-->
+      <div class="row sample">
+        <div class="table-min mini">
+          <table class=" table-hover table-bordered">
+            <thead>
+            <tr>
+              <th>{{'蜡块号'|translate}}</th>
+              <th>{{'玻片号'|translate}}</th>
+              <th>{{'试剂/抗体名称'|translate}}</th>
+              <th>{{'事件名称'|translate}}</th>
+              <th>{{'操作人'|translate}}</th>
+              <th>{{'操作时间'|translate}}</th>
+              <th>{{'等待时间'|translate}}</th>
+              <th>{{'备注'|translate}}</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in researchQuery.specialDyeInfo track by $index">
+              <td ng-bind="item.blockSubId"></td>
+              <td ng-bind="item.slideSubId"></td>
+              <td ng-bind="item.marker"></td>
+              <td ng-bind="item.operationDesc"></td>
+              <td ng-bind="item.operator.firstName"></td>
+              <td ng-bind="item.operationTime| date : 'yyyy-MM-dd HH:mm:ss'"></td>
+              <td ng-bind="item.waitTime|formatTime"></td>
+              <td ng-bind="item.note"></td>
+
+            </tr>
+            <tr ng-repeat="n in [].constructor(10) track by $index" ng-show="!researchQuery.specialDyeInfo.length||researchQuery.specialDyeInfo.length<=$index"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+</div>

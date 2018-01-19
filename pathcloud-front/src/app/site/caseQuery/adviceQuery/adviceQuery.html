@@ -1,0 +1,107 @@
+<toolbar class="clearfix">
+  <!--搜索部分-->
+  <div class="search clearfix">
+    <search-input class="pull-right" style="width: 350px" model="adviceQuery.searchStr" get-data="adviceQuery.search()"  placeholder="{{'输入姓名/病理号查询'|translate}}"></search-input>
+  </div>
+
+</toolbar>
+
+<div id="adviceQuery" class="container clearfix">
+  <!--筛选部分-->
+  <div class="form-inline toolbar" style="background: none;min-width:inherit">
+    <date-seletor dateset="adviceQuery.defaultTime" start-time="adviceQuery.startTime" end-time="adviceQuery.endTime"></date-seletor>
+    <select class="form-control" ng-model="adviceQuery.filterData.applyType" ng-options="item.code as item.name for item in adviceQuery.applyTypeList">
+      <option value="">{{'医嘱类别'|translate}}</option>
+    </select>
+    <select class="form-control" ng-model="adviceQuery.filterData.inspectionDoctor" ng-options="item.id as item.firstName for item in adviceQuery.inspectionDoctorList">
+      <option value="">{{'申请医生'|translate}}</option>
+    </select>
+    <select class="form-control" ng-model="adviceQuery.filterData.status" ng-options="item.code as item.name for item in adviceQuery.statusList">
+      <option value="">{{'状态'|translate}}</option>
+    </select>
+    <button ng-click="adviceQuery.query()" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-filter"></span>{{'筛选'|translate}}</button>
+
+  </div>
+  <div class="col-sm-7 no-padding">
+
+    <!--表格显示部分-->
+    <div class="table-min">
+      <table class=" table-hover table-bordered">
+        <thead class="primary-table-head">
+        <tr>
+          <th ng-repeat="item in adviceQuery.tableHeaders" ng-click="adviceQuery.getSortList(item)" class="{{item.class}} cursor-pointer" ng-style="item.style">{{item.name|translate}}
+            <i class="cursor-pointer glyphicon glyphicon-chevron-down arrow"
+               ng-hide="!item.order"
+               ng-class="{'rotate-180':item.sort==='asc','rotate-0':item.sort==='desc'||!item.sort}" />
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in adviceQuery.list track by $index" class="cursor-pointer" ng-click="adviceQuery.info = item;adviceQuery.getDetail(item)">
+          <td ng-bind="item.serialNumber"></td>
+          <td ng-bind="item.blockSubId"></td>
+          <td ng-bind="item.patientName"></td>
+          <td ng-bind="item.operationName"></td>
+          <td ng-bind="item.operatorName"></td>
+          <td ng-bind="item.operationTime| date : 'yyyy-MM-dd HH:mm' "></td>
+          <td ng-bind="item.statusName"></td>
+        </tr>
+        <tr ng-repeat="n in [].constructor(20) track by $index" ng-show="adviceQuery.list.length<=$index">
+          <td ng-repeat="n in [].constructor(7) track by $index"></td>
+        </tr>
+
+        </tbody>
+      </table>
+      <div class="table-footer">
+        <div class="pull-left form-control-static pagination">{{'共'|translate}}<span ng-bind="adviceQuery.total"></span>{{'条结果'|translate}}</div>
+        <uib-pagination class="pull-right" boundary-links="true" items-per-page="adviceQuery.filterData.length" max-size="10"
+                        total-items="adviceQuery.total"
+                        ng-model="adviceQuery.filterData.page"
+                        ng-change="adviceQuery.getDataList()"
+                        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-sm-5">
+    <div class="advice-info">
+      <div class="title">
+        <h4>{{'执行详情'|translate}}</h4>
+      </div>
+      <div class="content">
+        <div class="sub-title">{{'试剂/抗体名称'|translate}}：</div>
+        <div class="sub-content">
+          <p ng-bind="adviceQuery.info.ihcMarker"></p>
+        </div>
+        <div class="sub-title">{{'医生备注'|translate}}：</div>
+        <div class="sub-content">
+          <p ng-bind="adviceQuery.info.note"></p>
+        </div>
+        <div class="sub-title">{{'操作记录'|translate}}：</div>
+
+        <div class="btn-container">
+            <table class="table">
+              <thead>
+              <tr>
+                <th class="text-center">{{'操作名称'|translate}}</th>
+                <th class="text-center">{{'操作人'|translate}}</th>
+                <th class="text-center">{{'操作时间'|translate}}</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="item in adviceQuery.queryResultList track by $index">
+                <td><a ng-bind="item.operationName" ></a></td>
+                <td ng-bind="item.operatorName"></td>
+                <td ng-bind="item.operationTime| date : 'yyyy-MM-dd HH:mm' "></td>
+              </tr>
+              <!--<tr><td class="text-center" colspan="11" ng-show="!sampleSearch.data.length">暂无数据</td></tr>-->
+              </tbody>
+            </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,12 @@
+<toolbar class="clearfix">
+  <ul class="list-unstyled menu-list">
+    <li id="subRoute0" ng-class="{active:proDistribution.activeMenu===1}" ng-click="proDistribution.choseMenu(1)">{{'派片'|translate}}</li>
+    <li id="subRoute1" ng-class="{active:proDistribution.activeMenu===2}" ng-click="proDistribution.choseMenu(2)">{{'派片记录'|translate}}</li>
+  </ul>
+</toolbar>
+
+<div id="proDistribution">
+  <div class="container" ng-if="proDistribution.activeMenu===1" ng-include="'app/site/product/distribution/createDistribution.html'"></div>
+  <div class="container" ng-if="proDistribution.activeMenu===2" ng-include="'app/site/product/distribution/searchDistribution.html'"></div>
+</div>
+

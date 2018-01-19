@@ -1,0 +1,79 @@
+<div>
+  <div class="modal-header blue-label">
+    <button type="button" class="close" data-dismiss="modal" ng-click="dehydrateUpdate.cancel()">
+      <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title ok-color">{{'编辑脱水机'|translate}}</h4>
+  </div>
+  <div class="modal-body clearfix" >
+    <div class="form-container">
+      <form role="form" class="form-horizontal" name="dehydrateUpdate_form" novalidate>
+        <div class="form-group" ng-class="{}">
+          <label for="name" class="control-label col-sm-4">{{'编号'|translate}}<span class="important-span">*</span>:</label>
+          <div class="col-sm-6 has-feedback" >
+            <input class="form-control" name="name" id="name" type="text"
+                   placeholder="请输入编号"
+                   ng-model="dehydrateUpdate.item.name"
+                   ng-change="dehydrateUpdate.checkName()"
+                   ng-pattern="/^[A-Za-z0-9]{1,2}$/"
+                   ng-maxlength="2"
+                   required/>
+            <uib-alert type="danger" ng-show="dehydrateUpdate_form.name.$error.maxlength" >编号不要超过2位</uib-alert>
+            <uib-alert type="danger" ng-show="dehydrateUpdate.item.name&&dehydrateUpdate.nameErr">{{dehydrateUpdate.nameErr}}</uib-alert>
+          </div>
+        </div>
+        <div class="form-group has-feedback">
+          <label for="sn" class="control-label col-sm-4">序列号<span class="important-span">*</span>:</label>
+          <div class="col-sm-6 " >
+            <input class="form-control" name="sn" id="sn" type="text"
+                   placeholder="请输入序列号"
+                   ng-model="dehydrateUpdate.item.sn"
+                   ng-maxlength="255"
+                   ng-change="dehydrateUpdate.checkSn()"
+                   required/>
+            <uib-alert type="danger" ng-show="dehydrateUpdate_form.sn.$error.maxlength" >序列号不要超过255位</uib-alert>
+            <uib-alert type="danger" ng-show="dehydrateUpdate.item.sn&&dehydrateUpdate.snErr">{{dehydrateUpdate.snErr}}</uib-alert>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="description" class="control-label col-sm-4">备注&nbsp;:</label>
+          <div class="col-sm-6 has-feedback" >
+            <input class="form-control" name="description" id="description" type="text"
+                   placeholder="请输入备注"
+                   ng-maxlength="20"
+                   ng-model="dehydrateUpdate.item.description"/>
+            <uib-alert type="danger" ng-show="dehydrateUpdate_form.description.$error.maxlength" >备注不要超过20位</uib-alert>
+          </div>
+        </div>
+        <div class="form-group has-feedback">
+          <label for="capacity" class="control-label col-sm-4">容量<span class="important-span">*</span>:</label>
+          <div class="col-sm-6 " >
+            <input class="form-control" name="capacity" id="capacity" type="number"
+                   placeholder="容量范围在1到999"
+                   ng-model="dehydrateUpdate.item.capacity"
+                   ng-maxlength="3"
+                   max="999"
+                   min="1"
+                   required/>
+            <uib-alert type="danger" ng-show="dehydrateUpdate_form.capacity.$error.maxlength" >容量已超出范围</uib-alert>
+          </div>
+        </div>
+        <div class="form-group has-feedback">
+          <label for="capacity" class="control-label col-sm-4">状态&nbsp;:</label>
+          <div class="col-sm-3">
+            <input type="radio" name="disabled" ng-click="dehydrateUpdate.change(1)" ng-checked="!dehydrateUpdate.item.disabled"/>正常
+          </div>
+          <div class="col-sm-3">
+            <input type="radio" name="disabled" ng-click="dehydrateUpdate.change(2)" ng-checked="dehydrateUpdate.item.disabled"/>禁用
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning no-border" type="button" ng-click="dehydrateUpdate.cancel()">取消</button>
+    <button class="btn btn-default no-border" type="button" ng-click="dehydrateUpdate.ok()" ng-disabled="dehydrateUpdate_form.$invalid||dehydrateUpdate.snErr||dehydrateUpdate.nameErr">确定</button>
+  </div>
+
+</div>

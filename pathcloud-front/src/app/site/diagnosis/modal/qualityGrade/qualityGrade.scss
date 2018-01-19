@@ -1,0 +1,21 @@
+#qualityGrade{
+   .modal-body{
+     .glyphicon-star,.glyphicon-star-empty{
+       color: #fed010;
+     }
+     .row{
+       height:30px;
+       line-height:30px;
+       font-size:16px;
+       margin-bottom:10px;
+       .col-sm-6{
+         span{
+           outline:none;
+         }
+       }
+     }
+     .row i{
+       font-size:16px;
+     }
+   }
+ }

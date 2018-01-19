@@ -1,0 +1,9 @@
+{
+	"base_url": "http://114.115.202.111:8080/psts/api",
+	"devices": [
+		{
+			"sn": "ET05261503",
+			"port": "COM4"
+		}
+	]
+}

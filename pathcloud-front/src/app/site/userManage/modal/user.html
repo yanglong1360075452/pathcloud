@@ -1,0 +1,300 @@
+<div id="userModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="userMod.cancel()">
+      <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title text-center" id="modal-title" ng-bind="userMod.Title"></h4>
+  </div>
+  <div class="modal-body" style="overflow-y: inherit;" id="modal-body">
+    <div class="center-block">
+      <form class="form-horizontal clearfix" name="userMod_form" role="form" >
+        <fieldset class="col-sm-6">
+          <div  class="form-group has-feedback" ng-class="{'has-success':userNameOk = userMod_form.accountName.$dirty && userMod_form.accountName.$valid && !userMod.check.nameErr,
+                'has-error':userNameErr = userMod_form.accountName.$dirty && userMod_form.accountName.$invalid||userMod.check.nameErr}" >
+            <label for="accountName" class="col-sm-4 control-label">{{'用户名'|translate}}<span class="text-error">*</span>：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="accountName" id="accountName" required
+                     ng-disabled="userMod.method==='put'||userMod.method==='get' "
+                     ng-model="userMod.data.userName"
+                     ng-blur="userMod.checkFn(userMod.data.userName)"
+                     onkeydown="if(event.keyCode==32) return false"
+                     ng-pattern="/^[a-zA-Z0-9_-]{4,30}$/"
+                     ng-maxlength="30"
+                     maxlength="30"
+                     placeholder="4位以上字母数字减号下划线组成"
+              >
+              <!--oninput="if(/^[a-zA-Z0-9_-]{4,16}$/.test(value)) return"-->
+              <!--oninput="if(/^[\u4E00-\u9FA5\uF900-\uFA2D\u0020]*$/.test(value)) return"-->
+              <!--oninput="if(!/^[u4E00-u9FA5]+$/.test(value)) return"-->
+              <span ng-show="userNameOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+              <!--<span ng-show="passwordErr" class="glyphicon glyphicon-remove form-control-feedback"></span>-->
+              <div uib-alert class="warning" ng-show="userMod.check.nameErr" close="userMod.check.nameErr='' ">{{userMod.check.nameErr}}</div>
+              <div uib-alert class="warning" ng-show="userMod_form.accountName.$error.maxlength" close="userNameErr='' ">用户名最长30位</div>
+            </div>
+          </div>
+
+
+          <div ng-if="userMod.method!=='get'" class="form-group has-feedback" ng-class="{'has-success':passwordOk = userMod_form.password.$dirty && userMod_form.password.$valid,
+                'has-error':passwordErr = userMod_form.password.$dirty && userMod_form.password.$invalid}">
+            <label for="Password" class="col-sm-4 control-label">{{'密码'|translate}}<span class="text-error">*</span>：</label>
+            <div class="col-sm-8">
+              <input type="password" style="position: absolute;top:-1000px;left: -1000px;z-index: -10000"><!--防止表单自动填充-->
+              <input type="password" class="form-control" name="password" id="Password"  required
+                     ng-model="userMod.data.password" ng-minlength="4" ng-maxlength="18"
+                     ng-focus="this.type='password' "
+                     onkeydown="if(event.keyCode==32) return false"
+                     ng-disabled="userMod.formDisabled"
+                     placeholder="{{userMod.placeholder}}"
+
+              >
+              <span ng-show="passwordOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+              <!--<span ng-show="passwordErr" class="glyphicon glyphicon-remove form-control-feedback"></span>-->
+              <div uib-alert class="warning" ng-show="userMod_form.password.$error.maxlength||userMod_form.password.$error.minlength||passwordErr">密码长度4到18位</div>
+              <!--<div uib-alert class="warning" ng-show="passwordErr">密码长度4到18位</div>-->
+            </div>
+          </div>
+          <!--<div ng-if="userMod.method==='post' "  class="form-group has-feedback"  ng-class="{'has-success':checkPasswordOk = userMod_form.checkPassword.$dirty && userMod_form.checkPassword.$valid && !userMod.check.passwordErr,-->
+          <!--'has-error':checkPasswordErr = userMod_form.checkPassword.$dirty && userMod_form.checkPassword.$invalid || userMod.check.passwordErr}">-->
+          <!--<label for="password_checked" class="col-sm-4 control-label">确认密码&nbsp;*</label>-->
+          <!--<div class="col-sm-8">-->
+          <!--<input type="password" class="form-control" id="password_checked" name="checkPassword" placeholder="Password" required-->
+          <!--ng-model="userMod.check.password"-->
+          <!--ng-minlength="6" ng-maxlength="20"-->
+          <!--ng-change="userMod.checkPassword()"-->
+          <!--ng-disabled="userMod.formDisabled"-->
+          <!--&gt;-->
+          <!--<span ng-show="checkPasswordOk" class="glyphicon glyphicon-ok form-control-feedback"></span>-->
+          <!--&lt;!&ndash;<span ng-show="passwordErr" class="glyphicon glyphicon-remove form-control-feedback"></span>&ndash;&gt;-->
+          <!--<div uib-alert class="warning" ng-show="userMod.check.passwordErr" close="userMod.check.passwordErr='' ">{{userMod.check.passwordErr}}</div>-->
+          <!--</div>-->
+          <!--</div>-->
+          <div class="form-group has-feedback"  ng-class="{'has-success':firstNameOk = userMod_form.firstName.$dirty && userMod_form.firstName.$valid,
+                'has-error':firstNameErr =userMod_form.firstName.$dirty && userMod_form.firstName.$invalid}">
+            <label for="firstName" class="col-sm-4 control-label">{{'真实姓名'|translate}}<span class="text-error">*</span>：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="firstName" id="firstName" ng-model="userMod.data.firstName" ng-maxlength="20" required
+                     ng-disabled="userMod.method==='get' "
+                     onkeydown="if(event.keyCode==32) return false"
+              >
+              <span ng-show="firstNameOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+              <div uib-alert class="warning" ng-show="userMod_form.firstName.$error.maxlength" >姓名长度过长</div>
+              <div uib-alert class="warning" ng-show="userMod.method==='put'&&userMod_form.firstName.$error.required||userMod_form.firstName.$dirty&&userMod_form.firstName.$error.required" >姓名必填</div>
+              <!--<span ng-show="passwordErr" class="glyphicon glyphicon-remove form-control-feedback"></span>-->
+            </div>
+          </div>
+          <div class="form-group has-feedback"  ng-class="{'has-success':phoneOk = userMod_form.phone.$dirty && userMod_form.phone.$valid,
+                'has-error':phoneErr = userMod_form.phone.$dirty && userMod_form.phone.$invalid}">
+            <label for="phone" class="col-sm-4 control-label">{{'联系电话'|translate}}&nbsp;&nbsp;<span class="required">*</span>：</label>
+            <div class="col-sm-8">
+              <input type="tel" class="form-control" name="phone" id="phone" ng-model="userMod.data.phone"
+                     onkeydown="if(event.keyCode==32) return false"
+                     ng-pattern="/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/"
+                     ng-disabled="userMod.formDisabled"
+                     required
+              >
+              <span ng-show="phoneOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+              <!--<span ng-show="passwordErr" class="glyphicon glyphicon-remove form-control-feedback"></span>-->
+              <div uib-alert class="warning" ng-show="userMod_form.phone.$error.pattern" >电话格式错误</div>
+            </div>
+          </div>
+          <!--电子邮箱-->
+          <div class="form-group has-feedback"  ng-class="{'has-success':emailOk = userMod_form.email.$dirty && userMod_form.email.$valid,
+                'has-error':emailErr = userMod_form.email.$dirty && userMod_form.email.$invalid}">
+            <label for="email" class="col-sm-4 control-label">{{'电子邮箱'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="email" class="form-control" id="email" name="email" ng-model="userMod.data.email"
+                     ng-disabled="userMod.formDisabled"
+                     onkeydown="if(event.keyCode==32) return false"
+                     ng-pattern="/[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/"
+              >
+              <span ng-show="emailOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+              <!--<span ng-show="passwordErr" class="glyphicon glyphicon-remove form-control-feedback"></span>-->
+              <div uib-alert class="warning" ng-show="userMod_form.email.$error.pattern" >邮箱格式错误</div>
+            </div>
+          </div>
+          <!--单位：-->
+          <div class="form-group has-feedback"  ng-class="{'has-success':unitOk = userMod_form.unit.$dirty && userMod_form.unit.$valid,
+                'has-error':unitErr = userMod_form.unit.$dirty && userMod_form.unit.$invalid}">
+            <label for="unit" class="col-sm-4 control-label">{{'单位'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="unit" name="unit"  ng-model="userMod.data.unit"
+                     onkeydown="if(event.keyCode==32) return false"
+              >
+              <span ng-show="unitOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+          </div>
+
+          <!--科室：departments-->
+          <div class="form-group"  ng-class="{'has-success':departmentsOk = userMod_form.departments.$dirty && userMod_form.departments.$valid,
+                'has-error':departmentsErr = userMod_form.departments.$invalid && userMod_form.departments.$dirty}">
+            <label  class="col-sm-4 control-label">{{'科室'|translate}}<span class="required">*</span>：</label>
+            <div class="col-sm-8">
+              <select-search ng-hide="readonly" required="true" text="userMod.data.departments | department" require="true" value="userMod.data.departments" get-data="userMod.getDepartments(filter)" datas="userMod.departmentList"></select-search>
+            </div>
+          </div>
+
+          <!--职工号： wno-->
+          <div class="form-group has-feedback"  ng-class="{'has-success':wnoOk = userMod_form.wno.$dirty && userMod_form.wno.$valid,
+                'has-error':wnoErr = userMod_form.wno.$dirty && userMod_form.wno.$invalid}">
+            <label for="wno" class="col-sm-4 control-label">{{'职工号'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="wno" name="wno"  ng-model="userMod.data.wno"
+                     onkeydown="if(event.keyCode==32) return false"
+              >
+              <span ng-show="wnoOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+          </div>
+          <!--用户角色-->
+          <div ng-if="userMod.method!=='get'" class="form-group">
+            <label class="col-sm-4 control-label">{{'用户角色'|translate}}<span class="text-error">*</span>：</label>
+            <div class="col-sm-8">
+              <div class="form-inline clearfix">
+                <select style="width: 100%" class="form-control" required
+                        ng-model="userMod.data.roleId"
+                        ng-options="role.id as role.name for role in userMod.rolesList"
+                        ng-disabled="userMod.formDisabled"
+                >
+                  <option value="">{{'选择角色'|translate}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <!--禁用-->
+          <div ng-if="userMod.method!=='get'" class="form-group" ng-show="userMod.permission===0">
+            <label class="col-sm-4 control-label">{{'用户状态'|translate}}<span class="text-error">*</span>：</label>
+            <div class="col-sm-8">
+              <div class="radio">
+                <label class="col-xs-offset-2">
+                  <input type="radio" ng-value=true ng-model="userMod.data.status" ng-disabled="userMod.formDisabled" required>{{'正常'|translate}}
+                </label>
+                <label  class="col-xs-offset-2">
+                  <input type="radio"  ng-value=false ng-model="userMod.data.status" ng-disabled="userMod.formDisabled" required>{{'禁用'|translate}}
+                </label>
+              </div>
+
+              <!--<div uib-alert class="warning" ng-show="userMod.messageErr" close="userMod.messageErr='' ">{{userMod.messageErr}}</div>-->
+            </div>
+          </div>
+          <!--锁定-->
+          <div ng-if="userMod.method=='put'" class="form-group" ng-show="userMod.permission===0">
+            <label class="col-sm-4 control-label">{{'锁定'|translate}}<span class="text-error">*</span>：</label>
+            <div class="col-sm-8">
+              <div class="radio">
+                <label class="col-xs-offset-2">
+                  <input type="radio" ng-value=false ng-model="userMod.data.lockStatus" ng-disabled="userMod.formDisabled" required>{{'正常'|translate}}
+                </label>
+                <label  class="col-xs-offset-2">
+                  <input type="radio"  ng-value=true ng-model="userMod.data.lockStatus" ng-disabled="userMod.formDisabled" required>{{'锁定'|translate}}
+                </label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset class="col-sm-6">
+          <!--身份：identity-->
+          <div class="form-group has-feedback"  ng-class="{'has-success':identityOk = userMod_form.identity.$dirty && userMod_form.identity.$valid,
+                'has-error':identityErr = userMod_form.identity.$dirty && userMod_form.identity.$invalid}">
+            <label for="identity" class="col-sm-4 control-label">{{'身份'|translate}}：</label>
+            <div class="col-sm-8">
+              <select id="identity"  class="form-control"
+                      ng-model="userMod.data.identity"
+                      ng-options="item.value as item.name for item in userMod.identityList">
+                <option value="">{{'请选择'|translate}}</option>
+              </select>
+            </div>
+          </div>
+          <!--导师：tutor-->
+          <div class="form-group has-feedback"  ng-class="{'has-success':tutorOk = userMod_form.tutor.$dirty && userMod_form.tutor.$valid,
+                'has-error':tutorErr = userMod_form.tutor.$dirty && userMod_form.tutor.$invalid}">
+            <label for="tutor" class="col-sm-4 control-label">{{'导师'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="tutor" name="tutor"  ng-model="userMod.data.tutor"
+                     onkeydown="if(event.keyCode==32) return false"
+              >
+              <span ng-show="tutorOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+          </div>
+          <!--院系：faculty-->
+          <div class="form-group has-feedback"  ng-class="{'has-success':facultyOk = userMod_form.faculty.$dirty && userMod_form.faculty.$valid,
+                'has-error':facultyErr = userMod_form.faculty.$dirty && userMod_form.faculty.$invalid}">
+            <label for="faculty" class="col-sm-4 control-label">{{'院系'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="faculty" name="faculty"  ng-model="userMod.data.faculty"
+                     onkeydown="if(event.keyCode==32) return false"
+              >
+              <span ng-show="facultyOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+          </div>
+          <!--专业：specialty-->
+          <div class="form-group has-feedback"  ng-class="{'has-success':specialtyOk = userMod_form.specialty.$dirty && userMod_form.specialty.$valid,
+                'has-error':specialtyErr = userMod_form.specialty.$dirty && userMod_form.specialty.$invalid}">
+            <label for="specialty" class="col-sm-4 control-label">{{'专业'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="specialty" name="specialty"  ng-model="userMod.data.specialty"
+                     onkeydown="if(event.keyCode==32) return false"
+              >
+              <span ng-show="specialtyOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+          </div>
+          <!--学号：studentNumber-->
+          <div class="form-group has-feedback"  ng-class="{'has-success':studentNumberOk = userMod_form.studentNumber.$dirty && userMod_form.studentNumber.$valid,
+                'has-error':studentNumberErr = userMod_form.studentNumber.$dirty && userMod_form.studentNumber.$invalid}">
+            <label for="studentNumber" class="col-sm-4 control-label">{{'学号'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="studentNumber" name="studentNumber"  ng-model="userMod.data.studentNumber"
+                     onkeydown="if(event.keyCode==32) return false"
+              >
+              <span ng-show="studentNumberOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+          </div>
+          <!--课题名称：taskName-->
+          <div class="form-group has-feedback"  ng-class="{'has-success':taskNameOk = userMod_form.taskName.$dirty && userMod_form.taskName.$valid,
+                'has-error':taskNameErr = userMod_form.taskName.$dirty && userMod_form.taskName.$invalid}">
+            <label for="taskName" class="col-sm-4 control-label">{{'课题名称'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="taskName" name="taskName"  ng-model="userMod.data.taskName"
+                     onkeydown="if(event.keyCode==32) return false"
+              >
+              <span ng-show="taskNameOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+          </div>
+          <!--课题类型：taskType-->
+          <div class="form-group has-feedback"  ng-class="{'has-success':taskTypeOk = userMod_form.taskType.$dirty && userMod_form.taskType.$valid,
+                'has-error':taskTypeErr = userMod_form.taskType.$dirty && userMod_form.taskType.$invalid}">
+            <label for="taskType" class="col-sm-4 control-label">{{'课题类型'|translate}}：</label>
+            <div class="col-sm-8">
+              <select id="taskType"  class="form-control"
+                      ng-model="userMod.data.taskType"
+                      ng-options="item.value as item.name for item in userMod.taskTypeList">
+                <option value="">{{'请选择'|translate}}</option>
+              </select>
+            </div>
+          </div>
+          <!--项目代码：projectCode-->
+          <div class="form-group has-feedback"  ng-class="{'has-success':projectCodeOk = userMod_form.projectCode.$dirty && userMod_form.projectCode.$valid,
+                'has-error':projectCodeErr = userMod_form.projectCode.$dirty && userMod_form.projectCode.$invalid}">
+            <label for="projectCode" class="col-sm-4 control-label">{{'项目代码'|translate}}：</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="projectCode" name="projectCode"  ng-model="userMod.data.projectCode"
+                     onkeydown="if(event.keyCode==32) return false"
+              >
+              <span ng-show="projectCodeOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+          </div>
+        </fieldset>
+
+
+
+
+
+
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="userMod.cancel()">{{'取消'|translate}}</button>
+    <button ng-show="userMod.formDisabled" class="btn btn-primary" ng-click="userMod.edit()">{{'编辑'|translate}}</button>
+    <button ng-hide="userMod.formDisabled " class="btn btn-default" type="button" ng-click="userMod.ok()" ng-disabled="userMod_form.$invalid">{{'确定'|translate}}</button>
+  </div>
+</div>

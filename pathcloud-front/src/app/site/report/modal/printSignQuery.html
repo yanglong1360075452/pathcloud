@@ -1,0 +1,53 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="vm.cancel()">
+    <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+    <span class="sr-only">Close</span>
+  </button>
+
+    <h4 class="modal-title text-left" id="modal-title">{{'打印记录'|translate}}</h4>
+</div>
+
+
+<div class="modal-body clearfix" id="signTable">
+    <div class="text-center ">
+        <h3>{{'病理报告签收回执表'|translate}}</h3>
+    </div>
+    <div class="table-min ">
+        <table class="table-hover table-bordered ">
+            <thead class="primary-table-head ">
+                <tr>
+                    <th>{{'病理号'|translate}}</th>
+                    <th>{{'病人姓名'|translate}}</th>
+                    <th>{{'送检医生'|translate}}</th>
+                    <th>{{'送检科室'|translate}}</th>
+                    <th>{{'送检医生签字'|translate}}</th>
+                </tr>
+            </thead>
+            <!--item.ihcMarkers.join(';')-->
+            <tbody>
+                <tr ng-repeat="item in vm.data track by $index ">
+                    <td ng-bind="item.serialNumber "></td>
+                    <td ng-bind="item.name "></td>
+                    <td ng-bind="item.doctor "></td>
+                    <td ng-bind="item.departments | department "></td>
+                    <td></td>
+
+                </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+    <div class="text-right ">
+        <h5>{{vm.today | date:"yyyy-MM-dd "}}</h5>
+    </div>
+
+</div>
+<!--modal-body-->
+
+
+
+<div class="modal-footer ">
+    <button ng-show="vm.firstStep " class="btn btn-warning " type="button " ng-click="vm.cancel() ">{{'取消'|translate}}</button>
+    <button ng-hide="vm.firstStep " class="btn btn-default " type="submit " ng-click="vm.ok() ">{{'确认'|translate}}</button>
+</div>

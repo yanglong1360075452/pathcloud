@@ -1,0 +1,55 @@
+<div id="authorize">
+  <div class="modal-header">
+    <h4 class="modal-title">权限设置</h4>
+  </div>
+  <div class="modal-body clearfix" >
+    <div class="col-xs-6 pad-30">
+      <div class="list-title">角色名称</div>
+      <div class="list-container">
+        <ul class="list-unstyled">
+          <li ng-class="{'active':item.active}" ng-repeat="item in authorize.roleList track by item.id" ng-click="authorize.chooseRole(item)">
+            {{item.name}}<i class="icon-remove-sign pull-right" ng-click="authorize.delRole($index)"></i>
+          </li>
+        </ul>
+      </div>
+      <div class="list-bottom">
+        <div class="row">
+          <div class="col-xs-10 col-md-11">
+            <input class="form-control" ng-model="authorize.roleName">
+          </div>
+
+          <i class="icon-plus-sign-alt add-icon" ng-click="authorize.addRole(authorize.roleName)"></i>
+        </div>
+        <div></div>
+      </div>
+    </div>
+    <div class="col-xs-6 pad-30">
+      <div class="list-title">角色权限</div>
+      <div class="list-container">
+        <ul class="list-unstyled">
+          <li ng-repeat="item in authorize.authList track by item.id">{{item.name}}
+            <i class="icon-remove-sign pull-right" ng-click="authorize.delPerission(item.id)"></i>
+          </li>
+        </ul>
+      </div>
+      <div class="list-bottom">
+        <div class="row">
+          <div class="col-xs-10 col-md-11">
+            <!--<input class="form-control" ng-model="authorize.authName">-->
+            <select class="form-control" ng-model="authorize.chosePerission" ng-options="item as item.name for item in authorize.permissionsList">
+              <option value="">请选择</option>
+            </select>
+          </div>
+
+          <i class="icon-plus-sign-alt add-icon" ng-disabled="!authorize.chosedRole" ng-click="authorize.addAuth(authorize.chosePerission)"></i>
+        </div>
+        <div></div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer" style="text-align: center">
+    <button class="btn btn-warning" type="button" ng-click="authorize.cancel()">取消</button>
+    <button class="btn btn-default" type="button" ng-click="authorize.ok()">确定</button>
+  </div>
+
+</div>

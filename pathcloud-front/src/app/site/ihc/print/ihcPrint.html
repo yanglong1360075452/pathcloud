@@ -1,0 +1,80 @@
+<toolbar class="clearfix">
+  <!--搜索部分-->
+  <div class="form-inline clearfix">
+      <search-input class="pull-left" model="ihcPrint.searchStr" get-data="ihcPrint.search()"  placeholder="输入病理号查询"></search-input>
+  </div>
+
+</toolbar>
+
+<div class="container clearfix">
+  <!--筛选部分-->
+  <div class="form-inline toolbar" style="background: none">
+    <date-seletor dateset="ihcPrint.defaultTime"  start-time="ihcPrint.startTime" end-time="ihcPrint.endTime"></date-seletor>
+
+    <select class="form-control input-sm" ng-model="ihcPrint.dyeCategory " ng-options="status.code as status.name for status in [{name:'免疫组化',code:1},{name:'特殊染色',code:2}]">
+    </select>
+    <!--<select class="form-control input-sm" ng-model="ihcPrint.filterData.status" ng-options="status.code as status.name for status in [{name:'待包埋',code:14},{name:'待切片',code:15}]">-->
+      <!--<option value="">蜡块状态</option>-->
+    <!--</select>-->
+    <select class="form-control input-sm" ng-model="ihcPrint.filterData.count"
+            ng-options="status.code as status.name for status in [{name:'0',code:0},{name:'大于0',code:1}]">
+      <option value="">打印次数</option>
+    </select>
+
+    <button ng-click="ihcPrint.query()" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-filter"></span>筛选</button>
+
+
+    <div class="pull-right">
+      <button style="width: 70px" ng-click="ihcPrint.print()" class="btn btn-sm btn-primary">打印玻片</button>
+    </div>
+  </div>
+  <!--表格显示部分-->
+  <div class="table-min">
+    <table class=" table-hover table-bordered">
+      <thead class="primary-table-head">
+      <tr>
+        <th style="width: 40px;">
+          <input id="checkboxAll"
+                 style="width: 15px;" type="checkbox"
+                 ng-model="ihcPrint.allChecked"
+                 ng-click="ihcPrint.checkAll()">
+        </th>
+        <th ng-repeat="item in ihcPrint.tableHeaders" class="{{item.class}} cursor-pointer" ng-style="item.style">{{::item.name}}
+          <i class="cursor-pointer glyphicon glyphicon-chevron-down arrow"
+             ng-hide="!item.order"
+             ng-class="{'rotate-180':item.sort==='asc','rotate-0':item.sort==='desc'||!item.sort}" />
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="item in ihcPrint.data.data track by $index">
+        <td style="width: 40px;">
+          <input style="width: 15px;" type="checkbox" ng-model="item.check" name="checkboxItem" ng-click="ihcPrint.checkItem($index,item)">
+        </td>
+        <td ng-bind="item.number"></td>
+        <td ng-bind="item.serialNumber"></td>
+        <td ng-bind="item.subId"></td>
+        <td ng-bind="item.specialDyeDesc"></td>
+        <td ng-bind="item.marker"></td>
+        <td ng-bind="item.applyDoctor"></td>
+        <!--<td ng-bind="item.updateTime| date : 'yyyy-MM-dd HH:mm' "></td>-->
+        <td style="max-width:200px;" title="{{item.note}}" ng-bind="item.note "></td>
+        <td ng-bind="item.count"></td>
+      </tr>
+      <tr ng-repeat="n in [].constructor(20) track by $index" ng-show="ihcPrint.data.data.length<=$index">
+        <td  ng-repeat="n in [].constructor(9) track by $index"></td>
+      </tr>
+
+      </tbody>
+    </table>
+    <div class="table-footer">
+      <div class="pull-left form-control-static pagination">共<span ng-bind="ihcPrint.data.total"></span>条结果</div>
+      <uib-pagination class="pull-right" boundary-links="true" items-per-page="ihcPrint.filterData.length" max-size="10"
+                      total-items="ihcPrint.data.total"
+                      ng-model="ihcPrint.filterData.page"
+                      ng-change="ihcPrint.getDataList()"
+                      previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+    </div>
+
+  </div>
+</div>

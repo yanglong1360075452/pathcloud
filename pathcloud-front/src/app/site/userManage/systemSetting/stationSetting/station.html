@@ -1,0 +1,63 @@
+<div class="station-setting" ng-controller="StationSettingController as Station">
+  <h4>追踪工作站</h4>
+  <br>
+  <div>
+    <p>常规染色：</p>
+    <!--<p><code>{{Station.trackingList}}</code></p>-->
+    <div class="time-item">
+      <label class="radio-inline" ng-repeat="item in Station.trackingList" ng-click="Station.putTimeRange(item.code)">
+        <input type="checkbox" id="{{item.code}}" value="{{item.code}}" ng-model="item.checked" ng-checked="item.checked" ng-click="Station.change(item.code)"> {{item.name}}
+      </label>
+    </div>
+  </div>
+
+  <div>
+    <p>冰冻切片：</p>
+    <div class="time-item">
+
+      <label class="radio-inline" ng-repeat="item in Station.freezeTrackingList" ng-click="Station.changeFreeze()">
+        <input type="checkbox"  value="{{item.code}}" ng-model="item.checked" ng-checked="item.checked"> {{item.name}}
+      </label>
+    </div>
+  </div>
+
+
+  <br>
+  <h4>取材工作站</h4>
+  <br>
+
+  <div class="row form-inline clearfix">
+    <div class="col-sm-3 col-md-2 form-control-static">{{'是否打印冰冻号'|translate}}：</div>
+    <div class="col-sm-8">
+      <div class="count-type-container">
+        <select class="form-control input-sm" ng-change="Station.changeFrozenPrint(Station.printFrozen)" ng-model="Station.printFrozen">
+          <option value="0">{{'不打印'|translate}}</option>
+          <option value="1">{{'打印'|translate}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="row form-inline clearfix">
+    <div class="col-sm-3 col-md-2 form-control-static">{{'是否使用冰冻取材工作站'|translate}}：</div>
+    <div class="col-sm-8">
+      <div class="count-type-container">
+        <select class="form-control input-sm" ng-change="Station.changeUsingFrozen(Station.usingFrozen)" ng-model="Station.usingFrozen">
+          <option value="0">{{'不使用'|translate}}</option>
+          <option value="1">{{'使用'|translate}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row form-inline clearfix">
+    <div class="col-sm-3 col-md-2 form-control-static">{{'是否打印免疫组化编号'|translate}}：</div>
+    <div class="col-sm-8">
+      <div class="count-type-container">
+        <select class="form-control input-sm" ng-change="Station.changeIhcPrint(Station.printSpecialNumber)" ng-model="Station.printSpecialNumber">
+          <option value="0">{{'不打印'|translate}}</option>
+          <option value="1">{{'打印'|translate}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>

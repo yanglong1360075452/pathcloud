@@ -1,0 +1,242 @@
+<div id="pathologicalFreezeForm" class="center-block">
+
+
+    <form id="pathologicalFreeze_form" ng-class="{'disabled':readonly}" name="pathologicalFreeze_form" ng-disabled="readonly" novalidate>
+
+        <div class="table-responsive" style="overflow: inherit;">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td style="width: 100px;">{{"申请者姓名"|translate}}<span class="red-sign hideWhenPrint">*</span></td>
+                        <td><input ng-model="pathologicalFreeze.data.applicant" ng-value="pathologicalFreeze.data.applicant" type="text" ng-readonly="readonly" required/></td>
+                        <td>{{"申请者身份"|translate}}</td>
+                        <td>
+                            <span class="showWhenPrint">{{pathologicalFreeze.getSelectName(pathologicalFreeze.identityList,pathologicalFreeze.data.identity)}}</span>
+
+                            <select class="hideWhenPrint" ng-model="pathologicalFreeze.data.identity" ng-value="pathologicalFreeze.data.identity" ng-options="item.value as item.name for item in pathologicalFreeze.identityList" ng-disabled="readonly">
+                            </select>
+                          </td>
+                          <td>{{"导师"|translate}}</td>
+                          <td><input ng-model="pathologicalFreeze.data.tutor" name="admissionNo" ng-value="pathologicalFreeze.data.tutor" type="text" ng-readonly="readonly" /></td>
+                    </tr>
+
+                    <tr>
+                        <td>{{"院系"|translate}}</td>
+                        <td><input ng-model="pathologicalFreeze.data.faculty" ng-value="pathologicalFreeze.data.faculty" type="text" ng-readonly="readonly" /></td>
+                        <td>{{"专业"|translate}}</td>
+                        <td>
+
+                            <input ng-model="pathologicalFreeze.data.specialty" ng-value="pathologicalFreeze.data.specialty" ng-disabled="readonly" />
+
+
+                        </td>
+                        <td>{{"学号"|translate}}</td>
+                        <td>
+                            <input type="text" ng-value="pathologicalFreeze.data.studentNumber" ng-model="pathologicalFreeze.data.studentNumber" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>{{"单位"|translate}}</td>
+                        <td>
+                            <input ng-model="pathologicalFreeze.data.unit" ng-value="pathologicalFreeze.data.unit" type="text" ng-readonly="readonly" />
+                        </td>
+                        <td>{{"科室"|translate}}<span class="red-sign hideWhenPrint">*</span></td>
+                        <td style="position: relative;">
+
+                            <department-select ng-if="pathologicalFreeze.data" class="department-selecter" text="(pathologicalFreeze.data.departments)| department" value="pathologicalFreeze.data.departments"></department-select>
+
+                        </td>
+
+                        <td>{{"职工号"|translate}}</td>
+                        <td>
+                            <input ng-model="pathologicalFreeze.data.wno" ng-value="pathologicalFreeze.data.wno" type="text" ng-readonly="readonly" /></td>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>{{"课题名称"|translate}} </td>
+                        <td colspan="5"><input name="address" ng-model="pathologicalFreeze.data.taskName" ng-value="pathologicalFreeze.data.taskName" type="text" ng-readonly="readonly" /></td>
+                    </tr>
+
+                    <tr>
+                        <td>{{"课题类型"|translate}}</td>
+                        <td>
+                            <span class="showWhenPrint">{{pathologicalFreeze.getSelectName(pathologicalFreeze.taskTypeList,pathologicalFreeze.data.taskType)}}</span>
+                            <select class="hideWhenPrint" ng-model="pathologicalFreeze.data.taskType" ng-value="pathologicalFreeze.data.taskType" ng-options="item.value as item.name for item in pathologicalFreeze.taskTypeList" ng-disabled="readonly">
+
+                            </select>
+                        </td>
+
+                        <td style="min-width: 90px;">{{"项目代码"|translate}}<span class="red-sign hideWhenPrint">*</span></td>
+                        <td><input ng-model="pathologicalFreeze.data.funds" ng-value="pathologicalFreeze.data.funds" type="text" ng-readonly="readonly" required/></td>
+                        <td style="min-width: 100px;">{{"联系电话"|translate}}<span class="red-sign hideWhenPrint">*</span></td>
+                        <td ng-class="{'error':pathologicalFreeze_form.phone.$invalid&&pathologicalFreeze_form.phone.$dirty} ">
+                            <input name="phone" ng-model="pathologicalFreeze.data.phone" ng-value="pathologicalFreeze.data.phone" type="text" ng-readonly="readonly" required onkeydown="if(event.keyCode==32) return false" maxlength="18" ng-pattern="/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/"
+                            />
+                        </td>
+                    </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+        <br/>
+        <!--添加样本信息表格 在登记页面默认应该隐藏-->
+        <div class="table-responsive" ng-hide="hideSampleTable">
+            <table class="table table-bordered" id="sample-table">
+                <thead>
+                    <tr>
+                        <th>{{"序号"|translate}}</th>
+                        <th ng-if="pathologicalFreeze.data.samples[0].serialNumber">{{"样本编号"|translate}}</th>
+                        <th>{{"样本名称"|translate}}<span class="red-sign hideWhenPrint">*</span></th>
+                        <th>{{"样本类别"|translate}}</th>
+                        <th class="hideWhenPrint" ng-if="showOperation">{{"操作"|translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                    <tr ng-repeat="item in pathologicalFreeze.data.samples track by $index">
+                        <td>{{$index + 1}}</td>
+                        <td ng-if="item.serialNumber">{{item.serialNumber}}</td>
+                        <td><input type="text" ng-model="item.name" ng-value="item.name" maxlength="20" required ng-readonly="readonly" /></td>
+                        <td>
+                            <span class="showWhenPrint">{{pathologicalFreeze.getSelectName(pathologicalFreeze.categoryList,item.category)}}</span>
+
+                            <select class="hideWhenPrint" name="sample" ng-model="item.category" ng-value="item.category" ng-options="category.code as category.name for category in pathologicalFreeze.categoryList" ng-disabled="readonly" ng-readonly="readonly">
+                <!--<option value="1">大样本</option>-->
+                <!--<option value="2">小样本</option>-->
+              </select>
+                        </td>
+                        <td class="hideWhenPrint" ng-if="showOperation">
+                            <a class="cursor-pointer btn-input" ng-click="pathologicalFreeze.delSample($index)" ng-disabled="readonly" ng-readonly="readonly">
+                                <i class="glyphicon glyphicon-trash"></i>{{"删除"|translate}}
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr ng-if="showOperation" class="hideWhenPrint">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <a class="cursor-pointer btn-input" ng-click="pathologicalFreeze.addSample()" ng-disabled="readonly">
+                                <i class="glyphicon glyphicon-plus"></i>{{"添加"|translate}}
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+
+        <!--冰冻预约部分-->
+        <div class="freeze-switch ">
+          {{"申请类别"|translate}}：
+            <span class="showWhenPrint">{{pathologicalFreeze.getSelectName(pathologicalFreeze.researchTypeList,pathologicalFreeze.data.researchType)}}</span>
+
+            <select class="hideWhenPrint" ng-model="pathologicalFreeze.data.researchType" ng-options="item.value as item.name for item in pathologicalFreeze.researchTypeList" ng-value="item.category" ng-disabled="readonly" ng-readonly="readonly">
+          <option style="display: none;"></option>
+        </select>
+        </div>
+        <br>
+        <div class="application-type hideWhenPrint" ng-show="(pathologicalFreeze.data.researchType===2)&&(!pathologicalFreeze.data.id)">
+            <!--ng-hide="pathologicalFreeze.data.id"-->
+            <div class="row">
+                <div class="col-xs-4">
+                    <div class="pull-left form-control-static">{{"日期"|translate}}：</div>
+                    <div style="width: 160px" class="pull-right freeDatePick">
+                        <p class="input-group">
+                            <!--开始：-->
+                            <input ng-model="pathologicalFreeze.freezeStartTime" ng-change="pathologicalFreeze.getFreezeBookedList()" type="text" class="form-control" readonly="readonly" clear-text="清除" close-text="确定" current-text="今天" ng-click="freezeDate.opened=true" uib-datepicker-popup="{{format}}"
+                                is-open="freezeDate.opened" datepicker-options="freezeDateOptions" alt-input-formats="altInputFormats" />
+                            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="freezeDate.opened=true"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+                        </p>
+                    </div>
+
+                </div>
+                <div class="col-xs-8">
+
+                    <div class="pull-left form-control-static">{{"时间"|translate}}：</div>
+                    <div class="pull-left">
+                        <select class="hideWhenPrint form-control" ng-model="pathologicalFreeze.startTime" ng-change="pathologicalFreeze.selectTime(pathologicalFreeze.startTime,pathologicalFreeze.endTime)" ng-disabled="readonly">
+                            <option value="">{{"请选择"|translate}}</option>
+                            <option ng-hide="item.value>35" ng-repeat="item in pathologicalFreeze.timeList" ng-value="item.value">{{item.name}}</option>
+                        </select>
+                    </div>
+                    <div class="pull-left form-control-static">&nbsp;~&nbsp;</div>
+                    <div class="pull-left">
+                        <select class="hideWhenPrint form-control" ng-model="pathologicalFreeze.endTime" ng-change="pathologicalFreeze.selectTime(pathologicalFreeze.startTime,pathologicalFreeze.endTime)" ng-disabled="readonly">
+                            <option value="">{{"请选择"|translate}}</option>
+                            <option ng-show="item.value>pathologicalFreeze.startTime" ng-repeat="item in pathologicalFreeze.timeList" ng-value="item.value">{{item.name}}</option>
+                        </select>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <table class="table table-bordered orderList">
+                <thead>
+                    <tr>
+                        <td>{{"冰冻切片机"|translate}}</td>
+                        <td colspan="2" ng-repeat="header in pathologicalFreeze.orderHeaderList track by $index">{{header}}</td>
+                        <!--<td colspan="2">9:00</td><td colspan="2">10:00</td><td>11:00</td><td>12:00</td><td>13:00</td><td>14:00</td><td>15:00</td><td>16:00</td><td>17:00</td><td>18:00</td>-->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in pathologicalFreeze.orderList track by $index" ng-class="{'active-border':item.instrumentId===pathologicalFreeze.activeDate.instrumentId}">
+
+                        <!--<td ng-click="pathologicalFreeze.choseDate(item)">{{item.date|date:'yyyy-MM-dd'}}</td>-->
+                        <td ng-click="pathologicalFreeze.choseDate(item)"><a href="">{{"切片机"|translate}}{{item.instrumentId}}</a></td>
+                        <td ng-class="{booked:time.booked,checked:time.checked,error:time.checked&&time.booked}" ng-repeat="time in item.bookingDto track by $index " ng-click="pathologicalFreeze.checkTime(time,item.bookingDto)">
+                            <!--<label style="width: 100%;height: 100%;"><input ng-click="" type="checkbox" ng-model="time.checked"></label>-->
+                        </td>
+                        <!--<td ng-repeat="n in [].constructor(20) track by $index" ng-hide="pathologicalFreeze.orderList.length"></td>-->
+
+                    </tr>
+                </tbody>
+            </table>
+
+            <div>
+                <label class="radio-inline"  ng-repeat="item in pathologicalFreeze.orderList track by $index"  ng-click="pathologicalFreeze.choseDate(item)">
+                    <input type="radio" name="RadioOptions">切片机{{item.instrumentId}}
+                </label>
+              </div>
+
+        </div>
+        <!--显示冰冻预约时间-->
+        <div ng-class="{hideWhenPrint:pathologicalFreeze.data.researchType===1}" ng-show="pathologicalFreeze.data.books.length">
+            <div ng-repeat="item in pathologicalFreeze.data.books">
+              {{"切片机"|translate}}{{item.instrumentId}}  {{"预约时间"|translate}}：{{item.freezeStartTime|date:'yyyy-MM-dd HH:mm' }} &nbsp;~&nbsp; {{item.freezeEndTime|date:'yyyy-MM-dd HH:mm'}}
+            </div>
+        </div>
+
+
+        <div class="text-center hideWhenPrint" ng-if="showOperation">
+            <!--<div class="checkbox">-->
+            <!--<label><input type="checkbox" ng-model="pathologicalFreeze.data.urgentFlag" ng-disabled="readonly" >加急处理</label>-->
+            <!--</div>-->
+
+            <button ng-hide="hideSubmit" click-debounce ng-disabled="pathologicalFreeze_form.$invalid || !pathologicalFreeze.data.samples.length || pathologicalFreeze.freezeDateWrong ||!pathologicalFreeze.data.departments" ng-click="pathologicalFreeze.submit()" type="submit" class="btn btn-default btn-lg" id="research-submit">
+              {{"提交"|translate}}
+        </button>
+        </div>
+
+    </form>
+
+
+
+    <!--</div>-->
+  <!--&lt;!&ndash;用于测试显示病理申请号 病理号&ndash;&gt;
+  <div id="applicationNo" style="height: 0;position:absolute; visibility: hidden;" ng-bind="pathologicalFreeze.test_serialNumber"></div>-->
+
+</div>
+
+
+
+<!--//Can not deserialize instance of java.util.ArrayList out of START_OBJECT token-->

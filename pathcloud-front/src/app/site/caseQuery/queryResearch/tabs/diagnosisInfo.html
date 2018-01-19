@@ -1,0 +1,26 @@
+<div class="pathology-report">
+
+    <div class="clearfix">
+        <div class="col-sm-2">
+            <ul class="nav nav-stacked" ng-init="operation = 10">
+                <li ng-class="{active:operation === 10}" class="btn btn-sm nav-item" ng-click="operation = 10">{{'一级诊断'|translate}}</li>
+                <li ng-class="{active:operation === 11}" class="btn btn-sm nav-item" ng-click="operation = 11">{{'二级诊断'|translate}}</li>
+                <li ng-class="{active:operation === 12}" class="btn btn-sm nav-item" ng-click="operation = 12">{{'三级诊断'|translate}}</li>
+                <li ng-class="{active:operation === 21}" class="btn btn-sm nav-item" ng-click="operation = 21">{{'专家会诊'|translate}}</li>
+            </ul>
+        </div>
+        <div class="col-sm-10">
+
+            <div ng-repeat="item in researchQuery.diagnosisInfo " ng-show="item.operation===operation">
+                <div ng-bind-html="item.diagnoseResult" class="row pathology">
+                    <!--{{item}}-->
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+</div>

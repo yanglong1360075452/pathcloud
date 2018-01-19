@@ -1,0 +1,53 @@
+<div  id="gSetting">
+
+  <toolbar class="clearfix">
+    <ul class="list-unstyled menu-list">
+      <li ng-class="{active:gSetting.activeMenu[0]}" ng-click="gSetting.choseMenu(0)" id="grossingSetting">{{'脱水机设置'|translate}}</li>
+      <!--<li ng-class="{active:gSetting.activeMenu[1]}" ng-click="gSetting.choseMenu(1)">{{'报警设置'|translate}}</li>-->
+    </ul>
+  </toolbar>
+
+
+    <div class="container gSetting-head" style="padding: 40px" ng-show="gSetting.showPart===0">
+      <div class="pull-left gSetting-title">
+        {{'添加/编辑脱水机'|translate}}
+      </div>
+      <div class="pull-right gSetting-add">
+        <input id="add" class="form-control blue-label ok-color" type="button" value="{{'添加'|translate}}" ng-click="gSetting.openAdd()"/>
+      </div>
+    </div>
+
+    <div class="container gSetting-body" ng-show="gSetting.showPart===0">
+      <ul class="list-unstyled grossing-list">
+        <li ng-repeat="item in gSetting.grossingList">
+          <div class="li-number" ng-class="{'grey-label':item.disabled,'blue-label':!item.disabled}">
+            {{item.name}}
+          </div>
+          <div class="li-text middle-box">
+            <div class="operate-div">
+              <div class="pull-left" style="margin-right: 5px;" ng-click="gSetting.openUpdate(item)">
+                <!--<label tooltip-placement="top" tooltip-animation="false" uib-tooltip="该脱水机正在使用中无法编辑！" ng-show="item.inUse"></label>-->
+                <i class="fa fa-pencil-square-o fa-2x"></i>
+              </div>
+              <div class="pull-left" style="" ng-click="gSetting.deleteGrossing(item)">
+                <!--<label tooltip-class="tooltipClass" tooltip-placement="top" tooltip-animation="false" uib-tooltip="该脱水机正在使用中无法删除!" ng-show="item.inUse"></label>-->
+                <i class="fa fa-trash fa-2x"></i>
+              </div>
+            </div>
+            <!--<div class="middle-inner">-->
+              <p class="sn text-ellipsis" title="{{item.sn}}">{{'序列号'|translate}}：{{item.sn}}</p>
+              <p class="sn text-ellipsis" title="{{item.description}}">{{'脱水机备注'|translate}}：{{item.description}}</p>
+              <p>{{'脱水机容量'|translate}}：{{item.capacity}}</p>
+              <p>{{'状态'|translate}}：{{item.disabled?"不可用":"正常"|translate}}</p>
+            </div>
+          <!--</div>-->
+        </li>
+      </ul>
+    </div>
+
+
+  <div ng-show="gSetting.showPart===1" class="container">
+    11111
+  </div>
+
+</div>

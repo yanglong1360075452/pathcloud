@@ -1,0 +1,42 @@
+<!--诊断模板内容弹窗-->
+<div id="templateInfo">
+  <div class="modal-header blue-label">
+    <button type="button" class="close" data-dismiss="modal" ng-click="templateInfo.cancel()">
+      <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title ok-color">{{'诊断模板'|translate}}</h4>
+  </div>
+  <div class="modal-body clearfix" >
+    <div class="project-div clearfix" ng-repeat="item in templateInfo.content track by $index" ng-init="outerIndex=$index">
+      <div class="pull-left project-title">
+        {{item.projectName}}
+        <span class="required-sign" ng-show="item.projectNameCheck">*</span> :
+      </div>
+      <div class="pull-left project-content" ng-if="item.projectContentCheck">
+        <select ng-model="item.projectContentValue" ng-options="p.name as p.name for p in item.projectContentVO" ng-disabled="item.other">
+          <option value="">{{'请选择'|translate}}</option>
+        </select>
+      </div>
+      <div class="pull-left project-other" ng-if="item.projectContentCheck">
+        <label>{{'其他'|translate}}：<input type="text" ng-model="item.other" ng-disabled="item.projectContentValue"></label>
+      </div>
+      <div class="pull-left" ng-class="{'multi-project-content':!item.projectContentCheck}" ng-if="!item.projectContentCheck">
+        <div class="checkbox">
+          <label class="check-item" ng-repeat="cItem in item.projectContentVO">
+            <input type="checkbox" ng-model="cItem.check" ng-disabled="item.other" ng-click="templateInfo.checkString(cItem,item,outerIndex)">
+            {{cItem.name}}
+          </label>
+        </div>
+        <div>
+          <label>其他：<input type="text" ng-model="item.other" ng-disabled="item.projectContentValue"></label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="templateInfo.cancel()">{{'取消'|translate}}</button>
+    <button class="btn btn-default" type="button" ng-click="templateInfo.ok()">{{'确定'|translate}}</button>
+  </div>
+</div>

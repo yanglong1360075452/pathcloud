@@ -1,0 +1,116 @@
+<div id="slideArchive">
+  <toolbar class="clearfix">
+
+    <!--筛选部分-->
+    <div class="form-inline clearfix" style="background: none">
+
+      <select class="form-control input-sm" ng-model="slideArchive.confirmData.archivingMethod" ng-options="status.code as status.name for status in slideArchive.archivingMethodList">
+        <!--<option value=""></option>-->
+      </select>
+
+      <div class="form-control-static">{{slideArchive.confirmData.archivingMethod === 14 ? ("抽屉编号"|translate):("晾片架编号"|translate)}} <span class="required">*</span>：</div>
+      <input class="form-control input-sm" ng-model="slideArchive.confirmData.archivingNo" type="text" required>
+
+      <button ng-click="slideArchive.save()" ng-disabled="!slideArchive.confirmData.archivingNo||!slideArchive.productionList.length" class="btn btn-sm btn-primary pull-right">{{"保存"|translate}}</button>
+    </div>
+    <!--<div class="search clearfix">-->
+      <!--<div class="toolbar-info pull-right">扫描仪已连接</div>-->
+    <!--</div>-->
+  </toolbar>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-6">
+        <div class="pic-container">
+          <img ng-src="{{slideArchive.scanPic}}" width="100%" height="330px">
+        </div>
+        <div class="img-scroll">
+          <!--<div>&lt;!&ndash;未识别拨片&ndash;&gt;{{"未识别玻片"|translate}}</div>-->
+          <div style="margin: 40px 0;">
+            <slider-container>
+              <div></div>
+            </slider-container>
+          </div>
+
+        </div>
+        <div class="add-btn-group clearfix">
+
+          <div class="border-box">
+            <div class=" clearfix" ng-class="{'form-inline':lang==='cn'}">
+
+              <div class="form-control-static">{{"病理号"|translate}}<span class="required">*</span>：</div>
+              <input class="form-control input-sm"  type="text" ng-model="slideArchive.slideFilter.serialNumber" placeholder="{{'病理号-蜡块号-玻片号'|translate}}" required>
+
+              <!--<div class="form-control-static">{{"特染标记"|translate}}：</div>-->
+              <!--<input class="form-control input-sm form-group" type="text" ng-model="slideArchive.slideFilter.marker">-->
+
+              <button ng-class="{'form-control-static':lang==='en'}" ng-click="slideArchive.getSlide()" class="btn btn-sm btn-info ">{{"添加"|translate}}</button>
+
+            </div>
+          </div>
+
+
+        </div>
+        <!--<div class="bottom-btn text-center">-->
+        <!--<button class="add-btn" ng-click="slideArchive.changeScanStatus()">-->
+        <!--<span class="glyphicon" ng-class="{'glyphicon-play':!slideArchive.start,'glyphicon-stop':slideArchive.start}"></span>-->
+        <!--{{slideArchive.start?"停止扫描":"开始扫描"}}-->
+
+        <!--</button>-->
+        <!--</div>-->
+      </div>
+      <div class="col-xs-6">
+        <div  class="table-min">
+          <table class=" table-hover table-bordered">
+            <thead>
+            <tr>
+              <th ng-repeat="item in slideArchive.tableHeaders">
+                {{item.name|translate}}
+              </th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr ng-repeat="item in slideArchive.productionList track by $index">
+              <td ng-bind="item.pathNo"></td>
+              <td ng-bind="item.blockSubId"></td>
+              <td ng-bind="item.slideSubId"></td>
+              <td ng-bind="item.biaoshiDesc"></td>
+              <td ng-bind="item.marker||item.specialDyeDesc"></td>
+              <td ng-bind="item.biaoshiDesc"></td>
+              <td ng-bind="item.statusDesc"></td>
+            </tr>
+            <tr ng-repeat="n in [].constructor(20) track by $index" ng-show="slideArchive.productionList.length<=$index">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+
+            </tbody>
+          </table>
+          <div class="table-footer">
+            <div class="pull-left form-control-static pagination">
+              {{"共"|translate}}<span ng-bind="slideArchive.searchData.total||0"></span>{{"玻片"|translate}}
+            </div>
+            <uib-pagination class="pull-right" boundary-links="true"
+                            items-per-page="slideArchive.searchData.length" max-size="10"
+                            total-items="slideArchive.searchData.total"
+                            ng-model="slideArchive.searchData.page"
+                            ng-change="slideArchive.changePage(slideArchive.searchData.page)"
+                            previous-text="&lsaquo;" next-text="&rsaquo;"
+                            first-text="&laquo;" last-text="&raquo;">
+            </uib-pagination>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,144 @@
+<!--申请特染弹窗-->
+<div id="applySpecial">
+  <div class="modal-header blue-label">
+    <button type="button" class="close" data-dismiss="modal" ng-click="applySpecial.cancel()">
+      <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title ok-color">{{'申请特检'|translate}}</h4>
+  </div>
+  <!--特染部分-->
+  <div class="modal-body clearfix " ng-hide="applySpecial.showMarkerPart">
+    <div class="form-group col-sm-12 space-between">
+
+      <div class="item">{{'病理号'|translate}}：<span ng-bind="applySpecial.serialNumber"></span></div>
+      <div class="item">
+        {{'蜡块号'|translate}}：
+        <select ng-model="applySpecial.selectedBlock" ng-change="applySpecial.selectBlock()"
+                ng-options="block as block.subId for block in applySpecial.blockData">
+          <!--<option value="" disabled></option>-->
+        </select>
+      </div>
+      <div class="item">
+        {{'特染类别'|translate}}：
+        <!--ng-options="item.code as item.name for item in applySpecial.specialDyeList"-->
+        <select style="max-width: 200px;" ng-model="applySpecial.applyData.ihcBlocks[0].specialDye"
+                ng-change="applySpecial.specialDyeSelect(applySpecial.applyData.ihcBlocks[0].specialDye)"
+                ng-disabled="!applySpecial.selectedBlock"
+        >
+
+          <option ng-repeat="item in applySpecial.specialDyeList" ng-hide="item.code<1 || (item.code > 1 && !applySpecial.canApplySpecialDye) || (item.code == 1 && !applySpecial.canApplyIhc)" ng-value="item.code">
+            {{item.name}}
+          </option>
+        </select>
+      </div>
+
+    </div>
+    <div class="form-group clearfix">
+      <div class="col-sm-12">
+        <p class="col-sm-5" style="padding-left: 0">{{'试剂/抗体名称'|translate}}：</p>
+        <!--<div class="col-sm-7" style="position: relative" ng-show="applySpecial.applyData.ihcBlocks[0].specialDye==1">
+          <input autocomplete="off" id="departments"  name="departments" ng-required="require" type = "text"  ng-model="model"  ng-readonly=true
+          ng-click = "hidden = !hidden " value="{{value}}" placeholder="请点击此处选择标记物"/>
+          </input>
+          <div class="" ng-show="hidden" style="position: absolute;z-index: 100">
+            <input autocomplete="off"  ng-blur="blurJudge()" auto-focus="{{!hidden}}" name="departments" ng-required="require" type = "text" ng-change="changeData()" ng-model="models"
+             value="{{values}}"/></input>
+            <select id="selectSearch" class="form-control"  ng-model="x" multiple="1" size="10">
+              <option   ng-value="data.code" ng-repeat="data in datas">{{data.name}}</option>
+                 </select>
+            </div>
+        </div>-->
+      </div>
+      <div class="col-sm-10">
+        <div class="marker-container form-control" ng-click="applySpecial.focusMarker = true" ng-init="applySpecial.markerList = []" style="height: 100px; width: 100%; overflow-y: auto;">
+
+          <div style="display: inline-block; max-width: 400px;" class="marker-item text-ellipsis" ng-repeat="item in applySpecial.markerList track by $index">
+            {{item}}
+            <span ng-if="applySpecial.applyData.ihcBlocks[0].specialDye==1" class="delete" ng-click="applySpecial.markerList.splice($index, 1)"><icon  class="icon">x</icon></span>
+          </div>
+          <span>
+            <input ng-model="applySpecial.marker" type="text" style="border: none; outline: none;"
+
+                   ng-if="applySpecial.applyData.ihcBlocks[0].specialDye == 1"
+                   ng-blur="applySpecial.focusMarker = false"
+                   auto-focus="{{applySpecial.focusMarker}}"
+                   ng-keydown="applySpecial.handleKeyDown($event)">
+
+          </span>
+        </div>
+        <!--<textarea ng-hide="applySpecial.applyData.ihcBlocks[0].specialDye == 1" ng-disabled="true || !(applySpecial.applyData.ihcBlocks[0].specialDye == 1||applySpecial.applyData.ihcBlocks[0].specialDye == -1)"-->
+                  <!--ng-model="applySpecial.applyData.ihcBlocks[0].ihcMarker" class="form-control"-->
+                  <!--placeholder="{{'不同抗体用‘；’分隔'|translate}}">-->
+        <!--</textarea>-->
+      </div>
+      <div class="col-sm-2">
+        <button class="form-control btn-lg" id="kangti" ng-disabled="applySpecial.applyData.ihcBlocks[0].specialDye!=1" ng-click="applySpecial.showMarker()">{{'抗体'|translate}}</button>
+      </div>
+    </div>
+
+    <div class="form-group clearfix">
+      <div class="col-sm-10"><p>{{'备注'|translate}}：</p></div>
+      <div class="col-sm-12">
+        <input ng-model="applySpecial.applyData.ihcBlocks[0].note" class="form-control" >
+      </div>
+    </div>
+    <div class="form-group clearfix">
+      <div class="col-sm-10"><p>{{'历史记录'|translate}}：</p></div>
+      <div class="col-sm-12">
+        <div class="form-control" style="height: auto; min-height: 34px;">
+
+          <div ng-repeat="item in applySpecial.specialHistoryResult track by $index">
+            <div>申请日期：{{item.createTime | date:'yyyy-MM-dd'}}</div>
+            <p>特检结果：<span ng-bind-html="item.specialResult"></span></p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!--选择抗体部分 点击抗体的下一步操作-->
+  <div class="modal-body clearfix" ng-show="applySpecial.showMarkerPart">
+    <div class="form-group clearfix">
+
+      <div class="col-sm-6">
+        <select class="form-control input-sm" ng-model="applySpecial.department"  ng-options="item.code as item.name for item in applySpecial.departmentList" ng-change="applySpecial.selectDepartment(applySpecial.department)">
+          <option value="">送检科室</option>
+        </select>
+      </div>
+      <div class="col-sm-6">
+        <select class="form-control input-sm" ng-disabled="!applySpecial.department" ng-model="applySpecial.illnessType"  ng-options="item.id as item.name for item in applySpecial.illnessTypeList" ng-change="applySpecial.selectIllnessType(applySpecial.illnessType)">
+          <option value="">疾病类别</option>
+        </select>
+      </div>
+
+    </div>
+    <!--标记物选择CheckBox-->
+    <div class="form-group clearfix">
+      <div class="row">
+        <div class="col-sm-3" ng-repeat="item in applySpecial.illnessList track by $index">
+          <label class="radio-inline">
+            <input type="checkbox" ng-model="item.checked" ng-click="applySpecial.checkIhcMarker(item)" ng-checked="item.checked"> {{item.name}}
+          </label>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <div ng-hide="applySpecial.showMarkerPart">
+      <button class="btn btn-warning" type="button" ng-click="applySpecial.cancel()">{{'取消'|translate}}</button>
+      <button class="btn btn-default" ng-disabled="!applySpecial.markerList.length" type="button" ng-click="applySpecial.apply()">{{'确定'|translate}}</button>
+    </div>
+
+    <div ng-show="applySpecial.showMarkerPart">
+      <button class="btn btn-warning" type="button" ng-click="applySpecial.showMarkerPart = false">{{'取消'|translate}}</button>
+      <button class="btn btn-default" type="button" ng-click="applySpecial.next()">{{'下一步'|translate}}</button>
+    </div>
+  </div>
+
+</div>
+

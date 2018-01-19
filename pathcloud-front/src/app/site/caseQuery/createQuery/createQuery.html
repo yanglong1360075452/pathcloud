@@ -1,0 +1,467 @@
+<toolbar class="clearfix">
+  <!--<ul class="list-unstyled menu-list">-->
+    <!--<li ng-class="{active:createQuery.activeMenu===0}" ng-click="createQuery.activeMenu=0">临床</li>-->
+    <!--<li ng-class="{active:createQuery.activeMenu===1}" ng-click="createQuery.activeMenu=1">科研</li>-->
+  <!--</ul>-->
+  <div class="search clearfix">
+    <search-input style="width: 270px;" class="pull-left pull-left" model="createQuery.searchStr" get-data="createQuery.search()" placeholder="{{'输入病理号、姓名快速搜索'|translate}}" auto-focus="{{autoFocus}}"></search-input>
+    <span class="pull-right cursor-pointer" style="height:35px;line-height:35px;color:#169bd5;" ng-click="createQuery.export()">{{'导出结果'|translate}}</span>
+  </div>
+</toolbar>
+
+<!--临床-->
+<div id="createQuery" ng-if="createQuery.activeMenu===0">
+
+  <div class="container no-padding">
+    <!--<div class="toolbar clearfix" style="background: none;">-->
+      <!--<search-input style="width: 270px;" class="pull-left pull-left" model="createQuery.searchStr" get-data="createQuery.search()" placeholder="输入病理号、姓名快速搜索" auto-focus="{{autoFocus}}"></search-input>-->
+      <!--<span class="pull-right cursor-pointer" style="height:35px;line-height:35px;color:#169bd5;" ng-click="createQuery.export()">导出结果</span>-->
+    <!--</div>-->
+    <div class="row">
+      <div style="width: 26%; height: 685px;" class="col-sm-3 search">
+        <h4>{{'高级搜索'|translate}}</h4>
+        <div class="search-item clearfix">
+          <div class="name">
+            {{'包含字段'|translate}}：
+          </div>
+          <div class="content">
+            <input ng-model="createQuery.filter.fieldContain" class="" type="text">
+          </div>
+        </div>
+        <div class="search-item clearfix">
+          <div class="name">
+            {{'不含字段'|translate}}：
+          </div>
+          <div class="content">
+            <input ng-model="createQuery.filter.fieldExclusive" class="" type="text">
+          </div>
+        </div>
+        <h4>{{'搜索范围'|translate}}</h4>
+        <div class="search-item clearfix">
+          <div class="name">
+            {{'字段类别'|translate}}：
+          </div>
+          <div class="content">
+            <select ng-model="createQuery.filter.fieldType " ng-options="item.code as item.name for item in createQuery.fieldTypeList">
+              <option value="">{{'任意字段（模糊查询）'|translate}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="search-item clearfix">
+          <div class="name">
+            {{'染色方式'|translate}}：
+          </div>
+          <div class="content">
+            <select ng-model="createQuery.filter.specialDye" ng-options="item.code as item.name for item in createQuery.DyeList">
+              <option value="">{{'全部'|translate}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="search-item clearfix">
+          <div class="name">
+            {{'检查类别'|translate}}：
+          </div>
+          <div class="content">
+            <select ng-model="createQuery.filter.inspectionCategory " ng-options="item.code as item.typeDesc for item in createQuery.inspectCategoryList">
+              <option value="">{{'全部'|translate}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="search-item clearfix">
+          <div class="name">
+            {{'样本状态'|translate}}：
+          </div>
+          <div class="content">
+            <select ng-model="createQuery.filter.pathStatus" ng-options="item.code as item.name for item in createQuery.pathStatus">
+              <option value="">{{'全部'|translate}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="search-item clearfix">
+          <div class="name">
+            {{'送检科室'|translate}}：
+          </div>
+          <div class="content">
+            <select ng-model="createQuery.filter.departments" ng-options="item.code as item.name for item in createQuery.departmentsList">
+              <option value="">{{'全部'|translate}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="search-item clearfix">
+          <div class="name">
+            {{'送检医生'|translate}}：
+          </div>
+          <div class="content">
+            <select ng-model="createQuery.filter.inspectionDoctor" ng-options="item.id as item.firstName for item in createQuery.inspectDoctorList">
+              <option value="">{{'全部'|translate}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="search-item clearfix">
+          <div class="name">
+            {{'报告医生'|translate}}：
+          </div>
+          <div class="content">
+            <select ng-model="createQuery.filter.diagnoseDoctor" ng-options="item.id as item.firstName for item in createQuery.diagnoseDoctorList" >
+              <option value="">{{'全部'|translate}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="search-item clearfix">
+          <div class="name">
+            {{'接收日期'|translate}}：
+          </div>
+          <div class="content">
+            <div class="row">
+              <div style="padding-right: 10px;" class="col-sm-6 ">
+                <div class="input-group">
+                  <!--开始：-->
+                  <input type="text" readonly clear-text="清除" close-text="确定" current-text="今天" ng-click="popup1.opened=true" uib-datepicker-popup ng-model="createQuery.filter.receiveTimeStart" is-open="popup1.opened" datepicker-options="dateOptions1" ng-required="true" close-text="Close" min="minStartDate" max="maxStartDate" ng-change="createQuery.dateRange()"/>
+                  <!--<span class="input-group-btn">-->
+                  <!--<button type="button" class="btn btn-default" ng-click="popup3.opened=true"><i class="glyphicon glyphicon-calendar"></i></button>-->
+                  <!--</span>-->
+                </div>
+              </div>
+              <div style="position: absolute;left: 62%;">~</div>
+              <div style="padding-left: 10px;" class="col-sm-6 ">
+                <div class="input-group">
+                  <!--结束：-->
+                  <input type="text" readonly clear-text="清除" close-text="确定" current-text="今天" ng-click="popup2.opened=true"  uib-datepicker-popup ng-model="createQuery.receiveTimeEnd_show" is-open="popup2.opened" datepicker-options="dateOptions2" ng-required="true" close-text="Close" />
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+
+        <div class="search-item clearfix">
+          <div class="name">
+            {{'报告日期'|translate}}：
+          </div>
+          <div class="content">
+            <div class="row">
+              <div style="padding-right: 10px;" class="col-sm-6 ">
+                <p class="input-group">
+                  <!--开始：-->
+                  <input type="text" class="" readonly="readonly" clear-text="清除" close-text="确定" current-text="今天" ng-click="popup3.opened=true" uib-datepicker-popup="{{format}}" ng-model="createQuery.filter.reportTimeStart" is-open="popup3.opened" datepicker-options="dateOptions3" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                  <!--<span class="input-group-btn">-->
+                    <!--<button type="button" class="btn btn-default" ng-click="popup3.opened=true"><i class="glyphicon glyphicon-calendar"></i></button>-->
+                  <!--</span>-->
+                </p>
+              </div>
+              <div style="position: absolute;left: 62%;">~</div>
+              <div style="padding-left: 10px;" class="col-sm-6 ">
+                <p class="input-group">
+                  <!--结束：-->
+                  <input type="text" class="" readonly clear-text="清除" close-text="确定" current-text="今天" ng-click="popup4.opened=true"  uib-datepicker-popup ng-model="createQuery.reportTimeEnd_show" is-open="popup4.opened" datepicker-options="dateOptions4" ng-required="true" close-text="Close" />
+                  <!--<span class="input-group-btn">-->
+                    <!--<button type="button" class="btn btn-default" ng-click="popup4.opened=true"><i class="glyphicon glyphicon-calendar"></i></button>-->
+                  <!--</span>-->
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="search-item clearfix">
+          <div class="name">
+            <!--字：-->
+          </div>
+          <div class="content">
+            <div class="row">
+              <div class="col-sm-6">
+                <button class="btn btn-info btn-sm btn-block" ng-click="createQuery.clear()">{{'清除'|translate}}</button>
+              </div>
+              <div class="col-sm-6">
+                <button class="btn btn-default btn-sm btn-block" ng-click="createQuery.query()">{{'查询'|translate}}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div style="width: 74%;" class="col-sm-9">
+        <!--上半部分 查询结果表格-->
+        <div class="table-container">
+          <div class="table-min">
+            <table class=" table-hover table-bordered">
+              <thead>
+              <tr>
+                <th ng-repeat="item in createQuery.tableHeaders" ng-click="createQuery.getSortList(item)" class="{{item.class}} cursor-pointer" ng-style="item.style">{{item.name|translate}}
+                  <i class="cursor-pointer glyphicon glyphicon-chevron-down arrow"
+                     ng-hide="!item.order"
+                     ng-class="{'rotate-180':item.sort==='asc','rotate-0':item.sort==='desc'||!item.sort}" />
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="item in createQuery.queryResultList track by $index" ng-click="createQuery.getOne(item)" ng-class="{active:createQuery.activeOne.serialNumber===item.serialNumber}">
+                <td><a ng-bind="item.hisId" href></a></td>
+                <td ng-bind="item.serialNumber"></td>
+                <td ng-bind="item.patientName"></td>
+                <td ng-bind="item.sex|sex"></td>
+                <td ng-bind="item.age"></td>
+                <td ng-bind="item.admissionNo||'无'"></td>
+                <td ng-bind="item.departments | department"></td>
+                <td ng-bind="item.inspectDoctor.firstName"></td>
+                <td ng-bind="item.inspectHospital"></td>
+                <td ng-bind="item.receiveTime| date : 'yyyy-MM-dd' "></td>
+                <td ng-bind="item.reportTime| date : 'yyyy-MM-dd' "></td>
+                <td ng-bind="item.statusName"></td>
+              </tr>
+              <tr ng-repeat="n in [].constructor(5) track by $index" ng-show="!createQuery.queryResultList.length||createQuery.queryResultList.length<=$index">
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+              </tr>
+
+              </tbody>
+            </table>
+            <div class="table-footer clearfix">
+              <div ng-show="createQuery.total>0" class="pull-left form-control-static pagination">{{'共'|translate}}<span ng-bind="createQuery.total"></span>{{'条结果'|translate}}</div>
+              <uib-pagination class="pull-right" boundary-links="true" items-per-page="createQuery.filter.length" max-size="10"
+              total-items="createQuery.total"
+              ng-model="createQuery.filter.page"
+              ng-change="createQuery.getData()"
+              previous-text="{{'上一页'|translate}}" next-text="{{'下一页'|translate}}" first-text="&laquo;" last-text="&raquo;">
+
+              </uib-pagination>
+            </div>
+          </div>
+        </div>
+
+        <!--下半部分 切换tab-->
+        <div class="query-tab-header">
+          <span class="btn btn-info" ng-class="{'active-tab': createQuery.activeTab === $index}" ng-repeat="tab in createQuery.tabHeaders track by $index" ng-click="createQuery.activeTab = $index;createQuery.switchTab($index)">{{tab.name}}</span>
+        </div>
+        <div class="query-tab-body" style="border: 1px solid;overflow: auto;padding: 10px;">
+          <!--报告单 tab-->
+          <div class="content report" ng-show="createQuery.activeTab === 0">
+            <a class="pull-right" href="" ng-click="createQuery.printReport()"><i class="fa fa-print fa-2x" aria-hidden="true"></i> 打印</a>
+
+            <!--报告tab 内部的子tab-->
+            <div class="sub-tab">
+              <div class="sub-tab-header">
+                <a class="btn btn-pure"
+                   ng-class="{'active': createQuery.activeReportTab === $index}"
+                   ng-repeat="tab in createQuery.reportTypeList track by $index"
+                   ng-click="createQuery.getReportDom(tab);createQuery.activeReportTab = $index"
+                >{{createQuery.reportType[tab.type] || "特检报告"}}</a>
+              </div>
+              <div class="sub-tab-body">
+                <div class="report-dom">
+                  <!--直接把打印需要的所有样式写在页面上-->
+                  <style>
+                    * {font-size: 12px;font-family: '微软雅黑';}
+                    /*.report{position:relative;width:780px}*/
+                    .report-logo{
+                      position: absolute;top: 5px;left: 5px;height: 70px;
+                    }
+                    .reportBigName{
+                      margin: 1px 0;font-size: 18px;
+                    }
+                    .report-subheading{
+                      margin: 2px 0;font-size: 18px;
+                    }
+                    .reportSmallName{
+                      font-size: 16px; font-weight: 700;margin-top: 0px;
+                    }
+                    .report-line{
+                      border-bottom: 1px solid;
+                      margin-bottom: 5px;
+                    }
+                    .report-line-2{
+                      border-top: 1px solid;
+                      padding-top: 4px;
+                      margin-top: 4px;
+                      margin-bottom:10px;
+                    }
+                    .report-margin-bottom{
+                      margin-bottom: 5px;
+                    }
+                    .info-item{
+                      width:25%;
+                      float: left;
+                      margin-bottom: 5px;
+                    }
+                    .diagnose-content {
+                      margin: 15px 0;
+                    }
+                    .content-name {
+                      margin-bottom: 5px;
+                    }
+                    .text-center{
+                      text-align: center;
+                    }
+                    .pull-right{
+                      float: right;
+                    }
+                    .pull-left{
+                      float: left;
+                    }
+                    .col-sm-4 {
+                      width: 33.3333333333%;
+                      float: left;
+                    }
+                    .no-padding{
+                      padding:0;
+                    }
+                    .clearfix {
+
+                      *zoom: 1;
+
+                    }
+
+                    .clearfix:before,
+
+                    .clearfix:after {
+
+                      display: table;
+
+                      line-height: 0;
+
+                      content: "";
+
+                    }
+
+                    .clearfix:after {
+
+                      clear: both;
+
+                    }
+                  </style>
+                  <!--报告dom-->
+                  <div ng-bind-html="createQuery.activeReport">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--申请单 tab-->
+          <div class="content application"  ng-show="createQuery.activeTab === 1">
+            <!-- 内部的子tab-->
+            <div class="sub-tab">
+              <div class="sub-tab-header">
+                <a class="btn btn-pure"
+                   ng-class="{'active': createQuery.activeApplicationTab === $index}"
+                   ng-repeat="tab in createQuery.applicationList track by $index"
+                   ng-click="createQuery.selectApplicationFrom($index);createQuery.activeApplicationTab = $index"
+                >
+                  {{tab.inspectCategory == 3 ? '冰冻申请': '常规病理申请' }}
+                </a>
+                <!--防止上面循环里很多个申请 下面用一个比较大的编号-->
+                <a class="btn btn-pure" ng-class="{'active': createQuery.activeApplicationTab === 11}" ng-click="createQuery.specialApplicationTab(1);createQuery.activeApplicationTab = 11">免疫组化申请</a>
+                <a class="btn btn-pure" ng-class="{'active': createQuery.activeApplicationTab === 12}" ng-click="createQuery.specialApplicationTab(2);createQuery.activeApplicationTab = 12">特染申请</a>
+              </div>
+              <div class="sub-tab-body">
+                <div>
+
+                  <div ng-if="createQuery.activeApplicationTab < 10" class="pathology-content">
+                    <!--专门显示的组件-->
+                    <application-form ng-if="createQuery.applicationFormData" data="createQuery.applicationFormData" read="true"></application-form>
+                  </div>
+
+                  <div ng-show="createQuery.activeApplicationTab > 10" class="pathology-report" ng-include="'app/site/caseQuery/createQuery/applicationInfo.html'"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div ng-show="createQuery.activeTab === 2" ng-click="" class="pathology-report" ng-include="'app/site/caseQuery/createQuery/sampleInfo.html'"></div>
+          <div ng-show="createQuery.activeTab === 3" ng-click="" class="pathology-report" ng-include="'app/site/caseQuery/createQuery/specialDye.html'"></div>
+          <div ng-show="createQuery.activeTab === 4" ng-click="" class="pathology-report" ng-include="'app/site/caseQuery/createQuery/diagnosisInfo.html'"></div>
+          <div ng-show="createQuery.activeTab === 5" ng-click="" class="pathology-report" ng-include="'app/site/caseQuery/createQuery/otherInfo.html'"></div>
+
+        </div>
+
+        <!--切换tab-->
+        <!--<div class="tab-container">
+          <uib-tabset active="createQuery.activeTab" type="pills">
+
+            <uib-tab index="0" heading="{{'病理报告'|translate}}" select="createQuery.reportTab($event)">
+
+              &lt;!&ndash;<div class="print-title">
+                &lt;!&ndash;与该病人关联的病理号共 3 个，<a href="">显示所有</a>&ndash;&gt;
+              </div>&ndash;&gt;
+              <a class="pull-right" href="" ng-click="createQuery.printReport()"><i class="fa fa-print fa-2x" aria-hidden="true"></i> 打印</a>
+
+              &lt;!&ndash;报告tabs&ndash;&gt;
+              <uib-tabset ng-if="createQuery.activeTab === 0" active="createQuery.activeReportTab">
+
+                <uib-tab index="$index" ng-repeat="tab in createQuery.reportTypeList track by $index" heading="{{createQuery.reportType[tab.type]}}" select="createQuery.getReportDom(tab)" disable="">
+                  <div class="report-dom" ng-if="createQuery.activeReport">
+                    &lt;!&ndash;直接把打印需要的所有样式写在页面上&ndash;&gt;
+                    <style>
+                      .info-item{
+                        width:25%;
+                        float: left;
+                        margin-bottom: 5px;
+                      }
+                      .diagnose-content {
+                        margin: 15px 0;
+                      }
+                      .content-name {
+                        margin-bottom: 5px;
+                      }
+                    </style>
+                    <div ng-bind-html="createQuery.activeReport">
+                    </div>
+                  </div>
+                </uib-tab>
+
+              </uib-tabset>
+
+
+            </uib-tab>
+            <uib-tab index="1" heading="{{'申请信息'|translate}}" select="createQuery.selectApplication()">
+
+              &lt;!&ndash;todo 返回的是一个病理申请单数据的数组&ndash;&gt;
+
+              &lt;!&ndash;<uib-tabset ng-if="createQuery.activeTab === 1" active="createQuery.activeApplicationTab">
+
+                <uib-tab index="$index"  ng-repeat="tab in createQuery.applicationList track by $index"  heading="{{tab.inspectCategory == 3 ? '冰冻申请': '常规病理申请' }}" select="createQuery.selectApplicationFrom($index);alert(1)" disable="">
+
+                  <div ng-show="createQuery.applicationList" class="pathology-content">
+                    <application-form ng-if="createQuery.applicationFormData" data="createQuery.applicationFormData" readonly="true"></application-form>
+                  </div>
+                </uib-tab>
+
+                <uib-tab ng-if="createQuery.applicationList" index="3"  heading="免疫组化申请" select="createQuery.specialApplicationTab(1)"  disable="">
+                  <div>
+                    <div class="pathology-report" ng-include="'app/site/caseQuery/createQuery/applicationInfo.html'"></div>
+                  </div>
+                </uib-tab>
+                <uib-tab ng-if="createQuery.applicationList" index="4"  heading="特染申请" select="createQuery.specialApplicationTab(2)"  disable="">
+                  <div>
+                    <div class="pathology-report" ng-include="'app/site/caseQuery/createQuery/applicationInfo.html'"></div>
+                  </div>
+                </uib-tab>
+
+              </uib-tabset>&ndash;&gt;
+
+            </uib-tab>
+            <uib-tab index="2" heading="{{'样本信息'|translate}}" select="createQuery.sampleTab()">
+              <div ng-click="createQuery.stopPropagation($event)" class="pathology-report" ng-include="'app/site/caseQuery/createQuery/sampleInfo.html'"></div>
+            </uib-tab>
+            <uib-tab index="3" heading="{{'染色信息'|translate}}" select="createQuery.specialDyeTab()">
+              <div ng-click="createQuery.stopPropagation($event)" class="pathology-report" ng-include="'app/site/caseQuery/createQuery/specialDye.html'"></div>
+            </uib-tab>
+            <uib-tab index="4" heading="{{'诊断信息'|translate}}" select="createQuery.diagnosisTab()">
+              <div ng-click="createQuery.stopPropagation($event)" class="pathology-report" ng-include="'app/site/caseQuery/createQuery/diagnosisInfo.html'"></div>
+            </uib-tab>
+            <uib-tab index="5" heading="{{'其他检查'|translate}}">
+              <div ng-click="createQuery.stopPropagation($event)" class="pathology-report" ng-include="'app/site/caseQuery/createQuery/otherInfo.html'"></div>
+            </uib-tab>
+
+          </uib-tabset>
+        </div>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--科研-->
+<!--<div ng-if="createQuery.activeMenu===1">-->
+  <!--<div class="container" ng-controller="researchQueryController as researchQuery" ng-include="'app/site/caseQuery/queryResearch/queryResearch.html'">这里不管写什么都不会展示,完全被ng-include取代</div>-->
+<!--</div>-->

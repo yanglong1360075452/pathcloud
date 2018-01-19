@@ -1,0 +1,52 @@
+#templateInfo{
+  .modal-body{
+    .project-div{
+      height:25px;
+      line-height:25px;
+      margin-bottom:10px;
+      input,select{
+        height:25px;
+      }
+      .checkbox{
+        margin-top:0
+      }
+      label{
+        font-weight:normal;
+      }
+      .required-sign{
+        color: #f00;
+      }
+      .project-title{
+        width:25%;
+        text-align: center;
+      }
+      .project-content{
+        width:35%;
+        text-align: left;
+        select{
+          width:80%;
+        }
+      }
+      .multi-project-content{
+        width:75%;
+        text-align: left;
+        .check-item{
+          width:47%;
+          margin-left: 0;
+          input{
+            margin-top: 2px;
+          }
+        }
+        //.checkbox-inline {
+        //  margin-top: 0;
+        //  padding-right: 10px;
+        //  margin-left: 0;
+        //  height:25px;
+        //}
+      }
+      .project-other{
+        width:40%;
+      }
+    }
+  }
+}

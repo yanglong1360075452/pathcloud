@@ -1,0 +1,12 @@
+.research-query{
+  .form-control[disabled], .form-control[readonly] {
+    background-color: #fff;
+    opacity: 1;
+  }
+  select{
+    margin: 0 10px;
+  }
+  .form-inline .input-group{
+    width: 110px;
+  }
+}

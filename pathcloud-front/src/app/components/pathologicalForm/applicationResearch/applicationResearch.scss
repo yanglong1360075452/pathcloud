@@ -1,0 +1,30 @@
+
+.active-border{
+  border: 3px solid deepskyblue;
+}
+.department-selecter{
+  //select{
+  //  border: 1px solid #ddd;
+  //}
+}
+.orderList{
+  .checked{
+    background-color: #00aa00;
+  }
+  .booked{
+    background-color: #cccccc;
+  }
+  .error{
+    background-color: red;
+  }
+}
+
+.freeDatePick{
+  .form-control[readonly]{
+    background-color: transparent;
+  }
+  input[disabled]{
+    background-color: transparent;
+    width:180px;
+  }
+}

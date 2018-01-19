@@ -1,0 +1,58 @@
+<div class="pathology-report" ng-controller="QueryResearchApplicationController as QueryA">
+
+  <div class="clearfix">
+    <div class="col-sm-2-">
+      <ul class="nav nav-pills nav-stacked-" ng-init="application=1">
+        <li style="margin:0 10px 10px 0" ng-class="{active:application === 1}" class="btn btn-sm nav-item" ng-click="application = 1">{{'病理申请表'|translate}}</li>
+        <li style="margin:0 10px 10px 0" ng-class="{active:application === 2}" class="btn btn-sm nav-item" ng-click="application = 2">{{'特检申请表'|translate}}</li>
+      </ul>
+    </div>
+    <div class="col-sm-12">
+
+      <div ng-show="application === 1" class="row pathology">
+        <div class="pathology-content">
+          <application-research></application-research>
+          <!--<ihc-form></ihc-form>-->
+        </div>
+      </div>
+      <div ng-show="application === 2" class="row special">
+        <!--特检申请表-->
+        <div class=" sample">
+          <div class="table-min mini">
+            <table class=" table-hover table-bordered">
+              <thead>
+              <tr>
+                <th>{{'蜡块号'|translate}}</th>
+                <th>{{'染色类别'|translate}}</th>
+                <th>{{'试剂/抗体名称'|translate}}</th>
+                <th>{{'备注'|translate}}</th>
+                <th>{{'申请人'|translate}}</th>
+                <th>{{'联系电话'|translate}}</th>
+                <th>{{'申请时间'|translate}}</th>
+
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="item in QueryA.specialDyeApplyInfo track by $index">
+                <td ng-bind="item.subId"></td>
+                <td ng-bind="item.specialDyeDesc"></td>
+                <td ng-bind="item.ihcMarker.join(';')"></td>
+                <td ng-bind="item.note"></td>
+                <td ng-bind="item.applyUser"></td>
+                <td ng-bind="item.phone"></td>
+                <td ng-bind="item.createTime| date : 'yyyy-MM-dd HH:mm:ss'"></td>
+
+              </tr>
+              <tr ng-repeat="n in [].constructor(5) track by $index" ng-show="!QueryA.specialDyeApplyInfo.length||QueryA.specialDyeApplyInfo.length<=$index"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+
+</div>

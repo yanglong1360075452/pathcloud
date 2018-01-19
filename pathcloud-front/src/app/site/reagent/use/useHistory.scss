@@ -1,0 +1,22 @@
+#searDistribution{
+  .distributed-div{
+    .distributed-right{
+      height:538px;
+      background: #ecf7fb;
+      padding:38px 40px;
+      .head{
+        #search-input{
+          margin:0 10px;
+        }
+        #searchBtn{
+          border:none;
+          outline:none;
+        }
+      }
+      .content{
+        clear:both;
+        margin-top:50px;
+      }
+    }
+  }
+}

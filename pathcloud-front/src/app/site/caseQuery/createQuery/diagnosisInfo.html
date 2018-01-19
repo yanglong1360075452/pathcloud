@@ -1,0 +1,38 @@
+<div class="pathology-report">
+
+  <div class="clearfix">
+    <div>
+      <ul class="sub-tab-header" ng-init="operation = 10">
+        <li ng-class="{active:operation === 10}" class="btn btn-sm btn-pure" ng-click="operation = 10">
+          {{'一级诊断'|translate}}
+        </li>
+        <li ng-class="{active:operation === 11}" class="btn btn-sm btn-pure" ng-click="operation = 11">
+          {{'二级诊断'|translate}}
+        </li>
+        <li ng-class="{active:operation === 12}" class="btn btn-sm btn-pure" ng-click="operation = 12">
+          {{'三级诊断'|translate}}
+        </li>
+        <li ng-class="{active:operation === 21}" class="btn btn-sm btn-pure" ng-click="operation = 21">
+          {{'专家会诊'|translate}}
+        </li>
+      </ul>
+    </div>
+
+    <div style="min-height:300px;" class="form-control">
+
+      <div ng-repeat="item in createQuery.diagnosisInfo " ng-show="item.operation===operation">
+        <div class="clearfix" style="margin-bottom: 10px">
+          <div class="pull-left">诊断医生：{{item.operator.firstName}}</div>
+          <div class="pull-right">诊断时间：{{item.operationTime | date: "yyyy-MM-dd HH:mm"}}</div>
+        </div>
+
+        <div ng-bind-html="item.diagnoseResult">
+          <!--{{item}}-->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+</div>

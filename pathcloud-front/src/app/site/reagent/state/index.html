@@ -1,0 +1,9 @@
+<toolbar class="clearfix">
+  <ul class="list-unstyled menu-list">
+    <li ng-class="{active:reagent.activeMenu===0}" ng-click="reagent.choseMenu(0)">{{'库存记录'|translate}}</li>
+  </ul>
+</toolbar>
+
+<div id="reagent">
+  <div class="container" ng-if="reagent.activeMenu===0" ng-include="'app/site/reagent/state/createHistory.html'"></div>
+</div>

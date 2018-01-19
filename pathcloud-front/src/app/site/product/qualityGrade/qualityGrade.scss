@@ -1,0 +1,32 @@
+#proQualityGrade{
+    .glyphicon-star,.glyphicon-star-empty{
+      color: #fed010;
+    }
+    .gradeType{
+      .row{
+        font-size:16px;
+        margin-bottom:10px;
+        .col-sm-6{
+          span{
+            outline:none;
+          }
+        }
+      }
+      .settingType{
+        height:30px;
+        line-height:30px;
+      }
+      .gradeSetting{
+        border-top: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+        margin-top:20px;
+        .col-sm-4{
+          margin-top:20px;
+          margin-bottom:20px;
+        }
+      }
+      .row i{
+        font-size:16px;
+      }
+    }
+}

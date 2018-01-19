@@ -1,0 +1,369 @@
+<div ng-controller="reagentStoreCreateController as reagent" id="storeCreate">
+
+    <div class="container">
+
+      <form class="form-horizontal row clearfix" name="reagent_form" role="reagent_form" >
+        <fieldset style=" margin-bottom: 50px;">
+          <div class="col-sm-4">
+            <h4>{{'基本信息'|translate}}</h4>
+            <!--名称-->
+            <div  class="form-group has-feedback" ng-class="{'has-success':nameOk = reagent_form.name.$dirty && reagent_form.name.$valid && reagent.nameCheck,
+                'has-error':nameErr = reagent_form.name.$dirty && reagent_form.name.$invalid}">
+
+              <label class="col-sm-3">{{'试剂名称'|translate}}<span class="required">*</span>：</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" name="name" id="name" required
+                       ng-model="reagent.basic.name" ng-blur="reagent.getReagentBasic()"
+                       onkeydown="if(event.keyCode==32) return false"
+                       maxlength="20"
+                >
+                <span ng-show="nameOk&&reagent.nameCheck" class="glyphicon glyphicon-ok form-control-feedback"></span>
+              </div>
+            </div>
+
+            <!--类别-->
+            <div  class="form-group has-feedback">
+
+              <label for="category" class="col-sm-3 control-label">{{'试剂类别'|translate}}：</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="category" required
+                       ng-model="reagent.basic.typeDesc " readonly>
+              </div>
+            </div>
+
+
+            <!--克隆号-->
+            <div  class="form-group has-feedback">
+              <label for="name" class="col-sm-3 control-label">{{'克隆号'|translate}}：</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control"
+                       ng-model="reagent.basic.cloneNumber" readonly>
+              </div>
+            </div>
+
+            <!--预处理-->
+            <div  class="form-group has-feedback">
+
+              <label for="category" class="col-sm-3 control-label">{{'预处理'|translate}}：</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="preProcess"
+                       ng-model="reagent.basic.preProcessDesc" readonly>
+              </div>
+            </div>
+
+            <!--阳性部位-->
+            <div  class="form-group has-feedback">
+
+              <label for="name" class="col-sm-3 control-label">{{'阳性部位'|translate}}：</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control"
+                       ng-model="reagent.basic.positivePosition" readonly>
+              </div>
+            </div>
+
+            <!--鉴别诊断-->
+            <div  class="form-group has-feedback">
+
+              <label for="name" class="col-sm-12">{{'鉴别诊断'|translate}}：</label>
+              <div class="col-sm-12">
+                <textarea name="" class="form-control"   ng-model="reagent.basic.diagnose" cols="10" rows="6" readonly></textarea>
+              </div>
+            </div>
+
+            <!--规格-->
+            <div  class="form-group has-feedback">
+              <label for="name" class="col-sm-3 control-label">{{'规格'|translate}}<span class="required">*</span>：</label>
+              <div class="col-sm-3" style="padding-right:5px">
+                <input  type="text" class="form-control" name="specification" id="specification"
+                       ng-model="reagent.data.specification" style="padding-right:0" required
+                       onkeydown="if(event.keyCode==32) return false"
+                       maxlength="20"
+                >
+              </div>
+              <div class="col-sm-1  control-label" style="padding-left: 0">ml</div>
+              <div class="col-sm-5">
+                <select class="form-control" name="category"
+                        ng-model="reagent.data.type"
+                        ng-options="item.code as item.name for item in reagent.liquidType">
+                  >
+                  <option value="">{{'工作液'|translate}}</option>
+                </select>
+              </div>
+            </div>
+
+            <!--稀释比例-->
+
+            <div  ng-if="reagent.data.type==2" class="form-group has-feedback dilutionRate">
+              <label for="name" class="col-sm-3 control-label">{{'稀释比例'|translate}}<span class="required">*</span>：</label>
+              <div class="col-sm-1">
+                <input  type="text" class="form-control"  ng-model="reagent.data.dilutionRateFront" required
+                        onkeydown="if(event.keyCode==32) return false"
+                        maxlength="5">
+              </div>
+              <label for="name" class="col-sm-1 control-label">:</label>
+              <div class="col-sm-1">
+                <input  type="text" class="form-control"  ng-model="reagent.data.dilutionRateRear" required
+                        onkeydown="if(event.keyCode==32) return false"
+                        maxlength="5">
+              </div>
+              <label class="col-sm-2 control-label" for="name">{{'工作液'|translate}}<span class="required">*</span>：</label>
+              <div class="col-sm-2">
+                <input   class="form-control" type="text"  ng-model="reagent.data.realCapacity"
+                        onkeydown="if(event.keyCode==32) return false" readonly
+                        maxlength="5">
+              </div>
+              <div  class="col-sm-1  control-label">ml</div>
+            </div>
+
+            <!--数量-->
+            <div  class="form-group has-feedback" >
+              <label for="name" class="col-sm-3 control-label">{{'数量'|translate}}<span class="required">*</span>：</label>
+              <div class="col-sm-4">
+                <input  type="text" class="form-control" name="specification" ng-model="reagent.data.count" required
+                        onkeydown="if(event.keyCode==32) return false"
+                        maxlength="20">
+              </div>
+              <div class="col-sm-5">
+                <select class="form-control" name="category"  required
+                        ng-model="reagent.data.countUnit"
+                        ng-options="item.code as item.name for item in reagent.countType">
+                  <option value="">{{'瓶'|translate}}</option>
+                </select>
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="col-sm-4">
+            <h4>{{'厂商信息'|translate}}</h4>
+
+            <!--订单号-->
+            <div  class="form-group has-feedback">
+
+              <label for="name" class="col-sm-3 control-label">{{'订单号'|translate}}<span class="required">*</span>：</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" name="orderNumber" id="orderNumber" required
+                       ng-model="reagent.data.orderNumber"
+                       onkeydown="if(event.keyCode==32) return false"
+                       maxlength="20"
+                >
+                <span ng-show="orderNumberOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+              </div>
+            </div>
+
+            <!--产品编号-->
+            <div  class="form-group has-feedback">
+
+              <label for="name" class="col-sm-3 control-label">{{'产品编号'|translate}}：</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control"
+                       ng-model="reagent.data.productNumber"
+                       onkeydown="if(event.keyCode==32) return false"
+                       maxlength="20"
+                >
+              </div>
+            </div>
+
+
+            <!--制造商-->
+            <div  class="form-group has-feedback">
+
+              <label for="name" class="col-sm-3 control-label">{{'制造商'|translate}}：</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" name="manufacturer" id="manufacturer"
+                       ng-model="reagent.data.manufacturer"
+                       onkeydown="if(event.keyCode==32) return false"
+                       maxlength="20"
+                >
+              </div>
+            </div>
+
+
+            <!--货号-->
+            <div  class="form-group has-feedback">
+              <label for="name" class="col-sm-3 control-label">{{'货号'|translate}}：</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" name="articleNumber" id="articleNumber"
+                       ng-model="reagent.data.articleNumber"
+                       onkeydown="if(event.keyCode==32) return false"
+                       maxlength="20"
+                >
+              </div>
+            </div>
+
+            <!--生产批号-->
+            <div  class="form-group has-feedback">
+              <label for="name" class="col-sm-3 control-label">{{'生产批号'|translate}}<span class="required">*</span>：</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" name="batchNumber" id="batchNumber" required
+                       ng-model="reagent.data.batchNumber"
+                       onkeydown="if(event.keyCode==32) return false"
+                       maxlength="20"
+                >
+            </div>
+            </div>
+
+            <!--生产日期-->
+            <div  class="form-group has-feedback">
+              <label for="productionDate" class="col-sm-3 control-label">{{'生产日期'|translate}}<span class="required">*</span>：</label>
+              <div class="col-sm-8" ng-init="productionDate = false">
+                <input type="text"  clear-text="清除" close-text="确定" current-text="今天" name="productionDate" class="form-control" id="productionDate"
+                       uib-datepicker-popup min="minStartDate" max="maxStartDate"  datepicker-options="dateOptions1"
+                       ng-click="productionDate=!productionDate" required readonly style="background:none;"
+                       ng-model="reagent.data.produceTime"
+                       is-open="productionDate" />
+                <span class=" form-control-feedback" ng-click="productionDate=!productionDate"><i class="glyphicon glyphicon-calendar"></i></span>
+              </div>
+            </div>
+
+            <!--失效日期-->
+            <div  class="form-group has-feedback"  >
+
+              <label for="expiryDate" class="col-sm-3 control-label">{{'失效日期'|translate}}<span class="required">*</span>：</label>
+              <div class="col-sm-8" ng-init="openExpiryDate = false">
+                <input type="text"  clear-text="清除" close-text="确定" current-text="今天" name="expiryDate" class="form-control" id="expiryDate"
+                       uib-datepicker-popup datepicker-options="dateOptions2"
+                       ng-click="openExpiryDate=!openExpiryDate" required readonly
+                       ng-model="reagent.data.expiryTime" style="background:none;"
+                       is-open="openExpiryDate" />
+                <span class=" form-control-feedback" ng-click="openExpiryDate=!openExpiryDate"><i class="glyphicon glyphicon-calendar"></i></span>
+              </div>
+            </div>
+
+            <!--产商电话-->
+            <div class="form-group has-feedback" ng-class="{'has-success':preparationPhoneOk = reagent_form.preparationPhone.$dirty && reagent_form.preparationPhone.$valid&&reagent.data.manufacturerPhone!=='',
+                'has-error':preparationPhoneErr = reagent_form.preparationPhone.$dirty && reagent_form.preparationPhone.$invalid}">
+              <label for="preparationPhone" class="col-sm-3">{{'厂商电话'|translate}}：</label>
+              <div class="col-sm-8">
+                <input type="tel" class="form-control" id="preparationPhone" name="preparationPhone" maxlength="20"
+                       ng-model="reagent.data.manufacturerPhone"
+                       ng-pattern="/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/"
+                >
+                <span ng-show="preparationPhoneOk&&reagent.data.manufacturerPhone!==''" class="glyphicon glyphicon-ok form-control-feedback"></span>
+              </div>
+            </div>
+
+            <!--说明书-->
+            <!--<div  class="form-group has-feedback">-->
+              <!--<label for="name" class="col-sm-3 control-label">{{'说明书'|translate}}：</label>-->
+              <!--<div class="col-sm-5" style="padding-left:0">-->
+                <!--<input class="form-control" type="text"  name="spec" id="spec"-->
+                <!--ng-model="reagent.data.spec"-->
+                <!--onkeydown="if(event.keyCode==32) return false"-->
+                <!--maxlength="20"-->
+                <!--&gt;-->
+              <!--</div>-->
+              <!--<div class="btn btn-success fileInput-button" style="background:none;border-color:#EEEEEE;">-->
+                  <!--<input type="file" name="" id=""  ng-model="reagent.data.spec">-->
+                <!--<span style="color:#000000">上传</span>-->
+              <!--</div>-->
+            <!--</div>-->
+            <div  class="form-group has-feedback">
+              <label for="name" class="col-sm-3 control-label">{{'说明书'|translate}}：</label>
+              <div class="col-sm-8">
+                <input class="form-control" type="text"  name="spec" id="spec"
+                       ng-model="reagent.data.spec"
+                       onkeydown="if(event.keyCode==32) return false"
+                       maxlength="20"
+                >
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="col-sm-4">
+            <h4>{{'其他信息'|translate}}</h4>
+
+            <!--接收状态-->
+            <div  class="form-group has-feedback">
+
+              <label for="category" class="col-sm-3 control-label">{{'接收状态'|translate}}：</label>
+              <div class="col-sm-8">
+                <select class="form-control" name="status" id="status"
+                        ng-model="reagent.data.receiveStatus"
+                        ng-options="item.code as item.name for item in reagent.statusList">
+                  >
+                </select>
+              </div>
+            </div>
+
+            <!--制备人-->
+            <div  class="form-group has-feedback">
+
+              <label for="preparation" class="col-sm-3 control-label">{{'制备人'|translate}}：</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" name="preparation" id="preparation"
+                       ng-model="reagent.data.preparation"
+                       onkeydown="if(event.keyCode==32) return false"
+                       maxlength="20"
+                >
+                <span ng-show="preparationOk" class="glyphicon glyphicon-ok form-control-feedback"></span>
+              </div>
+            </div>
+
+            <!--制备日期-->
+            <div  class="form-group has-feedback">
+
+              <label for="preparationDate" class="col-sm-3 control-label">{{'制备日期'|translate}}：</label>
+              <div class="col-sm-8" ng-init="preparationDate = false">
+                <input type="text"  clear-text="清除" close-text="确定" current-text="今天" name="preparationDate" class="form-control" id="preparationDate"
+                       uib-datepicker-popup min="minStartDate" max="maxStartDate"  datepicker-options="dateOptions3"
+                       ng-click="preparationDate=!preparationDate" readonly
+                       ng-model="reagent.data.preparationTime" style="background:none;"
+                       is-open="preparationDate" />
+                <span class=" form-control-feedback" ng-click="preparationDate=!preparationDate"><i class="glyphicon glyphicon-calendar"></i></span>
+              </div>
+            </div>
+
+            <!--预实验人-->
+            <div  class="form-group has-feedback">
+
+              <label for="preparation" class="col-sm-3 control-label">{{'预实验人'|translate}}：</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" name="preparation"
+                       ng-model="reagent.data.preExperiment"
+                       onkeydown="if(event.keyCode==32) return false"
+                       maxlength="20"
+                >
+              </div>
+            </div>
+
+
+            <!--实验日期-->
+            <div  class="form-group has-feedback" >
+
+              <label for="experimentDate" class="col-sm-3 control-label">{{'实验日期'|translate}}：</label>
+              <div class="col-sm-8" ng-init="experimentDate = false">
+                <input type="text"  clear-text="清除" close-text="确定" current-text="今天" name="experimentDate" class="form-control" id="experimentDate"
+                       uib-datepicker-popup datepicker-options="dateOptions4"
+                       ng-click="experimentDate=!experimentDate"
+                       ng-model="reagent.data.preExperimentTime" readonly style="background:none;"
+                       is-open="experimentDate" />
+                <span class=" form-control-feedback" ng-click="experimentDate=!experimentDate"><i class="glyphicon glyphicon-calendar"></i></span>
+              </div>
+            </div>
+
+
+            <!--预实验结果记录-->
+            <div  class="form-group has-feedback"  >
+
+              <label for="name" class="col-sm-12">{{'预实验结果记录'|translate}}：</label>
+              <div class="col-sm-12">
+                <textarea name="" class="form-control"  cols="6" rows="6" ng-model="reagent.data.preExperimentResult"></textarea>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+      </form>
+
+      <div class="modal-footer">
+        <button class="btn btn-primary pull-left" ng-click="reagent.clear();">{{'清空'|translate}}</button>
+        <button class="btn btn-default pull-left" ng-click="reagent.submit()" ng-disabled="reagent_form.$invalid">{{'保存'|translate}}</button>
+      </div>
+    </div>
+
+</div>
+

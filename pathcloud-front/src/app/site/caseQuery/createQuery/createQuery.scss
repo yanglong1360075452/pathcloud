@@ -1,0 +1,107 @@
+.query-tab{
+
+}
+.query-tab-header{
+  .active-tab{
+    background-color: $theme-color !important;
+  }
+}
+.query-tab-body{
+  height:400px;
+  overflow: auto;
+}
+.sub-tab{
+
+}
+
+.sub-tab-header{
+  .active{
+    color: #000;
+    border: 1px solid;
+  }
+  margin-bottom: 5px;
+}
+
+#createQuery,#researchQuery{
+  //左边搜索部分
+  .search{
+    background-color: #f1fbff;
+    .search-item{
+      margin-top: 10px;
+      .name{
+        margin-top: 3px;
+        width:80px;
+        float: left;
+      }
+      .content{
+        width:190px;
+        float: right;
+        input{
+          width:100%;
+        }
+        select{
+          width:100%;
+        }
+      }
+    }
+  }
+  //搜索结果表格
+  .table-container{
+    .active{
+      background-color: #eeeeee !important;
+    }
+  }
+  //tab切换部分
+  .tab-container{
+
+    .nav-pills > li + li {
+       margin-left: 0px;
+    }
+    .nav-pills > li > a {
+      border: 1px solid;
+      border-bottom: none;
+      border-radius: 5px 5px 0 0;
+      padding: 5px 15px;
+    }
+
+    .tab-content{
+      height:400px;
+      border: 1px solid;
+      padding: 20px;
+      overflow: auto;
+      .pathology-report{
+
+      }
+      .print-title{
+        line-height: 40px;
+      }
+      .pathology{
+        border: 1px solid;
+        .img-container {
+           height: auto;
+        }
+      }
+
+      .nav-stacked,.nav-pills{
+        .nav-item{
+          color:#000000;
+        }
+        .active{
+          background-color: #d2ebf1;
+        }
+        li{
+          background-color: #eee;
+        }
+        .nav-item:active{
+          background-color: #d2ebf1;
+        }
+        .nav-item:visited{
+          background-color: #d2ebf1;
+        }
+      }
+    }
+  }
+  img.jujianImg {
+    width: 120px;
+  }
+}

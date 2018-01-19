@@ -1,0 +1,324 @@
+<div class="reportTemplate" ng-controller="ReportTemplateController as ReportTpl">
+  <div class="report-template-setting">
+    <div class="logo form-group">
+      <div class="clearfix">
+
+          <div class="col-xs-2 no-padding">
+            <p style="padding-top: 4px;  margin-bottom: 0;">{{'图标'|translate}}：</p>
+          </div>
+          <label style="margin-bottom: 0;" for="reportlogo">
+            <span class="btn btn-sm btn-info">{{'上传图标'|translate}}</span>
+            <input style="visibility: hidden" id="reportlogo" class="inputstyle" type="file" id="logo">
+          </label>
+      </div>
+      <!--<img width="100" height="70" ng-src="{{reportTemplate.reportTemplateVO.imageURL}}">-->
+    </div>
+
+    <div class="form-group clearfix">
+      <div class="col-xs-2 no-padding">
+        <p style="padding-top: 4px;  margin-bottom: 0;">{{'大标题'|translate}}：</p>
+      </div>
+      <input class="col-xs-10" type="text" ng-model="reportTemplate.reportTemplateVO.reportBigName">
+    </div>
+    <div class="form-group clearfix">
+      <div class="col-xs-2 no-padding">
+        <p style="padding-top: 4px;  margin-bottom: 0;">{{'副标题'|translate}}：</p>
+      </div>
+      <input class="col-xs-10" type="text" ng-model="reportTemplate.reportTemplateVO.subheading">
+    </div>
+    <div class="form-group clearfix">
+      <div class="col-xs-2 no-padding">
+        <p style="padding-top: 4px;  margin-bottom: 0;">{{'小标题'|translate}}：</p>
+      </div>
+      <input class="col-xs-10" type="text" ng-model="reportTemplate.reportTemplateVO.reportSmallName">
+    </div>
+    <!--<div class="title form-group">大标题：<input type="text" ng-model="reportTemplate.reportTemplateVO.reportBigName"></div>-->
+    <!--<div class="secTitle form-group">小标题：<input type="text" ng-model="reportTemplate.reportTemplateVO.reportSmallName"></div>-->
+
+    <!--<code>{{reportTemplate}}</code>-->
+    <fieldset>
+      <p><b>{{'病人信息'|translate}}：</b></p>
+      <div class="form-group clearfix">
+        <label class="checkbox-inline col-xs-3" ng-repeat="item in reportTemplate.reportTemplateVO.patientInformation track by $index">
+          <input type="checkbox" ng-model="item.check"> {{item.name|translate}}
+        </label>
+      </div>
+
+    </fieldset>
+    <fieldset>
+      <p><b>{{'诊断内容'|translate}}：</b></p>
+      <div class="form-group clearfix">
+        <label class="checkbox-inline col-xs-3" ng-repeat="item in reportTemplate.reportTemplateVO.diagnosticContent track by $index">
+          <input type="checkbox"  ng-model="item.check"> {{item.name|translate}}
+        </label>
+      </div>
+
+    </fieldset>
+    <fieldset>
+      <p><b>{{'诊断信息'|translate}}：</b></p>
+      <div class="form-group clearfix">
+        <label class="checkbox-inline col-xs-3" ng-repeat="item in reportTemplate.reportTemplateVO.diagnosticInformation track by $index">
+          <input type="checkbox"  ng-model="item.check"> {{item.name|translate}}
+        </label>
+      </div>
+    </fieldset>
+    <fieldset>
+      <p><b>{{'医院信息'|translate}}：</b></p>
+      <div class="form-group clearfix">
+        <!--<div contenteditable="true" ng-model="reportTemplate.reportTemplateVO.hospitalInformation" class="col-xs-9" >{{reportTemplate.reportTemplateVO.hospitalInformation}}</div>-->
+        <textarea class="form-control" name=""  rows="3" ng-model="reportTemplate.reportTemplateVO.hospitalInformation"></textarea>
+      </div>
+    </fieldset>
+    <fieldset>
+      <!--<div>特殊提示：</div>-->
+      <div class="form-group clearfix">
+        <div class="col-xs-2 no-padding">
+          <p style="padding-top: 4px;  margin-bottom: 0;">{{'特殊提示'|translate}}：</p>
+        </div>
+        <input class="col-xs-10"  ng-model="reportTemplate.reportTemplateVO.specialTip">
+      </div>
+    </fieldset>
+    <!--<button ng-click="ReportTpl.get()">查看</button>-->
+    <!--<button ng-click="ReportTpl.create()">创建</button>-->
+    <button class="btn btn-primary" ng-click="ReportTpl.save()">{{'保存'|translate}}</button>
+  </div>
+
+  <div class="report-template-view">
+    <div class="view center-block">
+      <div class="view-info">
+        {{'模板预览'|translate}}
+      </div>
+      <div class="reprot-template">
+        <fieldset>
+          <img class="logo"  src="" alt="logo" ng-src="{{reportTemplate.reportTemplateVO.imageURL}}">
+          <p class="text-center" ng-bind="reportTemplate.reportTemplateVO.reportBigName">{{'大标题'|translate}}</p>
+          <p class="text-center" ng-bind="reportTemplate.reportTemplateVO.subheading">{{'大标题'|translate}}</p>
+          <p class="text-center" ng-bind="reportTemplate.reportTemplateVO.reportSmallName">{{'小标题'|translate}}</p>
+        </fieldset>
+
+        <!--<hr>-->
+        <!--<div class="clearfix">-->
+          <!--<div class="patient pull-left">登记/住院号：<input type="text"></div>-->
+          <!--<div class="pull-right">病理号：<input type="text"></div>-->
+        <!--</div>-->
+
+        <fieldset>
+          <div class="report-table-info clearfix row">
+            <div class="pull-left col-sm-3" ng-show="item.check" ng-repeat="item in reportTemplate.reportTemplateVO.patientInformation track by $index" ng-show="item.check">
+              <span class="info info-name">{{item.name|translate}}</span><input type="text">
+            </div>
+          </div>
+        </fieldset>
+
+        <!--<code>{{reportTemplate.reportTemplateVO}}</code>-->
+        <fieldset class="diagnosticContent" ng-show="reportTemplate.reportTemplateVO.diagnosticContent">
+          <div class="diagnosticContent" ng-show="item.check" ng-repeat="item in reportTemplate.reportTemplateVO.diagnosticContent">{{item.name|translate}}</div>
+        </fieldset>
+        <fieldset class="clearfix" ng-show="reportTemplate.reportTemplateVO.diagnosticInformation">
+          <div class="col-sm-4 no-padding" ng-show="item.check" ng-repeat="item in reportTemplate.reportTemplateVO.diagnosticInformation">
+            {{item.name|translate}}
+          </div>
+         <!-- <div class="col-sm-4 no-padding">
+            诊断时间：
+          </div><div class="col-sm-4 no-padding">
+            报告打印者：
+          </div>-->
+        </fieldset>
+        <fieldset>
+          <div class="hospital-info">
+            {{reportTemplate.reportTemplateVO.hospitalInformation}}
+          </div>
+
+          <p class="text-right">{{reportTemplate.reportTemplateVO.specialTip}}</p>
+        </fieldset>
+
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+
+<!--
+<div class="reportTemplate" ng-controller="ReportTemplateController as ReportTpl">
+  <div class="report-template-setting">
+    <div class="logo form-group">
+      图标:上传图标 <input type="file" ng-model="ReportTpl.setting.logo">
+    </div>
+    <div class="title form-group">大标题：<input type="text" ng-model="ReportTpl.setting.title"></div>
+    <div class="secTitle form-group">小标题：<input type="text" ng-model="ReportTpl.setting.secTitle"></div>
+
+    <code>{{ReportTpl.setting}}</code>
+    <fieldset>
+      <div>病人信息：</div>
+      <div class="form-group clearfix">
+        <label class="checkbox-inline col-xs-3">
+          <input type="checkbox" id="inlineCheckbox1" value="option1" ng-model="ReportTpl.setting.patientId"> 病人ID
+        </label>
+        <label class="checkbox-inline col-xs-3">
+          <input type="checkbox" id="inlineCheckbox1" value="option1" ng-model="ReportTpl.setting.patientId"> 登记/住院号
+        </label>
+        <label class="checkbox-inline col-xs-3">
+          <input type="checkbox" id="inlineCheckbox1" value="option1" ng-model="ReportTpl.setting.patientId"> 病理号
+        </label>
+        <label class="checkbox-inline col-xs-3">
+          <input type="checkbox" id="inlineCheckbox1" value="option1" ng-model="ReportTpl.setting.patientId"> 门诊号
+        </label>
+        <label class="checkbox-inline col-xs-3">
+          <input type="checkbox" id="inlineCheckbox1" value="option1" ng-model="ReportTpl.setting.patientId"> 姓名
+        </label>
+        <label class="checkbox-inline col-xs-3">
+          <input type="checkbox" id="inlineCheckbox1" value="option1" ng-model="ReportTpl.setting.patientId"> 年龄
+        </label>
+        <label class="checkbox-inline col-xs-3">
+          <input type="checkbox" id="inlineCheckbox1" value="option1" ng-model="ReportTpl.setting.patientId"> 性别
+        </label>
+        <label class="checkbox-inline col-xs-3">
+          <input type="checkbox" id="inlineCheckbox1" value="option1" ng-model="ReportTpl.setting.patientId"> 床号
+        </label>
+        <label class="checkbox-inline col-xs-3">
+          <input type="checkbox" id="inlineCheckbox1" value="option1" ng-model="ReportTpl.setting.patientId"> 申请科室
+        </label>
+        <label class="checkbox-inline col-xs-3">
+          <input type="checkbox" id="inlineCheckbox1" value="option1" ng-model="ReportTpl.setting.patientId"> 样本接收时间
+        </label>
+        <label class="checkbox-inline col-xs-3">
+          <input type="checkbox" id="inlineCheckbox1" value="option1" ng-model="ReportTpl.setting.patientId"> 申请医生
+        </label>
+        <label class="checkbox-inline col-xs-3">
+          <input type="checkbox" id="inlineCheckbox1" value="option1" ng-model="ReportTpl.setting.patientId"> 住院患者位置
+        </label>
+      </div>
+
+
+    </fieldset>
+    <fieldset>
+      <div>诊断内容：</div>
+      <div class="form-group clearfix">
+        <label class="checkbox-inline col-xs-3">
+          <input type="checkbox" id="inlineCheckbox1" value="option1" ng-model="ReportTpl.setting.eyeSight"> 肉眼所见
+        </label>
+        <label class="checkbox-inline col-xs-3">
+          <input type="checkbox" id="inlineCheckbox1" value="option1" ng-model="ReportTpl.setting.microSight"> 显微所见
+        </label>
+        <label class="checkbox-inline col-xs-3">
+          <input type="checkbox" id="inlineCheckbox1" value="option1" ng-model="ReportTpl.setting.diagnosis"> 诊断内容
+        </label>
+      </div>
+
+    </fieldset>
+    <fieldset>
+      <div>诊断信息：</div>
+      <div class="form-group clearfix">
+        <label class="checkbox-inline col-xs-3">
+          <input type="checkbox" id="inlineCheckbox1" value="option1" ng-model="ReportTpl.setting.diagnosisDoctor"> 诊断医生
+        </label>
+        <label class="checkbox-inline col-xs-3">
+          <input type="checkbox" id="inlineCheckbox1" value="option1" ng-model="ReportTpl.setting.diagnosisTime"> 诊断时间
+        </label>
+        <label class="checkbox-inline col-xs-3">
+          <input type="checkbox" id="inlineCheckbox1" value="option1" ng-model="ReportTpl.setting.reporter"> 报告打印者
+        </label>
+      </div>
+    </fieldset>
+    <fieldset>
+      <div>医院信息：</div>
+      <div class="form-group clearfix">
+        <textarea class="form-control" name="" id="" rows="3"></textarea>
+      </div>
+    </fieldset>
+    <fieldset>
+      &lt;!&ndash;<div>特殊提示：</div>&ndash;&gt;
+      <div class="form-group clearfix">
+        <div class="col-xs-3 no-padding">
+          <p class="form-control-static">特殊提示：</p>
+        </div>
+        &lt;!&ndash;<div class=" col-xs-9">&ndash;&gt;
+        &lt;!&ndash;<input type="email" class="form-control" id="special">&ndash;&gt;
+        &lt;!&ndash;</div>&ndash;&gt;
+        &lt;!&ndash;<label class="col-xs-3" for="special">特殊提示：</label>&ndash;&gt;
+        <input type="email" class="col-xs-9" id="special">
+      </div>
+    </fieldset>
+
+  </div>
+
+  <div class="report-template-view">
+    <div class="view center-block">
+      <div class="view-info">
+        模板预览
+      </div>
+      <div class="reprot-template">
+        <fieldset>
+          <img width="100" height="50" src="" alt="logo">
+          <h3 class="text-center" ng-bind="ReportTpl.setting.title">大标题</h3>
+          <p class="text-center" ng-bind="ReportTpl.setting.secTitle">小标题</p>
+        </fieldset>
+        <hr>
+        <fieldset>
+          <div class="clearfix">
+            <div ng-show="ReportTpl.setting.patientId" class="patient pull-left">登记/住院号：<span>{{report.patientId}}</span></div>
+            <div class="pull-right">病理号：<span>P12341234</span></div>
+          </div>
+          <div class="report-table-info clearfix">
+            <div class="pull-left"><span class="info info-name">姓名</span><span class="info info-value">病人甲</span></div>
+            <div class="pull-left"><span class="info info-name">性别</span><span class="info info-value">女</span></div>
+            <div class="pull-left"><span class="info info-name">年龄</span><span class="info info-value">12</span></div>
+            <div class="pull-left"><span class="info info-name">床号</span><span class="info info-value">12号</span></div>
+            <div class="pull-left"><span class="info info-name">样本接收日期</span><span class="info info-value">2016-12-12</span></div>
+            <div class="pull-left"><span class="info info-name">年龄</span><span class="info info-value">12</span></div>
+            <div class="pull-left"><span class="info info-name">床号</span><span class="info info-value">12号</span></div>
+            <div class="pull-left"><span class="info info-name">姓名</span><span class="info info-value">病人甲</span></div>
+
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <div ng-show="ReportTpl.setting.eyeSight">肉眼所见：
+            <p>
+              左肾及左肾肿瘤：肿块一个，大小14.5*10*6 cm，见包膜，多切面切开，切面灰黄灰红灰白实性质软，有油腻感，局炤呈暗红似出血。另见肾脏一枚，大小9*6*2 cm，输尿管长5 cm，直径0.5-0.8 cm，沿输尿管纵轴剪开，内壁光滑，未见明显肿物，肾盂稍扩张，未见肿块，肾皮质厚0.8-1 cm，髓质厚1.5 cm，肾皮质髓质未见其余肿块。
+            </p>
+          </div>
+          <div ng-show="ReportTpl.setting.microSight">
+            显微所见：
+            <div>
+              <img width="100" height="50" src="" alt="">
+              <img width="100" height="50" src="" alt="">
+              <img width="100" height="50" src="" alt="">
+            </div>
+
+          </div>
+          <div ng-show="reportTemplate.diagnosis">病理诊断：
+            <div ng-repeat="item in reportTemplate.diagnosis track by $index">
+              <span>{{item.name}}</span>: <span>{{item.value}}</span>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset class="clearfix">
+          <div class="col-sm-4 no-padding">
+            诊断医生：111
+          </div>
+          <div class="col-sm-4 no-padding">
+            诊断时间：111
+          </div><div class="col-sm-4 no-padding">
+          报告打印者：111
+        </div>
+
+        </fieldset>
+        <fieldset>
+          <div class="hospital-info">病理收发室：028-00000000    病理诊断查询：028-11111111
+            会诊接待：028-22222222       门诊细胞病理：028-33333333
+            通讯地址：成都市国学巷37号四川大学华西医院病理科  邮编：610041
+          </div>
+
+          <div class="text-right">特殊提示deneirongt</div>
+        </fieldset>
+
+      </div>
+
+
+    </div>
+
+  </div>
+</div>-->

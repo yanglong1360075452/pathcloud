@@ -1,0 +1,74 @@
+<div id="projectStatistic" ng-controller="ProjectStatisticController as prStatistic">
+  <div class="form-inline">
+    <div class="input-group pull-right">
+      <input style="width: 275px;border: none;outline: none;" class="form-control" type="text"
+             ng-model="mStatistic.searchData.filter"
+             ng-keyup="mStatistic.getQueryData($event)"
+             placeholder="输入病理号、姓名快速搜索"
+             auto-focus="true"/>
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button" ng-click="mStatistic.getWorkDataList(1)">
+          <span class="glyphicon glyphicon-search"></span>
+        </button>
+      </span>
+    </div>
+  </div>
+  <div class="container clearfix">
+    <!--筛选条件-->
+    <div class="table-header form-control-static form-inline clearfix">
+      <select class="form-control input-sm clam-select" ng-model="mStatistic.searchData.createTimeStart"
+              ng-options="date.date as date.name for date in mStatistic.dateList" >
+      </select>
+      <select class="form-control input-sm clam-select" ng-model="mStatistic.searchData.station"
+              ng-options="station.value as station.name for station in mStatistic.stationList">
+        <option value="">工位</option>
+      </select>
+      <button ng-click="mStatistic.getWorkDataList()" class="btn btn-sm btn-default">&nbsp;筛选&nbsp;</button>
+      <button class="btn btn-sm btn-second pull-right">&nbsp;打印&nbsp;</button>
+    </div>
+    <!--筛选结果-->
+    <div class="table-min">
+      <table class=" table-hover table-bordered">
+        <thead>
+        <tr>
+          <th ng-repeat="item in mStatistic.tableHeaders" ng-click="mStatistic.getSortList(item)" cursor-pointer>
+            {{::item.name}}
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in mStatistic.workData track by $index">
+          <td ng-bind="item.userName"></td>
+          <td ng-bind="item.firstName"></td>
+          <td ng-bind="item.station"></td>
+          <td ng-bind="item.normalCount"></td>
+          <td ng-bind="item.iceCount"></td>
+          <td ng-bind="item.count"></td>
+        </tr>
+        <tr ng-repeat="n in [].constructor(20) track by $index" ng-show="mStatistic.workData.length<=$index">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        </tbody>
+      </table>
+      <!--<div class="table-footer">-->
+      <!--<div class="pull-left form-control-static pagination">-->
+      <!--共<span ng-bind="mStatistic.totalItems||0"></span>条结果-->
+      <!--</div>-->
+      <!--<uib-pagination class="pull-right" boundary-links="true" max-size="10"-->
+      <!--items-per-page="mStatistic.searchData.length"-->
+      <!--total-items="mStatistic.totalItems"-->
+      <!--ng-model="mStatistic.searchData.page"-->
+      <!--ng-change="mStatistic.getGrossingDataList()"-->
+      <!--previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">-->
+      <!--</uib-pagination>-->
+      <!--</div>-->
+
+    </div>
+  </div>
+</div>
+

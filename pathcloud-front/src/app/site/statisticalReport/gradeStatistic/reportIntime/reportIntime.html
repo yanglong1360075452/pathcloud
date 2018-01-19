@@ -1,0 +1,43 @@
+<div id="monthStatistic" ng-controller="ReportStatisticController as mStatistic">
+  <div class="container clearfix">
+    <!--筛选条件-->
+    <div class="table-header form-control-static form-inline clearfix">
+      <select  class="form-control input-sm clam-select" ng-model="mStatistic.searchData.year"
+               ng-options="year as year for year in yearArr">
+      </select>
+      <!--<select class="form-control input-sm clam-select" ng-model="mStatistic.searchData.specialDye"-->
+              <!--ng-options="specialDye.value as specialDye.name for specialDye in mStatistic.specialDyeList">-->
+      <!--</select>-->
+      <button ng-click="mStatistic.getWorkDataList()" class="btn btn-sm btn-default">&nbsp;{{'筛选'|translate}}&nbsp;</button>
+      <button ng-click="mStatistic.export()" class="btn btn-sm btn-second pull-right">&nbsp;{{'导出'|translate}}&nbsp;</button>
+    </div>
+    <!--筛选结果-->
+    <div class="table-min">
+      <table class=" table-hover table-bordered" id="report-table">
+        <thead>
+        <tr>
+          <th ng-repeat="item in mStatistic.tableHeaders" ng-click="mStatistic.getSortList(item)" cursor-pointer>
+            {{item.name}}
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in mStatistic.workData track by $index">
+          <td ng-bind="item.pathologyMonth"></td>
+          <td ng-bind="item.pathologyTotal"></td>
+          <td ng-bind="item.pathologyTotal - item.delayTotal"></td>
+          <td ng-bind="item.delayTotal"></td>
+          <td><span ng-if="item.pathologyTotal">{{100*(item.pathologyTotal - item.delayTotal)/item.pathologyTotal | number:2}}%</span></td>
+
+        </tr>
+        <tr ng-repeat="n in [].constructor(5) track by $index" ng-show="mStatistic.workData.length<=$index">
+          <!--需要计算出列数动态的生成 td-->
+          <td ng-repeat="n in [].constructor(mStatistic.tableHeaders.length) track by $index"></td>
+        </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>
+

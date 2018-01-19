@@ -1,0 +1,176 @@
+<!--质控评分弹窗-->
+<div id="qualityGrade">
+  <div class="modal-header blue-label">
+    <button type="button" class="close" data-dismiss="modal" ng-click="qualityGrade.cancel()">
+      <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title ok-color">{{'质控评分'|translate}}</h4>
+  </div>
+  <div class="modal-body clearfix" ng-show="qualityGrade.tabFlag===1">
+    <div class="row clearfix">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-2">{{'取材'|translate}}：</div>
+      <div class="col-sm-6">
+        <uib-rating ng-model="qualityGrade.scoreData.grossing" max="qualityGrade.max" read-only="qualityGrade.isReadonly"
+                     on-hover="qualityGrade.hoveringOver(value)" on-leave="qualityGrade.overStar = null"
+                     aria-labelledby="default-rating">
+        </uib-rating>
+      </div>
+      <div class="col-sm-2"><a ng-click="qualityGrade.changeTabFlag(2)" href>{{'评分细则'|translate}}</a></div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-2">{{'脱水'|translate}}：</div>
+      <div class="col-sm-6">
+        <uib-rating ng-model="qualityGrade.scoreData.dehydrate" max="qualityGrade.max" read-only="qualityGrade.isReadonly"
+                    on-hover="qualityGrade.hoveringOver(value)" on-leave="qualityGrade.overStar = null"
+                    aria-labelledby="default-rating">
+        </uib-rating>
+      </div>
+      <div class="col-sm-2"><a ng-click="qualityGrade.changeTabFlag(3)" href>{{'评分细则'|translate}}</a></div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-2">{{'包埋'|translate}}：</div>
+      <div class="col-sm-6">
+        <uib-rating ng-model="qualityGrade.scoreData.embedding" max="qualityGrade.max" read-only="qualityGrade.isReadonly"
+                    on-hover="qualityGrade.hoveringOver(value)" on-leave="qualityGrade.overStar = null"
+                    aria-labelledby="default-rating">
+        </uib-rating>
+      </div>
+      <div class="col-sm-2"><a ng-click="qualityGrade.changeTabFlag(4)" href>{{'评分细则'|translate}}</a></div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-2">{{'切片'|translate}}：</div>
+      <div class="col-sm-6">
+        <uib-rating ng-model="qualityGrade.scoreData.sectioning" max="qualityGrade.max" read-only="qualityGrade.isReadonly"
+                    on-hover="qualityGrade.hoveringOver(value)" on-leave="qualityGrade.overStar = null"
+                    aria-labelledby="default-rating">
+        </uib-rating>
+      </div>
+      <div class="col-sm-2"><a ng-click="qualityGrade.changeTabFlag(5)" href>{{'评分细则'|translate}}</a></div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-2">{{'染色'|translate}}：</div>
+      <div class="col-sm-6">
+        <uib-rating ng-model="qualityGrade.scoreData.staining" max="qualityGrade.max" read-only="qualityGrade.isReadonly"
+                    on-hover="qualityGrade.hoveringOver(value)" on-leave="qualityGrade.overStar = null"
+                    aria-labelledby="default-rating">
+        </uib-rating>
+      </div>
+      <div class="col-sm-2"><a ng-click="qualityGrade.changeTabFlag(6)" href>{{'评分细则'|translate}}</a></div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-2">{{'封片'|translate}}：</div>
+      <div class="col-sm-6">
+        <uib-rating ng-model="qualityGrade.scoreData.sealing" max="qualityGrade.max" read-only="qualityGrade.isReadonly"
+                     on-hover="qualityGrade.hoveringOver(value)" on-leave="qualityGrade.overStar = null"
+                     aria-labelledby="default-rating">
+        </uib-rating>
+      </div>
+      <div class="col-sm-2"><a ng-click="qualityGrade.changeTabFlag(7)" href>{{'评分细则'|translate}}</a></div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10"><p class="form-control-static">{{'制片评价'|translate}}：</p></div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-sm-2"></div>
+      <div class="col-sm-9"><textarea ng-model="qualityGrade.scoreData.note" class="form-control" rows="5"></textarea></div>
+      <div class="col-sm-1"></div>
+    </div>
+  </div>
+  <div class="modal-body clearfix" ng-show="qualityGrade.tabFlag===2">
+    <div class="row clearfix">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10">
+        <div>
+          {{'取材标准'|translate}}：
+          {{qualityGrade.materialStr}}
+        </div>
+        <a ng-click="qualityGrade.changeTabFlag(1)" href>{{'返回'|translate}}</a></div>
+      <div class="col-sm-1"></div>
+    </div>
+  </div>
+  <div class="modal-body clearfix" ng-show="qualityGrade.tabFlag===3">
+    <div class="row clearfix">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10">
+        <div>
+          {{'脱水标准'|translate}}：
+          {{qualityGrade.grossingStr}}
+        </div>
+        <a ng-click="qualityGrade.changeTabFlag(1)" href>{{'返回'|translate}}</a>
+      </div>
+      <div class="col-sm-1"></div>
+    </div>
+  </div>
+  <div class="modal-body clearfix" ng-show="qualityGrade.tabFlag===4">
+    <div class="row clearfix">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10">
+        <div>
+          {{'包埋标准'|translate}}：
+          {{qualityGrade.embedStr}}
+        </div>
+        <a ng-click="qualityGrade.changeTabFlag(1)" href>{{'返回'|translate}}</a>
+      </div>
+      <div class="col-sm-1"></div>
+    </div>
+  </div>
+  <div class="modal-body clearfix" ng-show="qualityGrade.tabFlag===5">
+    <div class="row clearfix">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10">
+        <div>
+          {{'切片标准'|translate}}：
+          {{qualityGrade.sectionStr}}
+        </div>
+        <a ng-click="qualityGrade.changeTabFlag(1)" href>{{'返回'|translate}}</a>
+      </div>
+      <div class="col-sm-1"></div>
+    </div>
+  </div>
+  <div class="modal-body clearfix" ng-show="qualityGrade.tabFlag===6">
+    <div class="row clearfix">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10">
+        <div>
+          {{'染色标准'|translate}}：
+          {{qualityGrade.stainingStr}}
+        </div>
+        <a ng-click="qualityGrade.changeTabFlag(1)" href>{{'返回'|translate}}</a>
+      </div>
+      <div class="col-sm-1"></div>
+    </div>
+  </div>
+  <div class="modal-body clearfix" ng-show="qualityGrade.tabFlag===7">
+    <div class="row clearfix">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10">
+        <div>
+          {{'封片标准'|translate}}：
+          {{qualityGrade.sealingStr}}
+        </div>
+        <a ng-click="qualityGrade.changeTabFlag(1)" href>{{'返回'|translate}}</a>
+      </div>
+      <div class="col-sm-1"></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="qualityGrade.cancel()">{{'取消'|translate}}</button>
+    <button class="btn btn-default" type="button" ng-click="qualityGrade.ok()">{{'确定'|translate}}</button>
+  </div>
+
+</div>

@@ -1,0 +1,65 @@
+<div ng-controller="QuerySlideController as querySlide">
+  <!--搜索部分-->
+ <!-- <div class="form-inline clearfix" style="background: none">
+    <search-input class="pull-right search-input-sm" ng-class="{'input-long':lang==='en'}" model="querySlide.filterData.filter" get-data="querySlide.getDataList()"  placeholder="{{'输入病理号查询'|translate}}"></search-input>
+  </div>-->
+  <!--筛选部分-->
+  <div class="form-inline toolbar clearfix" style="background: none">
+    <!--<date-seletor dateset="querySlide.defaultTime"  start-time="querySlide.startTime" end-time="querySlide.endTime"></date-seletor>-->
+    <select class="form-control input-sm" ng-model="querySlide.filterData.type" ng-options="status.code as status.name for status in [{name:'临床',code:1},{name:'科研',code:2}]">
+      <option value="">{{"样本类别"|translate}}</option>
+    </select>
+    <select class="form-control input-sm" ng-model="querySlide.filterData.status" ng-options="status.code as status.name for status in [{name:'借出',code:2},{name:'存档',code:1},{name:'晾片',code:0},{name:'逾期',code:3}]">
+      <option value="">{{"玻片状态"|translate}}</option>
+    </select>
+
+    <button ng-click="querySlide.query()" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-filter"></span>筛选</button>
+
+    <search-input class="pull-right search-input-sm" ng-class="{'input-long':lang==='en'}" model="querySlide.filterData.filter" get-data="querySlide.getDataList()"  placeholder="{{'输入病理号查询'|translate}}"></search-input>
+
+  </div>
+  <!--表格显示部分-->
+  <div class="table-min">
+    <table class=" table-hover table-bordered">
+      <thead class="primary-table-head">
+      <th ng-repeat="item in querySlide.tableHeaders" ng-click="querySlide.getSortList(item)" class="{{item.class}} cursor-pointer">
+        {{item.name|translate}}
+        <i class="cursor-pointer glyphicon glyphicon-chevron-down arrow"
+        ng-hide="!item.order"
+        ng-class="{'rotate-180':item.sort==='asc','rotate-0':item.sort==='desc'||!item.sort}" />
+      </th>
+
+      </thead>
+      <tbody>
+      <tr ng-repeat="item in querySlide.data.data track by $index">
+        <td ng-bind="item.serialNumber"></td>
+        <td ng-bind="item.blockSubId"></td>
+        <td ng-bind="item.slideSubId"></td>
+        <td ng-bind="item.ihcMarker"></td>
+        <td ng-bind="item.patientName"></td>
+        <td ng-bind="item.dryingBox"></td>
+        <td ng-bind="item.dryingCreateByDesc"></td>
+        <td ng-bind="item.dryingCreateTime| date : 'yyyy-MM-dd HH:mm'"></td>
+        <td ng-bind="item.archiveBox"></td>
+        <td ng-bind="item.archiveCreateByDesc"></td>
+        <td ng-bind="item.archiveCreateTime| date : 'yyyy-MM-dd HH:mm'"></td>
+        <td ng-bind="item.statusDesc"></td>
+        <td><a ng-show="item.status == 2" href="" ng-click="querySlide.history(item)">{{"查看"|translate}}</a></td>
+      </tr>
+      <tr ng-repeat="n in [].constructor(20) track by $index" ng-show="querySlide.data.data.length<=$index">
+        <td  ng-repeat="n in [].constructor(13) track by $index"></td>
+      </tr>
+
+      </tbody>
+    </table>
+    <div class="table-footer">
+      <div class="pull-left form-control-static pagination">{{"共"|translate}}<span ng-bind="querySlide.data.total"></span>{{"条结果"|translate}}</div>
+      <uib-pagination class="pull-right" boundary-links="true" items-per-page="querySlide.filterData.length" max-size="10"
+                      total-items="querySlide.data.total"
+                      ng-model="querySlide.filterData.page"
+                      ng-change="querySlide.getDataList()"
+                      previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+    </div>
+
+  </div>
+</div>

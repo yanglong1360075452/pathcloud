@@ -1,0 +1,45 @@
+#lostSlide{
+  .info-container{
+    margin: auto;
+    width: 85%;
+
+    .table-container{
+      margin-top: 20px;
+      .title{
+        text-align: left;
+        padding-bottom: 10px;
+      }
+      table{
+
+        width: 100%;
+        select{
+          border:none;
+          margin:0;
+          padding:0;
+          height:auto;
+          line-height:0;
+        }
+
+      }
+    }
+
+    .control-container{
+      margin-top: 20px;
+
+      label{
+        float: left;
+        width: 20%;
+      }
+      .control{
+        float: left;
+        width: 80%;
+        textarea{
+          height: 100px;
+        }
+      }
+
+    }
+
+  }
+}
+

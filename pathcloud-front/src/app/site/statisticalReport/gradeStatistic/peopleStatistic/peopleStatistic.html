@@ -1,0 +1,86 @@
+<div id="peopleStatistic" ng-controller="ScorePeopleStatisticController as pStatistic">
+
+  <div class="container clearfix">
+    <!--筛选条件-->
+    <div class="table-header form-control-static form-inline clearfix">
+      <!--<select class="form-control input-sm clam-select" ng-model="pStatistic.searchData.createTimeStart"-->
+              <!--ng-options="date.date as date.name for date in pStatistic.dateList" >-->
+      <!--</select>-->
+
+      <select  class="form-control input-sm clam-select" ng-model="pStatistic.searchData.year"
+              ng-options="year as year for year in yearArr">
+      </select>
+      <select  class="form-control input-sm clam-select" ng-model="pStatistic.searchData.month"
+              ng-options="month as month+'月' for month in monthArr">
+      </select>
+
+      <select class="form-control input-sm clam-select" ng-model="pStatistic.searchData.station"
+              ng-options="station.value as station.name for station in pStatistic.stationList">
+        <option value="">{{'工位选择'|translate}}</option>
+      </select>
+      <select class="form-control input-sm clam-select" ng-model="pStatistic.searchData.specialDye"
+              ng-options="specialDye.value as specialDye.name for specialDye in pStatistic.specialDyeList">
+      </select>
+      <button ng-click="pStatistic.getWorkDataList()" class="btn btn-sm btn-default">&nbsp;{{'筛选'|translate}}&nbsp;</button>
+      <button ng-click="pStatistic.export()" class="btn btn-sm btn-second pull-right">&nbsp;{{'导出'|translate}}&nbsp;</button>
+    </div>
+    <!--筛选结果-->
+    <div class="table-min">
+      <table class=" table-hover table-bordered">
+        <thead>
+        <tr>
+          <th ng-repeat="item in pStatistic.tableHeaders" ng-click="pStatistic.getSortList(item)" class="{{item.class}} cursor-pointer">
+            {{item.name|translate}}
+            <i class="cursor-pointer glyphicon glyphicon-chevron-down arrow"
+               ng-hide="!item.order"
+               ng-class="{'rotate-180':item.sort==='asc','rotate-0':item.sort==='desc'||!item.sort}" />
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in pStatistic.workData track by $index">
+          <td ng-bind="item.userName"></td>
+          <td ng-bind="item.firstName"></td>
+          <td ng-bind="item.operationName"></td>
+          <td ng-bind="item.blockTotal"></td>
+          <td ng-bind="item.scoreTotal"></td>
+          <td ng-bind="item.reGrossingTotal"></td>
+          <td ng-show="item.reGrossingTotal">{{100*item.reGrossingTotal/item.blockTotal | number:2}}%</td>
+          <td ng-hide="item.reGrossingTotal&&item.blockTotal">0.00%</td>
+          <td ng-bind="item.reSectionTotal"></td>
+          <td ng-show="item.reSectionTotal">{{100*item.reSectionTotal/item.blockTotal | number:2}}%</td>
+          <td ng-hide="item.reSectionTotal&&item.blockTotal">0.00%</td>
+          <td ng-bind="item.lowScoreTotal"></td>
+          <td ng-show="item.blockTotal">{{100*item.lowScoreTotal/item.scoreTotal | number:2}}%</td>
+          <td ng-hide="item.blockTotal">0.00%</td>
+          <td ng-show="item.scoreTotal">{{item.score/item.scoreTotal | number:2}}</td>
+          <td ng-hide="item.scoreTotal">0</td>
+          <!--<td ng-bind="item.socre/item.scoreTotal"></td>-->
+        </tr>
+        <tr ng-repeat="n in [].constructor(20) track by $index" ng-show="pStatistic.workData.length<=$index">
+          <td></td><td></td>
+          <td></td> <td></td>
+          <td></td> <td></td>
+          <td></td> <td></td>
+          <td></td> <td></td>
+          <td></td> <td></td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="table-footer">
+      <div class="pull-left form-control-static pagination">
+        {{'共'|translate}}<span ng-bind="pStatistic.total||0"></span>{{'条结果'|translate}}
+      </div>
+      <uib-pagination class="pull-right" boundary-links="true" max-size="10"
+      items-per-page="pStatistic.searchData.length"
+      total-items="pStatistic.total"
+      ng-model="pStatistic.searchData.page"
+      ng-change="pStatistic.getWorkDataList()"
+      previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+      </uib-pagination>
+      </div>
+
+    </div>
+  </div>
+</div>
+

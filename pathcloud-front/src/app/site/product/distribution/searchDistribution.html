@@ -1,0 +1,81 @@
+<div id="searchDistribution" ng-controller="searchDistributionController as searchDistribution">
+  <!--已派片tab-->
+  <div class="container distributed-div">
+    <div class=" form-inline toolbar" style="background: none;padding-top: 10px">
+
+      <date-seletor dateset="searchDistribution.defaultTime" start-time="searchDistribution.timeStart" end-time="searchDistribution.timeEnd"></date-seletor>
+      <select class="form-control input-sm" ng-model="searchDistribution.filter.operator"
+              ng-options="item.id as item.firstName for item in searchDistribution.grossingUserList">
+        <option value="">{{'取材医生'|translate}}</option>
+      </select>
+      <select class="form-control input-sm" ng-model="searchDistribution.filter.departments"
+              ng-options="status.code as status.name for status in searchDistribution.departmentList">
+        <option value="">{{'送检科室'|translate}}</option>
+      </select>
+      <button id="query" ng-click="searchDistribution.query()" class="btn btn-sm btn-primary"><span
+        class="glyphicon glyphicon-filter"></span>{{'筛选'|translate}}
+      </button>
+
+      <search-input class="pull-right" style="width: 300px" model="searchDistribution.searchStr" get-data="searchDistribution.search()"  placeholder="{{'输入病理号查询，号段用“-”隔开'|translate}}"></search-input>
+
+    </div>
+
+      <!--派片记录-->
+      <div class="">
+
+
+        <div class="table-min">
+          <table class="table-hover table-bordered">
+            <thead>
+            <tr class="text-center">
+              <th ng-repeat="item in searchDistribution.tableHeaders" ng-click="searchDistribution.getSortList(item)" class="{{item.class}} cursor-pointer">
+                {{item.name|translate}}
+                <i class="cursor-pointer glyphicon glyphicon-chevron-down arrow"
+                   ng-hide="!item.order"
+                   ng-class="{'rotate-180':item.sort==='asc','rotate-0':item.sort==='desc'||!item.sort}" />
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in searchDistribution.distributedData track by $index">
+              <ng-form name="inner_form">
+                <!--ng-model="item.checked"-->
+                <td>{{item.serialNumber}}</td>
+                <td>{{item.blockSubId}}</td>
+                <td>{{item.slideSubId}}</td>
+                <td>{{item.grossingOperatorName}}</td>
+                <td >{{item.departments | department}}</td>
+                <td>{{item.confirmOperatorName}}</td>
+                <td>{{item.confirmTime  | date:"yyyy-MM-dd HH:mm"}}</td>
+                <td>{{item.receiver}}</td>
+                <td>{{item.distributeTime  | date:"yyyy-MM-dd HH:mm"}}</td>
+              </ng-form>
+            </tr>
+            <tr ng-repeat="n in [].constructor(20) track by $index"
+                ng-show="!searchDistribution.distributedData||searchDistribution.distributedData.length<=$index">
+              <!-- {{$index}} 当前行的下标-->
+              <td></td><td></td><td></td>
+              <td></td><td></td><td></td>
+              <td></td><td></td><td></td>
+            </tr>
+            </tbody>
+          </table>
+          <div class="table-footer">
+            <div class="pull-left form-control-static pagination">
+              {{'共'|translate}}<span ng-bind="searchDistribution.total||0"></span>{{'条结果'|translate}}
+            </div>
+            <uib-pagination class="pull-right" boundary-links="true" max-size="10"
+                            items-per-page="searchDistribution.filter.length"
+                            total-items="searchDistribution.total"
+                            ng-model="searchDistribution.filter.page"
+                            ng-change="searchDistribution.getDistributed()"
+                            previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+            </uib-pagination>
+          </div>
+        </div>
+      </div>
+
+  </div>
+
+</div>
+

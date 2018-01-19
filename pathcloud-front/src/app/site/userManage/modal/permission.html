@@ -1,0 +1,54 @@
+<div id="permission">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="permission.cancel()">
+      <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title">{{'新建角色'|translate}}</h4>
+  </div>
+  <div class="modal-body clearfix" >
+    <div class="form-container">
+      <form role="form" class="form-horizontal" name="permission_form" novalidate ng-submit="permission.ok()">
+        <div class="form-group" ng-class="{}">
+          <label for="name" class="control-label col-sm-3">{{'角色名'|translate}}<span class="required">*</span>:</label>
+          <div class="col-sm-8 has-feedback" >
+            <input class="form-control" name="name" id="name" type="text" placeholder="{{'请输入角色名'|translate}}" ng-model="permission.data.name" ng-maxlength="20" required/>
+            <uib-alert type="danger" ng-show="permission_form.name.$error.maxlength" >{{'角色名不要超过20位'|translate}}</uib-alert>
+          </div>
+        </div>
+        <div class="form-group has-feedback">
+          <label for="description" class="control-label col-sm-3">{{'描述'|translate}}:</label>
+          <div class="col-sm-8 " >
+            <input class="form-control" name="description" id="description" type="text" placeholder="{{'请输入角色描述'|translate}}" ng-model="permission.data.description"/>
+          </div>
+        </div>
+        <div class="form-group has-feedback">
+          <label class="control-label col-sm-3">{{'权限'|translate}}:</label>
+          <div class="col-sm-8">
+            <label style="font-weight: normal;padding-left: 0;" class="col-sm-4" class="checkbox-inline" ng-repeat="item in permission.permissionList">
+              <input type="checkbox" ng-model="item.checked"> {{item.name|translate}}
+            </label>
+            <!--<div class="col-sm-4" ng-repeat="item in permission.permissionList">-->
+              <!--<input type="checkbox" ng-model="item.checked">-->
+            <!--</div>-->
+
+            <!--永华：样式二-->
+            <!--<div class="inline pull-left" ng-repeat="item in permission.permissionList" ng-click="item.checked=!item.checked">-->
+              <!--&lt;!&ndash;<input type="checkbox" ng-model="item.checked">&ndash;&gt;-->
+              <!--<a class="checkbox" ng-class="{'active':item.checked}">-->
+                <!--{{item.name}}-->
+                <!--<i class="glyphicon glyphicon-remove pull-right" style="padding: 2px" ng-show="item.checked"></i>-->
+              <!--</a>-->
+            <!--</div>-->
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </div>
+  <div class="modal-footer" style="text-align: center">
+    <button class="btn btn-warning" type="button" ng-click="permission.cancel()">{{'取消'|translate}}</button>
+    <button class="btn btn-default" type="button" ng-disabled="permission_form.$invalid" ng-click="permission.ok()">{{'确定'|translate}}</button>
+  </div>
+
+</div>

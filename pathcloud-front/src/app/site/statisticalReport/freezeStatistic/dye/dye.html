@@ -1,0 +1,57 @@
+<div id="freezeStatistic" ng-controller="DyeUseHistoryController as microcope">
+
+  <div class="container clearfix">
+    <!--筛选条件-->
+    <div class="table-header form-control-static form-inline clearfix">
+      <year-selector year="microcope.searchData.year"></year-selector>
+      <month-selector month="microcope.searchData.month"></month-selector>
+
+      <select  class="form-control input-sm clam-select" ng-model="microcope.searchData.status"
+               ng-options="item.code as item.name for item in microcope.status">
+      </select>
+
+      <button ng-click="microcope.getWorkDataList()" class="btn btn-sm btn-default">&nbsp;{{'筛选'|translate}}&nbsp;</button>
+      <button ng-click="microcope.export()" class="btn btn-sm btn-second pull-right">&nbsp;{{'导出'|translate}}&nbsp;</button>
+    </div>
+    <!--筛选结果-->
+    <div class="table-min">
+      <table class=" table-hover table-bordered">
+        <thead>
+        <tr>
+          <th ng-repeat="item in microcope.tableHeaders">
+            {{::item}}
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in microcope.workData track by $index">
+          <td>{{item.instrumentName}}</td>
+          <td>{{item.operatorName}}</td>
+          <td>{{item.operatorTime | date:'yyyy-MM-dd HH:mm'}}</td>
+          <td>{{item.statusDesc}}</td>
+          <td>{{item.description}}</td>
+        </tr>
+        <tr ng-repeat="n in [].constructor(20) track by $index" ng-show="microcope.workData.length<=$index">
+          <td></td><td></td>
+          <td></td><td></td>
+          <td></td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="table-footer">
+      <!--<div class="pull-left form-control-static pagination">-->
+      <!--共<span ng-bind="microcope.total||0"></span>条结果-->
+      <!--</div>-->
+      <uib-pagination class="pull-right" boundary-links="true" max-size="10"
+      items-per-page="microcope.searchData.length"
+      total-items="microcope.total"
+      ng-model="microcope.searchData.page"
+      ng-change="microcope.getWorkDataList()"
+      previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+      </uib-pagination>
+      </div>
+
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,37 @@
+<div>
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="lostBlocks.cancel()"><span aria-hidden="true" class="glyphicon glyphicon-remove"></span><span class="sr-only">Close</span></button>
+
+    <h4 class="modal-title">{{'缺失包埋盒信息'|translate}}</h4>
+  </div>
+  <div class="modal-body" >
+
+    <div class="content">
+      <table class="table">
+        <thead>
+          <th >{{'病理号'|translate}}</th>
+          <th >{{'蜡块号'|translate}}</th>
+          <th >{{'状态'|translate}}</th>
+          <th >{{'取材医生'|translate}}</th>
+          <th >{{'取材时间'|translate}}</th>
+        </thead>
+        <tbody>
+
+          <tr ng-repeat="item in lostBlocks.lostBlocks ">
+            <td>{{item.pathNo}}</td>
+            <td>{{item.blockSubId}}</td>
+            <td>{{item.statusDesc}}</td>
+            <td>{{item.lastOperator.firstName}}</td>
+            <td>{{item.lastOperateTime | date:"yyyy-MM-dd HH:mm"}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="lostBlocks.ok()">{{'确认脱水'|translate}}</button>
+    <button class="btn btn-default" type="button" ng-click="lostBlocks.cancel()">{{'取消脱水'|translate}}</button>
+  </div>
+
+</div>
